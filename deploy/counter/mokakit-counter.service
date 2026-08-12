@@ -1,0 +1,30 @@
+[Unit]
+Description=MokaKit anonymous visit counter
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+# StateDirectory 自动创建 /var/lib/mokakit 并授权给 mokakit 用户（数据落盘位置）
+StateDirectory=mokakit
+User=mokakit
+Group=mokakit
+WorkingDirectory=/opt/mokakit-counter
+# __NODE_BIN__ 由 server-setup.sh 用真实 node 路径 sed 替换
+ExecStart=__NODE_BIN__ /opt/mokakit-counter/server.mjs
+Environment=PORT=18800
+Environment=HOST=127.0.0.1
+Environment=DATA_DIR=/var/lib/mokakit
+Restart=on-failure
+RestartSec=2
+
+# 加固：最小权限、不可提权、只读系统盘、内存上限
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+MemoryMax=128M
+Nice=10
+
+[Install]
+WantedBy=multi-user.target

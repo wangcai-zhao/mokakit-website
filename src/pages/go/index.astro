@@ -1,0 +1,104 @@
+---
+import { SITE } from '@/config/site';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const title = '即将离开摩卡工具箱';
+const description = '您正在前往第三方网站，请注意账号与财产安全。';
+
+// 站点域名集合（主域名 + 备用域名），用于判定链接是否出站。
+// 这些需在构建期确定并注入给客户端脚本使用。
+const SITE_HOSTS = [
+  new URL(SITE.url).hostname,
+  ...SITE.altDomains.map((d) => new URL(d).hostname),
+];
+const NAME_CN = SITE.nameCn;
+---
+
+<BaseLayout title={title} description={description} noindex={true} path="/go/">
+  <main class="mx-auto max-w-xl px-4 py-16">
+    <div id="go-card" class="rounded-2xl border border-base-300 bg-base-100 p-8 text-center shadow-sm">
+      <p class="text-sm opacity-60">正在校验链接…</p>
+    </div>
+    <p class="mt-6 text-center text-xs opacity-50">
+      {SITE.nameCn}（{SITE.name}）仅作跳转中转，不对第三方网站的内容、安全性与可用性负责。
+    </p>
+  </main>
+
+  <noscript>
+    <p style="text-align:center;margin-top:1rem;font-size:.85rem;opacity:.7">
+      本页面需要启用 JavaScript 才能完成跳转中转。请直接复制地址栏中的目标链接访问。
+    </p>
+  </noscript>
+
+  <script is:inline define:vars={{ siteHosts: SITE_HOSTS, nameCn: NAME_CN }}>
+    (() => {
+      const SITE_HOSTS = siteHosts;
+      const NAME_CN = nameCn;
+      const card = document.getElementById('go-card');
+      if (!card) return;
+
+      // 浏览器端读取真实 query（构建期预渲染拿不到，必须在客户端解析）
+      const params = new URLSearchParams(window.location.search);
+      const target = (params.get('url') || '').trim();
+
+      // 转义，防止 ?url="> 之类注入破坏 DOM
+      const esc = (s) =>
+        String(s)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+
+      let safe = '';
+      let host = '';
+      let valid = false;
+      try {
+        const u = new URL(target);
+        if (u.protocol === 'http:' || u.protocol === 'https:') {
+          const isSelf = SITE_HOSTS.some(
+            (h) => u.hostname === h || u.hostname.endsWith('.' + h)
+          );
+          if (!isSelf) {
+            safe = target;
+            host = u.hostname;
+            valid = true;
+          }
+        }
+      } catch (_e) {
+        /* 非法 URL，保持 invalid */
+      }
+
+      if (valid) {
+        card.innerHTML = `
+          <div class="mx-auto mb-5 grid h-14 w-14 place-items-center rounded-full bg-warning/15 text-warning text-2xl">!</div>
+          <h1 class="text-xl font-bold">即将离开「${esc(NAME_CN)}」</h1>
+          <p class="mt-3 text-sm opacity-70 leading-relaxed">
+            您将要访问的页面由第三方网站运营，与本站无隶属关系。
+            请注意保护您的账号与财产安全，谨防仿冒网站与诈骗信息。
+          </p>
+          <div class="mt-5 rounded-lg bg-base-200 px-4 py-3 text-sm break-all">
+            <span class="opacity-60">目标地址：</span>
+            <span class="font-mono">${esc(host)}</span>
+          </div>
+          <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <a href="${esc(safe)}" target="_blank" rel="nofollow noopener" class="btn btn-primary">
+              继续访问（${esc(host)}）
+            </a>
+            <a href="/" class="btn btn-ghost">返回首页</a>
+          </div>
+        `;
+      } else {
+        card.innerHTML = `
+          <div class="mx-auto mb-5 grid h-14 w-14 place-items-center rounded-full bg-error/15 text-error text-2xl">✕</div>
+          <h1 class="text-xl font-bold">链接不可用</h1>
+          <p class="mt-3 text-sm opacity-70">
+            您访问的跳转链接为空或格式不正确，无法前往。
+          </p>
+          <div class="mt-7">
+            <a href="/" class="btn btn-primary">返回首页</a>
+          </div>
+        `;
+      }
+    })();
+  </script>
+</BaseLayout>

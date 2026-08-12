@@ -1,0 +1,246 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import ToolCard from '@/components/ToolCard.astro';
+import AdSlot from '@/components/AdSlot.astro';
+import Icon from '@/components/Icon.astro';
+import type { ToolMeta, FaqItem } from '@/tools/types';
+import { getCategory } from '@/config/categories';
+import { SITE, absUrl } from '@/config/site';
+import { getRelatedTools } from '@/tools/registry';
+import { breadcrumbLd, faqLd, toolLd, type Crumb } from '@/utils/jsonld';
+
+interface Props {
+  tool: ToolMeta;
+  /** 子页会覆盖标题与描述 */
+  title?: string;
+  description?: string;
+  path?: string;
+  /** 子页的额外面包屑层级 */
+  extraCrumbs?: Crumb[];
+  /** 子页专属 FAQ，覆盖工具默认 FAQ */
+  faq?: FaqItem[];
+  noindex?: boolean;
+}
+
+const {
+  tool,
+  title,
+  description,
+  path,
+  extraCrumbs = [],
+  faq,
+  noindex,
+} = Astro.props;
+
+const category = getCategory(tool.category);
+const url = path ?? `/tools/${tool.id}/`;
+const pageTitle = title ?? `${tool.name} - 在线免费工具`;
+const pageDesc = description ?? tool.description;
+const faqItems = faq ?? tool.faq ?? [];
+const related = getRelatedTools(tool, 4);
+
+const crumbs: Crumb[] = [
+  { name: '首页', url: '/' },
+  { name: '工具', url: '/tools/' },
+  { name: category.name, url: `/tools/c/${category.slug}/` },
+  { name: tool.name, url: `/tools/${tool.id}/` },
+  ...extraCrumbs,
+];
+
+const jsonLd: Record<string, unknown>[] = [
+  toolLd(tool, url),
+  breadcrumbLd(crumbs),
+];
+if (faqItems.length > 0) jsonLd.push(faqLd(faqItems));
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDesc}
+  path={url}
+  keywords={tool.keywords}
+  jsonLd={jsonLd}
+  noindex={noindex ?? tool.noindex}
+>
+  <div class="mx-auto max-w-4xl px-4 py-5">
+    <Breadcrumb crumbs={crumbs} />
+
+    <header class="mt-4 mb-5">
+      <div class="flex items-start gap-3 justify-between">
+        <div class="flex items-start gap-3 min-w-0">
+          <span
+            class="grid place-items-center w-11 h-11 shrink-0 rounded-xl bg-primary/10 text-primary"
+          >
+            <Icon name={tool.icon} size={22} />
+          </span>
+          <div class="min-w-0">
+            <h1 class="text-2xl sm:text-3xl font-bold leading-tight">
+              {title ?? tool.name}
+            </h1>
+            <p class="text-sm opacity-70 mt-1">{tool.tagline}</p>
+            {
+              SITE.counter.enabled && (
+                <p id="tool-use-count" class="text-xs opacity-60 mt-2" hidden>
+                  已被使用 <span class="font-semibold text-primary">—</span> 次
+                </p>
+              )
+            }
+          </div>
+        </div>
+        {
+          SITE.share.enabled && (
+            <button
+              id="tool-share-btn"
+              type="button"
+              class="btn btn-ghost btn-sm btn-square shrink-0"
+              aria-label="分享这个工具"
+              title="分享"
+              data-share-title={pageTitle}
+              data-share-url={absUrl(url)}
+            >
+              <Icon name="share-2" size={18} />
+            </button>
+          )
+        }
+      </div>
+    </header>
+
+    {/* 工具主体：交互岛屿挂在这里 */}
+    <section
+      class="rounded-2xl bg-base-100 border border-base-300 p-4 sm:p-6"
+      aria-label="工具操作区"
+      data-tool-id={tool.id}
+    >
+      <slot />
+    </section>
+
+    <AdSlot slot="tool-below" format="banner" class="my-6" />
+
+    {/* 说明长文：这才是被搜索引擎索引的主要内容 */}
+    <article class="prose-cn mt-2">
+      <slot name="content" />
+    </article>
+
+    {
+      faqItems.length > 0 && (
+        <section class="mt-8" aria-labelledby="faq-heading">
+          <h2 id="faq-heading" class="text-xl font-bold mb-3">
+            常见问题
+          </h2>
+          <div class="space-y-2">
+            {faqItems.map((f) => (
+              <details class="group rounded-xl bg-base-100 border border-base-300 overflow-hidden">
+                <summary class="cursor-pointer list-none px-4 py-3 font-medium flex items-center justify-between gap-3 hover:bg-base-200 transition-colors">
+                  <span>{f.q}</span>
+                  <Icon
+                    name="chevronRight"
+                    size={16}
+                    class="shrink-0 opacity-50 transition-transform group-open:rotate-90"
+                  />
+                </summary>
+                <div class="px-4 pb-3 pt-1 text-sm opacity-80 leading-relaxed">
+                  {f.a}
+                </div>
+              </details>
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      related.length > 0 && (
+        <section class="mt-8" aria-labelledby="related-heading">
+          <h2 id="related-heading" class="text-xl font-bold mb-3">
+            相关工具
+          </h2>
+          <div class="grid gap-3 sm:grid-cols-2">
+            {related.map((t) => (
+              <ToolCard tool={t} />
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </div>
+
+  <script>
+    import { copyText } from '@/tools/_shared/copy';
+    import { keys, getCount, bumpCount, fmtCount } from '@/utils/counter';
+
+    const section = document.querySelector<HTMLElement>('[data-tool-id]');
+    const toolId = section?.dataset.toolId;
+    if (!toolId) {
+      // 不是工具页（理论上不会发生），直接退出，避免下面脚本报错
+      throw new Error('ToolLayout: missing data-tool-id');
+    }
+
+    const useEl = document.getElementById('tool-use-count');
+
+    // 1) 回填「已被使用 N 次」
+    if (useEl) {
+      getCount(keys.use(toolId)).then((n) => {
+        if (n == null) return;
+        const span = useEl.querySelector('span');
+        if (span) span.textContent = fmtCount(n);
+        useEl.hidden = false;
+      });
+    }
+
+    // 2) 使用计数：每次页面加载最多 +1（事件委托，捕获阶段，命中即移除）
+    let used = false;
+    const onFirstUse = () => {
+      if (used) return;
+      used = true;
+      const key = keys.use(toolId);
+      bumpCount(key).then((b) => {
+        const n = b?.[key];
+        if (useEl && n != null) {
+          const span = useEl.querySelector('span');
+          if (span) span.textContent = fmtCount(n); // 服务端已含 +1，直接用真实值
+          useEl.hidden = false;
+        }
+      });
+      document.removeEventListener('click', onFirstUse, true);
+      document.removeEventListener('input', onFirstUse, true);
+      document.removeEventListener('change', onFirstUse, true);
+    };
+    document.addEventListener('click', onFirstUse, true);
+    document.addEventListener('input', onFirstUse, true);
+    document.addEventListener('change', onFirstUse, true);
+
+    // 3) 分享按钮：优先原生系统分享，否则复制链接 + 气泡提示
+    const shareBtn = document.getElementById('tool-share-btn');
+    if (shareBtn) {
+      const shareUrl = shareBtn.getAttribute('data-share-url') || location.href;
+      const shareTitle = shareBtn.getAttribute('data-share-title') || document.title;
+      shareBtn.addEventListener('click', async () => {
+        try {
+          if (navigator.share) {
+            await navigator.share({ title: shareTitle, url: shareUrl });
+            return;
+          }
+        } catch {
+          /* 用户取消系统分享，继续走复制兜底 */
+        }
+        try {
+          await copyText(shareUrl);
+          flashCopied(shareBtn);
+        } catch {
+          /* 复制也失败则静默 */
+        }
+      });
+    }
+
+    function flashCopied(btn: HTMLElement) {
+      const old = btn.getAttribute('title');
+      btn.setAttribute('title', '链接已复制');
+      btn.classList.add('text-primary');
+      setTimeout(() => {
+        if (old != null) btn.setAttribute('title', old);
+        btn.classList.remove('text-primary');
+      }, 1500);
+    }
+  </script>
+</BaseLayout>

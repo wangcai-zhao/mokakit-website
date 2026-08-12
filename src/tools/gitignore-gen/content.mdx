@@ -1,0 +1,55 @@
+import { GROUPS, TEMPLATES } from './data';
+
+export const byGroup = GROUPS.map((g) => ({
+  group: g,
+  items: TEMPLATES.filter((t) => t.group === g.id),
+}));
+
+## .gitignore 是什么
+
+`.gitignore` 是 Git 仓库根目录下的一个纯文本文件，里面每一行是一条「忽略规则」，用来告诉 Git：**这些文件不要纳入版本控制**。它解决的是一个很常见的痛点——操作系统、编辑器、包管理器和编译器都会在仓库里偷偷生成一堆文件（`.DS_Store`、`.idea/`、`node_modules/`、编译产物……），它们要么体积巨大、要么每台机器都不同，提交进仓库只会让历史膨胀、冲突不断。
+
+写好一份 `.gitignore`，等于给项目定下了「什么算源码、什么算噪音」的边界。
+
+## 为什么不直接手写
+
+一个小项目可能只要忽略 3 行，但真实项目往往是多语言、多工具叠加：前端用 Node + VS Code，后端用 Python，部署用 Terraform……每多一个技术栈，就要记一套对应的忽略规则。手写容易漏、也容易写错（比如少了斜杠导致把源码目录也忽略掉）。
+
+本工具把社区长期沉淀的通用规则整理成 **{TEMPLATES.length} 个模板**，你只要按技术栈勾选，右侧就实时拼出一份标准 `.gitignore`，一键复制或下载即可。
+
+## 工具覆盖的模板
+
+下面是所有可勾选的模板，按类别分组。勾选后在页面右侧即时生成内容。
+
+{byGroup.map(({ group, items }) => (
+  <div key={group.id}>
+    <h3>{group.name}</h3>
+    <ul>
+      {items.map((t) => (
+        <li>{t.label}</li>
+      ))}
+    </ul>
+  </div>
+))}
+
+## 怎么用生成的文件
+
+1. 点「下载 .gitignore」，把文件放到项目**根目录**（文件名就是 `.gitignore`，没有扩展名）；或点「复制」手动粘贴。
+2. 如果是已有仓库、某些文件之前已经被 Git 跟踪过，忽略不会自动生效，需要先取消跟踪：
+   `git rm --cached <文件>` 然后再提交。
+3. 特殊构建产物本工具没覆盖的，下载后手工补一两行即可。
+
+## 几个容易踩的坑
+
+- **依赖目录要忽略，lock 文件要提交**：`node_modules/`、`vendor/`、`target/` 这类由包管理器生成的目录应该忽略；但 `package-lock.json`、`yarn.lock`、`poetry.lock` 等锁文件建议提交，保证团队装到完全一致的版本。
+- **斜杠有讲究**：`build/` 只忽略当前目录下的 `build` 文件夹，`/build` 只忽略根目录的，而 `build` 会忽略任意层级的 `build`。不确定时参考本工具生成的写法。
+- **忽略不会删除文件**：`.gitignore` 只影响「未来是否跟踪」，已经提交的文件需要 `git rm --cached` 后才会在仓库里消失（本地文件仍在）。
+
+## 相关工具
+
+- [GitHub 高星项目榜](/tools/github-stars/)：挑选值得参考的开源项目
+- [JSON 格式化](/tools/json-formatter/)：整理配置文件
+- [大小写转换](/tools/case-converter/)：规范变量与文件名
+- [文本对比 Diff](/tools/text-diff/)：对比改动前后的配置
+
+> 所有生成与下载都在你的浏览器本地完成，本工具不收集、不上传任何数据。

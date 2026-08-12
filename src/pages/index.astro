@@ -1,0 +1,162 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ToolCard from '@/components/ToolCard.astro';
+import Icon from '@/components/Icon.astro';
+import AdSlot from '@/components/AdSlot.astro';
+import { SITE } from '@/config/site';
+import { getToolsByCategory, INDEXABLE_TOOLS } from '@/tools/registry';
+import { itemListLd } from '@/utils/jsonld';
+import { SITE_GROUPS } from '@/data/sites';
+import { faviconOf } from '@/utils/favicon';
+
+const groups = getToolsByCategory();
+const total = INDEXABLE_TOOLS.length;
+
+// 首页「精选好站」：跨前 4 个分组各取 2 条，上限 8 条，链内页（外链在详情页才走中转）
+const featured = SITE_GROUPS.slice(0, 4)
+  .flatMap((g) => g.links.slice(0, 2).map((link) => ({ link, groupId: g.id })))
+  .slice(0, 8);
+
+const jsonLd = itemListLd(
+  INDEXABLE_TOOLS.map((t) => ({
+    name: t.name,
+    url: `/tools/${t.id}/`,
+    description: t.tagline,
+  })),
+);
+---
+
+<BaseLayout
+  title={`${SITE.nameCn} ${SITE.name} - ${SITE.slogan}`}
+  description={SITE.description}
+  path="/"
+  jsonLd={jsonLd}
+>
+  <section class="bg-gradient-to-b from-primary/5 to-base-100 border-b border-base-300">
+    <div class="mx-auto max-w-6xl px-4 py-12 sm:py-16 text-center">
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">
+        {SITE.slogan}
+      </h1>
+      <p class="mt-3 text-base opacity-70 max-w-2xl mx-auto leading-relaxed">
+        免费、免注册、打开即用。所有计算都在你的浏览器里完成，数据不会离开你的设备。
+      </p>
+
+      <form
+        action="/search/"
+        method="get"
+        class="mt-7 max-w-xl mx-auto flex items-center gap-2"
+        role="search"
+      >
+        <label for="home-search" class="sr-only">搜索工具</label>
+        <div class="relative flex-1">
+          <span
+            class="absolute left-3 top-1/2 -translate-y-1/2 opacity-50 pointer-events-none"
+          >
+            <Icon name="search" size={18} />
+          </span>
+          <input
+            id="home-search"
+            type="search"
+            name="q"
+            placeholder="搜索工具，如：密码、换算…"
+            class="input input-bordered w-full pl-10 bg-base-100"
+            autocomplete="off"
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">搜索</button>
+      </form>
+
+      {
+        total > 0 && (
+          <p class="mt-4 text-sm opacity-60">
+            目前收录 <strong class="opacity-90">{total}</strong> 个工具，持续更新中
+          </p>
+        )
+      }
+    </div>
+  </section>
+
+  <div class="mx-auto max-w-6xl px-4 py-8">
+    {
+      groups.length === 0 && (
+        <div class="text-center py-16 opacity-60">
+          <p>工具正在陆续上线，敬请期待。</p>
+        </div>
+      )
+    }
+
+    {
+      groups.map((g, idx) => (
+        <>
+          <section class="mb-9" aria-labelledby={`cat-${g.category.id}`}>
+            <div class="flex items-center justify-between mb-3">
+              <h2
+                id={`cat-${g.category.id}`}
+                class="flex items-center gap-2 text-lg font-bold"
+              >
+                <span class="grid place-items-center w-7 h-7 rounded-lg bg-primary/10 text-primary">
+                  <Icon name={g.category.icon} size={16} />
+                </span>
+                {g.category.name}
+              </h2>
+              <a
+                href={`/tools/c/${g.category.slug}/`}
+                class="text-sm opacity-60 hover:opacity-100 hover:text-primary transition-all flex items-center gap-0.5"
+              >
+                查看全部
+                <Icon name="chevronRight" size={14} />
+              </a>
+            </div>
+            <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {g.tools.slice(0, 6).map((t) => (
+                <ToolCard tool={t} />
+              ))}
+            </div>
+          </section>
+          {idx === 0 && <AdSlot slot="home-mid" format="banner" class="mb-9" />}
+        </>
+      ))
+    }
+  </div>
+
+  <section class="mx-auto max-w-6xl px-4 py-8">
+    <div class="flex items-center justify-between mb-3">
+      <h2 class="flex items-center gap-2 text-lg font-bold">
+        <span class="grid place-items-center w-7 h-7 rounded-lg bg-primary/10 text-primary">
+          <Icon name="compass" size={16} />
+        </span>
+        精选好站
+      </h2>
+      <a
+        href="/sites/"
+        class="text-sm opacity-60 hover:opacity-100 hover:text-primary transition-all flex items-center gap-0.5"
+      >
+        查看全部
+        <Icon name="chevronRight" size={14} />
+      </a>
+    </div>
+    <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        featured.map(({ link, groupId }) => (
+          <a
+            href={`/sites/${groupId}/`}
+            class="group flex items-center gap-3 rounded-xl border border-base-300 bg-base-100 p-3 hover:border-primary hover:shadow-sm transition"
+          >
+            <span class="relative grid place-items-center w-9 h-9 shrink-0 rounded-lg bg-primary/10 text-primary font-bold overflow-hidden">
+              {link.name.charAt(0)}
+              <img
+                src={faviconOf(link.url)}
+                alt=""
+                loading="lazy"
+                referrerpolicy="no-referrer"
+                class="absolute inset-0 w-full h-full object-contain p-1 bg-base-100"
+                onerror="this.style.display='none'"
+              />
+            </span>
+            <span class="font-medium truncate">{link.name}</span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,11 @@
+
+> toolbox-site@0.1.0 workbench
+> node --experimental-strip-types --no-warnings --import ./scripts/ts-resolve.mjs scripts/build-workbench.mjs
+
+✅ 工作台已生成 → D:\WorkBuddy\website\workbench\workbench.html
+   副本已写入 → D:\WorkBuddy\website\public\workbench.html （站点内 /workbench.html 可访问）
+   工具总数: 69 | 分类: 9 | 空分类: 无
+   页面: 365 | 长尾子页: 247 | 深度内容覆盖: 12/69 (17%)
+   单位换算: 16 类 / 161 单位 / 213 长尾对
+   好站导航: 31 组 / 494 条外链
+   dist 快照: 2026/8/9 13:05:15

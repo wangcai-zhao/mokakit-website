@@ -1,0 +1,62 @@
+import { TYPES } from './data';
+
+## 为什么提交信息要讲规范
+
+`git commit -m "fix bug"` 这种信息，过两周连你自己都看不懂改了啥。当项目人多、要发版本、要写更新日志时，混乱的提交历史会变成灾难。
+
+**约定式提交（Conventional Commits）** 用一套固定格式，让每条提交都「机器可读 + 人能秒懂」：
+
+```
+<type>(<scope>): <subject>
+<空行>
+<body 可选>
+<空行>
+BREAKING CHANGE: <说明 可选>
+```
+
+好处很实在：
+
+- 提交历史一眼分类（哪些是功能、哪些是修 bug）
+- 工具能自动生成 **CHANGELOG**
+- 配合 semver 能自动判断该升「小版本」还是「大版本」
+- Code Review 时 reviewer 先看 type 就知道这次改动的性质
+
+## 格式拆解
+
+- **type（必填）**：这次改动的意图，从下面的速查表里选。
+- **scope（可选）**：影响范围，比如 `auth`、`parser`、`core`，让人知道动的是哪块。
+- **subject（必填）**：用祈使句、现在时、简洁描述，别写「我修复了……」而写「修复……」。
+- **body（可选）**：补充说明「为什么这么改」，多行。
+- **BREAKING CHANGE（可选）**：如果有不兼容改动，在 footer 标注。
+
+## 类型速查表
+
+{TYPES.map((t) => (
+  <div key={t.v} style="margin:8px 0;padding:10px 12px;border:1px solid #ddd;border-radius:10px">
+    <p><code>{t.v}</code> — {t.desc}</p>
+    <p style="font-size:.85em;opacity:.6;font-family:monospace">{t.ex}</p>
+  </div>
+))}
+
+## 几个常见写法
+
+- 普通功能：`feat(auth): 支持微信登录`
+- 带范围修 bug：`fix(parser): 修复空输入时崩溃`
+- 破坏性变更：`feat(api)!: 移除已废弃的 v1 端点`
+  或在 footer 写 `BREAKING CHANGE: v1 端点已移除，请迁移到 v2`
+- 纯文档：`docs: 补充安装说明`
+
+## 怎么用本工具
+
+1. 选 **type**、填 **scope**（可选）和 **subject**（必填）。
+2. 需要的话写 **body**、勾选 **BREAKING CHANGE**。
+3. 右侧实时生成标准提交信息，点「复制」粘到 `git commit -m` 即可。
+
+## 相关工具
+
+- [.gitignore 生成器](/tools/gitignore-gen/)：初始化项目时一并生成忽略文件
+- [开源协议选择器](/tools/license-gen/)：给仓库选好许可证
+- [CHANGELOG 生成器](/tools/changelog-gen/)：把约定式提交自动汇总成更新日志
+- [GitHub 高星项目榜](/tools/github-stars/)：参考优秀开源项目的工程实践
+
+> 所有生成与复制都在你的浏览器本地完成，本工具不收集、不上传任何数据。

@@ -1,0 +1,32 @@
+---
+import ToolLayout from '@/layouts/ToolLayout.astro';
+import WidgetHost from '@/components/WidgetHost.astro';
+import { TOOLS, getTool } from '@/tools/registry';
+
+/**
+ * ★ 工具详情页的自动路由 ★
+ *
+ * 遍历注册表为每个工具生成一个静态页面。
+ * 新增工具只要有 meta.ts，这里就会自动多出一个页面，无需改动本文件。
+ */
+export function getStaticPaths() {
+  return TOOLS.map((t) => ({ params: { tool: t.id } }));
+}
+
+const { tool: toolId } = Astro.params;
+const meta = getTool(toolId!);
+
+// 文案仍用 glob 自动收集（content 不需要水合，可动态加载）
+const contents = import.meta.glob<{ default: any }>('../../../tools/*/content.mdx');
+const contentLoader = contents[`../../../tools/${meta.id}/content.mdx`];
+const Content = contentLoader ? (await contentLoader()).default : null;
+---
+
+<ToolLayout tool={meta}>
+  <!-- 交互岛屿通过 WidgetHost 渲染（静态引用，支持 client:* 水合） -->
+  <WidgetHost tool={meta} />
+
+  <Fragment slot="content">
+    {Content && <Content />}
+  </Fragment>
+</ToolLayout>

@@ -1,0 +1,273 @@
+---
+import ToolLayout from '@/layouts/ToolLayout.astro';
+import WidgetHost from '@/components/WidgetHost.astro';
+import { TOOLS, getTool } from '@/tools/registry';
+import type { SubPage } from '@/tools/types';
+import { goUrl } from '@/utils/outbound';
+
+/**
+ * ★ 长尾子页的自动路由 ★
+ *
+ * 遍历每个工具的 subpages() 生成器，为每个返回项生成一个独立静态页面。
+ * 这些页面是整站 SEO 的主力：单个工具页很难排名，但
+ * "厘米换算英寸""1亩等于多少平方米"这类具体长尾词竞争极低、转化极高。
+ */
+export async function getStaticPaths() {
+  const paths: {
+    params: { tool: string; sub: string };
+    props: { toolId: string; sub: SubPage };
+  }[] = [];
+
+  for (const tool of TOOLS) {
+    if (!tool.subpages) continue;
+    const subs = await tool.subpages();
+    for (const sub of subs) {
+      paths.push({
+        params: { tool: tool.id, sub: sub.slug },
+        props: { toolId: tool.id, sub },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { toolId, sub } = Astro.props as { toolId: string; sub: SubPage };
+const meta = getTool(toolId);
+
+const url = `/tools/${meta.id}/${sub.slug}/`;
+const d = (sub.data ?? {}) as Record<string, string>;
+
+// 传给岛屿的初始参数：让页面一打开就是用户搜索的那组数据
+const widgetProps: Record<string, unknown> = {
+  initialCategory: d.categoryId,
+  initialFrom: d.fromId,
+  initialTo: d.toId,
+};
+if (d.equation) {
+  widgetProps.initialEquation = d.equation;
+  widgetProps.initialX0 = d.x0;
+  widgetProps.initialY0 = d.y0;
+  widgetProps.initialXEnd = d.xEnd;
+  widgetProps.initialH = d.h;
+}
+
+// 构建时算好对照表，直接写进 HTML —— 爬虫抓到的是实实在在的数据表格，
+// 而不是空 div，这是长尾页能被收录的关键。
+let table: { n: number; r: string }[] = [];
+if (d.categoryId && d.fromId && d.toId) {
+  const { CATEGORY_BY_ID, convert, findUnit } = await import(
+    '@/tools/unit-convert/units'
+  );
+  const { formatNumber } = await import('@/tools/unit-convert/format');
+  const from = findUnit(d.categoryId, d.fromId);
+  const to = findUnit(d.categoryId, d.toId);
+  if (CATEGORY_BY_ID.get(d.categoryId) && from && to) {
+    table = [1, 2, 3, 5, 10, 15, 20, 30, 50, 100, 200, 500, 1000].map((n) => ({
+      n,
+      r: formatNumber(convert(n, from, to), 8),
+    }));
+  }
+}
+
+// GitHub 高星榜的子页：构建时把该维度 Top 30 静态渲染进 HTML
+let ghRepos: {
+  n: string;
+  f: string;
+  d: string;
+  s: string;
+  l: string;
+  p: string;
+  url: string;
+}[] = [];
+let ghTotal = 0;
+{
+  const gh = await import('@/tools/github-stars/data');
+  const gx = await import('@/tools/github-stars/extend');
+  if (d.dimId) {
+    const all = gh.reposOfDim(d.dimId);
+    ghTotal = all.length;
+    ghRepos = all.slice(0, 30).map((r) => ({
+      n: r.n,
+      f: r.f,
+      d: r.d,
+      s: gh.kfmt(r.s),
+      l: r.l || '—',
+      p: r.p,
+      url: gh.repoUrl(r),
+    }));
+  } else if (d.kind === 'trending') {
+    ghRepos = gx.reposTrending(30);
+    ghTotal = ghRepos.length;
+  } else if (d.kind === 'lang' && d.lang) {
+    ghRepos = gx.reposByLang(d.lang, 30);
+    ghTotal = ghRepos.length;
+  }
+}
+if (d.dimId) widgetProps.initialDim = d.dimId;
+
+// 微分方程求解器子页：构建期算出 RK4 采样表写进 HTML（供爬虫抓取真实数据）
+let odeTable: { x: string; y: string }[] = [];
+if (d.equation && d.x0 && d.y0 && d.xEnd && d.h) {
+  const { solveODE } = await import('@/tools/ode-solver/solve');
+  const r = solveODE(d.equation, Number(d.x0), Number(d.y0), Number(d.xEnd), Number(d.h));
+  if (r.ok) {
+    const pts = r.points;
+    const n = pts.length;
+    const target = 20;
+    const idxs =
+      n <= target
+        ? pts.map((_, i) => i)
+        : Array.from({ length: target }, (_, i) => Math.round((i * (n - 1)) / (target - 1)));
+    odeTable = idxs.map((i) => ({
+      x: String(Number(pts[i].x.toFixed(6))),
+      y: String(Number(pts[i].y.toFixed(6))),
+    }));
+  }
+}
+---
+
+<ToolLayout
+  tool={meta}
+  title={sub.title}
+  description={sub.description}
+  path={url}
+  extraCrumbs={[{ name: sub.title, url }]}
+  faq={sub.faq}
+>
+  <WidgetHost tool={meta} widgetProps={widgetProps} />
+
+  <Fragment slot="content">
+    {
+      d.oneEquals && (
+        <>
+          <h2>{sub.title}的换算关系</h2>
+          <p>
+            <strong>
+              1 {d.fromName}（{d.fromSymbol}）= {d.oneEquals} {d.toName}（
+              {d.toSymbol}）
+            </strong>
+          </p>
+          <p>
+            使用上方的换算器可以输入任意数值即时得到结果，也可以直接查阅下面的
+            常用数值对照表。所有计算都在你的浏览器本地完成，无需联网。
+          </p>
+        </>
+      )
+    }
+
+    {
+      table.length > 0 && (
+        <>
+          <h2>{d.fromName}换算{d.toName}对照表</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>{d.fromName}（{d.fromSymbol}）</th>
+                <th>{d.toName}（{d.toSymbol}）</th>
+              </tr>
+            </thead>
+            <tbody>
+              {table.map((row) => (
+                <tr>
+                  <td>{row.n}</td>
+                  <td>{row.r}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )
+    }
+
+    {
+      d.fromName && (
+        <>
+          <h2>关于{d.fromName}和{d.toName}</h2>
+          <p>
+            需要其他单位的换算，可以使用上方换算器切换类目和单位，
+            或返回<a href={`/tools/${meta.id}/`}>{meta.name}</a>查看全部支持的单位。
+          </p>
+        </>
+      )
+    }
+
+    {
+      ghRepos.length > 0 && (
+        <>
+          <h2>{d.dimName} · GitHub star 排行 Top {ghRepos.length}</h2>
+          <p>
+            {d.dimIntro}。下表按 GitHub star 数从高到低排列，共收录 {ghTotal} 个相关开源项目，
+            使用上方的筛选器可以按活跃度、编程语言进一步过滤。
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>排名</th>
+                <th>项目</th>
+                <th>Star</th>
+                <th>语言</th>
+                <th>最后更新</th>
+              </tr>
+            </thead>
+            <tbody>
+              {ghRepos.map((r, i) => (
+                <tr>
+                  <td>{i + 1}</td>
+                  <td>
+                    <a href={goUrl(r.url)} target="_blank" rel="nofollow noopener">
+                      {r.f}
+                    </a>
+                    <br />
+                    <span style="opacity:.7;font-size:.85em">{r.d}</span>
+                  </td>
+                  <td>{r.s}</td>
+                  <td>{r.l}</td>
+                  <td>{r.p}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <h2>怎么看这份榜单</h2>
+          <p>
+            star 数反映的是<strong>知名度</strong>而不是代码质量——教程、清单类仓库天然更容易积累 star，
+            而一些工程质量极高的底层库反而不显眼。选型时建议把「最后更新」这一列一起看：
+            超过一年没有提交的项目，往往意味着维护已经停滞，接入前需要评估风险。
+          </p>
+          <p>
+            想看其他方向的排行，可以返回
+            <a href={`/tools/${meta.id}/`}>{meta.name}</a>切换维度。
+          </p>
+        </>
+      )
+    }
+
+    {
+      odeTable.length > 0 && (
+        <>
+          <h2>{sub.title} 数值解采样表</h2>
+          <p>
+            下表为采用四阶龙格-库塔法（RK4）在区间 [{d.x0}, {d.xEnd}]、步长 {d.h}
+            下计算的数值解（均匀采样 {odeTable.length} 个节点）。完整数据可在上方工具中点击「复制 JSON」获取。
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>x</th>
+                <th>y(x)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {odeTable.map((row, i) => (
+                <tr key={i}>
+                  <td>{row.x}</td>
+                  <td>{row.y}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )
+    }
+  </Fragment>
+</ToolLayout>

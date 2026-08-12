@@ -1,0 +1,55 @@
+---
+import { SITE } from '@/config/site';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Icon from '@/components/Icon.astro';
+import { SITE_GROUPS } from '@/data/sites';
+
+const title = '好站导航';
+const description =
+  '摩卡工具箱精选的优质网站导航：开发文档、AI 工具、设计灵感、效率工具与学习资讯，按分类索引，一站直达。';
+
+const total = SITE_GROUPS.reduce((sum, g) => sum + g.links.length, 0);
+---
+
+<BaseLayout title={title} description={description} path="/sites/">
+  <div class="mx-auto max-w-6xl px-4 py-8">
+    <header class="mb-8">
+      <h1 class="text-3xl font-bold flex items-center gap-2">
+        <Icon name="compass" size={28} class="text-primary" />
+        好站导航
+      </h1>
+      <p class="mt-2 opacity-65 max-w-2xl">
+        共收录 <span class="font-semibold text-primary">{total}</span> 个优质站点，分
+        <span class="font-semibold text-primary">{SITE_GROUPS.length}</span> 个分类。点开任意分类查看该领域精选链接，全部在新标签页打开。
+      </p>
+    </header>
+
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        SITE_GROUPS.map((group) => (
+          <a
+            href={`/sites/${group.id}/`}
+            class="group flex items-start gap-4 rounded-2xl border border-base-300 bg-base-100 p-5 hover:border-primary hover:shadow-md transition"
+          >
+            <span class="grid place-items-center w-12 h-12 shrink-0 rounded-xl bg-primary/10 text-primary">
+              <Icon name={group.icon} size={24} />
+            </span>
+            <span class="min-w-0 flex-1">
+              <span class="flex items-center justify-between gap-2">
+                <span class="font-semibold text-lg">{group.name}</span>
+                <span class="text-xs opacity-50 shrink-0">{group.links.length} 个</span>
+              </span>
+              <span class="block text-sm opacity-60 leading-snug mt-1">
+                {group.desc}
+              </span>
+            </span>
+          </a>
+        ))
+      }
+    </div>
+
+    <p class="mt-10 text-sm opacity-50 leading-relaxed">
+      所列站点均为外部资源，点击将以新标签页打开，与本站无隶属关系。如发现失效链接，欢迎在关于页反馈。
+    </p>
+  </div>
+</BaseLayout>

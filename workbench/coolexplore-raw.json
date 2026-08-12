@@ -1,0 +1,2291 @@
+{
+  "fetchedAt": "2026-08-11T06:16:14.105Z",
+  "total": 136,
+  "items": [
+    {
+      "slug": "aisweet",
+      "name": "AiSweet创建AI 女友互动的平台，通过聊天、视觉和语音。",
+      "url": "https://aisweet.ai",
+      "rawDesc": "AiSweet是一个提供 AI 女友体验的平台。用户可以创建虚拟伴侣，建立情感联系，享受对话，并通过聊天、视觉和语音互动探索 AI 个性。",
+      "cats": [
+        "life"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 403,
+        "finalUrl": "https://aisweet.ai/",
+        "note": "受防护"
+      }
+    },
+    {
+      "slug": "pianos-pub",
+      "name": "Public Pianos",
+      "url": "https://pianos.pub/",
+      "rawDesc": "全球公共钢琴查找平台，收录超过10,000台公共钢琴信息，覆盖125个国家。帮助音乐爱好者快速定位附近可以弹奏的公共钢琴位置。",
+      "cats": [
+        "cool-music",
+        "cool-design",
+        "life"
+      ],
+      "group": "culture",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://pianos.pub/"
+      }
+    },
+    {
+      "slug": "he-net",
+      "name": "全球海底光缆3D地图",
+      "url": "https://he.net/3d-map/",
+      "rawDesc": "一个交互式3D地球可视化工具，展示全球海底光缆布局和骨干网络机房分布，帮助用户了解全球互联网基础设施的实际部署情况。",
+      "cats": [
+        "cool-design"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://he.net/3d-map/"
+      }
+    },
+    {
+      "slug": "www-webcamtaxi-com",
+      "name": "Webcamtaxi",
+      "url": "https://www.webcamtaxi.com/en/",
+      "rawDesc": "全球实时网络摄像头直播平台，提供来自世界各地的高清网络摄像头直播，让用户足不出户就能在线探索世界各地的风景和生活。",
+      "cats": [
+        "cool-design"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 403,
+        "finalUrl": "https://www.webcamtaxi.com/en/",
+        "note": "受防护"
+      }
+    },
+    {
+      "slug": "minitokyo3d-com",
+      "name": "MiniTokyo3D",
+      "url": "https://minitokyo3d.com/",
+      "rawDesc": "一个展示东京地铁实时运行状况的3D可视化地图平台，集成了地铁列车实时位置、车站信息、实况直播等功能，为用户提供直观的东京交通动态。",
+      "cats": [
+        "cool-map"
+      ],
+      "group": "explore-map",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://minitokyo3d.com/"
+      }
+    },
+    {
+      "slug": "beddysongs-com",
+      "name": "BeddySongs",
+      "url": "https://beddysongs.com/",
+      "rawDesc": "全球儿歌精选平台，收录超过1000首来自30多个国家的优质儿歌，按年龄、主题和文化背景分类，为0-8岁儿童提供安全、优质的音乐教育资源。",
+      "cats": [
+        "cool-music"
+      ],
+      "group": "culture",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://beddysongs.com/"
+      }
+    },
+    {
+      "slug": "www-vertebres3d-fr",
+      "name": "Vertébrés 3D",
+      "url": "https://www.vertebres3d.fr/",
+      "rawDesc": "一个提供脊椎动物骨骼3D模型的在线平台，集合了来自多个博物馆的真实骨骼标本，支持交互式3D查看、比较和测量功能。",
+      "cats": [
+        "cool-design"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://www.vertebres3d.fr/"
+      }
+    },
+    {
+      "slug": "www-checkiday-com",
+      "name": "Checkiday",
+      "url": "https://www.checkiday.com/",
+      "rawDesc": "一个全面的节日查询网站，提供全球各类节日、纪念日信息，包括官方节假日和趣味节日，让用户随时了解每天的特殊日子和庆祝活动。",
+      "cats": [
+        "cool-design",
+        "life"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://www.checkiday.com/"
+      }
+    },
+    {
+      "slug": "www-ctbuh-org",
+      "name": "CTBUH - 世界高层建筑与都市人居协会",
+      "url": "https://www.ctbuh.org",
+      "rawDesc": "CTBUH是全球领先的高层建筑和城市人居环境研究机构，提供建筑数据库、技术指南和研究报告，推动可持续垂直城市发展的国际组织。",
+      "cats": [
+        "cool-map"
+      ],
+      "group": "explore-map",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 403,
+        "finalUrl": "https://verticalurbanism.org/",
+        "note": "受防护"
+      }
+    },
+    {
+      "slug": "chinesenewyear-net",
+      "name": "Chinese New Year",
+      "url": "https://chinesenewyear.net/",
+      "rawDesc": "专业的农历新年信息门户网站，提供生肖计算、节日指南、传统习俗介绍等内容，帮助用户了解中国农历新年文化和庆祝活动的全方位资讯平台。",
+      "cats": [
+        "cool-design",
+        "life"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://chinesenewyear.net/"
+      }
+    },
+    {
+      "slug": "historicaltemperature-org",
+      "name": "HistoricalTemperature - 历史气温数据查询",
+      "url": "https://historicaltemperature.org/",
+      "rawDesc": "专业的全球历史气温数据查询和分析平台，提供20年以上的气象数据记录，支持全球城市温度趋势分析、气温统计和可视化展示。",
+      "cats": [
+        "cool-design"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://historicaltemperature.org/"
+      }
+    },
+    {
+      "slug": "zi-tools",
+      "name": "zi.tools 字统网",
+      "url": "https://zi.tools/",
+      "rawDesc": "一个专业的汉字综合查询工具，提供汉字的源流、字形、读音、意义和编码等多维度信息，支持多语言对照和专业字符检索功能。",
+      "cats": [
+        "cool-study",
+        "cool-design"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://zi.tools/"
+      }
+    },
+    {
+      "slug": "rocketlaunch-org",
+      "name": "RocketLaunch",
+      "url": "https://rocketlaunch.org/",
+      "rawDesc": "一个专业的火箭发射信息追踪平台，提供全球火箭发射实时动态、发射日程安排、历史记录以及发射场地等详细信息的综合性航天数据库。",
+      "cats": [
+        "cool-space",
+        "cool-design"
+      ],
+      "group": "explore-map",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://rocketlaunch.org/"
+      }
+    },
+    {
+      "slug": "www-coolcarsinchina-com",
+      "name": "CoolCarsInChina",
+      "url": "https://www.coolcarsinchina.com/",
+      "rawDesc": "一个专注于中国汽车市场的英文资讯网站，提供中国汽车市场的最新动态、新车评测、实拍图片以及详细的技术参数信息，特别关注新能源汽车发展。",
+      "cats": [
+        "life"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://www.coolcarsinchina.com/"
+      }
+    },
+    {
+      "slug": "standardguitar",
+      "name": "Standard Guitar",
+      "url": "https://www.standardguitar.com",
+      "rawDesc": "Standard Guitar是一个专业的吉他学习平台，集成了智能吉他谱库、交互式学习工具和社区功能。提供免费核心功能和高级订阅选项，让吉他学习更简单有趣。",
+      "cats": [
+        "cool-music"
+      ],
+      "group": "culture",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://www.standardguitar.com/"
+      }
+    },
+    {
+      "slug": "streetmix",
+      "name": "Streetmix",
+      "url": "https://streetmix.net",
+      "rawDesc": "一个免费的在线街道设计工具，让用户能够通过简单的拖拽操作创建、编辑和分享自定义的街道设计方案，支持多种街道元素组合和实时预览。",
+      "cats": [
+        "cool-design",
+        "life"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://streetmix.net/"
+      }
+    },
+    {
+      "slug": "cmd-to",
+      "name": "CMD在线命令行模拟器",
+      "url": "https://www.cmd.to",
+      "rawDesc": "一个基于浏览器的在线命令行学习工具，无需安装即可体验Linux终端环境，支持常见Unix命令操作，适合命令行初学者和教学使用。",
+      "cats": [
+        "cool-study",
+        "cool-design"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://www.cmd.to/"
+      }
+    },
+    {
+      "slug": "minecraft",
+      "name": "Minecraft网页游戏",
+      "url": "https://classic.minecraft.net",
+      "rawDesc": "经典版Minecraft网页游戏，完全复刻2009年原始版本，提供生存、创造和多人模式，让玩家在浏览器中体验最纯粹的方块建造与探索乐趣。",
+      "cats": [
+        "cool-game",
+        "cool-design"
+      ],
+      "group": "web-game",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://classic.minecraft.net/"
+      }
+    },
+    {
+      "slug": "ra2web",
+      "name": "RA2Web - 红色警戒2在线游戏平台",
+      "url": "https://ra2web.com",
+      "rawDesc": "一个基于Web技术的红色警戒2游戏平台，提供即开即玩、多人联机、云存档、MOD支持等功能，让经典RTS游戏焕发新生。",
+      "cats": [
+        "cool-game",
+        "cool-design"
+      ],
+      "group": "web-game",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://www.ra2web.com/"
+      }
+    },
+    {
+      "slug": "musicbible",
+      "name": "音乐圣经",
+      "url": "https://www.musicbible.com",
+      "rawDesc": "MusicBible是一个专注于音乐历史与文化的在线资源平台，提供丰富的音乐档案、教育内容和研究工具。网站涵盖古典音乐、现代流派及全球音乐传统，适合音乐爱好者、学生和研究者使用。内容包含音频样本、历史背景和互动学习模块，旨在促进音乐知识的传播与探索。",
+      "cats": [
+        "cool-music"
+      ],
+      "group": "culture",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "err",
+        "error": "fetch failed"
+      }
+    },
+    {
+      "slug": "webgradients",
+      "name": "WebGradients",
+      "url": "https://webgradients.com",
+      "rawDesc": "WebGradients提供180个精心设计的免费线性渐变色彩组合，支持CSS代码一键复制、PNG下载及Photoshop调色板导出。专为网页设计师、UI开发者和创意工作者打造的渐变背景资源库，适用于网站背景、海报设计及移动应用界面美化。",
+      "cats": [
+        "cool-design"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://webgradients.com/"
+      }
+    },
+    {
+      "slug": "bezier-method",
+      "name": "贝塞尔曲线交互式学习与练习工具",
+      "url": "http://bezier.method.ac/",
+      "rawDesc": "Bezier.method.ac是一个专注于贝塞尔曲线教学的交互式网站，通过游戏化方式帮助用户掌握矢量绘图核心技能。网站提供实时视觉反馈和错误纠正，适合设计师、插画师及初学者练习Pen工具操作，提升图形绘制精度与效率。",
+      "cats": [
+        "cool-design"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://bezier.method.ac/"
+      }
+    },
+    {
+      "slug": "moshpro",
+      "name": "Mosh Pro",
+      "url": "https://moshpro.app",
+      "rawDesc": "Mosh Pro是一款专业的视频后期处理工具，专注于修复视频中的运动模糊和抖动问题，通过智能算法提供高质量的视频优化服务。",
+      "cats": [
+        "cool-design",
+        "cool-video"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://moshpro.app/"
+      }
+    },
+    {
+      "slug": "svgbackgrounds",
+      "name": "SVG Backgrounds",
+      "url": "https://www.svgbackgrounds.com",
+      "rawDesc": "一个提供免费、高质量SVG背景图案的在线资源库，支持实时颜色调整和样式定制，生成轻量级、响应式的矢量背景图案，适合网页设计和开发使用。",
+      "cats": [
+        "cool-design"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 403,
+        "finalUrl": "https://www.svgbackgrounds.com/",
+        "note": "受防护"
+      }
+    },
+    {
+      "slug": "easydrawingtutorials",
+      "name": "Easy Drawing Tutorials",
+      "url": "https://www.easydrawingtutorials.com",
+      "rawDesc": "一个免费的在线简笔画教学网站，提供卡通人物、动物和节日主题的分步骤绘画教程，通过简单的步骤引导用户完成绘画创作。",
+      "cats": [
+        "life"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://www.easydrawingtutorials.com/"
+      }
+    },
+    {
+      "slug": "ringtonemaker",
+      "name": "Ringtone Maker",
+      "url": "https://ringtonemaker.com",
+      "rawDesc": "一款专业的在线铃声制作工具，支持多种音频格式转换和编辑，提供精确剪辑、音量调节等功能，让用户轻松制作个性化手机铃声。",
+      "cats": [
+        "cool-design",
+        "life"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://ringtonemaker.com/"
+      }
+    },
+    {
+      "slug": "avatarmaker",
+      "name": "AvatarMaker",
+      "url": "https://avatarmaker.com",
+      "rawDesc": "AvatarMaker是一款免费的在线卡通头像制作工具，提供丰富的面部特征、发型、服装等素材，让用户轻松创建个性化的扁平风格头像，无需注册即可使用。",
+      "cats": [
+        "cool-fun",
+        "cool-design"
+      ],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://avatarmaker.com/"
+      }
+    },
+    {
+      "slug": "virtualpiano",
+      "name": "Virtual Piano",
+      "url": "https://virtualpiano.net/music-sheets",
+      "rawDesc": "Virtual Piano是一个在线虚拟钢琴平台，提供交互式键盘和超过1000首乐谱资源，支持字母谱格式，让用户可以轻松学习和演奏钢琴曲目。",
+      "cats": [
+        "cool-music",
+        "cool-design"
+      ],
+      "group": "culture",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://virtualpiano.net/music-sheets/"
+      }
+    },
+    {
+      "slug": "wikihow",
+      "name": "wikiHow",
+      "url": "https://www.wikihow.com",
+      "rawDesc": "wikiHow是一个全球性的实用技能指南平台，提供超过50万篇分步教程，涵盖生活、工作、学习等各个领域，帮助用户学习和掌握各种实用技能。",
+      "cats": [
+        "cool-study",
+        "life"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://www.wikihow.com/Main-Page"
+      }
+    },
+    {
+      "slug": "geoguessr",
+      "name": "GeoGuessr",
+      "url": "http://geoguessr.com",
+      "rawDesc": "一款基于谷歌街景的地理猜谜游戏，玩家需要通过观察周围环境、建筑风格、道路标志等线索，在世界地图上标出自己所在位置，考验地理知识与观察力。",
+      "cats": [
+        "cool-game",
+        "cool-map",
+        "cool-map",
+        "cool-study",
+        "cool-design"
+      ],
+      "group": "web-game",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "err",
+        "error": "fetch failed"
+      }
+    },
+    {
+      "slug": "soundhound",
+      "name": "SoundHound",
+      "url": "https://www.soundhound.com",
+      "rawDesc": "SoundHound是一个集音乐识别、语音交互于一体的综合技术平台，提供消费级音乐识别服务和企业级语音解决方案，支持多种识别方式和跨平台应用。",
+      "cats": [
+        "cool-music",
+        "cool-design"
+      ],
+      "group": "culture",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://www.soundhound.com/"
+      }
+    },
+    {
+      "slug": "frvr",
+      "name": "Lines FRVR",
+      "url": "https://lines.frvr.com",
+      "rawDesc": "一款基于HTML5的在线益智连线游戏，玩家需要通过绘制线条连接相同颜色的端点，考验空间规划和逻辑思维能力，支持跨设备同步进度。",
+      "cats": [
+        "cool-game",
+        "cool-design"
+      ],
+      "group": "web-game",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://lines.frvr.com/"
+      }
+    },
+    {
+      "slug": "autodraw",
+      "name": "AutoDraw",
+      "url": "https://www.autodraw.com",
+      "rawDesc": "一个智能草图识别工具，能将随手涂鸦转换成精美的矢量图形。通过智能识别技术，帮助用户快速创建专业风格的图标、插画和简单设计。",
+      "cats": [],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://www.autodraw.com/"
+      }
+    },
+    {
+      "slug": "top50names",
+      "name": "Top50Names",
+      "url": "https://www.top50names.com",
+      "rawDesc": "专业的名字排名和趋势分析工具，提供全球各地区婴儿名字、常见名字的排行榜数据，帮助用户了解名字流行趋势和历史变化，支持多国家地区数据查询。",
+      "cats": [
+        "life"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://www.top50names.com/"
+      }
+    },
+    {
+      "slug": "world-time",
+      "name": "Time.is",
+      "url": "https://time.is",
+      "rawDesc": "Time.is是一个基于原子钟的精确时间同步服务平台，提供全球500多个城市的实时时间显示、时区转换、时钟校准等功能，精确度可达±0.02秒。",
+      "cats": [
+        "cool-map"
+      ],
+      "group": "explore-map",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://time.is/"
+      }
+    },
+    {
+      "slug": "loldodgegame",
+      "name": "LoL Dodge Game",
+      "url": "https://loldodgegame.com",
+      "rawDesc": "英雄联盟技能躲避训练网站，提供多种英雄技能模拟和难度分级，帮助玩家提升走位和反应能力，实时统计训练数据，支持自定义训练模式。",
+      "cats": [
+        "cool-game"
+      ],
+      "group": "web-game",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://loldodgegame.com/"
+      }
+    },
+    {
+      "slug": "ping-ip",
+      "name": "Ping.pe",
+      "url": "https://ping.pe",
+      "rawDesc": "一个专业的网络诊断工具平台，提供全球多节点Ping测试和Traceroute路由追踪功能，帮助用户实时监控和分析网络质量与连接状态。",
+      "cats": [],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://ping.pe/"
+      }
+    },
+    {
+      "slug": "lightpollutionmap",
+      "name": "Light Pollution Map",
+      "url": "https://www.lightpollutionmap.info",
+      "rawDesc": "一个专业的全球光污染可视化地图平台，基于NOAA卫星数据，提供实时和历史光污染数据查看、分析和对比功能，帮助用户了解全球各地的夜空亮度情况。",
+      "cats": [
+        "cool-map"
+      ],
+      "group": "explore-map",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://www.lightpollutionmap.info/"
+      }
+    },
+    {
+      "slug": "skylinewebcams",
+      "name": "SkylineWebcams",
+      "url": "https://www.skylinewebcams.com",
+      "rawDesc": "全球实时风景摄像头聚合平台，提供世界各地自然景观、城市地标和野生动物保护区等场景的实况直播，支持高清画质和多视角观看。",
+      "cats": [
+        "cool-map"
+      ],
+      "group": "explore-map",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://www.skylinewebcams.com/"
+      }
+    },
+    {
+      "slug": "planecrashinfo",
+      "name": "Plane Crash Info",
+      "url": "http://www.planecrashinfo.com/lastwords.htm",
+      "rawDesc": "这是一个专业的航空事故数据库，收录了1962年以来的空难事件黑匣子通话记录，提供飞行员与塔台的最后通讯内容及事故相关信息。",
+      "cats": [
+        "cool-map"
+      ],
+      "group": "explore-map",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://www.planecrashinfo.com/lastwords.htm"
+      }
+    },
+    {
+      "slug": "publicdomainreview",
+      "name": "Public Domain Review",
+      "url": "https://publicdomainreview.org",
+      "rawDesc": "一个专注于展示和探索公共领域文化遗产的数字平台，收录了大量历史文献、艺术作品、照片和手稿等珍贵资料，为用户提供免费的文化资源访问。",
+      "cats": [
+        "cool-art"
+      ],
+      "group": "culture",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://publicdomainreview.org/"
+      }
+    },
+    {
+      "slug": "autopiano",
+      "name": "Autopiano - 在线钢琴模拟器",
+      "url": "https://www.autopiano.cn/",
+      "rawDesc": "Autopiano是一个免费的在线钢琴模拟平台，提供标准88键钢琴键盘，支持键盘和鼠标演奏，包含曲谱教学、音色调节和录音功能，让用户随时随地体验弹钢琴的乐趣。",
+      "cats": [
+        "cool-music"
+      ],
+      "group": "culture",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://www.autopiano.cn/"
+      }
+    },
+    {
+      "slug": "quickdraw-withgoogle-com",
+      "name": "Quick Draw",
+      "url": "https://quickdraw.withgoogle.com/",
+      "rawDesc": "一个由Google开发的智能涂鸦识别工具，通过机器学习技术识别用户的涂鸦作品，并建立全球最大的涂鸦数据集，用于提升机器学习研究。",
+      "cats": [
+        "cool-game",
+        "cool-fun"
+      ],
+      "group": "web-game",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "err",
+        "error": "fetch failed"
+      }
+    },
+    {
+      "slug": "play-piano",
+      "name": "在线钢琴模拟器",
+      "url": "https://www.xiwnn.com/piano/",
+      "rawDesc": "一个基于Web的虚拟钢琴模拟器，提供88键标准钢琴界面，支持键盘和鼠标操作，可实时演奏钢琴音效，适合音乐爱好者在线练习和娱乐使用。",
+      "cats": [
+        "cool-music"
+      ],
+      "group": "culture",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://www.xiwnn.com/piano/"
+      }
+    },
+    {
+      "slug": "seedhub",
+      "name": "SeedHub - 种子下载导航",
+      "url": "https://www.seedhub.cc",
+      "rawDesc": "SeedHub是一个专注于种子资源导航的网站，整合了众多BT种子搜索引擎、磁力链接搜索网站和PT站点，为用户提供便捷的资源搜索服务。",
+      "cats": [
+        "cool-video"
+      ],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "err",
+        "error": "fetch failed"
+      }
+    },
+    {
+      "slug": "www-thiswaifudoesnotexist-net",
+      "name": "This Waifu Does Not Exist",
+      "url": "https://www.thiswaifudoesnotexist.net/",
+      "rawDesc": "这是一个利用智能技术生成二次元动漫人物头像的网站，可以自动生成不存在的动漫角色肖像，并配以智能生成的动漫剧情简介。",
+      "cats": [],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://www.thiswaifudoesnotexist.net/"
+      }
+    },
+    {
+      "slug": "snowcrystals",
+      "name": "雪花晶体研究网",
+      "url": "http://www.snowcrystals.com",
+      "rawDesc": "一个专业的雪花晶体研究网站，由加州理工学院物理学教授Kenneth Libbrecht创建，提供雪花形成原理、高清摄影图库和科普教育资源。",
+      "cats": [
+        "cool-fun"
+      ],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://www.snowcrystals.com/"
+      }
+    },
+    {
+      "slug": "goldfishies",
+      "name": "金鱼直播：在线观赏舒缓减压的虚拟宠物",
+      "url": "https://goldfishies.com",
+      "rawDesc": "Goldfishies.com是一个提供24小时不间断金鱼直播的沉浸式网站。用户可观赏多彩虚拟金鱼在精致水族箱中游动，搭配环境音效营造宁静氛围。该网站专注于通过自然视觉体验帮助用户缓解压力、提升专注力，适用于工作间隙放松、冥想辅助或作为数字装饰背景。无需下载或注册即可免费使用。",
+      "cats": [
+        "cool-fun"
+      ],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://goldfishies.com/"
+      }
+    },
+    {
+      "slug": "illusionoftheyear",
+      "name": "年度幻觉奖官网 | 视错觉作品评选与展示平台",
+      "url": "http://illusionoftheyear.com",
+      "rawDesc": "年度幻觉奖官网（Illusion of the Year）是全球权威的视错觉作品竞赛平台，每年评选最具创造力和科学价值的视觉幻觉作品。网站展示获奖及入围的动态图像、视频和交互式幻觉实验，融合艺术、心理学与神经科学，为研究者、艺术家和视觉爱好者提供灵感与学术交流空间。",
+      "cats": [
+        "life"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "http://illusionoftheyear.com/"
+      }
+    },
+    {
+      "slug": "donitz",
+      "name": "Donitz的独立游戏发布平台",
+      "url": "https://donitz.itch.io",
+      "rawDesc": "Donitz在itch.io上的个人页面是独立游戏开发者展示和分发创意作品的数字平台。这里提供多款由Donitz开发的游戏，涵盖实验性项目、免费游戏和小型商业作品，支持直接在线游玩或下载，是游戏爱好者发现独特体验和开发者交流创意的聚集地。",
+      "cats": [
+        "cool-game"
+      ],
+      "group": "web-game",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "err",
+        "error": "fetch failed"
+      }
+    },
+    {
+      "slug": "webdesignmuseum",
+      "name": "网页设计博物馆 - 探索互联网设计历史",
+      "url": "https://www.webdesignmuseum.org",
+      "rawDesc": "网页设计博物馆是一个数字化档案馆，收录了1991年至2006年间具有历史价值的网站设计截图。通过时间线展示互联网设计风格的演变，为设计师、历史学者和数字文化爱好者提供珍贵的视觉参考资料，同时帮助用户理解早期互联网的视觉语言和交互方式。",
+      "cats": [
+        "cool-study"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 403,
+        "finalUrl": "https://www.webdesignmuseum.org/",
+        "note": "受防护"
+      }
+    },
+    {
+      "slug": "genact",
+      "name": "Genact - 假装忙碌的终端模拟器",
+      "url": "https://svenstaro.github.io/genact",
+      "rawDesc": "Genact是一个开源的终端活动模拟器，专门设计用来在屏幕上显示各种看似真实的计算机操作过程。用户无需实际执行任何任务，即可模拟代码编译、系统更新、网络测试等专业操作场景。非常适合用来应付围观、拍摄演示视频或单纯娱乐，支持多平台使用且完全免费。",
+      "cats": [
+        "cool-fun"
+      ],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "err",
+        "error": "fetch failed"
+      }
+    },
+    {
+      "slug": "realbanknotes",
+      "name": "RealBanknotes - 全球真实纸币收藏与交易平台",
+      "url": "https://www.realbanknotes.com",
+      "rawDesc": "RealBanknotes是全球领先的纸币收藏与交易平台，提供世界各国真实流通与历史纸币的鉴定、买卖服务。网站包含详尽的纸币图鉴资料、防伪特征说明及市场估值参考，适合钱币收藏家、历史研究者和投资爱好者探索世界货币文化。所有商品均提供真实性保证和专业收藏建议。",
+      "cats": [
+        "life"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://www.realbanknotes.com/"
+      }
+    },
+    {
+      "slug": "win11-explore",
+      "name": "Windows 11 Web版 - 浏览器体验桌面系统",
+      "url": "https://win11.blueedge.me",
+      "rawDesc": "这是一个基于Web技术构建的Windows 11在线模拟项目，完全在浏览器中还原了Win11的桌面环境。支持开始菜单、任务栏、窗口管理、暗色主题等核心功能，采用React+CSS3技术实现，无需安装即可体验新一代操作系统界面设计。",
+      "cats": [
+        "cool-fun"
+      ],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://win11.blueedge.me/"
+      }
+    },
+    {
+      "slug": "bookmarkearth",
+      "name": "书签地球 - 全球优质网站导航与资源分享平台",
+      "url": "https://www.bookmarkearth.com",
+      "rawDesc": "书签地球是一个专注于发现和分享全球优质网站的社区平台。用户可探索他人精选的书签集合，获取设计、工具、学习等领域的网络资源。平台通过众包模式帮助用户高效发现高价值网站，减少信息筛选时间，适合数字工作者、学生和互联网爱好者使用。",
+      "cats": [
+        "life"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "err",
+        "error": "fetch failed"
+      },
+      "drop": "dead",
+      "dropReason": "curl复核: DNS NXDOMAIN, 域名不存在"
+    },
+    {
+      "slug": "space",
+      "name": "KeepTrack - 实时卫星追踪与太空数据平台",
+      "url": "https://keeptrack.space/",
+      "rawDesc": "KeepTrack是一款专业的实时卫星追踪和太空数据可视化平台，提供全球航天器、国际空间站、星链卫星的轨道位置查询。支持3D地球模型渲染、过境时间预测、光学/雷达观测提示，适合航天爱好者、天文观测者和教育研究使用。",
+      "cats": [
+        "cool-fun"
+      ],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://keeptrack.space/"
+      }
+    },
+    {
+      "slug": "skypixel",
+      "name": "天空之城 - 全球航拍社区和摄影作品分享平台",
+      "url": "https://www.skypixel.com",
+      "rawDesc": "天空之城（Skypixel）是大疆创新旗下的全球航拍社区和摄影作品分享平台，专注于无人机摄影和空中影像创作。网站汇集了全球航拍爱好者的精彩作品，提供高质量的航拍照片和视频分享，同时包含摄影教程、设备讨论和航拍技巧交流。用户可上传作品、参与社区互动、参加摄影比赛，是航拍爱好者和专业摄影师的创意聚集地。",
+      "cats": [
+        "life"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://www.skypixel.com/"
+      }
+    },
+    {
+      "slug": "xgzb-top",
+      "name": "字帖生成器",
+      "url": "https://xgzb.top/",
+      "rawDesc": "一个挺实在的字帖生成网站，自己练字或者给孩子用都挺方便。",
+      "cats": [
+        "life"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://xgzb.top/"
+      }
+    },
+    {
+      "slug": "yikm",
+      "name": "小霸王游戏机 - 在线红白机FC游戏合集",
+      "url": "https://www.yikm.net/",
+      "rawDesc": "小霸王游戏机是一个提供在线FC红白机游戏体验的网站，汇集了数百款经典怀旧游戏，无需下载即可直接游玩。支持键盘和手柄操作，包含魂斗罗、超级玛丽等经典作品，是80、90后重温童年记忆的理想平台。",
+      "cats": [
+        "cool-game"
+      ],
+      "group": "web-game",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://www.yikm.net/"
+      }
+    },
+    {
+      "slug": "foodwake",
+      "name": "食物派 - 专业食品成分查询与营养分析平台",
+      "url": "https://www.foodwake.cn",
+      "rawDesc": "食物派是一个专业的食品成分查询与营养分析平台，提供详尽的食品成分数据、营养价值和健康建议。用户可通过搜索快速了解各类食品的营养构成、添加剂信息及潜在健康影响，帮助做出更健康的饮食选择。平台还提供个性化饮食管理和食品安全知识科普，适合关注健康的消费者和专业人士使用。",
+      "cats": [
+        "life"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://www.foodwake.cn/"
+      }
+    },
+    {
+      "slug": "lidicity",
+      "name": "世界各国国歌在线播放与歌词库",
+      "url": "http://anthems.lidicity.com",
+      "rawDesc": "Anthems.lidicity.com是一个专注于世界各国国歌的在线资源平台，提供全球各国国歌的高质量音频播放、歌词展示及背景介绍。网站收录了包括中国、美国、俄罗斯、日本等200多个国家和地区的国歌资源，支持在线收听和歌词同步显示，是学习国家文化、进行爱国主义教育及音乐研究的专业平台。",
+      "cats": [
+        "cool-music"
+      ],
+      "group": "culture",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "http://anthems.lidicity.com/index.html"
+      }
+    },
+    {
+      "slug": "alteredqualia",
+      "name": "Altered Qualia - 创意编程与WebGL实验展示平台",
+      "url": "https://alteredqualia.com",
+      "rawDesc": "Altered Qualia是由开发者Florian Boesch创建的创意编程实验平台，专注于展示基于WebGL和Three.js技术的交互式3D视觉效果。网站收录了多个前沿的视觉实验项目，涵盖粒子系统、物理模拟、光影渲染等技术方向，为开发者、数字艺术家和技术爱好者提供灵感和技术参考。",
+      "cats": [
+        "cool-art"
+      ],
+      "group": "culture",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://alteredqualia.com/"
+      }
+    },
+    {
+      "slug": "wdl",
+      "name": "世界数字图书馆 - 免费访问全球文化遗产",
+      "url": "https://www.wdl.org",
+      "rawDesc": "世界数字图书馆（WDL）由联合国教科文组织与全球机构合作运营，提供全球珍贵文化遗产的免费数字化访问。网站收录了来自193个国家的超过2万份历史文献、地图、书籍和影像资料，支持7种语言界面，致力于促进跨文化教育与研究。",
+      "cats": [
+        "cool-study"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 403,
+        "finalUrl": "https://www.loc.gov/collections/world-digital-library/about-this-collection/",
+        "note": "受防护"
+      }
+    },
+    {
+      "slug": "zygotebody",
+      "name": "Zygote Body - 3D交互式人体解剖学探索平台",
+      "url": "https://www.zygotebody.com",
+      "rawDesc": "Zygote Body提供基于WebGL技术的全3D交互式人体解剖模型，支持层层剥离肌肉、骨骼和器官系统。该平台无需安装软件即可在浏览器中实现360度旋转观察，是医学教育、临床参考和健康科普的优质可视化工具，支持多语言界面和结构搜索功能。",
+      "cats": [
+        "life"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://www.zygotebody.com/"
+      }
+    },
+    {
+      "slug": "talkingwiththepros",
+      "name": "与专业人士对话 - 职业访谈与行业洞察平台",
+      "url": "http://www.talkingwiththepros.com",
+      "rawDesc": "与专业人士对话是一个专注于职业访谈和行业洞察的网站。通过采访各行各业的专业人士，分享他们的职业经历、成功故事和实用建议，为求职者和职场新人提供宝贵的职业指导和行业知识。网站内容涵盖多个行业，帮助用户更好地了解不同职业路径和发展机会。",
+      "cats": [
+        "cool-art"
+      ],
+      "group": "culture",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "http://www.talkingwiththepros.com/"
+      }
+    },
+    {
+      "slug": "findstarlink",
+      "name": "FindStarlink - 实时追踪星链卫星过境时间与位置",
+      "url": "https://findstarlink.com",
+      "rawDesc": "FindStarlink是一个专为天文爱好者设计的卫星追踪工具，提供全球范围的SpaceX星链卫星实时过境预测。用户可通过输入地理位置获取精准的卫星可见时间、方位角和亮度信息，支持自定义观测提醒功能，帮助用户轻松规划星空观测活动。",
+      "cats": [
+        "cool-map"
+      ],
+      "group": "explore-map",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://findstarlink.com/"
+      }
+    },
+    {
+      "slug": "cosdna",
+      "name": "CosDNA化妆品成分查询分析平台",
+      "url": "http://www.cosdna.com/",
+      "rawDesc": "CosDNA是一个专业的化妆品成分分析网站，提供全球化妆品成分查询、安全评估和功效解析服务。用户可通过产品名称或成分名称检索，获取致痘性、刺激性等安全数据，并查看成分的科学解释。网站致力于帮助消费者理性选择护肤品，是美妆爱好者和成分党的必备工具。",
+      "cats": [
+        "life"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 403,
+        "finalUrl": "http://www.cosdna.com/",
+        "note": "受防护"
+      }
+    },
+    {
+      "slug": "play-cs",
+      "name": "Play-CS - 在线反恐精英1.6游戏平台",
+      "url": "https://play-cs.com",
+      "rawDesc": "Play-CS提供基于浏览器的经典反恐精英1.6免费在线体验，无需下载即可通过WebGL技术实现跨平台对战。平台保留原版游戏玩法，包含沙漠Ⅱ、仓库等经典地图，支持全球玩家实时匹配、社区服务器和战绩统计，为怀旧玩家提供便捷的复古射击游戏体验。",
+      "cats": [
+        "cool-game"
+      ],
+      "group": "web-game",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://play-cs.com/"
+      }
+    },
+    {
+      "slug": "alltoall",
+      "name": "Alltoall在线格式转换工具",
+      "url": "https://www.alltoall.net/",
+      "rawDesc": "Alltoall是一个提供400+种格式在线转换的免费工具网站，支持文档、视频、音频、图像、电子书等各类文件格式互转。无需下载软件，即用即走，处理速度快且完全在浏览器端完成，保障用户文件隐私安全。适用于办公、学习、编程等日常格式转换需求。",
+      "cats": [],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://www.alltoall.net/"
+      }
+    },
+    {
+      "slug": "ageeye",
+      "name": "中国历史地图集 - 在线历史地理信息系统",
+      "url": "https://www.ageeye.cn",
+      "rawDesc": "AgeEye是一个专注于中国历史地理信息的在线平台，提供从古至今的动态历史地图浏览和查询服务。用户可通过时间轴查看各朝代疆域变化、地名沿革和行政变迁，支持地名检索、古今对照和地理数据分析，适合历史爱好者、教育研究者和文化工作者使用。",
+      "cats": [
+        "cool-map"
+      ],
+      "group": "explore-map",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://www.ageeye.cn/"
+      }
+    },
+    {
+      "slug": "windy",
+      "name": "Windy - 全球交互式气象预报平台",
+      "url": "https://www.windy.com",
+      "rawDesc": "Windy是一款基于高精度气象数据的全球可视化天气预报平台，提供实时风速、降水、气温等多维度气象图层。支持自定义区域监测与动态预测，广泛应用于航空航海、户外运动及灾害预警领域，以交互式地图和流畅动画呈现专业气象信息。",
+      "cats": [
+        "cool-map"
+      ],
+      "group": "explore-map",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://www.windy.com/"
+      }
+    },
+    {
+      "slug": "answer",
+      "name": "答案之书 - 在线决策与灵感启发工具",
+      "url": "https://proj.warmday.wang/answer",
+      "rawDesc": "答案之书是一个基于传统实体书理念的在线互动工具，为用户提供随机答案和决策建议。通过点击或触摸屏幕，系统会返回一句富有哲理的简短回答，帮助用户打破犹豫、获得灵感或娱乐放松。该网站设计简洁，操作直观，适合需要快速决策或寻求心理安慰的用户使用。",
+      "cats": [
+        "cool-fun"
+      ],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://proj.warmday.wang/answer/"
+      }
+    },
+    {
+      "slug": "100000Stars",
+      "name": "Chrome星星实验：银河系3D可视化探索",
+      "url": "http://stars.chromeexperiments.com",
+      "rawDesc": "Chrome Experiments推出的银河系3D可视化项目，基于NASA和ESA天文数据构建。用户可通过交互式界面探索10万颗恒星的精确位置、光谱类型和距离数据，支持缩放、旋转和多视角观测，是天文教育与科学可视化的创新典范。",
+      "cats": [
+        "cool-map"
+      ],
+      "group": "explore-map",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "http://stars.chromeexperiments.com/"
+      }
+    },
+    {
+      "slug": "envisioningchemistry",
+      "name": "envisioningchemistry | 化学可视化科普平台",
+      "url": "https://www.envisioningchemistry.cn",
+      "rawDesc": "envisioningchemistry.cn是一个专注于化学可视化教育的科普网站，通过3D分子模型、动态反应动画和交互式实验模拟，帮助用户直观理解化学原理与现象。网站内容涵盖基础化学到前沿研究，适合学生、教师和化学爱好者使用，旨在降低化学学习门槛并提升科学传播效果。",
+      "cats": [
+        "cool-study"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://www.envisioningchemistry.cn/"
+      }
+    },
+    {
+      "slug": "nukemap",
+      "name": "核武器爆炸模拟器 - NUKEMAP",
+      "url": "https://nuclearsecrecy.com/nukemap",
+      "rawDesc": "NUKEMAP是一个交互式核爆炸模拟工具，用户可选择不同当量核武器并在地图上模拟爆炸效果，包括冲击波范围、热辐射和放射性沉降。该网站结合历史数据与科学模型，旨在以可视化方式普及核武器威力与后果，适用于教育、研究和公众意识提升。",
+      "cats": [
+        "cool-fun"
+      ],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://nuclearsecrecy.com/nukemap/"
+      }
+    },
+    {
+      "slug": "gallerix",
+      "name": "Gallerix亚洲-世界名画在线博物馆与艺术收藏库",
+      "url": "https://gallerix.asia",
+      "rawDesc": "Gallerix.asia是一个专注于世界名画展示的艺术在线平台，提供超过17万幅高清绘画作品的浏览和搜索服务。网站收录了达芬奇、梵高、毕加索等大师的经典作品，包含详细的作品介绍和艺术家生平资料，适合艺术爱好者、学生和专业研究者进行在线艺术欣赏和学习研究。",
+      "cats": [
+        "cool-art"
+      ],
+      "group": "culture",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://gallerix.asia/"
+      }
+    },
+    {
+      "slug": "uchinoko-maker",
+      "name": "Uchinoko Maker - 可爱卡通角色生成器",
+      "url": "https://uchinoko-maker.jp",
+      "rawDesc": "Uchinoko Maker是一款日本开发的免费在线卡通角色生成工具，用户可以通过组合多种发型、五官、服饰等元素，轻松创建独特的动漫风格虚拟形象。该网站操作简单直观，提供丰富的自定义选项，适合制作头像、社交形象或创意项目角色。无需注册即可使用，生成的形象可下载保存。",
+      "cats": [
+        "cool-fun"
+      ],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://uchinoko-maker.jp/"
+      }
+    },
+    {
+      "slug": "twitch",
+      "name": "Twitch",
+      "url": "https://www.twitch.tv/",
+      "rawDesc": "Twitch是全球领先的实时流媒体直播平台，提供游戏、电竞、音乐、创意等多元内容直播，支持实时互动和社群功能，打造全球最大的直播社区。",
+      "cats": [
+        "cool-game"
+      ],
+      "group": "web-game",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "err",
+        "error": "fetch failed"
+      }
+    },
+    {
+      "slug": "wikiart",
+      "name": "WikiArt",
+      "url": "https://www.wikiart.org",
+      "rawDesc": "WikiArt是全球最大的在线艺术百科全书，收录了超过25万件艺术作品，涵盖3000多位艺术家的作品，提供高清图片浏览和详细的艺术史信息。",
+      "cats": [
+        "cool-art"
+      ],
+      "group": "culture",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://www.wikiart.org/"
+      }
+    },
+    {
+      "slug": "wplace",
+      "name": "Wplace.live",
+      "url": "https://wplace.live/",
+      "rawDesc": "一个基于世界地图的实时协作像素艺术平台，用户可以在4万亿像素的巨大画布上共同创作，支持实时互动和社区协作。",
+      "cats": [
+        "cool-game",
+        "cool-art"
+      ],
+      "group": "web-game",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "err",
+        "error": "fetch failed"
+      }
+    },
+    {
+      "slug": "foldnfly",
+      "name": "Fold &#039;N Fly - 纸飞机折叠指南大全",
+      "url": "https://www.foldnfly.com",
+      "rawDesc": "Fold &#039;N Fly是一个专注于纸飞机设计与折叠教学的免费平台，提供50+种纸飞机图解教程，涵盖基础到高级设计。网站通过分类筛选、视频演示和飞行技巧说明，帮助用户学习空气动力学原理，适合教育娱乐、亲子活动和STEM教学场景使用。",
+      "cats": [
+        "life"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://www.foldnfly.com/"
+      }
+    },
+    {
+      "slug": "spacex",
+      "name": "SpaceX国际空间站对接模拟器",
+      "url": "https://iss-sim.spacex.com",
+      "rawDesc": "SpaceX官方推出的国际空间站对接模拟平台，允许用户通过交互式界面体验载人龙飞船与空间站的对接操作。该网站采用物理引擎模拟真实太空环境，兼具教育意义和娱乐性，适合航天爱好者、学生及教育工作者使用，旨在普及航天知识并展示SpaceX的技术成果。",
+      "cats": [
+        "cool-game"
+      ],
+      "group": "web-game",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://iss-sim.spacex.com/"
+      }
+    },
+    {
+      "slug": "vaporwave",
+      "name": "蒸汽波在线生成器 - 梦幻复古风格文字艺术工具",
+      "url": "https://magiconch.com/vaporwave",
+      "rawDesc": "Magiconch蒸汽波生成器是一款专为蒸汽波美学爱好者设计的在线工具，可将普通文字转换为充满复古未来感的艺术字体。该工具提供多种蒸汽波特色元素，如VHS噪点、故障效果、日语字符和Windows95弹窗等，用户可自定义生成兼具迷幻与怀旧风格的图片，适用于社交媒体头像、海报设计和个人艺术创作。",
+      "cats": [],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://magiconch.com/vaporwave/"
+      }
+    },
+    {
+      "slug": "olorado",
+      "name": "PhET互动模拟：免费物理化学在线科学和数学学习工具",
+      "url": "https://phet.colorado.edu",
+      "rawDesc": "PhET是科罗拉多大学提供的免费互动模拟教学平台，涵盖物理、化学、数学、生物和地球科学等领域。通过游戏化模拟实验，帮助学生直观理解抽象概念，支持多语言和离线使用，适合教师教学和学生自主学习。",
+      "cats": [
+        "cool-study"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://phet.colorado.edu/"
+      }
+    },
+    {
+      "slug": "slowroads",
+      "name": "Slow Roads - 无尽驾驶模拟器",
+      "url": "https://slowroads.io",
+      "rawDesc": "Slow Roads是一款基于浏览器的无尽驾驶模拟器，采用程序生成技术创建无限变化的风景优美的道路。游戏提供轻松舒缓的驾驶体验，支持键盘、手柄和触摸控制，低多边形艺术风格和环境音效让玩家在虚拟旅行中获得放松。",
+      "cats": [
+        "cool-game"
+      ],
+      "group": "web-game",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 403,
+        "finalUrl": "https://slowroads.io/",
+        "note": "受防护"
+      }
+    },
+    {
+      "slug": "10minutEmail",
+      "name": "10分钟邮箱-临时邮箱地址生成工具",
+      "url": "https://10minutEmail.com",
+      "rawDesc": "10MinuteEmail提供免费的临时邮箱服务，自动生成有效期10分钟的一次性邮箱地址。适用于网站注册验证、避免垃圾邮件骚扰和保护真实邮箱隐私。支持邮件内容实时展示和自动销毁，是网络安全和隐私保护的实用工具。",
+      "cats": [
+        "life"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 403,
+        "finalUrl": "https://10minutemail.com/",
+        "note": "受防护"
+      }
+    },
+    {
+      "slug": "360vr-zhijianshang",
+      "name": "指尖上",
+      "url": "https://www.zhijianshang.com/",
+      "rawDesc": "一个提供全球各地360度全景VR观光体验的在线平台，涵盖世界各地著名景点、建筑和文化遗产，让用户足不出户即可身临其境地感受世界各地的美景。",
+      "cats": [
+        "cool-map"
+      ],
+      "group": "explore-map",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://www.zhijianshang.com/"
+      }
+    },
+    {
+      "slug": "theunseenvideo",
+      "name": "The Unseen Video - 探索未公开的独特视频资源",
+      "url": "http://www.theunseenvideo.com",
+      "rawDesc": "The Unseen Video是一个专注于收集和展示世界各地罕见、未公开视频资料的平台。网站收录了大量独家历史影像、幕后花絮和被忽视的纪录片片段，为研究人员、历史爱好者和影视制作人提供独特的视觉资源。所有视频均经过精心整理和分类，确保内容的真实性和稀缺性。",
+      "cats": [
+        "cool-video"
+      ],
+      "group": "media",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "err",
+        "error": "fetch failed"
+      },
+      "drop": "dead",
+      "dropReason": "curl复核: DNS NXDOMAIN, 域名不存在"
+    },
+    {
+      "slug": "bloxd",
+      "name": "bloxd.io - 免费在线沙盒建造游戏",
+      "url": "https://bloxd.io/",
+      "rawDesc": "bloxd.io是一款创新的多人在线沙盒建造游戏，提供像素风格的方块建造体验。玩家可以在开放世界中自由创作建筑、参与小游戏竞赛，并与全球玩家实时互动。游戏支持跨设备浏览器直接运行，无需下载安装，适合各年龄层玩家发挥创造力。",
+      "cats": [
+        "cool-game",
+        "cool-game"
+      ],
+      "group": "web-game",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://bloxd.io/"
+      }
+    },
+    {
+      "slug": "breathingearth",
+      "name": "呼吸地球 - 全球实时人口与碳排放可视化",
+      "url": "http://www.breathingearth.net",
+      "rawDesc": "Breathingearth是一个以动态可视化方式展示全球实时人口变化和二氧化碳排放的公益网站。通过模拟地球呼吸的动画效果，直观呈现各国出生/死亡人数及碳排放速率，帮助用户理解人口与环境压力的关联性，适用于气候变化教育和数据可视化研究。",
+      "cats": [
+        "life"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "http://www.breathingearth.net/"
+      }
+    },
+    {
+      "slug": "hackerTyper",
+      "name": "黑客模拟器 - 在线模拟黑客编程界面",
+      "url": "https://HackerTyper.com",
+      "rawDesc": "HackerTyper.com是一个趣味模拟网站，用户通过敲击键盘实时生成类似黑客编程的屏幕代码滚动效果，支持多种编程语言风格切换和屏幕特效。该网站无需任何技术背景即可体验黑客电影中的编程场景，适合用于影视拍摄、技术演示或娱乐恶搞。",
+      "cats": [
+        "cool-fun"
+      ],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://hackertyper.com/"
+      }
+    },
+    {
+      "slug": "life-saver",
+      "name": "LifeSaver - 互动式急救培训平台",
+      "url": "https://life-saver.org.uk",
+      "rawDesc": "LifeSaver是一款创新的互动式急救培训网站，通过真实场景模拟和分步指导，帮助用户掌握心肺复苏（CPR）等关键急救技能。网站采用视频互动技术，提供沉浸式学习体验，适用于个人、学校及企业急救培训，有效提升应急响应能力。",
+      "cats": [
+        "life"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://life-saver.org.uk/"
+      }
+    },
+    {
+      "slug": "gameofbombs",
+      "name": "Game of Bombs - 在线多人炸弹对战游戏",
+      "url": "http://gameofbombs.com/",
+      "rawDesc": "Game of Bombs是一款基于浏览器的多人实时炸弹对战游戏。玩家通过放置炸弹摧毁障碍物和击败对手，支持即时匹配和全球玩家对战。游戏采用像素风格设计，无需下载即可体验快节奏的竞技乐趣，适合喜欢休闲竞技的玩家群体。",
+      "cats": [
+        "cool-game"
+      ],
+      "group": "web-game",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "err",
+        "error": "fetch failed"
+      },
+      "drop": "dead",
+      "dropReason": "curl复核: DNS NXDOMAIN, 域名不存在"
+    },
+    {
+      "slug": "tunein",
+      "name": "TuneIn - 全球广播电台与播客平台",
+      "url": "http://tunein.com",
+      "rawDesc": "TuneIn是全球领先的音频流媒体服务平台，提供超过10万个实时广播电台和数百万档播客节目。覆盖新闻、音乐、体育、谈话类节目等内容，支持多设备同步收听，包含免费基础服务和高级订阅功能，满足用户全球范围内实时音频内容消费需求。",
+      "cats": [
+        "cool-music"
+      ],
+      "group": "culture",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://tunein.com/"
+      }
+    },
+    {
+      "slug": "yorg",
+      "name": "Yorg.io",
+      "url": "https://www.yorg.io/",
+      "rawDesc": "Yorg.io是一款免费的在线塔防策略游戏，玩家需要建立和管理基地，收集资源，建造防御设施，抵御僵尸的进攻。游戏具有独特的生存和管理元素。",
+      "cats": [
+        "cool-game"
+      ],
+      "group": "web-game",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://www.yorg.io/"
+      }
+    },
+    {
+      "slug": "asoftmurmur",
+      "name": "A Soft Murmur - 环境白噪音生成器",
+      "url": "http://asoftmurmur.com",
+      "rawDesc": "A Soft Murmur 是一个提供可定制环境声音的在线工具，用户可混合雨声、雷声、海浪、风声等多种自然音效，创建个性化背景音。适合工作学习时提升专注度，冥想放松时营造氛围，或作为睡眠辅助工具。网站界面简洁直观，支持实时调整各音效音量比例。",
+      "cats": [
+        "life"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://asoftmurmur.com/"
+      }
+    },
+    {
+      "slug": "factslides",
+      "name": "Fact Slides - 有趣事实分享平台",
+      "url": "http://www.factslides.com",
+      "rawDesc": "Fact Slides是一个收集全球各类有趣事实的知识分享网站，以简洁幻灯片形式呈现科学、历史、动物等领域的冷知识。网站内容短小精悍，适合快速获取有趣信息，兼具教育性和娱乐性，是知识爱好者获取灵感和谈资的优质资源平台。",
+      "cats": [
+        "cool-fun"
+      ],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://factslides.com/"
+      }
+    },
+    {
+      "slug": "papergames",
+      "name": "Paper Games",
+      "url": "https://papergames.io",
+      "rawDesc": "一个提供多种纸笔游戏的在线平台，包括井字棋、战舰、点点连线等经典游戏，支持多人在线对战和单人游戏模式，无需下载即可开始游戏。",
+      "cats": [
+        "cool-game"
+      ],
+      "group": "web-game",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://papergames.io/en/"
+      }
+    },
+    {
+      "slug": "linggle",
+      "name": "Linggle英语语法与搭配查询工具",
+      "url": "http://www.linggle.com",
+      "rawDesc": "Linggle是一款基于自然语言处理技术的英语语法与词汇搭配查询工具，通过分析海量英文语料库数据，帮助用户精准查找词语搭配频率、常用句型结构和语法模式。该网站特别适合英语学习者、教师、翻译人员及学术写作者快速验证表达方式的准确性和地道性。",
+      "cats": [
+        "cool-study"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://www.linggle.com/"
+      }
+    },
+    {
+      "slug": "ipanda",
+      "name": "iPanda熊猫频道",
+      "url": "https://www.ipanda.com",
+      "rawDesc": "iPanda熊猫频道是中国网络电视台（CNTV）旗下的大熊猫专题网站，提供大熊猫24小时直播、新闻资讯、科普知识及相关视频内容，是了解大熊猫生活的重要窗口。",
+      "cats": [
+        "cool-fun"
+      ],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://www.ipanda.com/"
+      }
+    },
+    {
+      "slug": "findarticles",
+      "name": "FindArticles - 学术文章与期刊资源搜索引擎",
+      "url": "http://www.findarticles.com",
+      "rawDesc": "FindArticles是一个专注于聚合学术期刊和杂志文章的搜索引擎，提供数百万篇免费和付费的研究论文资源。网站覆盖科技、商业、医学、人文等多领域内容，支持关键词检索、出版物分类浏览和高级筛选功能，适合研究人员、学生和专业人士快速获取权威学术资料。",
+      "cats": [
+        "cool-study"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://www.findarticles.com/"
+      }
+    },
+    {
+      "slug": "toutai",
+      "name": "头态",
+      "url": "https://toutai.cc",
+      "rawDesc": "头态是一个专业的AI头像生成工具，提供多种风格的AI人物头像制作服务，支持批量生成、自定义风格，让用户轻松创建个性化头像。",
+      "cats": [
+        "life"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://toutai.cc/"
+      }
+    },
+    {
+      "slug": "productgraveyard",
+      "name": "产品坟墓 - 记录那些被淘汰的科技产品",
+      "url": "http://productgraveyard.com",
+      "rawDesc": "产品坟墓网站是一个记录各类已停止服务的数字产品和科技项目的在线档案馆。该网站通过墓碑形式展示每个产品的生卒年份、简介和失败原因，为创业者、产品经理和科技爱好者提供宝贵的商业失败案例研究，帮助用户从历史中学习避免重蹈覆辙。",
+      "cats": [
+        "cool-fun"
+      ],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 403,
+        "finalUrl": "http://productgraveyard.com/",
+        "note": "受防护"
+      }
+    },
+    {
+      "slug": "poetrystrands",
+      "name": "Poetry Strands",
+      "url": "https://poetrystrands.com",
+      "rawDesc": "Poetry Strands是一个专注于诗歌创作和分享的在线平台，为诗歌爱好者提供展示、交流和探索的空间，让诗歌创作变得更加丰富多彩。",
+      "cats": [
+        "cool-study"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://poetrystrands.com/"
+      }
+    },
+    {
+      "slug": "mk48",
+      "name": "MK48.io",
+      "url": "https://mk48.io",
+      "rawDesc": "MK48.io是一个免费的多人在线海战游戏，玩家可以控制各种军舰进行战斗。游戏采用2D俯视视角，具有真实的物理效果和战斗系统。",
+      "cats": [
+        "cool-game"
+      ],
+      "group": "web-game",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://mk48.io/"
+      }
+    },
+    {
+      "slug": "alang",
+      "name": "Happy - 在线音乐播放器",
+      "url": "https://happy.alang.run/",
+      "rawDesc": "Happy是一个简洁优雅的在线音乐播放器，支持网易云、QQ音乐、酷狗、酷我等多平台音乐搜索和播放，无需登录即可免费使用，提供高品质音乐体验。",
+      "cats": [
+        "cool-music"
+      ],
+      "group": "culture",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://happy.alang.run/"
+      }
+    },
+    {
+      "slug": "pano",
+      "name": "故宫博物院全景导览",
+      "url": "https://pano.dpm.org.cn",
+      "rawDesc": "故宫博物院全景导览系统提供紫禁城线上虚拟游览体验，通过高清全景影像技术展示故宫建筑、文物与艺术珍品，让用户足不出户即可领略故宫文化遗产之美。",
+      "cats": [
+        "cool-art"
+      ],
+      "group": "culture",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://pano.dpm.org.cn/"
+      }
+    },
+    {
+      "slug": "colornames",
+      "name": "ColorNames - 颜色命名与色彩灵感平台",
+      "url": "https://colornames.org",
+      "rawDesc": "ColorNames是一个创新的颜色命名社区平台，允许用户为各种颜色创建、发现和投票命名。该网站将HEX颜色代码转换为富有创意的名称，为设计师、艺术家和开发者提供色彩灵感。用户可参与命名投票，探索趋势颜色，并下载调色板，是设计项目和色彩研究的实用工具。",
+      "cats": [],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 403,
+        "finalUrl": "https://colornames.org/",
+        "note": "受防护"
+      }
+    },
+    {
+      "slug": "dialogue",
+      "name": "Dialogue.moe",
+      "url": "https://dialogue.moe",
+      "rawDesc": "Dialogue.moe是一个专注于动漫台词搜索的在线工具，收录了大量动漫作品的经典台词，支持按关键词、角色和作品进行多维度搜索，让用户快速找到心仪的动漫台词。",
+      "cats": [
+        "cool-fun"
+      ],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "err",
+        "error": "fetch failed"
+      }
+    },
+    {
+      "slug": "cherry-ai",
+      "name": "Cherry AI",
+      "url": "https://www.cherry-ai.com/",
+      "rawDesc": "Cherry AI是一个基于人工智能的创意写作助手，可以帮助用户快速生成高质量的文案、故事和各类创意内容，支持多种写作风格和内容类型。",
+      "cats": [
+        "cool-study"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://www.cherryai.com.cn/"
+      }
+    },
+    {
+      "slug": "gptonline",
+      "name": "GPT Online",
+      "url": "https://gptonline.ai/",
+      "rawDesc": "GPT Online是一个免费的AI聊天助手平台，提供基于GPT-3.5的在线对话服务，支持多种语言交流，无需注册即可使用，让用户轻松体验AI对话的乐趣。",
+      "cats": [],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "err",
+        "error": "fetch failed"
+      }
+    },
+    {
+      "slug": "generative-fm",
+      "name": "Generative.fm - 人工智能生成环境音乐平台",
+      "url": "https://generative.fm/",
+      "rawDesc": "Generative.fm是一个基于人工智能算法的交互式音乐生成平台，能够实时创建永不重复的环境音乐。该网站提供多种风格的音乐生成器，适合工作、学习、冥想等场景使用。所有音乐都由算法即时生成，每次聆听都是独特体验，无需用户账号即可免费享受高质量的背景音乐。",
+      "cats": [
+        "cool-music"
+      ],
+      "group": "culture",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://generative.fm/"
+      }
+    },
+    {
+      "slug": "mechanical-library",
+      "name": "机械图书馆",
+      "url": "https://mechanical-library.org/",
+      "rawDesc": "机械图书馆是一个专业的机械工程知识分享平台，提供机械设计、制造、自动化等领域的电子书籍、技术资料、标准规范和教程视频等资源。",
+      "cats": [
+        "cool-fun"
+      ],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://mechanical-library.org/"
+      }
+    },
+    {
+      "slug": "neave",
+      "name": "Neave互动网页实验室",
+      "url": "https://neave.com/",
+      "rawDesc": "Neave.com是一个集合了多种创意互动网页实验的趣味平台，提供包括视觉错觉、声音互动、鼠标特效等数十种即开即玩的网页工具。网站采用极简设计，无需注册即可体验各种数字艺术项目，适合用于休闲娱乐、创意启发和网页技术演示。",
+      "cats": [
+        "cool-game"
+      ],
+      "group": "web-game",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://neave.com/"
+      }
+    },
+    {
+      "slug": "citywalki",
+      "name": "CityWalki",
+      "url": "https://www.citywalki.com/",
+      "rawDesc": "一个在线虚拟城市漫步体验平台，通过街景视频让用户足不出户就能体验世界各地的城市街道和生活氛围，提供沉浸式的城市探索体验。",
+      "cats": [
+        "cool-fun"
+      ],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://www.citywalki.com/"
+      }
+    },
+    {
+      "slug": "keeptrack",
+      "name": "KeepTrack",
+      "url": "https://app.keeptrack.space/",
+      "rawDesc": "一个实时卫星轨道追踪和可视化工具，提供地球轨道上卫星的位置、轨道和状态信息，帮助用户了解和监测太空物体的动态。",
+      "cats": [
+        "cool-study"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://app.keeptrack.space/"
+      }
+    },
+    {
+      "slug": "river-runner-global",
+      "name": "River Runner Global",
+      "url": "https://river-runner-global.samlearner.com/",
+      "rawDesc": "这是一个可视化追踪全球河流流向的地理工具，让用户通过点击地图上的任意位置，追踪水滴从该位置流向大海或内陆盆地的完整路径。",
+      "cats": [
+        "cool-fun"
+      ],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://river-runner-global.samlearner.com/"
+      }
+    },
+    {
+      "slug": "geektyper",
+      "name": "极客模拟器 - 黑客风格打字模拟体验平台",
+      "url": "https://geektyper.com",
+      "rawDesc": "GeekTyper提供逼真的黑客界面模拟体验，用户可通过打字触发各种科幻风格的屏幕特效和代码显示。网站模拟网络安全操作、破解系统等影视级界面，适合用于视频拍摄、活动暖场或个人娱乐，带来沉浸式极客体验。",
+      "cats": [
+        "cool-fun"
+      ],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://geektyper.com/"
+      }
+    },
+    {
+      "slug": "tongliaouniverse",
+      "name": "通辽宇宙",
+      "url": "https://www.tongliaouniverse.cn/",
+      "rawDesc": "通辽宇宙是一个充满恶搞和娱乐的网站，汇集了各种通辽相关的梗图、表情包和文化内容。网站以幽默搞笑的方式展现通辽元素，让用户在轻松愉快的氛围中了解通辽文化。",
+      "cats": [
+        "cool-study"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://www.tongliaouniverse.cn/"
+      }
+    },
+    {
+      "slug": "timelineofearth",
+      "name": "地球时间线 | 可视化地球历史与生命演化",
+      "url": "https://timelineofearth.com",
+      "rawDesc": "该网站通过交互式时间轴可视化地球46亿年的历史，涵盖地质年代、生命演化关键事件和物种灭绝事件。内容结合科学数据与可视化设计，适合教育工作者、学生和科普爱好者探索地球演变历程，支持时间缩放和事件详情查看功能。",
+      "cats": [
+        "cool-map"
+      ],
+      "group": "explore-map",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://timelineofearth.com/"
+      }
+    },
+    {
+      "slug": "tv-garden",
+      "name": "TV Garden",
+      "url": "https://tv.garden/",
+      "rawDesc": "TV Garden是一个在线直播源收集和分享平台，提供全球各地电视频道的直播源链接，支持多种格式播放，让用户可以轻松观看世界各地的电视节目。",
+      "cats": [
+        "cool-video"
+      ],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "err",
+        "error": "fetch failed"
+      }
+    },
+    {
+      "slug": "ilovework",
+      "name": "我爱工作 - 好玩的",
+      "url": "https://ilove.works",
+      "rawDesc": "我爱工作（ilove.works）是一个专注于提供工作效率工具和创意资源的在线平台。",
+      "cats": [
+        "cool-fun"
+      ],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://ilove.works/"
+      }
+    },
+    {
+      "slug": "icealaskaphotos",
+      "name": "Ice Alaska Photos",
+      "url": "https://www.icealaskaphotos.com/",
+      "rawDesc": "Ice Alaska Photos是一个专业的阿拉斯加冰雕摄影网站，展示了世界级冰雕艺术家在阿拉斯加费尔班克斯创作的精美冰雕作品，记录了冰雕艺术的魅力与创作过程。",
+      "cats": [
+        "cool-art"
+      ],
+      "group": "culture",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://www.icealaskaphotos.com/"
+      }
+    },
+    {
+      "slug": "ptable",
+      "name": "Ptable互动式元素周期表",
+      "url": "https://ptable.com",
+      "rawDesc": "Ptable是一个功能强大的互动式元素周期表网站，提供详细的元素属性数据、电子排布、同位素信息及可视化趋势。支持多语言切换和打印友好模式，适合化学学习者、教师和科研人员快速查询元素特性，是免费且无需注册的在线化学学习工具。",
+      "cats": [
+        "cool-study"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://ptable.com/"
+      }
+    },
+    {
+      "slug": "calculatingempires",
+      "name": "大型历史研究可视化",
+      "url": "https://calculatingempires.net/",
+      "rawDesc": "Calculating Empires是一个由凯特·克劳福德和弗拉基米尔·斯图乔夫创建的大型历史研究可视化项目。它通过交互式地图和时间线，追溯了从1500年至今的技术与权力交织的历史，揭示了计算技术、通信系统与社会控制之间的深层联系，为理解技术社会史提供了独特的宏观视角。",
+      "cats": [
+        "cool-study"
+      ],
+      "group": "curio-tool",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://calculatingempires.net/"
+      }
+    },
+    {
+      "slug": "howbigisspace",
+      "name": "太空有多大",
+      "url": "https://www.secaibi.com/howbigisspace/",
+      "rawDesc": "一个通过滚动交互体验宇宙尺度的可视化项目，从地球表面开始，带领用户探索从大气层到深空的壮丽旅程，直观展现太空的浩瀚与人类探索的成就。",
+      "cats": [
+        "cool-fun"
+      ],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://www.secaibi.com/howbigisspace/"
+      }
+    },
+    {
+      "slug": "guangbomi",
+      "name": "广播迷",
+      "url": "http://guangbomi.com/",
+      "rawDesc": "广播迷是一个基于人工智能的在线广播平台，致力于为用户提供全球任意国家的电台收听服务。通过智能推荐和分类，用户可以轻松探索世界各地的音乐、新闻和文化节目，无需下载即可在线播放。平台界面简洁，操作便捷，是了解异国文化和学习语言的理想工具。",
+      "cats": [],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "http://guangbomi.com/"
+      }
+    },
+    {
+      "slug": "grabient",
+      "name": "Grabient - 在线CSS渐变生成器",
+      "url": "https://www.grabient.com",
+      "rawDesc": "Grabient是一款免费的在线CSS渐变生成工具，提供可视化编辑界面和预设渐变模板。用户可自定义角度、颜色及透明度，实时预览并一键复制CSS代码，极大提升网页背景和UI设计的效率，适合设计师和前端开发者使用。",
+      "cats": [],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 403,
+        "finalUrl": "https://grabient.com/",
+        "note": "受防护"
+      }
+    },
+    {
+      "slug": "picrew",
+      "name": "Picrew",
+      "url": "https://picrew.me",
+      "rawDesc": "Picrew是一个在线头像制作平台，用户可以使用各种创作者制作的素材模板，自由创作和定制个性化的头像形象。平台支持多样化的创作风格，从动漫到写实风格都有覆盖。",
+      "cats": [
+        "cool-fun"
+      ],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://picrew.me/ja"
+      }
+    },
+    {
+      "slug": "gridzzly",
+      "name": "Gridzzly - 自定义网格纸生成工具",
+      "url": "https://www.gridzzly.com",
+      "rawDesc": "Gridzzly是一个免费的在线网格纸生成工具，允许用户自定义网格类型（点阵、方格、线条等）、间距和颜色，并支持直接打印或保存为PDF。该工具适用于学生、设计师、工程师等需要精确绘图的场景，提供简洁易用的界面和实时预览功能。",
+      "cats": [],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://www.gridzzly.com/"
+      }
+    },
+    {
+      "slug": "gongheguozhihui",
+      "name": "共和国之辉",
+      "url": "https://www.gongheguozhihui.com/",
+      "rawDesc": "一款基于WebGL技术的红色警戒2网页版游戏，无需下载即可在线玩，支持多平台访问，提供实时多人对战和单人游戏模式",
+      "cats": [
+        "cool-game"
+      ],
+      "group": "web-game",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 200,
+        "finalUrl": "https://www.gongheguozhihui.com/"
+      }
+    },
+    {
+      "slug": "passportindex",
+      "name": "护照指数 - 全球护照排名与免签查询工具",
+      "url": "https://www.passportindex.org",
+      "rawDesc": "护照指数是一个提供全球护照实时排名和免签目的地查询的权威平台。网站通过可视化数据对比各国护照的旅行自由度，分析签证政策变化，并为用户提供个性化护照实力评估工具，适合旅行者、移民顾问和国际商务人士使用。",
+      "cats": [],
+      "group": "fun-web",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 403,
+        "finalUrl": "https://www.passportindex.org/",
+        "note": "受防护"
+      }
+    },
+    {
+      "slug": "Temple-Run",
+      "name": "神庙逃亡在线版",
+      "url": "https://tr.heheda.top/",
+      "rawDesc": "一个无需下载的在线神庙逃亡游戏平台，支持手机和PC端，提供经典跑酷游戏体验，操作简单，画面流畅，完美还原经典玩法。",
+      "cats": [
+        "cool-game"
+      ],
+      "group": "web-game",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "alive",
+        "http": 206,
+        "finalUrl": "https://tr.heheda.top/"
+      }
+    },
+    {
+      "slug": "xslist-org",
+      "name": "XSList",
+      "url": "https://xslist.org/",
+      "rawDesc": "XSList是一个专注于日本成人影片女演员信息查询的数据库网站。它提供详细的演员个人资料、身体测量数据、作品列表及职业生涯信息，帮助用户快速识别和了解特定女演员。网站通过智能数据整合，为用户提供了一个全面的信息查询平台。",
+      "cats": [
+        "cool-art"
+      ],
+      "group": "culture",
+      "failed": false,
+      "reason": "",
+      "probe": {
+        "status": "err",
+        "error": "fetch failed"
+      }
+    }
+  ],
+  "failed": []
+}

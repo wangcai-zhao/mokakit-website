@@ -1,0 +1,49 @@
+---
+import { SITE } from '@/config/site';
+
+/**
+ * 广告位占位容器。
+ *
+ * ⚠️ 关键：无论广告是否开启，容器都必须占据固定高度。
+ * 广告异步插入导致的内容跳动（CLS）是广告站性能分数的头号杀手，
+ * 也直接影响 Core Web Vitals 排名。
+ *
+ * SITE.ads.enabled 为 false 时只保留空间不请求广告，
+ * 这样上线初期无广告，后期开启也不会导致布局变化。
+ */
+interface Props {
+  /** 广告位标识，用于后台区分位置 */
+  slot: string;
+  /** 尺寸预设 */
+  format?: 'banner' | 'rectangle' | 'leaderboard';
+  class?: string;
+}
+
+const { slot, format = 'banner', class: className = '' } = Astro.props;
+
+const SIZES = {
+  banner: 'min-h-[100px] md:min-h-[90px]',
+  rectangle: 'min-h-[250px]',
+  leaderboard: 'min-h-[90px] md:min-h-[90px]',
+} as const;
+
+const show = SITE.ads.enabled && SITE.ads.adsenseClient;
+---
+
+<div
+  class:list={['w-full', SIZES[format], className]}
+  data-ad-slot={slot}
+  aria-hidden={!show}
+>
+  {
+    show ? (
+      <ins
+        class="adsbygoogle block w-full"
+        data-ad-client={SITE.ads.adsenseClient}
+        data-ad-slot={slot}
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      />
+    ) : null
+  }
+</div>

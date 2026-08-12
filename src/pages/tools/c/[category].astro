@@ -1,0 +1,74 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ToolCard from '@/components/ToolCard.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import Icon from '@/components/Icon.astro';
+import { CATEGORIES, getCategory } from '@/config/categories';
+import { getToolsOf } from '@/tools/registry';
+import { breadcrumbLd, itemListLd, type Crumb } from '@/utils/jsonld';
+
+/** 只为有工具的分类生成页面，避免产生空页面被判低质 */
+export function getStaticPaths() {
+  return CATEGORIES.filter((c) => getToolsOf(c.id).length > 0).map((c) => ({
+    params: { category: c.slug },
+    props: { categoryId: c.id },
+  }));
+}
+
+const { categoryId } = Astro.props as { categoryId: string };
+const category = getCategory(categoryId);
+const tools = getToolsOf(categoryId);
+const url = `/tools/c/${category.slug}/`;
+
+const crumbs: Crumb[] = [
+  { name: '首页', url: '/' },
+  { name: '工具', url: '/tools/' },
+  { name: category.name, url },
+];
+
+const jsonLd = [
+  breadcrumbLd(crumbs),
+  itemListLd(
+    tools.map((t) => ({
+      name: t.name,
+      url: `/tools/${t.id}/`,
+      description: t.tagline,
+    })),
+  ),
+];
+---
+
+<BaseLayout
+  title={category.seoTitle ?? `${category.name}工具`}
+  description={`${category.desc}。共 ${tools.length} 个免费在线工具，无需下载安装，打开即用。`}
+  path={url}
+  jsonLd={jsonLd}
+>
+  <div class="mx-auto max-w-6xl px-4 py-5">
+    <Breadcrumb crumbs={crumbs} />
+
+    <header class="mt-4 mb-6 flex items-start gap-3">
+      <span
+        class="grid place-items-center w-11 h-11 shrink-0 rounded-xl bg-primary/10 text-primary"
+      >
+        <Icon name={category.icon} size={22} />
+      </span>
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-bold">
+          {category.seoTitle ?? category.name}
+        </h1>
+        <p class="text-sm opacity-70 mt-1">{category.desc}</p>
+      </div>
+    </header>
+
+    <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {tools.map((t) => <ToolCard tool={t} />)}
+    </div>
+
+    <div class="mt-8">
+      <a href="/tools/" class="text-sm text-primary hover:underline">
+        ← 查看全部工具
+      </a>
+    </div>
+  </div>
+</BaseLayout>

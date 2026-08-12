@@ -1,0 +1,35 @@
+## MCP 配置生成原理
+
+按 MCP 规范（stdio / HTTP+SSE）生成客户端所需的 JSON 配置，填入命令、参数、环境变量或服务端地址
+
+输出符合 Claude / Cursor 等客户端约定的 mcp.json
+
+## 这个工具能做什么
+
+- 生成 stdio 与 HTTP/SSE 类型的 MCP 配置
+- 填入命令、参数、环境变量
+- 复制或下载配置
+
+## 怎么使用（输入说明）
+
+1. **选类型**：stdio（本地进程）或 HTTP/SSE（远程）。
+2. **填参数**：命令、参数、env 或远端 URL。
+3. **生成**：得到 mcp.json，粘贴进客户端配置。
+
+## stdio 和 HTTP/SSE 区别
+
+stdio 由客户端本地拉起一个进程通信，适合本机工具；HTTP/SSE 连接远端 MCP 服务，适合团队共享。前者零网络、后者可集中部署。
+
+## 计算实例
+
+例：stdio 配置填 "npx -y some-mcp"，客户端启动即加载该工具。
+
+## 常见问题 FAQ
+
+**Q：生成的 mcp.json 放在哪里？**
+
+A：WorkBuddy 的 MCP 配置文件是用户主目录下的 ~/.workbuddy/mcp.json。把生成的 \{"mcpServers": \{...\}\} 内容合并进该文件的 mcpServers 字段即可，新服务器不会覆盖已有配置。
+
+**Q：stdio 和 HTTP/SSE 类型有什么区别？**
+
+A：本工具生成的是最常见的 stdio 类型（本地用命令启动）。若你接入的是远程 HTTP/SSE 服务，需改用 url 字段，可参考官方文档手动调整。

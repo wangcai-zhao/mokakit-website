@@ -1,0 +1,30 @@
+---
+import Icon from './Icon.astro';
+import type { Crumb } from '@/utils/jsonld';
+
+interface Props {
+  crumbs: Crumb[];
+}
+const { crumbs } = Astro.props;
+---
+
+<nav aria-label="面包屑导航" class="text-sm">
+  <ol class="flex flex-wrap items-center gap-1 opacity-70">
+    {
+      crumbs.map((c, i) => (
+        <li class="flex items-center gap-1">
+          {i > 0 && <Icon name="chevronRight" size={14} class="opacity-50" />}
+          {i === crumbs.length - 1 ? (
+            <span aria-current="page" class="opacity-100 font-medium">
+              {c.name}
+            </span>
+          ) : (
+            <a href={c.url} class="hover:text-primary transition-colors">
+              {c.name}
+            </a>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>

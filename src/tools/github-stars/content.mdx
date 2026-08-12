@@ -1,0 +1,101 @@
+import { REPOS, DIMS, CAPTURED_AT, repoUrl, kfmt, reposOfDim } from './data';
+import { goUrl } from '@/utils/outbound';
+
+export const top20 = REPOS.slice(0, 20);
+
+## 这份榜单是怎么来的
+
+GitHub 上有几亿个仓库，但真正值得放进收藏夹的其实屈指可数。这份榜单通过 GitHub 官方 Search API，按 `sort=stars` 从 15 个主题方向分别抓取头部项目，去重后保留了 {REPOS.length} 个仓库，数据采集于 {CAPTURED_AT}。
+
+采集时做了两件事来保证质量：**自动排除已归档（archived）的仓库**，因为它们已经明确停止维护；**保留每个项目的最后推送时间**，让你能一眼看出这个项目还活着没有。
+
+## 全站 star 排行 Top 20
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>项目</th>
+      <th>Star</th>
+      <th>语言</th>
+    </tr>
+  </thead>
+  <tbody>
+    {top20.map((r, i) => (
+      <tr>
+        <td>{i + 1}</td>
+        <td>
+          <a href={goUrl(repoUrl(r))} target="_blank" rel="nofollow noopener">{r.f}</a>
+          <br />
+          <span style="opacity:.7;font-size:.85em">{r.d}</span>
+        </td>
+        <td>{kfmt(r.s)}</td>
+        <td>{r.l || '—'}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+看完这个榜单会发现一个有意思的现象：**排在最前面的几乎都不是「软件」**。`build-your-own-x`、`awesome`、`public-apis`、`free-programming-books` 这类项目本质上是精心整理的清单和教程，它们的 star 数远超 React、Vue 这样真正支撑起整个前端生态的框架。
+
+这不是评价体系出了问题，而是 star 这个动作本身的含义决定的——**star 更接近「收藏」而非「投票」**。一份清单人人都可能顺手存一下，而一个数据库驱动只有真正用到的人才会关注。
+
+## 15 个采集方向
+
+<table>
+  <thead>
+    <tr>
+      <th>方向</th>
+      <th>收录</th>
+      <th>说明</th>
+      <th>榜首</th>
+    </tr>
+  </thead>
+  <tbody>
+    {DIMS.map((d) => {
+      const list = reposOfDim(d.id);
+      return (
+        <tr>
+          <td><a href={`/tools/github-stars/${d.id}/`}>{d.name}</a></td>
+          <td>{list.length}</td>
+          <td>{d.intro}</td>
+          <td>{list[0] ? `${list[0].n} ★${kfmt(list[0].s)}` : '—'}</td>
+        </tr>
+      );
+    })}
+  </tbody>
+</table>
+
+## 怎么用 star 数判断一个项目
+
+star 数是个有用但容易误导的指标。下面几条经验能帮你避开大部分坑。
+
+### 先看最后更新时间，再看 star
+
+一个 5 万 star 但两年没提交的项目，实用价值往往不如一个 3 千 star 但每周都有 commit 的项目。前端和 AI 领域尤其如此——依赖链更新快，长期不维护的库很快就会在新版本 Node 或 Python 下装不上。本工具提供了「近 3 个月 / 近半年 / 近 1 年更新」三档活跃度筛选，建议默认打开。
+
+### star/fork 比例能透露项目类型
+
+fork 数相对 star 数越高，说明越多人真的把代码拉下来改过，通常是**工程型项目**；fork 极少而 star 极高的，多半是**阅读型项目**（教程、清单、面试题）。两者没有优劣，但用途完全不同——别指望一个 awesome 列表能直接跑起来。
+
+### star 增长曲线比绝对值更有信息量
+
+绝对 star 数受项目年龄影响很大。一个 2015 年的老项目攒到 3 万 star 很正常，而一个 2025 年才发布就冲到 3 万的，说明它踩中了真实需求。可惜 Search API 不返回增长曲线，需要到仓库页的 Insights 里看，或者借助 star-history 这类第三方服务。
+
+### 警惕「刷星」项目
+
+star 是可以买的。判断方法：看 star 用户的画像是否正常（大量无头像、无仓库、注册时间接近的账号）、issue 区是否有真实讨论、README 之外是否有实质代码。一个 star 数与社区活跃度严重不匹配的项目，值得多留个心眼。
+
+## 常见使用场景
+
+**技术选型时横向对比。** 比如要做 RAG，切到「RAG 知识库」方向就能看到 dify、open-webui、langchain 等主流方案的 star 量级和活跃度，一屏之内做完初筛。
+
+**找自托管替代品。** 「自托管服务」方向收录的都是能部署在自己服务器上的开源项目，从相册（immich）到监控（uptime-kuma）到 PDF 处理（Stirling-PDF），数据完全自己掌控。
+
+**建个人技术雷达。** 用收藏功能把感兴趣的项目标记出来，导出成 Markdown 表格贴进自己的笔记，定期回看哪些真正用上了。收藏数据只存在浏览器本地，不上传服务器。
+
+## 数据说明与免责
+
+本榜单为**快照式数据**，不是实时同步。star 数每天都在变化，页面显示的是采集时刻的数值。收录范围受采集维度和 star 门槛限制，不代表 GitHub 全量排名，也不构成任何技术选型建议——列在这里只说明它受关注，不说明它适合你的场景。
+
+所有外链均指向 GitHub 官方仓库地址，本站不托管、不分发任何项目代码。

@@ -1,0 +1,91 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ToolCard from '@/components/ToolCard.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import Icon from '@/components/Icon.astro';
+import { SITE } from '@/config/site';
+import { getToolsByCategory, INDEXABLE_TOOLS } from '@/tools/registry';
+import { breadcrumbLd, itemListLd, type Crumb } from '@/utils/jsonld';
+
+const groups = getToolsByCategory();
+const total = INDEXABLE_TOOLS.length;
+
+const crumbs: Crumb[] = [
+  { name: '首页', url: '/' },
+  { name: '全部工具', url: '/tools/' },
+];
+
+const jsonLd = [
+  breadcrumbLd(crumbs),
+  itemListLd(
+    INDEXABLE_TOOLS.map((t) => ({
+      name: t.name,
+      url: `/tools/${t.id}/`,
+      description: t.tagline,
+    })),
+  ),
+];
+---
+
+<BaseLayout
+  title="全部在线工具"
+  description={`${SITE.nameCn}收录的全部免费在线工具，涵盖换算转换、文本处理、安全加密、计算工具等分类，无需下载安装，打开即用。`}
+  path="/tools/"
+  jsonLd={jsonLd}
+>
+  <div class="mx-auto max-w-6xl px-4 py-5">
+    <Breadcrumb crumbs={crumbs} />
+
+    <header class="mt-4 mb-6">
+      <h1 class="text-2xl sm:text-3xl font-bold">全部工具</h1>
+      <p class="text-sm opacity-70 mt-1.5">
+        共 {total} 个工具，全部免费、免注册，在浏览器本地运行。
+      </p>
+    </header>
+
+    {
+      groups.length > 1 && (
+        <nav class="flex flex-wrap gap-2 mb-7" aria-label="分类快捷跳转">
+          {groups.map((g) => (
+            <a
+              href={`#cat-${g.category.id}`}
+              class="px-3 py-1.5 rounded-lg bg-base-100 border border-base-300 text-sm hover:border-primary hover:text-primary transition-colors"
+            >
+              {g.category.name}
+              <span class="opacity-50 ml-1">{g.tools.length}</span>
+            </a>
+          ))}
+        </nav>
+      )
+    }
+
+    {
+      groups.length === 0 && (
+        <div class="text-center py-16 opacity-60">工具正在陆续上线，敬请期待。</div>
+      )
+    }
+
+    {
+      groups.map((g) => (
+        <section id={`cat-${g.category.id}`} class="mb-9 scroll-mt-20">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="grid place-items-center w-7 h-7 rounded-lg bg-primary/10 text-primary">
+              <Icon name={g.category.icon} size={16} />
+            </span>
+            <h2 class="text-lg font-bold">
+              <a href={`/tools/c/${g.category.slug}/`} class="hover:text-primary">
+                {g.category.name}
+              </a>
+            </h2>
+          </div>
+          <p class="text-sm opacity-60 mb-3 pl-9">{g.category.desc}</p>
+          <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {g.tools.map((t) => (
+              <ToolCard tool={t} />
+            ))}
+          </div>
+        </section>
+      ))
+    }
+  </div>
+</BaseLayout>

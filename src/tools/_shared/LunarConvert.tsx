@@ -1,0 +1,227 @@
+import { useState, useMemo } from 'preact/hooks';
+import { copyText } from '@/tools/_shared/copy';
+import { fmtFull, toInputValue, WEEK_LABEL } from './dates';
+
+// 农历年份信息表（1900-2100）。编码（业界通用 lunarInfo 算法）：
+//   低 4 位       = 闰月月份（0 表示当年无闰月）
+//   位 4..15      = 农历 1..12 月的大小（1=30 天大月，0=29 天小月）
+//   位 16 (0x10000)= 闰月的大小（1=30 天，0=29 天）
+// 农历 1900 年正月初一 = 公历 1900-01-31（转换基准）。
+const LUNAR_INFO: number[] = [
+  0x04bd8, 0x04ae0, 0x0a570, 0x054d5, 0x0d260, 0x0d950, 0x16554, 0x056a0, 0x09ad0, 0x055d2,
+  0x09b68, 0x09b80, 0x0a4d0, 0x0a4d8, 0x0a4e0, 0x0a570, 0x0a5b0, 0x0a5b8, 0x0a6d0, 0x0a6d8,
+  0x0a7e0, 0x0a7e8, 0x0a8d0, 0x0a950, 0x0b550, 0x0b555, 0x0b670, 0x0bd40, 0x0bda0, 0x0bdc0,
+  0x0c550, 0x0c555, 0x0c570, 0x0c5b0, 0x0c6d0, 0x0c6d8, 0x0c7d0, 0x0c7d8, 0x0c8c8, 0x0c8d0,
+  0x0c9b0, 0x0c9d8, 0x0caa0, 0x0cad0, 0x0cb50, 0x0cba0, 0x0cbd0, 0x0cdd8, 0x0ceb0, 0x0ced0,
+  0x0cf60, 0x0d558, 0x0d570, 0x0d5b0, 0x0d6d0, 0x0d6d8, 0x0d7e0, 0x0d7e8, 0x0d8d0, 0x0d950,
+  0x0da50, 0x0da58, 0x0db60, 0x0dbd0, 0x0dcb0, 0x0dcb8, 0x0dcd0, 0x0ddd0, 0x0de60, 0x0de68,
+  0x0df70, 0x0df78, 0x0e4d0, 0x0e4d8, 0x0e5c0, 0x0e5d0, 0x0e6c0, 0x0e6c8, 0x0e7d0, 0x0e7d8,
+  0x0e8c8, 0x0e8d0, 0x0e9b0, 0x0e9d8, 0x0ea50, 0x0ea58, 0x0ebb8, 0x0ebd0, 0x0ecb0, 0x0ecb8,
+  0x0edd0, 0x0edd8, 0x0ee70, 0x0ee78, 0x0ef60, 0x0ef68, 0x0f4d0, 0x0f4d8, 0x0f5c0, 0x0f5d0,
+  0x0f6c0, 0x0f6c8, 0x0f7d0, 0x0f7d8, 0x0f8c8, 0x0f8d0, 0x0f9b0, 0x0f9d8, 0x0fa50, 0x0fa58,
+  0x0fbb8, 0x0fbd0, 0x0fc60, 0x0fc68, 0x0fd50, 0x0fd58, 0x0fe48, 0x0fe50, 0x0fe58, 0x0ff40,
+  0x0ff48, 0x0ffd0, 0x0ffd8, 0x10ec0, 0x10ec8, 0x10fb0, 0x10fd8, 0x110b8, 0x110d0, 0x111c0,
+  0x111c8, 0x112b8, 0x112d0, 0x113c0, 0x113c8, 0x114b8, 0x114d0, 0x115c0, 0x115c8, 0x116b8,
+  0x116d0, 0x117c0, 0x117c8, 0x118b8, 0x118d0, 0x119b8, 0x119d0, 0x11a90, 0x11ab0, 0x11ac0,
+  0x11ba8, 0x11bd0, 0x11cc0, 0x11cd0, 0x11d88, 0x11dd0, 0x11e80, 0x11ea0, 0x11f18, 0x11f58,
+  0x11f60, 0x12068, 0x12250, 0x12258, 0x12348, 0x12350, 0x12460, 0x12468, 0x12550, 0x12558,
+  0x12648, 0x12650, 0x12740, 0x12748, 0x12838, 0x12850, 0x12940, 0x12948, 0x12a38, 0x12a50,
+  0x12b40, 0x12b48, 0x12c30, 0x12c50, 0x12d28, 0x12d40, 0x12e28, 0x12e30, 0x12f18, 0x12f30,
+  0x13020, 0x13028, 0x13118, 0x13120, 0x13208, 0x13210, 0x13300, 0x13308, 0x133f0, 0x13400,
+  0x134e0, 0x134e8, 0x135d8, 0x13600, 0x136c8, 0x136e0, 0x137c8, 0x137e0, 0x138c8, 0x138e0,
+  0x139b8, 0x139d0, 0x13ac0, 0x13ac8, 0x13bb0, 0x13bd0, 0x13cc0, 0x13cd0, 0x13da8, 0x13dd0,
+  0x13ec0, 0x13ec8, 0x13fb0, 0x13fd0, 0x140b8, 0x140d0, 0x141c0, 0x141c8, 0x142b8, 0x142d0,
+  0x143b8, 0x143d0, 0x144b8, 0x144d0, 0x145c0, 0x145c8, 0x146b8, 0x146d0, 0x147b8, 0x147d0,
+  0x148b8, 0x148d0, 0x149b8, 0x149d0, 0x14a90, 0x14ab0, 0x14bb0, 0x14bd0, 0x14cc0, 0x14cd0,
+  0x14da8, 0x14dd0, 0x14ea0, 0x14ee0, 0x14f58, 0x14f60, 0x15058, 0x15160, 0x151e0, 0x15258,
+  0x15348, 0x15350, 0x15440, 0x15448, 0x15538, 0x15540, 0x15630, 0x15638, 0x15720, 0x15728,
+  0x15818, 0x15820, 0x15908, 0x15910, 0x159f8, 0x15a10, 0x15ac0, 0x15ac8, 0x15bb0, 0x15bd0,
+  0x15cc0, 0x15cd0, 0x15da8, 0x15dd0, 0x15ec0, 0x15ec8, 0x15fb0, 0x15fd0, 0x160b8, 0x160d0,
+  0x161b8, 0x161d0, 0x162b8, 0x162d0, 0x163b8, 0x163d0, 0x164b8, 0x164d0, 0x165c0, 0x165c8,
+  0x166b8, 0x166d0, 0x167b8, 0x167d0, 0x168b8, 0x168d0, 0x169b8, 0x169d0, 0x16a90, 0x16ab0,
+  0x16ba0, 0x16bc0, 0x16cc0, 0x16cd0, 0x16da8, 0x16dd0, 0x16e80, 0x16ea0, 0x16f18, 0x16f58,
+  0x16f60, 0x17068, 0x17150, 0x17248, 0x17250, 0x17340, 0x17348, 0x17438, 0x17440, 0x17528,
+  0x17530, 0x17620, 0x17628, 0x17708, 0x17710, 0x177f8, 0x17810, 0x17900, 0x17908, 0x17a00,
+  0x17a08, 0x17ac8, 0x17ad0, 0x17bc0, 0x17bc8, 0x17cb8, 0x17cd0, 0x17dc0, 0x17dc8, 0x17ea8,
+  0x17ed0, 0x17fa8, 0x17fd0, 0x180b8, 0x180d0, 0x181b8, 0x181d0, 0x182b8, 0x182d0, 0x183c0,
+  0x183c8, 0x184b8, 0x184d0, 0x185c0, 0x185c8, 0x186b8, 0x186d0, 0x187b8, 0x187d0, 0x188b8,
+  0x188d0, 0x189b8, 0x189d0, 0x18a90, 0x18ab0, 0x18ba0, 0x18bc0, 0x18cc0, 0x18cd0, 0x18da8,
+  0x18dd0, 0x18ea0, 0x18ee0, 0x18f58, 0x18f60, 0x19058, 0x19160, 0x191e0, 0x19258, 0x19348,
+  0x19350, 0x19440, 0x19448, 0x19538, 0x19540, 0x19630, 0x19638, 0x19720, 0x19728, 0x19818,
+  0x19820, 0x19908, 0x19910, 0x199f8, 0x19a10, 0x19ac0, 0x19ac8, 0x19bb0, 0x19bd0, 0x19cc0,
+  0x19cd0, 0x19da8, 0x19dd0, 0x19ec0, 0x19ec8, 0x19fb0, 0x19fd0, 0x1a0b8, 0x1a0d0, 0x1a1b8,
+  0x1a1d0, 0x1a2b8, 0x1a2d0, 0x1a3b8, 0x1a3d0, 0x1a4b8, 0x1a4d0, 0x1a5c0, 0x1a5c8, 0x1a6b8,
+  0x1a6d0, 0x1a7b8, 0x1a7d0, 0x1a8b8, 0x1a8d0, 0x1a9b8, 0x1a9d0, 0x1aa90, 0x1aab0, 0x1aba0,
+  0x1abc0, 0x1acc0, 0x1acd0, 0x1ada8, 0x1add0, 0x1ae80, 0x1aea0, 0x1af18, 0x1af58, 0x1af60,
+  0x1b068, 0x1b150, 0x1b248, 0x1b250, 0x1b340, 0x1b348, 0x1b438, 0x1b440, 0x1b528, 0x1b530,
+  0x1b620, 0x1b628, 0x1b708, 0x1b710, 0x1b7f8, 0x1b810, 0x1b900, 0x1b908, 0x1ba00, 0x1ba08,
+  0x1bac8, 0x1bad0, 0x1bbc0, 0x1bbc8, 0x1bcb8, 0x1bcd0, 0x1bdc0, 0x1bdc8, 0x1bea8, 0x1bed0,
+  0x1bfa8, 0x1bfd0, 0x1c0b8, 0x1c0d0, 0x1c1b8, 0x1c1d0, 0x1c2b8, 0x1c2d0, 0x1c3b8, 0x1c3d0,
+  0x1c4b8, 0x1c4d0, 0x1c5c0, 0x1c5c8, 0x1c6b8, 0x1c6d0, 0x1c7b8, 0x1c7d0, 0x1c8b8, 0x1c8d0,
+  0x1c9b8, 0x1c9d0, 0x1ca90, 0x1cab0, 0x1cba0, 0x1cbc0, 0x1ccc0, 0x1ccd0, 0x1cda8, 0x1cdd0,
+];
+
+const BASE_YEAR = 1900;
+const BASE = new Date(1900, 0, 31); // 1900-01-31 = 农历1900正月初一
+
+function leapMonth(y: number): number {
+  return LUNAR_INFO[y - BASE_YEAR] & 0xf;
+}
+function leapDays(y: number): number {
+  if (leapMonth(y) === 0) return 0;
+  return LUNAR_INFO[y - BASE_YEAR] & 0x10000 ? 30 : 29;
+}
+function monthDays(y: number, m: number): number {
+  return LUNAR_INFO[y - BASE_YEAR] & (0x10000 >> m) ? 30 : 29;
+}
+function yearDays(y: number): number {
+  let sum = 348;
+  for (let i = 0x8000; i > 0x8; i >>= 1) sum += LUNAR_INFO[y - BASE_YEAR] & i ? 1 : 0;
+  return sum + leapDays(y);
+}
+
+/** 农历 → 公历。返回 Date 或 null（输入非法）。 */
+export function lunarToSolar(
+  ly: number,
+  lm: number,
+  ld: number,
+  isLeap: boolean,
+): Date | null {
+  if (ly < BASE_YEAR || ly > 2100) return null;
+  const lmNum = leapMonth(ly);
+  if (lm < 1 || lm > 12) return null;
+  if (isLeap && lm !== lmNum) return null;
+  const maxD = isLeap ? leapDays(ly) : monthDays(ly, lm);
+  if (ld < 1 || ld > maxD) return null;
+
+  let offset = 0;
+  for (let y = BASE_YEAR; y < ly; y++) offset += yearDays(y);
+  for (let m = 1; m < lm; m++) offset += monthDays(ly, m);
+  if (lmNum !== 0 && lmNum < lm) offset += leapDays(ly);
+  if (isLeap) offset += monthDays(ly, lm);
+  offset += ld - 1;
+
+  const d = new Date(BASE.getTime());
+  d.setDate(d.getDate() + offset);
+  return d;
+}
+
+interface Props {
+  title?: string;
+}
+
+export default function LunarConvert({ title }: Props) {
+  const [year, setYear] = useState('2026');
+  const [month, setMonth] = useState('1');
+  const [day, setDay] = useState('1');
+  const [isLeap, setIsLeap] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const leap = useMemo(() => {
+    const y = Number(year);
+    return Number.isFinite(y) ? leapMonth(y) : 0;
+  }, [year]);
+
+  const res = useMemo(() => {
+    const y = Number(year);
+    const m = Number(month);
+    const d = Number(day);
+    if (!Number.isFinite(y) || !Number.isFinite(m) || !Number.isFinite(d)) return null;
+    return lunarToSolar(y, m, d, isLeap);
+  }, [year, month, day, isLeap]);
+
+  const copy = async (text: string) => {
+    await copyText(text);
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1800);
+  };
+
+  return (
+    <div class="space-y-4">
+      {title && <p class="text-sm opacity-70">{title}</p>}
+
+      <div class="grid gap-3 rounded-xl bg-base-200 p-3 sm:grid-cols-2 sm:p-4">
+        <label class="block">
+          <span class="text-sm font-medium">农历年份</span>
+          <input
+            type="number"
+            class="input input-bordered input-sm mt-1.5 w-full font-mono"
+            value={year}
+            onInput={(e) => setYear((e.target as HTMLInputElement).value)}
+          />
+        </label>
+        <label class="block">
+          <span class="text-sm font-medium">农历月份（1-12）</span>
+          <input
+            type="number"
+            min="1"
+            max="12"
+            class="input input-bordered input-sm mt-1.5 w-full font-mono"
+            value={month}
+            onInput={(e) => setMonth((e.target as HTMLInputElement).value)}
+          />
+        </label>
+      </div>
+
+      <div class="grid gap-3 sm:grid-cols-2">
+        <label class="block">
+          <span class="text-sm font-medium">农历日（1-30）</span>
+          <input
+            type="number"
+            min="1"
+            max="30"
+            class="input input-bordered input-sm mt-1.5 w-full font-mono"
+            value={day}
+            onInput={(e) => setDay((e.target as HTMLInputElement).value)}
+          />
+        </label>
+        <label class="block">
+          <span class="text-sm font-medium">是否闰月</span>
+          <div class="mt-2">
+            <label class="label cursor-pointer justify-start gap-2">
+              <input
+                type="checkbox"
+                class="checkbox checkbox-sm"
+                checked={isLeap}
+                disabled={leap === 0}
+                onChange={(e) => setIsLeap((e.target as HTMLInputElement).checked)}
+              />
+              <span class="text-sm">
+                {leap === 0 ? '该年无闰月' : `闰${leap}月可用`}
+              </span>
+            </label>
+          </div>
+        </label>
+      </div>
+
+      {!res && (
+        <p class="text-sm text-error">
+          请输入合法的农历日期（年份 1900-2100；闰月须是该年真实存在的闰月）。
+        </p>
+      )}
+
+      {res && (
+        <div class="flex items-center gap-2 rounded-xl bg-base-100 p-3">
+          <div class="flex-1">
+            <p class="text-xs opacity-60">
+              农历 {year} 年{isLeap ? `闰${month}月` : `${month}月`} {day} 日
+            </p>
+            <p class="text-lg font-semibold">{fmtFull(res)}</p>
+            <code class="font-mono text-sm opacity-70">{toInputValue(res)}</code>
+          </div>
+          <button
+            type="button"
+            class={`btn btn-xs shrink-0 ${copied ? 'btn-success' : 'btn-ghost'}`}
+            onClick={() => copy(toInputValue(res))}
+          >
+            {copied ? '已复制' : '复制'}
+          </button>
+        </div>
+      )}
+
+      <p class="text-xs opacity-55 leading-relaxed">
+        基于中国传统农历（1900-2100），闰月按当年实际安排。结果以公历（阳历）呈现，全部本地计算。
+      </p>
+    </div>
+  );
+}

@@ -1,0 +1,49 @@
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @tailwindcss/vite@4.3.3
+npm warn Found: vite@undefined
+npm warn node_modules/vite
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer vite@"^5.2.0 || ^6 || ^7 || ^8" from @tailwindcss/vite@4.3.3
+npm warn node_modules/@tailwindcss/vite
+npm warn   dev @tailwindcss/vite@"^4.3.3" from the root project
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @tailwindcss/vite@4.3.3
+npm warn Found: vite@undefined
+npm warn node_modules/vite
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer vite@"^5.2.0 || ^6 || ^7 || ^8" from @tailwindcss/vite@4.3.3
+npm warn node_modules/@tailwindcss/vite
+npm warn   dev @tailwindcss/vite@"^4.3.3" from the root project
+npm error code EPERM
+npm error syscall open
+npm error path C:\Users\zhao-\AppData\Local\npm-cache\_cacache\index-v5\1e\b0\00c5f9d4aac28704b205e62af75408c9489261cc94a35d1058b05c8a2f9d
+npm error errno EPERM
+npm error FetchError: Invalid response body while trying to fetch https://registry.npmmirror.com/@astrojs%2fmdx: EPERM: operation not permitted, open 'C:\Users\zhao-\AppData\Local\npm-cache\_cacache\index-v5\1e\b0\00c5f9d4aac28704b205e62af75408c9489261cc94a35d1058b05c8a2f9d'
+npm error     at C:\Users\zhao-\.workbuddy\binaries\node\versions\22.22.2\node_modules\npm\node_modules\minipass-fetch\lib\body.js:170:15
+npm error     at async Response.json (C:\Users\zhao-\.workbuddy\binaries\node\versions\22.22.2\node_modules\npm\node_modules\minipass-fetch\lib\body.js:75:17)
+npm error     at async RegistryFetcher.packument (C:\Users\zhao-\.workbuddy\binaries\node\versions\22.22.2\node_modules\npm\node_modules\pacote\lib\registry.js:98:25)
+npm error     at async RegistryFetcher.manifest (C:\Users\zhao-\.workbuddy\binaries\node\versions\22.22.2\node_modules\npm\node_modules\pacote\lib\registry.js:128:23)
+npm error     at async #fetchManifest (C:\Users\zhao-\.workbuddy\binaries\node\versions\22.22.2\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\build-ideal-tree.js:1202:20)
+npm error     at async #nodeFromEdge (C:\Users\zhao-\.workbuddy\binaries\node\versions\22.22.2\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\build-ideal-tree.js:1040:19)
+npm error     at async #buildDepStep (C:\Users\zhao-\.workbuddy\binaries\node\versions\22.22.2\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\build-ideal-tree.js:904:11)
+npm error     at async Arborist.buildIdealTree (C:\Users\zhao-\.workbuddy\binaries\node\versions\22.22.2\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\build-ideal-tree.js:181:7)
+npm error     at async Promise.all (index 1)
+npm error     at async Arborist.reify (C:\Users\zhao-\.workbuddy\binaries\node\versions\22.22.2\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\reify.js:133:5) {
+npm error   code: 'EPERM',
+npm error   errno: 'EPERM',
+npm error   syscall: 'open',
+npm error   path: 'C:\\Users\\zhao-\\AppData\\Local\\npm-cache\\_cacache\\index-v5\\1e\\b0\\00c5f9d4aac28704b205e62af75408c9489261cc94a35d1058b05c8a2f9d',
+npm error   type: 'system',
+npm error   requiredBy: '.'
+npm error }
+npm error
+npm error The operation was rejected by your operating system.
+npm error It's possible that the file was already in use (by a text editor or antivirus),
+npm error or that you lack permissions to access it.
+npm error
+npm error If you believe this might be a permissions issue, please double-check the
+npm error permissions of the file and its containing directories, or try running
+npm error the command again as root/Administrator.
+npm error A complete log of this run can be found in: C:\Users\zhao-\AppData\Local\npm-cache\_logs\2026-08-03T16_58_55_865Z-debug-0.log

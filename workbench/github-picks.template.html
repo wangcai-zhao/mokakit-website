@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MokaKit · GitHub 高星项目挑选台</title>
+<style>
+  :root {
+    --bg: #f7f3ee;
+    --surface: #fffdfa;
+    --line: #e6dcd0;
+    --ink: #3b2f2a;
+    --ink-soft: #7a6a5f;
+    --moka: #6f4e37;
+    --caramel: #c98a4b;
+    --cream: #f0e6d8;
+    --ok: #4c7a5a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 14px/1.6 -apple-system, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    padding-bottom: 96px;
+  }
+  header {
+    position: sticky; top: 0; z-index: 20; background: rgba(247,243,238,.94);
+    backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); padding: 14px 20px;
+  }
+  .title { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .title h1 { margin: 0; font-size: 18px; letter-spacing: .5px; }
+  .title .meta { color: var(--ink-soft); font-size: 12px; }
+  .controls { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; align-items: center; }
+  input[type=search], select {
+    padding: 7px 11px; border: 1px solid var(--line); border-radius: 8px;
+    background: var(--surface); color: var(--ink); font-size: 13px; outline: none;
+  }
+  input[type=search] { min-width: 260px; }
+  input[type=search]:focus, select:focus { border-color: var(--caramel); }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; padding: 12px 20px 0; }
+  .chip {
+    padding: 5px 12px; border: 1px solid var(--line); border-radius: 999px; cursor: pointer;
+    background: var(--surface); font-size: 12.5px; color: var(--ink-soft); user-select: none;
+    transition: .15s;
+  }
+  .chip:hover { border-color: var(--caramel); color: var(--moka); }
+  .chip.on { background: var(--moka); border-color: var(--moka); color: #fff; }
+  .chip .n { opacity: .65; margin-left: 4px; font-size: 11px; }
+  main { padding: 16px 20px; display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); }
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 12px 14px; display: flex; gap: 11px; align-items: flex-start; transition: .15s;
+  }
+  .card:hover { border-color: var(--caramel); box-shadow: 0 3px 14px rgba(111,78,55,.07); }
+  .card.picked { border-color: var(--ok); background: #f6faf6; }
+  .card input[type=checkbox] { width: 17px; height: 17px; margin-top: 3px; accent-color: var(--moka); cursor: pointer; flex: none; }
+  .body { min-width: 0; flex: 1; }
+  .row1 { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .repo { font-weight: 600; font-size: 14.5px; color: var(--moka); text-decoration: none; }
+  .repo:hover { text-decoration: underline; }
+  .star { font-size: 12px; color: #b8860b; font-weight: 600; white-space: nowrap; }
+  .lang { font-size: 11.5px; color: var(--ink-soft); }
+  .owner { font-size: 11.5px; color: var(--ink-soft); }
+  .desc { margin: 5px 0 0; color: var(--ink-soft); font-size: 12.8px; word-break: break-word; }
+  .topics { margin-top: 6px; display: flex; gap: 4px; flex-wrap: wrap; }
+  .topic { font-size: 10.5px; background: var(--cream); color: var(--moka); padding: 1px 7px; border-radius: 5px; }
+  .stale { color: #a05a2c; font-size: 11px; }
+  footer {
+    position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface);
+    border-top: 1px solid var(--line); padding: 12px 20px; display: flex; gap: 10px;
+    align-items: center; flex-wrap: wrap; box-shadow: 0 -3px 16px rgba(111,78,55,.06);
+  }
+  button {
+    padding: 8px 14px; border-radius: 8px; border: 1px solid var(--moka); background: var(--moka);
+    color: #fff; font-size: 13px; cursor: pointer; transition: .15s;
+  }
+  button.ghost { background: transparent; color: var(--moka); }
+  button:hover { opacity: .88; }
+  .count { font-weight: 600; margin-right: auto; }
+  .count b { color: var(--ok); font-size: 16px; }
+  dialog {
+    border: 1px solid var(--line); border-radius: 14px; padding: 0; max-width: 860px; width: 92vw;
+    background: var(--surface); color: var(--ink);
+  }
+  dialog::backdrop { background: rgba(59,47,42,.4); }
+  .dlg-head { padding: 14px 18px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 10px; }
+  .dlg-head h3 { margin: 0; font-size: 15px; }
+  textarea {
+    width: 100%; height: 52vh; border: 0; padding: 14px 18px; resize: vertical; outline: none;
+    font: 12.5px/1.7 "Cascadia Code", Consolas, monospace; background: transparent; color: var(--ink);
+  }
+  .empty { grid-column: 1/-1; text-align: center; color: var(--ink-soft); padding: 60px 0; }
+</style>
+</head>
+<body>
+<header>
+  <div class="title">
+    <h1>☕ GitHub 高星项目挑选台</h1>
+    <span class="meta" id="meta"></span>
+  </div>
+  <div class="controls">
+    <input type="search" id="q" placeholder="搜名称 / 描述 / topic…" />
+    <select id="minStar">
+      <option value="0">全部 star</option>
+      <option value="5000">≥ 5k</option>
+      <option value="10000">≥ 10k</option>
+      <option value="30000">≥ 30k</option>
+      <option value="60000">≥ 60k</option>
+      <option value="100000">≥ 100k</option>
+    </select>
+    <select id="sort">
+      <option value="stars">按 star 降序</option>
+      <option value="pushed">按最近更新</option>
+      <option value="created">按创建时间</option>
+    </select>
+    <select id="fresh">
+      <option value="all">不限活跃度</option>
+      <option value="365">近 1 年有更新</option>
+      <option value="180">近半年有更新</option>
+    </select>
+    <label style="font-size:12.5px;color:var(--ink-soft);display:flex;align-items:center;gap:5px;cursor:pointer">
+      <input type="checkbox" id="onlyPicked" style="accent-color:var(--moka)" /> 只看已选
+    </label>
+  </div>
+</header>
+<div class="chips" id="chips"></div>
+<main id="list"></main>
+<footer>
+  <span class="count">已选 <b id="pickCount">0</b> 个项目</span>
+  <button class="ghost" id="btnClear">清空选择</button>
+  <button class="ghost" id="btnMd">导出 Markdown</button>
+  <button id="btnTs">导出 sites.ts 片段</button>
+</footer>
+
+<dialog id="dlg">
+  <div class="dlg-head">
+    <h3 id="dlgTitle">导出</h3>
+    <button class="ghost" style="margin-left:auto" id="btnCopy">复制</button>
+    <button class="ghost" id="btnClose">关闭</button>
+  </div>
+  <textarea id="out" spellcheck="false"></textarea>
+</dialog>
+
+<script id="data" type="application/json">__DATA__</script>
+<script>
+const DATA = JSON.parse(document.getElementById('data').textContent);
+const REPOS = DATA.repos;
+const DIMS = DATA.dimensions;
+const KEY = 'mokakit-github-picks';
+const picked = new Set(JSON.parse(localStorage.getItem(KEY) || '[]'));
+let activeDim = 'all';
+
+const $ = (id) => document.getElementById(id);
+const kfmt = (n) => n >= 1000 ? (n / 1000).toFixed(n >= 10000 ? 0 : 1) + 'k' : String(n);
+const daysAgo = (d) => (Date.now() - new Date(d).getTime()) / 86400000;
+
+$('meta').textContent = `共 ${DATA.totalRepos} 个去重仓库 · ${DIMS.length} 个维度 · 采集于 ${DATA.generatedAt.slice(0, 16).replace('T', ' ')}`;
+
+// 维度 chips
+const chipHtml = [`<span class="chip on" data-d="all">全部<span class="n">${REPOS.length}</span></span>`]
+  .concat(DIMS.map(d => {
+    const n = REPOS.filter(r => r.dims.includes(d.id)).length;
+    return `<span class="chip" data-d="${d.id}">${d.name}<span class="n">${n}</span></span>`;
+  }));
+$('chips').innerHTML = chipHtml.join('');
+$('chips').onclick = (e) => {
+  const c = e.target.closest('.chip'); if (!c) return;
+  activeDim = c.dataset.d;
+  [...$('chips').children].forEach(x => x.classList.toggle('on', x === c));
+  render();
+};
+
+function current() {
+  const q = $('q').value.trim().toLowerCase();
+  const min = +$('minStar').value;
+  const fresh = $('fresh').value;
+  const onlyP = $('onlyPicked').checked;
+  let list = REPOS.filter(r => {
+    if (activeDim !== 'all' && !r.dims.includes(activeDim)) return false;
+    if (r.stars < min) return false;
+    if (onlyP && !picked.has(r.fullName)) return false;
+    if (fresh !== 'all' && daysAgo(r.pushedAt) > +fresh) return false;
+    if (q) {
+      const hay = (r.fullName + ' ' + r.desc + ' ' + r.topics.join(' ') + ' ' + r.language).toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+  const s = $('sort').value;
+  if (s === 'pushed') list.sort((a, b) => b.pushedAt.localeCompare(a.pushedAt));
+  else if (s === 'created') list.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  else list.sort((a, b) => b.stars - a.stars);
+  return list;
+}
+
+function render() {
+  const list = current();
+  $('list').innerHTML = list.length ? list.map(r => {
+    const stale = daysAgo(r.pushedAt) > 365 ? `<span class="stale">· ${r.pushedAt} 起未更新</span>` : '';
+    return `<label class="card ${picked.has(r.fullName) ? 'picked' : ''}" data-id="${r.fullName}">
+      <input type="checkbox" ${picked.has(r.fullName) ? 'checked' : ''} />
+      <div class="body">
+        <div class="row1">
+          <a class="repo" href="${r.url}" target="_blank" rel="noopener">${r.name}</a>
+          <span class="star">★ ${kfmt(r.stars)}</span>
+          ${r.language ? `<span class="lang">${r.language}</span>` : ''}
+          <span class="owner">${r.fullName.split('/')[0]}</span>
+          ${stale}
+        </div>
+        <p class="desc">${(r.desc || '—').replace(/</g, '&lt;')}</p>
+        <div class="topics">${r.topics.slice(0, 5).map(t => `<span class="topic">${t}</span>`).join('')}</div>
+      </div>
+    </label>`;
+  }).join('') : '<div class="empty">没有匹配的项目，放宽筛选试试</div>';
+  $('pickCount').textContent = picked.size;
+}
+
+$('list').onchange = (e) => {
+  const card = e.target.closest('.card'); if (!card) return;
+  const id = card.dataset.id;
+  e.target.checked ? picked.add(id) : picked.delete(id);
+  card.classList.toggle('picked', e.target.checked);
+  localStorage.setItem(KEY, JSON.stringify([...picked]));
+  $('pickCount').textContent = picked.size;
+};
+['q', 'minStar', 'sort', 'fresh', 'onlyPicked'].forEach(id => {
+  $(id).addEventListener(id === 'q' ? 'input' : 'change', render);
+});
+$('btnClear').onclick = () => { picked.clear(); localStorage.setItem(KEY, '[]'); render(); };
+
+function pickedRepos() {
+  return REPOS.filter(r => picked.has(r.fullName)).sort((a, b) => b.stars - a.stars);
+}
+function show(title, text) {
+  $('dlgTitle').textContent = title; $('out').value = text; $('dlg').showModal();
+}
+$('btnClose').onclick = () => $('dlg').close();
+$('btnCopy').onclick = async () => {
+  await navigator.clipboard.writeText($('out').value);
+  $('btnCopy').textContent = '已复制 ✓';
+  setTimeout(() => ($('btnCopy').textContent = '复制'), 1500);
+};
+
+$('btnTs').onclick = () => {
+  const rs = pickedRepos();
+  if (!rs.length) return show('导出 sites.ts 片段', '// 还没有勾选任何项目');
+  const byDim = new Map();
+  rs.forEach(r => {
+    const d = r.dims.find(x => x === activeDim) || r.primaryDim;
+    if (!byDim.has(d)) byDim.set(d, []);
+    byDim.get(d).push(r);
+  });
+  const out = [...byDim.entries()].map(([dim, items]) => {
+    const dn = (DIMS.find(d => d.id === dim) || {}).name || dim;
+    const lines = items.map(r =>
+      `      { name: '${r.name.replace(/'/g, "\\'")}', url: '${r.url}', desc: '' }, // ★${kfmt(r.stars)} ${r.desc.slice(0, 60)}`
+    );
+    return `  {\n    id: 'os-${dim}',\n    name: '${dn}',\n    desc: '',\n    icon: 'code',\n    links: [\n${lines.join('\n')}\n    ],\n  },`;
+  }).join('\n');
+  show(`导出 sites.ts 片段（${rs.length} 条 · desc 待补中文一句话）`, out);
+};
+
+$('btnMd').onclick = () => {
+  const rs = pickedRepos();
+  const md = ['| 项目 | Star | 语言 | 说明 |', '| --- | --- | --- | --- |']
+    .concat(rs.map(r => `| [${r.fullName}](${r.url}) | ${kfmt(r.stars)} | ${r.language || '-'} | ${r.desc.replace(/\|/g, '/')} |`));
+  show(`导出 Markdown（${rs.length} 条）`, md.join('\n'));
+};
+
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+{
+  "name": "toolbox-site",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && node scripts/gen-sitemap.mjs",
+    "preview": "astro preview",
+    "check": "astro check",
+    "check:units": "node --experimental-strip-types --no-warnings --import ./scripts/ts-resolve.mjs scripts/check-units.mjs",
+    "astro": "astro",
+    "workbench": "node --experimental-strip-types --no-warnings --import ./scripts/ts-resolve.mjs scripts/build-workbench.mjs",
+    "mcp": "node --experimental-strip-types --no-warnings mcp/server.mjs"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^7.0.5",
+    "@astrojs/preact": "^6.0.2",
+    "@astrojs/sitemap": "^3.7.3",
+    "astro": "^7.1.6",
+    "bwip-js": "^4.11.2",
+    "decimal.js": "^10.6.0",
+    "gpt-tokenizer": "^3.4.0",
+    "marked": "^18.0.9",
+    "preact": "^10.29.8",
+    "qrcode": "^1.5.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "daisyui": "^5.7.14",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3"
+  }
+}

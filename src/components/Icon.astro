@@ -1,0 +1,37 @@
+---
+/**
+ * 轻量图标组件：引用 BaseLayout 注入的 <symbol> 雪碧图，零重复内联、零网络请求。
+ * 图标数据来自 src/components/icons.ts（Lucide，ISC 协议）。
+ */
+import { ICONS } from './icons';
+
+interface Props {
+  name: string;
+  size?: number | string;
+  class?: string;
+  /** 装饰性图标默认对屏幕阅读器隐藏；传 label 则作为有意义的图形 */
+  label?: string;
+}
+
+const { name, size = 20, class: className = '', label } = Astro.props;
+const safeName = name in ICONS ? name : 'grid';
+const a11y = label
+  ? { role: 'img', 'aria-label': label }
+  : { 'aria-hidden': 'true', focusable: 'false' };
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  class={className}
+  {...a11y}
+>
+  <use href={`#icon-${safeName}`} />
+</svg>

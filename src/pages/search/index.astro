@@ -1,0 +1,23 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SearchIsland from '@/components/SearchIsland';
+import { buildSearchIndex } from '@/tools/registry';
+
+// 构建期生成本地搜索索引，随页面下发，纯前端过滤，无后端依赖
+const index = buildSearchIndex();
+---
+
+<BaseLayout
+  title="搜索工具"
+  description="在摩卡工具箱里搜索密码、换算、JSON、加密等数十个在线工具。"
+  path="/search/"
+  noindex={true}
+>
+  <div class="mx-auto max-w-3xl px-4 py-12">
+    <h1 class="text-2xl font-bold tracking-tight">搜索工具</h1>
+    <p class="mt-2 text-sm opacity-70">本地即时检索，不联网、不上传。</p>
+    <div class="mt-6">
+      <SearchIsland index={index} client:load />
+    </div>
+  </div>
+</BaseLayout>

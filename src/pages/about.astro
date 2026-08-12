@@ -1,0 +1,56 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Icon from '@/components/Icon.astro';
+
+const values = [
+  { icon: 'lock', title: '本地优先', desc: '所有计算都在你的浏览器里完成，输入数据不会离开你的设备，我们也不会记录你算了什么。' },
+  { icon: 'zap', title: '打开即用', desc: '无需注册、无需登录、无需安装。点开就是工具本身，没有弹窗和引导套路。' },
+  { icon: 'shield', title: '干净无骚扰', desc: '没有账号体系，没有 Cookie 追踪，没有第三方广告埋点；只有一个匿名的访问量计数器。' },
+  { icon: 'code', title: '开源可查', desc: '基于 Astro + Preact 的纯静态架构，逻辑透明，可随时审查每一个工具怎么算。' },
+];
+---
+
+<BaseLayout
+  title="关于摩卡工具箱"
+  description="摩卡工具箱（MokaKit）是一个本地优先、打开即用的免费在线工具集合，覆盖开发、文本、换算、安全、生活等场景。"
+  path="/about/"
+>
+  <div class="mx-auto max-w-3xl px-4 py-12">
+    <h1 class="text-3xl font-bold tracking-tight flex items-center gap-2">
+      <Icon name="coffee" size={28} /> 关于摩卡工具箱
+    </h1>
+    <p class="mt-4 text-base opacity-70 leading-relaxed">
+      摩卡工具箱（MokaKit）是一筐顺手好用的在线小工具。我们做它的初衷很简单：
+      把那些「偶尔要用、搜半天、还怕被上传隐私」的小需求，收拢到一个干净、快速、本地运行的地方。
+    </p>
+
+    <div class="mt-8 grid gap-4 sm:grid-cols-2">
+      {
+        values.map((v) => (
+          <div class="card bg-base-100 border border-base-300 p-5">
+            <div class="flex items-center gap-2 font-semibold">
+              <span class="grid place-items-center w-8 h-8 rounded-lg bg-primary/10 text-primary">
+                <Icon name={v.icon} size={18} />
+              </span>
+              {v.title}
+            </div>
+            <p class="mt-2 text-sm opacity-70 leading-relaxed">{v.desc}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <h2 class="mt-10 text-xl font-bold">我们覆盖什么</h2>
+    <p class="mt-3 text-sm opacity-70 leading-relaxed">
+      从开发者常用的 JSON 格式化、正则测试、Token 计算，到生活里的 BMI、房贷月供、聚餐 AA，
+      再到安全向的密码生成、AES 加密、TOTP——目前已有数十个工具，并且还在持续扩充。
+      如果你有想要的工具，欢迎通过<a href="/sites/" class="link link-primary">好站导航</a>或隐私页的渠道告诉我们。
+    </p>
+
+    <h2 class="mt-10 text-xl font-bold">技术栈</h2>
+    <p class="mt-3 text-sm opacity-70 leading-relaxed">
+      Astro 7 · Preact · daisyUI · Tailwind v4。纯静态构建，部署在任何静态托管上都能跑；
+      唯一的后端是一个只记匿名访问量、不碰你任何输入数据的轻量计数器。
+    </p>
+  </div>
+</BaseLayout>

@@ -1,0 +1,16 @@
+---
+/**
+ * 图标雪碧图：全站只渲染一次，把所有图标定义为 <symbol>，
+ * 之后 Icon.astro 用 <use href="#icon-{name}"> 复用，避免每个图标重复内联整段 path。
+ * 放在 BaseLayout 的 <body> 里，display:none 不影响渲染。
+ */
+import { ICONS } from './icons';
+const names = Object.keys(ICONS);
+---
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" width="0" height="0" aria-hidden="true" focusable="false">
+  {names.map((name) => (
+    <symbol id={`icon-${name}`} viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={ICONS[name]} />
+    </symbol>
+  ))}
+</svg>

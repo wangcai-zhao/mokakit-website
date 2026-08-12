@@ -1,0 +1,169 @@
+---
+import { SITE, absUrl } from '@/config/site';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import IconSprite from '@/components/IconSprite.astro';
+import '@/styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  /** 当前页路径，用于 canonical。留空则用 Astro.url.pathname */
+  path?: string;
+  keywords?: string[];
+  noindex?: boolean;
+  /** 页面级 JSON-LD，会与全站的 WebSite/Organization 合并输出 */
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  /** og:type，文章类页面可传 article */
+  ogType?: 'website' | 'article';
+}
+
+const {
+  title,
+  description,
+  path,
+  keywords = [],
+  noindex = false,
+  jsonLd,
+  ogType = 'website',
+} = Astro.props;
+
+const canonical = absUrl(path ?? Astro.url.pathname);
+
+// 标题后缀用中文品牌名：百度对中文品牌词的识别和聚合远好于英文
+const brand = SITE.nameCn;
+const fullTitle =
+  title.includes(brand) || title.includes(SITE.name)
+    ? title
+    : `${title} | ${brand}`;
+
+// 全站通用结构化数据：帮助 Google 识别站点主体与站内搜索能力
+const siteJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': absUrl('/#website'),
+      url: absUrl('/'),
+      name: SITE.nameCn,
+      alternateName: SITE.name,
+      description: SITE.description,
+      inLanguage: 'zh-CN',
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: {
+          '@type': 'EntryPoint',
+          urlTemplate: absUrl('/search/?q={search_term_string}'),
+        },
+        'query-input': 'required name=search_term_string',
+      },
+    },
+    {
+      '@type': 'Organization',
+      '@id': absUrl('/#organization'),
+      name: SITE.nameCn,
+      alternateName: SITE.name,
+      url: absUrl('/'),
+    },
+  ],
+};
+
+const pageJsonLd = jsonLd
+  ? Array.isArray(jsonLd)
+    ? jsonLd
+    : [jsonLd]
+  : [];
+---
+
+<!doctype html>
+<html lang="zh-CN" data-theme="toolbox">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {keywords.length > 0 && <meta name="keywords" content={keywords.join(',')} />}
+    <link rel="canonical" href={canonical} />
+
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    {!noindex && <meta name="robots" content="index, follow, max-image-preview:large" />}
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={`${SITE.nameCn} ${SITE.name}`} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:image" content={absUrl('/og.png')} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${SITE.nameCn} — ${SITE.description}`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={absUrl('/og.png')} />
+
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="theme-color" content="#faf8f4" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#211c18" media="(prefers-color-scheme: dark)" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    {/*
+      主题防闪烁：必须在 body 渲染前同步执行，
+      否则暗色偏好用户会看到一瞬间的白屏闪烁。
+    */}
+    <script is:inline>
+      (function () {
+        try {
+          var saved = localStorage.getItem('theme');
+          var prefersDark =
+            window.matchMedia &&
+            window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var theme = saved || (prefersDark ? 'toolboxdark' : 'toolbox');
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {}
+      })();
+    </script>
+
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(siteJsonLd)}
+    />
+    {
+      pageJsonLd.map((item) => (
+        <script
+          type="application/ld+json"
+          is:inline
+          set:html={JSON.stringify(item)}
+        />
+      ))
+    }
+
+    {
+      SITE.analytics.baiduId && (
+        <script
+          is:inline
+          define:vars={{ id: SITE.analytics.baiduId }}
+          set:html={`var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="https://hm.baidu.com/hm.js?"+id;var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();`}
+        />
+      )
+    }
+  </head>
+
+  <body class="min-h-screen bg-base-200 flex flex-col">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-content focus:rounded-lg"
+      >跳到主要内容</a
+    >
+    <IconSprite />
+    <Header />
+    <main id="main" class="flex-1 w-full">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

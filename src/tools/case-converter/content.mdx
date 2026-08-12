@@ -1,0 +1,32 @@
+## 命名大小写转换原理
+
+按分隔符（空格、下划线、连字符）切词，再按目标风格重组：camelCase 首词小写、PascalCase 首词大写、snake_case 全小写加下划线、kebab-case 全小写加连字符
+
+## 这个工具能做什么
+
+- 在 camelCase / PascalCase / snake_case / kebab-case 间互转
+- 批量处理多个变量名
+- 辅助代码风格统一
+
+## 怎么使用（输入说明）
+
+1. **输入文本**：粘入用任意风格写的变量名。
+2. **选目标风格**：点击对应按钮，实时得到转换结果。
+
+## camelCase 和 PascalCase 区别
+
+两者都去掉分隔符并把每个词首字母大写，区别仅在第一词：camelCase 第一词小写（myVar），PascalCase 第一词也大写（MyVar）。Java/JS 变量用 camel，类名用 Pascal。
+
+## 计算实例
+
+例："user_name" → camelCase "userName"、PascalCase "UserName"、kebab-case "user-name"。
+
+## 常见问题 FAQ
+
+**Q：camelCase 和 PascalCase 有什么区别？**
+
+A：两者都是除首字母外的单词首字母大写，区别在于第一个单词：camelCase（驼峰）首字母小写，如 userName；PascalCase（帕斯卡）首字母也大写，如 UserName。后者常用于类名、组件名。
+
+**Q：snake_case 和 kebab-case 分别在哪用？**
+
+A：snake_case（下划线）常见于 Python 变量、数据库字段、环境变量；kebab-case（短横线）常见于 URL、CSS 类名、Linux 文件名。本工具可在这几种风格间自由切换。

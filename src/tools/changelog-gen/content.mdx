@@ -1,0 +1,50 @@
+## 为什么需要 CHANGELOG 和模板
+
+提交信息讲「每次改了啥」，CHANGELOG 讲「这个版本改了啥」——它是面向用户和协作者的人类可读变更记录。而 Issue / PR 模板，则是在别人想提 bug、提需求、提合并时，把关键信息一次性问全，少做无效沟通。
+
+这三个东西，是开源项目「专业感」的基本门槛。
+
+## Keep a Changelog 规范
+
+社区最通用的更新日志格式，核心规则很简单：
+
+- 倒序排列（最新的版本在最上面）
+- 每个版本按固定分类组织：**Added / Changed / Deprecated / Removed / Fixed / Security**
+- 每条变更用 `-` 列表项，动词开头、写清楚「做了什么」
+
+示例骨架：
+
+```
+# Changelog
+
+## [1.1.0] - 2026-08-05
+
+### Added
+- 支持微信登录
+
+### Fixed
+- 修复空输入时解析崩溃
+```
+
+## GitHub 模板
+
+把模板放进仓库的 `.github/` 目录，提交后自动生效：
+
+- **Issue 模板**：`.github/ISSUE_TEMPLATE/bug.md`、`.github/ISSUE_TEMPLATE/feature.md`
+- **PR 模板**：`.github/PULL_REQUEST_TEMPLATE.md`
+
+提 Issue / PR 时，GitHub 会引导填写这些字段，避免「一句话 bug 描述」式的低质量反馈。
+
+## 怎么用本工具
+
+1. 切到 **CHANGELOG.md** 标签：填版本号、日期，在六类里按行写变更，右侧实时生成标准文档，复制或下载 `CHANGELOG.md`。
+2. 切到 **Issue / PR 模板** 标签：选 Bug / 功能 / PR 模板，按需编辑，复制或下载到 `.github/` 对应路径。
+
+## 相关工具
+
+- [Commit 规范生成器](/tools/commit-gen/)：先把提交信息写规范，再汇总成 CHANGELOG
+- [.gitignore 生成器](/tools/gitignore-gen/)：初始化项目时一并生成忽略文件
+- [开源协议选择器](/tools/license-gen/)：给仓库选好许可证
+- [GitHub 高星项目榜](/tools/github-stars/)：参考优秀开源项目的工程实践
+
+> 所有生成与下载都在你的浏览器本地完成，本工具不收集、不上传任何数据。

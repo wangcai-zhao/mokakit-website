@@ -1,0 +1,60 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Icon from '@/components/Icon.astro';
+
+const points = [
+  { icon: 'lock', title: '数据在本地计算', desc: '密码生成、哈希、加密、单位换算等全部在浏览器端运行，输入内容不会发送到任何服务器。' },
+  { icon: 'user-round', title: '没有账号与登录', desc: '我们不提供注册 / 登录功能，因此不收集任何个人身份信息。' },
+  { icon: 'eyeOff', title: '不做跨站追踪', desc: '本站不写入用于跨站追踪的 Cookie，也不加载第三方广告或统计埋点（上线初期广告与统计默认关闭）。' },
+  { icon: 'activity', title: '只统计匿名聚合', desc: '我们仅维护「某个工具被用了多少次、全站累计访问多少次」这类计数器，不含你的 IP、设备指纹或账号。' },
+  { icon: 'server', title: '服务器不记录', desc: '作为纯静态站点，源站仅托管静态文件；计数接口不写访问日志，也不记录你的输入内容与查询结果。' },
+  { icon: 'scan', title: '第三方资源同样本地', desc: '二维码、条形码等生成本地完成；少数工具（如汇率 / AI 价格）使用内置快照或公开接口，且不涉及你的个人信息。' },
+];
+---
+
+<BaseLayout
+  title="隐私政策"
+  description="摩卡工具箱（MokaKit）隐私政策：所有工具本地运行、不上传输入数据、无账号、无跨站追踪 Cookie，仅统计匿名聚合访问量。"
+  path="/privacy/"
+>
+  <div class="mx-auto max-w-3xl px-4 py-12">
+    <h1 class="text-3xl font-bold tracking-tight flex items-center gap-2">
+      <Icon name="shield" size={28} /> 隐私政策
+    </h1>
+    <p class="mt-4 text-base opacity-70 leading-relaxed">
+      摩卡工具箱（MokaKit）把「你的数据属于你」当作底线。下面几条是我们的隐私承诺——工具在浏览器本地运行，我们也不会跨站追踪你：
+    </p>
+
+    <div class="mt-8 grid gap-4 sm:grid-cols-2">
+      {
+        points.map((p) => (
+          <div class="card bg-base-100 border border-base-300 p-5">
+            <div class="flex items-center gap-2 font-semibold">
+              <span class="grid place-items-center w-8 h-8 rounded-lg bg-primary/10 text-primary">
+                <Icon name={p.icon} size={18} />
+              </span>
+              {p.title}
+            </div>
+            <p class="mt-2 text-sm opacity-70 leading-relaxed">{p.desc}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <h2 class="mt-10 text-xl font-bold">数据快照说明</h2>
+    <p class="mt-3 text-sm opacity-70 leading-relaxed">
+      部分工具（如汇率换算、AI 价格比价、GitHub 榜单）使用内置的静态数据快照，
+      页面会标注快照日期。这类数据仅用于参考展示，不含你的任何个人信息。
+    </p>
+
+    <h2 class="mt-10 text-xl font-bold">联系我们</h2>
+    <p class="mt-3 text-sm opacity-70 leading-relaxed">
+      如果你对隐私有任何疑问或建议，欢迎通过<a href="/about/" class="link link-primary">关于页</a>了解更多，
+      或在站点相关渠道反馈。我们会在合理范围内回应你的诉求。
+    </p>
+
+    <p class="mt-8 text-xs opacity-50">
+      本政策为静态站点通用说明，随站点功能调整可能更新；重大变更会在页面显著位置提示。
+    </p>
+  </div>
+</BaseLayout>

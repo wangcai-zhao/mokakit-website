@@ -1,0 +1,574 @@
+---
+/**
+ * ★ 水合岛屿宿主 ★
+ *
+ * 为什么需要它：
+ *   Astro 的 client:* 水合指令在编译期必须静态解析到组件引用。
+ *   用 import.meta.glob 动态 import、或用变量（含三元表达式）承载组件，
+ *   都会让 Astro 生成不了 hydrate 脚本（报 NoMatchingImport）。
+ *   因此所有需要水合的工具岛屿集中在这里，用「静态 import + 字面量 client:*」
+ *   渲染——这是 Astro 下唯一可靠的写法。
+ *
+ * 自动注册边界：
+ *   路由 / 列表 / sitemap / 搜索索引 / 分类页 仍然 100% 自动（来自 registry.ts）。
+ *   只有「本文件」在新增工具时需要补 1 个 import + 把 id 加进下方布尔判断。
+ *   这是 Astro 框架限制下的最小手动面，后续可改用 codegen 自动化。
+ */
+import type { ToolMeta } from '@/tools/types';
+
+import PasswordGenerator from '@/tools/password-generator/Tool.tsx';
+import UnitConvert from '@/tools/unit-convert/Tool.tsx';
+import TimestampConverter from '@/tools/timestamp-converter/Tool.tsx';
+import JsonFormatter from '@/tools/json-formatter/Tool.tsx';
+import CaseConverter from '@/tools/case-converter/Tool.tsx';
+import BaseConverter from '@/tools/base-converter/Tool.tsx';
+import HashCalculator from '@/tools/hash-calculator/Tool.tsx';
+import UrlEncoder from '@/tools/url-encoder/Tool.tsx';
+import Base64Tool from '@/tools/base64/Tool.tsx';
+import UuidGenerator from '@/tools/uuid-generator/Tool.tsx';
+import TextCounter from '@/tools/text-counter/Tool.tsx';
+import ColorConverter from '@/tools/color-converter/Tool.tsx';
+import JianFanConvert from '@/tools/jian-fan-convert/Tool.tsx';
+import CurrencyConvert from '@/tools/currency-convert/Tool.tsx';
+import RegexTester from '@/tools/regex-tester/Tool.tsx';
+import QrcodeGenerator from '@/tools/qrcode-generator/Tool.tsx';
+import MarkdownPreview from '@/tools/markdown-preview/Tool.tsx';
+import SkillGenerator from '@/tools/skill-generator/Tool.tsx';
+import McpConfigGenerator from '@/tools/mcp-config-generator/Tool.tsx';
+import TokenCounter from '@/tools/token-counter/Tool.tsx';
+import PromptTemplate from '@/tools/prompt-template/Tool.tsx';
+import PromptLibrary from '@/tools/prompt-library/Tool.tsx';
+import JwtDecoder from '@/tools/jwt-decoder/Tool.tsx';
+import PasswordStrength from '@/tools/password-strength/Tool.tsx';
+import RsaKeygen from '@/tools/rsa-keygen/Tool.tsx';
+import TextDiff from '@/tools/text-diff/Tool.tsx';
+import HttpStatus from '@/tools/http-status/Tool.tsx';
+import CronParser from '@/tools/cron-parser/Tool.tsx';
+import UdiGenerator from '@/tools/udi-generator/Tool.tsx';
+import UdiDecoder from '@/tools/udi-decoder/Tool.tsx';
+import AiPriceCompare from '@/tools/ai-price-compare/Tool.tsx';
+import GithubStars from '@/tools/github-stars/Tool.tsx';
+import GitignoreGen from '@/tools/gitignore-gen/Tool.tsx';
+import LicenseGen from '@/tools/license-gen/Tool.tsx';
+import CommitGen from '@/tools/commit-gen/Tool.tsx';
+import ChangelogGen from '@/tools/changelog-gen/Tool.tsx';
+import DateCalc from '@/tools/date-calculator/Tool.tsx';
+import BmiCalc from '@/tools/bmi-calculator/Tool.tsx';
+import LoanCalc from '@/tools/loan-calculator/Tool.tsx';
+import PctCalc from '@/tools/percentage-calculator/Tool.tsx';
+import TipCalc from '@/tools/tip-calculator/Tool.tsx';
+import AgeCalc from '@/tools/age-calculator/Tool.tsx';
+import TempConvert from '@/tools/temperature-convert/Tool.tsx';
+import Countdown from '@/tools/countdown-timer/Tool.tsx';
+import RandomNum from '@/tools/random-number/Tool.tsx';
+import Lottery from '@/tools/lottery-draw/Tool.tsx';
+import TodayInfo from '@/tools/today-info/Tool.tsx';
+import BillSplit from '@/tools/bill-split/Tool.tsx';
+import DiceRoller from '@/tools/dice-roller/Tool.tsx';
+import NameGen from '@/tools/name-generator/Tool.tsx';
+import EmojiSearch from '@/tools/emoji-search/Tool.tsx';
+import RPS from '@/tools/rock-paper-scissors/Tool.tsx';
+import DecisionWheel from '@/tools/decision-wheel/Tool.tsx';
+import JsonCsv from '@/tools/json-to-csv/Tool.tsx';
+import SqlFmt from '@/tools/sql-formatter/Tool.tsx';
+import HtmlEscape from '@/tools/html-escape/Tool.tsx';
+import UrlParser from '@/tools/url-parser/Tool.tsx';
+import TextDedup from '@/tools/text-dedup/Tool.tsx';
+import LineSort from '@/tools/line-sort/Tool.tsx';
+import TextReverse from '@/tools/text-reverse/Tool.tsx';
+import TotpGen from '@/tools/totp-generator/Tool.tsx';
+import AesEncrypt from '@/tools/aes-encrypt/Tool.tsx';
+import IsbnValid from '@/tools/isbn-validator/Tool.tsx';
+import PublicApis from '@/tools/public-apis/Tool.tsx';
+import BuildYourOwnX from '@/tools/build-your-own-x/Tool.tsx';
+import DevRoadmap from '@/tools/dev-roadmap/Tool.tsx';
+import SystemDesign from '@/tools/system-design/Tool.tsx';
+import PressureConvert from '@/tools/pressure-convert/Tool.tsx';
+import OdeSolver from '@/tools/ode-solver/Tool.tsx';
+import IncomeTaxCn from '@/tools/income-tax-cn/Tool.tsx';
+import BonusTaxCn from '@/tools/bonus-tax-cn/Tool.tsx';
+import SocialSecurityCn from '@/tools/social-security-cn/Tool.tsx';
+import MortgageEarly from '@/tools/mortgage-early-repayment/Tool.tsx';
+import FundLoanCalc from '@/tools/fund-loan-calc/Tool.tsx';
+import VatCalc from '@/tools/vat-calc/Tool.tsx';
+
+interface Props {
+  tool: ToolMeta;
+  widgetProps?: Record<string, any>;
+}
+
+const { tool, widgetProps = {} } = Astro.props;
+const mode = tool.hydrate ?? 'load';
+
+const isPG = tool.id === 'password-generator';
+const isUC = tool.id === 'unit-convert';
+const isTS = tool.id === 'timestamp-converter';
+const isJF = tool.id === 'json-formatter';
+const isCC = tool.id === 'case-converter';
+const isBC = tool.id === 'base-converter';
+const isHC = tool.id === 'hash-calculator';
+const isUE = tool.id === 'url-encoder';
+const isB64 = tool.id === 'base64';
+const isUUID = tool.id === 'uuid-generator';
+const isTC = tool.id === 'text-counter';
+const isColor = tool.id === 'color-converter';
+const isJFc = tool.id === 'jian-fan-convert';
+const isCCv = tool.id === 'currency-convert';
+const isRE = tool.id === 'regex-tester';
+const isQR = tool.id === 'qrcode-generator';
+const isMD = tool.id === 'markdown-preview';
+const isSkill = tool.id === 'skill-generator';
+const isMcp = tool.id === 'mcp-config-generator';
+const isTok = tool.id === 'token-counter';
+const isPT = tool.id === 'prompt-template';
+const isPL = tool.id === 'prompt-library';
+const isJwt = tool.id === 'jwt-decoder';
+const isPwd = tool.id === 'password-strength';
+const isRsa = tool.id === 'rsa-keygen';
+const isDiff = tool.id === 'text-diff';
+const isHttp = tool.id === 'http-status';
+const isCron = tool.id === 'cron-parser';
+const isUDIg = tool.id === 'udi-generator';
+const isUDId = tool.id === 'udi-decoder';
+const isAPC = tool.id === 'ai-price-compare';
+const isGHS = tool.id === 'github-stars';
+const isGI = tool.id === 'gitignore-gen';
+const isLic = tool.id === 'license-gen';
+const isCommit = tool.id === 'commit-gen';
+const isCL = tool.id === 'changelog-gen';
+const isDC = tool.id === 'date-calculator';
+const isBMI = tool.id === 'bmi-calculator';
+const isLoan = tool.id === 'loan-calculator';
+const isPct = tool.id === 'percentage-calculator';
+const isTip = tool.id === 'tip-calculator';
+const isAge = tool.id === 'age-calculator';
+const isTemp = tool.id === 'temperature-convert';
+const isCD = tool.id === 'countdown-timer';
+const isRN = tool.id === 'random-number';
+const isLot = tool.id === 'lottery-draw';
+const isTI = tool.id === 'today-info';
+const isBS = tool.id === 'bill-split';
+const isDR = tool.id === 'dice-roller';
+const isNG = tool.id === 'name-generator';
+const isES = tool.id === 'emoji-search';
+const isRPS = tool.id === 'rock-paper-scissors';
+const isDW = tool.id === 'decision-wheel';
+const isJC = tool.id === 'json-to-csv';
+const isSF = tool.id === 'sql-formatter';
+const isHE = tool.id === 'html-escape';
+const isUP = tool.id === 'url-parser';
+const isTD = tool.id === 'text-dedup';
+const isLS = tool.id === 'line-sort';
+const isTR = tool.id === 'text-reverse';
+const isTOTP = tool.id === 'totp-generator';
+const isAES = tool.id === 'aes-encrypt';
+const isISBN = tool.id === 'isbn-validator';
+const isPA = tool.id === 'public-apis';
+const isBYOX = tool.id === 'build-your-own-x';
+const isDRM = tool.id === 'dev-roadmap';
+const isSD = tool.id === 'system-design';
+const isPress = tool.id === 'pressure-convert';
+const isODE = tool.id === 'ode-solver';
+const isIncomeTaxCn = tool.id === 'income-tax-cn';
+const isBonusTaxCn = tool.id === 'bonus-tax-cn';
+const isSocialSecurityCn = tool.id === 'social-security-cn';
+const isMortgageEarly = tool.id === 'mortgage-early-repayment';
+const isFundLoanCalc = tool.id === 'fund-loan-calc';
+const isVatCalc = tool.id === 'vat-calc';
+const known =
+  isPG || isUC || isTS || isJF || isCC || isBC || isHC ||
+  isUE || isB64 || isUUID || isTC || isColor ||
+  isJFc || isCCv || isRE || isQR || isMD || isSkill || isMcp ||
+  isTok || isPT || isPL || isJwt || isPwd || isRsa || isDiff || isHttp || isCron ||
+  isUDIg || isUDId || isAPC || isGHS || isGI || isLic || isCommit || isCL ||
+  isDC || isBMI || isLoan || isPct || isTip || isAge || isTemp || isCD || isRN || isLot ||
+  isTI || isBS || isDR || isNG || isES || isRPS || isDW || isJC || isSF || isHE || isUP ||
+  isTD || isLS || isTR || isTOTP || isAES || isISBN ||
+  isPA || isBYOX || isDRM || isSD || isPress || isODE ||
+  isIncomeTaxCn || isBonusTaxCn ||
+  isSocialSecurityCn || isMortgageEarly || isFundLoanCalc || isVatCalc;
+---
+
+<!-- 密码生成器 -->
+{isPG && mode === 'load' && <PasswordGenerator client:load {...widgetProps} />}
+{isPG && mode === 'idle' && <PasswordGenerator client:idle {...widgetProps} />}
+{isPG && mode === 'visible' && <PasswordGenerator client:visible {...widgetProps} />}
+
+<!-- 单位换算 -->
+{isUC && mode === 'load' && <UnitConvert client:load {...widgetProps} />}
+{isUC && mode === 'idle' && <UnitConvert client:idle {...widgetProps} />}
+{isUC && mode === 'visible' && <UnitConvert client:visible {...widgetProps} />}
+
+<!-- 时间戳转换 -->
+{isTS && mode === 'load' && <TimestampConverter client:load {...widgetProps} />}
+{isTS && mode === 'idle' && <TimestampConverter client:idle {...widgetProps} />}
+{isTS && mode === 'visible' && <TimestampConverter client:visible {...widgetProps} />}
+
+<!-- JSON 格式化 -->
+{isJF && mode === 'load' && <JsonFormatter client:load {...widgetProps} />}
+{isJF && mode === 'idle' && <JsonFormatter client:idle {...widgetProps} />}
+{isJF && mode === 'visible' && <JsonFormatter client:visible {...widgetProps} />}
+
+<!-- 大小写转换 -->
+{isCC && mode === 'load' && <CaseConverter client:load {...widgetProps} />}
+{isCC && mode === 'idle' && <CaseConverter client:idle {...widgetProps} />}
+{isCC && mode === 'visible' && <CaseConverter client:visible {...widgetProps} />}
+
+<!-- 进制转换 -->
+{isBC && mode === 'load' && <BaseConverter client:load {...widgetProps} />}
+{isBC && mode === 'idle' && <BaseConverter client:idle {...widgetProps} />}
+{isBC && mode === 'visible' && <BaseConverter client:visible {...widgetProps} />}
+
+<!-- 哈希计算 -->
+{isHC && mode === 'load' && <HashCalculator client:load {...widgetProps} />}
+{isHC && mode === 'idle' && <HashCalculator client:idle {...widgetProps} />}
+{isHC && mode === 'visible' && <HashCalculator client:visible {...widgetProps} />}
+
+<!-- URL 编解码 -->
+{isUE && mode === 'load' && <UrlEncoder client:load {...widgetProps} />}
+{isUE && mode === 'idle' && <UrlEncoder client:idle {...widgetProps} />}
+{isUE && mode === 'visible' && <UrlEncoder client:visible {...widgetProps} />}
+
+<!-- Base64 编解码 -->
+{isB64 && mode === 'load' && <Base64Tool client:load {...widgetProps} />}
+{isB64 && mode === 'idle' && <Base64Tool client:idle {...widgetProps} />}
+{isB64 && mode === 'visible' && <Base64Tool client:visible {...widgetProps} />}
+
+<!-- UUID 生成器 -->
+{isUUID && mode === 'load' && <UuidGenerator client:load {...widgetProps} />}
+{isUUID && mode === 'idle' && <UuidGenerator client:idle {...widgetProps} />}
+{isUUID && mode === 'visible' && <UuidGenerator client:visible {...widgetProps} />}
+
+<!-- 字数统计 -->
+{isTC && mode === 'load' && <TextCounter client:load {...widgetProps} />}
+{isTC && mode === 'idle' && <TextCounter client:idle {...widgetProps} />}
+{isTC && mode === 'visible' && <TextCounter client:visible {...widgetProps} />}
+
+<!-- 颜色转换 -->
+{isColor && mode === 'load' && <ColorConverter client:load {...widgetProps} />}
+{isColor && mode === 'idle' && <ColorConverter client:idle {...widgetProps} />}
+{isColor && mode === 'visible' && <ColorConverter client:visible {...widgetProps} />}
+
+<!-- 简繁转换 -->
+{isJFc && mode === 'load' && <JianFanConvert client:load {...widgetProps} />}
+{isJFc && mode === 'idle' && <JianFanConvert client:idle {...widgetProps} />}
+{isJFc && mode === 'visible' && <JianFanConvert client:visible {...widgetProps} />}
+
+<!-- 汇率换算 -->
+{isCCv && mode === 'load' && <CurrencyConvert client:load {...widgetProps} />}
+{isCCv && mode === 'idle' && <CurrencyConvert client:idle {...widgetProps} />}
+{isCCv && mode === 'visible' && <CurrencyConvert client:visible {...widgetProps} />}
+
+<!-- 正则测试 -->
+{isRE && mode === 'load' && <RegexTester client:load {...widgetProps} />}
+{isRE && mode === 'idle' && <RegexTester client:idle {...widgetProps} />}
+{isRE && mode === 'visible' && <RegexTester client:visible {...widgetProps} />}
+
+<!-- 二维码生成 -->
+{isQR && mode === 'load' && <QrcodeGenerator client:load {...widgetProps} />}
+{isQR && mode === 'idle' && <QrcodeGenerator client:idle {...widgetProps} />}
+{isQR && mode === 'visible' && <QrcodeGenerator client:visible {...widgetProps} />}
+
+<!-- Markdown 预览 -->
+{isMD && mode === 'load' && <MarkdownPreview client:load {...widgetProps} />}
+{isMD && mode === 'idle' && <MarkdownPreview client:idle {...widgetProps} />}
+{isMD && mode === 'visible' && <MarkdownPreview client:visible {...widgetProps} />}
+
+<!-- SKILL.md 生成器 -->
+{isSkill && mode === 'load' && <SkillGenerator client:load {...widgetProps} />}
+{isSkill && mode === 'idle' && <SkillGenerator client:idle {...widgetProps} />}
+{isSkill && mode === 'visible' && <SkillGenerator client:visible {...widgetProps} />}
+
+<!-- MCP 配置生成器 -->
+{isMcp && mode === 'load' && <McpConfigGenerator client:load {...widgetProps} />}
+{isMcp && mode === 'idle' && <McpConfigGenerator client:idle {...widgetProps} />}
+{isMcp && mode === 'visible' && <McpConfigGenerator client:visible {...widgetProps} />}
+
+<!-- Token 计算器 -->
+{isTok && mode === 'load' && <TokenCounter client:load {...widgetProps} />}
+{isTok && mode === 'idle' && <TokenCounter client:idle {...widgetProps} />}
+{isTok && mode === 'visible' && <TokenCounter client:visible {...widgetProps} />}
+
+<!-- Prompt 变量模板 -->
+{isPT && mode === 'load' && <PromptTemplate client:load {...widgetProps} />}
+{isPT && mode === 'idle' && <PromptTemplate client:idle {...widgetProps} />}
+{isPT && mode === 'visible' && <PromptTemplate client:visible {...widgetProps} />}
+
+<!-- 提示词收藏库 -->
+{isPL && mode === 'load' && <PromptLibrary client:load {...widgetProps} />}
+{isPL && mode === 'idle' && <PromptLibrary client:idle {...widgetProps} />}
+{isPL && mode === 'visible' && <PromptLibrary client:visible {...widgetProps} />}
+
+<!-- JWT 解析器 -->
+{isJwt && mode === 'load' && <JwtDecoder client:load {...widgetProps} />}
+{isJwt && mode === 'idle' && <JwtDecoder client:idle {...widgetProps} />}
+{isJwt && mode === 'visible' && <JwtDecoder client:visible {...widgetProps} />}
+
+<!-- 密码强度分析 -->
+{isPwd && mode === 'load' && <PasswordStrength client:load {...widgetProps} />}
+{isPwd && mode === 'idle' && <PasswordStrength client:idle {...widgetProps} />}
+{isPwd && mode === 'visible' && <PasswordStrength client:visible {...widgetProps} />}
+
+<!-- RSA 密钥对生成 -->
+{isRsa && mode === 'load' && <RsaKeygen client:load {...widgetProps} />}
+{isRsa && mode === 'idle' && <RsaKeygen client:idle {...widgetProps} />}
+{isRsa && mode === 'visible' && <RsaKeygen client:visible {...widgetProps} />}
+
+<!-- 文本比较 Diff -->
+{isDiff && mode === 'load' && <TextDiff client:load {...widgetProps} />}
+{isDiff && mode === 'idle' && <TextDiff client:idle {...widgetProps} />}
+{isDiff && mode === 'visible' && <TextDiff client:visible {...widgetProps} />}
+
+<!-- HTTP 状态码速查 -->
+{isHttp && mode === 'load' && <HttpStatus client:load {...widgetProps} />}
+{isHttp && mode === 'idle' && <HttpStatus client:idle {...widgetProps} />}
+{isHttp && mode === 'visible' && <HttpStatus client:visible {...widgetProps} />}
+
+<!-- Cron 表达式解读 -->
+{isCron && mode === 'load' && <CronParser client:load {...widgetProps} />}
+{isCron && mode === 'idle' && <CronParser client:idle {...widgetProps} />}
+{isCron && mode === 'visible' && <CronParser client:visible {...widgetProps} />}
+
+<!-- UDI 码生成 -->
+{isUDIg && mode === 'load' && <UdiGenerator client:load {...widgetProps} />}
+{isUDIg && mode === 'idle' && <UdiGenerator client:idle {...widgetProps} />}
+{isUDIg && mode === 'visible' && <UdiGenerator client:visible {...widgetProps} />}
+
+<!-- UDI 码解码 -->
+{isUDId && mode === 'load' && <UdiDecoder client:load {...widgetProps} />}
+{isUDId && mode === 'idle' && <UdiDecoder client:idle {...widgetProps} />}
+{isUDId && mode === 'visible' && <UdiDecoder client:visible {...widgetProps} />}
+
+<!-- AI 价格比价 -->
+{isAPC && mode === 'load' && <AiPriceCompare client:load {...widgetProps} />}
+{isAPC && mode === 'idle' && <AiPriceCompare client:idle {...widgetProps} />}
+{isAPC && mode === 'visible' && <AiPriceCompare client:visible {...widgetProps} />}
+
+<!-- GitHub 高星项目榜 -->
+{isGHS && mode === 'load' && <GithubStars client:load {...widgetProps} />}
+{isGHS && mode === 'idle' && <GithubStars client:idle {...widgetProps} />}
+{isGHS && mode === 'visible' && <GithubStars client:visible {...widgetProps} />}
+
+<!-- .gitignore 生成器 -->
+{isGI && mode === 'load' && <GitignoreGen client:load {...widgetProps} />}
+{isGI && mode === 'idle' && <GitignoreGen client:idle {...widgetProps} />}
+{isGI && mode === 'visible' && <GitignoreGen client:visible {...widgetProps} />}
+
+<!-- 开源协议选择器 -->
+{isLic && mode === 'load' && <LicenseGen client:load {...widgetProps} />}
+{isLic && mode === 'idle' && <LicenseGen client:idle {...widgetProps} />}
+{isLic && mode === 'visible' && <LicenseGen client:visible {...widgetProps} />}
+
+<!-- Commit 规范生成器 -->
+{isCommit && mode === 'load' && <CommitGen client:load {...widgetProps} />}
+{isCommit && mode === 'idle' && <CommitGen client:idle {...widgetProps} />}
+{isCommit && mode === 'visible' && <CommitGen client:visible {...widgetProps} />}
+
+<!-- CHANGELOG 模板生成器 -->
+{isCL && mode === 'load' && <ChangelogGen client:load {...widgetProps} />}
+{isCL && mode === 'idle' && <ChangelogGen client:idle {...widgetProps} />}
+{isCL && mode === 'visible' && <ChangelogGen client:visible {...widgetProps} />}
+
+<!-- 日期计算器 -->
+{isDC && mode === 'load' && <DateCalc client:load {...widgetProps} />}
+{isDC && mode === 'idle' && <DateCalc client:idle {...widgetProps} />}
+{isDC && mode === 'visible' && <DateCalc client:visible {...widgetProps} />}
+
+<!-- BMI 计算器 -->
+{isBMI && mode === 'load' && <BmiCalc client:load {...widgetProps} />}
+{isBMI && mode === 'idle' && <BmiCalc client:idle {...widgetProps} />}
+{isBMI && mode === 'visible' && <BmiCalc client:visible {...widgetProps} />}
+
+<!-- 贷款月供计算器 -->
+{isLoan && mode === 'load' && <LoanCalc client:load {...widgetProps} />}
+{isLoan && mode === 'idle' && <LoanCalc client:idle {...widgetProps} />}
+{isLoan && mode === 'visible' && <LoanCalc client:visible {...widgetProps} />}
+
+<!-- 百分比计算器 -->
+{isPct && mode === 'load' && <PctCalc client:load {...widgetProps} />}
+{isPct && mode === 'idle' && <PctCalc client:idle {...widgetProps} />}
+{isPct && mode === 'visible' && <PctCalc client:visible {...widgetProps} />}
+
+<!-- 小费计算器 -->
+{isTip && mode === 'load' && <TipCalc client:load {...widgetProps} />}
+{isTip && mode === 'idle' && <TipCalc client:idle {...widgetProps} />}
+{isTip && mode === 'visible' && <TipCalc client:visible {...widgetProps} />}
+
+<!-- 年龄计算器 -->
+{isAge && mode === 'load' && <AgeCalc client:load {...widgetProps} />}
+{isAge && mode === 'idle' && <AgeCalc client:idle {...widgetProps} />}
+{isAge && mode === 'visible' && <AgeCalc client:visible {...widgetProps} />}
+
+<!-- 温度换算 -->
+{isTemp && mode === 'load' && <TempConvert client:load {...widgetProps} />}
+{isTemp && mode === 'idle' && <TempConvert client:idle {...widgetProps} />}
+{isTemp && mode === 'visible' && <TempConvert client:visible {...widgetProps} />}
+
+<!-- 压力换算 -->
+{isPress && mode === 'load' && <PressureConvert client:load {...widgetProps} />}
+{isPress && mode === 'idle' && <PressureConvert client:idle {...widgetProps} />}
+{isPress && mode === 'visible' && <PressureConvert client:visible {...widgetProps} />}
+
+<!-- 倒计时 -->
+{isCD && mode === 'load' && <Countdown client:load {...widgetProps} />}
+{isCD && mode === 'idle' && <Countdown client:idle {...widgetProps} />}
+{isCD && mode === 'visible' && <Countdown client:visible {...widgetProps} />}
+
+<!-- 随机数生成器 -->
+{isRN && mode === 'load' && <RandomNum client:load {...widgetProps} />}
+{isRN && mode === 'idle' && <RandomNum client:idle {...widgetProps} />}
+{isRN && mode === 'visible' && <RandomNum client:visible {...widgetProps} />}
+
+<!-- 抽签抽奖 -->
+{isLot && mode === 'load' && <Lottery client:load {...widgetProps} />}
+{isLot && mode === 'idle' && <Lottery client:idle {...widgetProps} />}
+{isLot && mode === 'visible' && <Lottery client:visible {...widgetProps} />}
+
+<!-- 今天几号 -->
+{isTI && mode === 'load' && <TodayInfo client:load {...widgetProps} />}
+{isTI && mode === 'idle' && <TodayInfo client:idle {...widgetProps} />}
+{isTI && mode === 'visible' && <TodayInfo client:visible {...widgetProps} />}
+
+<!-- 聚餐 AA 分摊 -->
+{isBS && mode === 'load' && <BillSplit client:load {...widgetProps} />}
+{isBS && mode === 'idle' && <BillSplit client:idle {...widgetProps} />}
+{isBS && mode === 'visible' && <BillSplit client:visible {...widgetProps} />}
+
+<!-- 掷骰子 -->
+{isDR && mode === 'load' && <DiceRoller client:load {...widgetProps} />}
+{isDR && mode === 'idle' && <DiceRoller client:idle {...widgetProps} />}
+{isDR && mode === 'visible' && <DiceRoller client:visible {...widgetProps} />}
+
+<!-- 随机名字生成 -->
+{isNG && mode === 'load' && <NameGen client:load {...widgetProps} />}
+{isNG && mode === 'idle' && <NameGen client:idle {...widgetProps} />}
+{isNG && mode === 'visible' && <NameGen client:visible {...widgetProps} />}
+
+<!-- Emoji 搜索 -->
+{isES && mode === 'load' && <EmojiSearch client:load {...widgetProps} />}
+{isES && mode === 'idle' && <EmojiSearch client:idle {...widgetProps} />}
+{isES && mode === 'visible' && <EmojiSearch client:visible {...widgetProps} />}
+
+<!-- 石头剪刀布 -->
+{isRPS && mode === 'load' && <RPS client:load {...widgetProps} />}
+{isRPS && mode === 'idle' && <RPS client:idle {...widgetProps} />}
+{isRPS && mode === 'visible' && <RPS client:visible {...widgetProps} />}
+
+<!-- 幸运转盘 -->
+{isDW && mode === 'load' && <DecisionWheel client:load {...widgetProps} />}
+{isDW && mode === 'idle' && <DecisionWheel client:idle {...widgetProps} />}
+{isDW && mode === 'visible' && <DecisionWheel client:visible {...widgetProps} />}
+
+<!-- JSON 转 CSV -->
+{isJC && mode === 'load' && <JsonCsv client:load {...widgetProps} />}
+{isJC && mode === 'idle' && <JsonCsv client:idle {...widgetProps} />}
+{isJC && mode === 'visible' && <JsonCsv client:visible {...widgetProps} />}
+
+<!-- SQL 格式化 -->
+{isSF && mode === 'load' && <SqlFmt client:load {...widgetProps} />}
+{isSF && mode === 'idle' && <SqlFmt client:idle {...widgetProps} />}
+{isSF && mode === 'visible' && <SqlFmt client:visible {...widgetProps} />}
+
+<!-- HTML 实体编解码 -->
+{isHE && mode === 'load' && <HtmlEscape client:load {...widgetProps} />}
+{isHE && mode === 'idle' && <HtmlEscape client:idle {...widgetProps} />}
+{isHE && mode === 'visible' && <HtmlEscape client:visible {...widgetProps} />}
+
+<!-- URL 解析拆解 -->
+{isUP && mode === 'load' && <UrlParser client:load {...widgetProps} />}
+{isUP && mode === 'idle' && <UrlParser client:idle {...widgetProps} />}
+{isUP && mode === 'visible' && <UrlParser client:visible {...widgetProps} />}
+
+<!-- 文本去重 -->
+{isTD && mode === 'load' && <TextDedup client:load {...widgetProps} />}
+{isTD && mode === 'idle' && <TextDedup client:idle {...widgetProps} />}
+{isTD && mode === 'visible' && <TextDedup client:visible {...widgetProps} />}
+
+<!-- 行排序 -->
+{isLS && mode === 'load' && <LineSort client:load {...widgetProps} />}
+{isLS && mode === 'idle' && <LineSort client:idle {...widgetProps} />}
+{isLS && mode === 'visible' && <LineSort client:visible {...widgetProps} />}
+
+<!-- 文本反转 -->
+{isTR && mode === 'load' && <TextReverse client:load {...widgetProps} />}
+{isTR && mode === 'idle' && <TextReverse client:idle {...widgetProps} />}
+{isTR && mode === 'visible' && <TextReverse client:visible {...widgetProps} />}
+
+<!-- TOTP 验证码 -->
+{isTOTP && mode === 'load' && <TotpGen client:load {...widgetProps} />}
+{isTOTP && mode === 'idle' && <TotpGen client:idle {...widgetProps} />}
+{isTOTP && mode === 'visible' && <TotpGen client:visible {...widgetProps} />}
+
+<!-- AES 加解密 -->
+{isAES && mode === 'load' && <AesEncrypt client:load {...widgetProps} />}
+{isAES && mode === 'idle' && <AesEncrypt client:idle {...widgetProps} />}
+{isAES && mode === 'visible' && <AesEncrypt client:visible {...widgetProps} />}
+
+<!-- ISBN 校验转换 -->
+{isISBN && mode === 'load' && <IsbnValid client:load {...widgetProps} />}
+{isISBN && mode === 'idle' && <IsbnValid client:idle {...widgetProps} />}
+{isISBN && mode === 'visible' && <IsbnValid client:visible {...widgetProps} />}
+
+<!-- 免费 API 大全 -->
+{isPA && mode === 'load' && <PublicApis client:load {...widgetProps} />}
+{isPA && mode === 'idle' && <PublicApis client:idle {...widgetProps} />}
+{isPA && mode === 'visible' && <PublicApis client:visible {...widgetProps} />}
+
+<!-- 从零造 X 项目清单 -->
+{isBYOX && mode === 'load' && <BuildYourOwnX client:load {...widgetProps} />}
+{isBYOX && mode === 'idle' && <BuildYourOwnX client:idle {...widgetProps} />}
+{isBYOX && mode === 'visible' && <BuildYourOwnX client:visible {...widgetProps} />}
+
+<!-- 开发者路线图 -->
+{isDRM && mode === 'load' && <DevRoadmap client:load {...widgetProps} />}
+{isDRM && mode === 'idle' && <DevRoadmap client:idle {...widgetProps} />}
+{isDRM && mode === 'visible' && <DevRoadmap client:visible {...widgetProps} />}
+
+<!-- 系统设计案例库 -->
+{isSD && mode === 'load' && <SystemDesign client:load {...widgetProps} />}
+{isSD && mode === 'idle' && <SystemDesign client:idle {...widgetProps} />}
+{isSD && mode === 'visible' && <SystemDesign client:visible {...widgetProps} />}
+
+<!-- 微分方程求解器 -->
+{isODE && mode === 'load' && <OdeSolver client:load {...widgetProps} />}
+{isODE && mode === 'idle' && <OdeSolver client:idle {...widgetProps} />}
+{isODE && mode === 'visible' && <OdeSolver client:visible {...widgetProps} />}
+
+<!-- 个人所得税计算器 -->
+{isIncomeTaxCn && mode === 'load' && <IncomeTaxCn client:load {...widgetProps} />}
+{isIncomeTaxCn && mode === 'idle' && <IncomeTaxCn client:idle {...widgetProps} />}
+{isIncomeTaxCn && mode === 'visible' && <IncomeTaxCn client:visible {...widgetProps} />}
+
+<!-- 年终奖计税计算器 -->
+{isBonusTaxCn && mode === 'load' && <BonusTaxCn client:load {...widgetProps} />}
+{isBonusTaxCn && mode === 'idle' && <BonusTaxCn client:idle {...widgetProps} />}
+{isBonusTaxCn && mode === 'visible' && <BonusTaxCn client:visible {...widgetProps} />}
+
+<!-- 五险一金计算器 -->
+{isSocialSecurityCn && mode === 'load' && <SocialSecurityCn client:load {...widgetProps} />}
+{isSocialSecurityCn && mode === 'idle' && <SocialSecurityCn client:idle {...widgetProps} />}
+{isSocialSecurityCn && mode === 'visible' && <SocialSecurityCn client:visible {...widgetProps} />}
+
+<!-- 房贷提前还款计算器 -->
+{isMortgageEarly && mode === 'load' && <MortgageEarly client:load {...widgetProps} />}
+{isMortgageEarly && mode === 'idle' && <MortgageEarly client:idle {...widgetProps} />}
+{isMortgageEarly && mode === 'visible' && <MortgageEarly client:visible {...widgetProps} />}
+
+<!-- 公积金贷款计算器 -->
+{isFundLoanCalc && mode === 'load' && <FundLoanCalc client:load {...widgetProps} />}
+{isFundLoanCalc && mode === 'idle' && <FundLoanCalc client:idle {...widgetProps} />}
+{isFundLoanCalc && mode === 'visible' && <FundLoanCalc client:visible {...widgetProps} />}
+
+<!-- 增值税计算器 -->
+{isVatCalc && mode === 'load' && <VatCalc client:load {...widgetProps} />}
+{isVatCalc && mode === 'idle' && <VatCalc client:idle {...widgetProps} />}
+{isVatCalc && mode === 'visible' && <VatCalc client:visible {...widgetProps} />}
+
+<!-- 未接入水合岛屿的工具 -->
+{
+  !known && (
+    <p class="text-sm opacity-60 py-8 text-center">
+      这个工具还在开发中，敬请期待。
+    </p>
+  )
+}
