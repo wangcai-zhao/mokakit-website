@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# 出站中转页：功能页，已 noindex，禁止抓取
+Disallow: /go/
+
+# 内部进度工作台：非公开内容
+Disallow: /workbench.html
+
+Sitemap: https://mokakit.com/sitemap-index.xml

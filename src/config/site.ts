@@ -76,6 +76,12 @@ export const SITE = {
   share: {
     enabled: true,
   },
+  /** 投稿通道：/submit/ 页用 GitHub Issue 引导。owner/repo 配齐后走 GitHub，否则降级 mailto。
+   *  注意：这是占位仓库名，上线前请改为旺财实际公开仓库（mokakit/mokakit-website 仅为示例）。 */
+  github: {
+    owner: 'mokakit',
+    repo: 'mokakit-website',
+  },
 } as const;
 
 /** 供 JSON-LD 与 og 使用的绝对 URL 拼接 */

@@ -1,23 +1,102 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import SearchIsland from '@/components/SearchIsland';
 import { buildSearchIndex } from '@/tools/registry';
+import { CATEGORIES } from '@/config/categories';
 
-// 构建期生成本地搜索索引，随页面下发，纯前端过滤，无后端依赖
 const index = buildSearchIndex();
+const catMap = Object.fromEntries(CATEGORIES.map((c) => [c.id, c.name]));
+const qRaw = Astro.url.searchParams.get('q') || '';
+const q0 = qRaw.trim().toLowerCase();
+const shown = q0
+  ? index.filter(
+      (t) =>
+        t.name.toLowerCase().includes(q0) ||
+        t.tagline.toLowerCase().includes(q0) ||
+        t.keywords.toLowerCase().includes(q0),
+    )
+  : index;
+
+const title = qRaw ? `搜索：“${qRaw}”` : '搜索工具';
+const description =
+  '在摩卡工具箱搜索你需要的在线工具：密码生成、单位换算、个税计算、JSON 格式化等。';
 ---
 
-<BaseLayout
-  title="搜索工具"
-  description="在摩卡工具箱里搜索密码、换算、JSON、加密等数十个在线工具。"
-  path="/search/"
-  noindex={true}
->
-  <div class="mx-auto max-w-3xl px-4 py-12">
-    <h1 class="text-2xl font-bold tracking-tight">搜索工具</h1>
-    <p class="mt-2 text-sm opacity-70">本地即时检索，不联网、不上传。</p>
-    <div class="mt-6">
-      <SearchIsland index={index} client:load />
+<BaseLayout title={title} description={description} path="/search/">
+  <section class="mx-auto max-w-4xl px-4 py-10">
+    <h1 class="text-2xl font-bold mb-1">搜索工具</h1>
+    <p class="text-base-content/60 text-sm mb-4">全站共 {index.length} 个工具</p>
+    <input
+      id="q"
+      type="search"
+      value={qRaw}
+      placeholder="输入工具名、关键词…"
+      class="input input-bordered w-full mb-6"
+      autofocus
+    />
+    <div id="results" class="space-y-2">
+      {
+        shown.map((t) => (
+          <a
+            href={t.url}
+            class="flex items-center gap-3 p-3 rounded-xl border border-base-300 hover:bg-base-200 transition-colors"
+          >
+            <span class="badge badge-ghost">{catMap[t.category] || t.category}</span>
+            <span class="font-medium">{t.name}</span>
+            <span class="text-sm text-base-content/60 truncate">{t.tagline}</span>
+          </a>
+        ))
+      }
     </div>
-  </div>
+    <p id="empty" class="text-base-content/60 hidden">没有找到匹配的工具，换个关键词试试。</p>
+  </section>
 </BaseLayout>
+
+<script is:inline define:vars={{ INDEX: JSON.stringify(index), CAT: JSON.stringify(catMap) }}>
+  (function () {
+    var idx = INDEX;
+    var cat = CAT;
+    var input = document.getElementById('q');
+    var results = document.getElementById('results');
+    var empty = document.getElementById('empty');
+    function esc(s) {
+      return (s || '').replace(/[&<>"]/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+      });
+    }
+    function render(q) {
+      q = (q || '').trim().toLowerCase();
+      var list = q
+        ? idx.filter(function (t) {
+            return (
+              t.name.toLowerCase().indexOf(q) > -1 ||
+              t.tagline.toLowerCase().indexOf(q) > -1 ||
+              t.keywords.toLowerCase().indexOf(q) > -1
+            );
+          })
+        : idx;
+      results.innerHTML = list
+        .map(function (t) {
+          return (
+            '<a href="' +
+            t.url +
+            '" class="flex items-center gap-3 p-3 rounded-xl border border-base-300 hover:bg-base-200 transition-colors">' +
+            '<span class="badge badge-ghost">' +
+            esc(cat[t.category] || t.category) +
+            '</span>' +
+            '<span class="font-medium">' +
+            esc(t.name) +
+            '</span>' +
+            '<span class="text-sm text-base-content/60 truncate">' +
+            esc(t.tagline) +
+            '</span></a>'
+          );
+        })
+        .join('');
+      empty.classList.toggle('hidden', list.length > 0);
+    }
+    input.addEventListener('input', function (e) {
+      render(e.target.value);
+    });
+    render(input.value);
+  })();
+</script>

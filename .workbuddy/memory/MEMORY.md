@@ -1,10 +1,10 @@
 # MokaKit 摩卡工具箱 — 项目长期记忆
 
-> 工作目录 = `D:\WorkBuddy\website`（即本项目根，**非 git 仓库**，改动直接落盘无版本控制）
+> 工作目录 = `D:\WorkBuddy\website`（即本项目根，**已 git 化**：master 分支，首提交 `2eabc3d`；`.gitignore` 忽略 node_modules/dist/.astro/.counter-data；改动可正常 commit）
 
 ## 项目身份
 - 纯静态工具站：Astro 7 + Preact + daisyUI + Tailwind v4。**不引** WordPress/PHP/MySQL/管理后台（保纯静态 + 缩小攻击面）。
-- 域名 mokakit.com（**ICP 已批复：京ICP备2026051111号**；公安联网备案进行中；mokakit.cn 备案已提交待批）。品牌名统一为「摩卡工具箱 / MokaKit」。备案号单一真相源 = `src/config/site.ts` 的 `icp`（ICP 号）/`police`（公安备案号）字段（现空着），页脚 `Footer.astro` 在字段非空时自动渲染并链工信部。
+- 域名 mokakit.com（**ICP 已批复：京ICP备2026051111号**；公安联网备案进行中；mokakit.cn 备案已提交待批）。品牌名统一为「摩卡工具箱 / MokaKit」。备案号单一真相源 = `src/config/site.ts` 的 `icp`（已填 `京ICP备2026051111号`）/`police`（公安号待批留空）字段，页脚 `Footer.astro` 在字段非空时自动渲染并链工信部；`.cn` 暂移出 `altDomains` 待过审回填。
 - 部署：腾讯云轻量 `58.87.68.151` Ubuntu 24.04；密钥 `mokakit_deploy` 已生成，公钥待绑定。
 - 版本 `v0.9.0`，`launched:true`（上线配置已填：icp=京ICP备2026051111号；公安号待批故 `police` 留空；mokakit.cn 备案待批故暂移出 `altDomains`）。双主题 `toolbox`/`toolboxdark`（src/styles/global.css）。
 - 进度看板：`npm run workbench` → 同时写 `workbench/workbench.html`（内部完整版）+ `public/workbench.html`（**公开脱敏版**，随站点发布）。**是静态快照不是实时页**——任何影响规模的改动做完都要顺手重跑，否则数字停在上次。改完 public 那份记得 `cp public/workbench.html dist/workbench.html`，不然预览端口看到的还是旧的。手动数据（部署/备案/里程碑/待办/批次）在 `workbench/status.json`，工具数与页面数自动扫描。
@@ -14,7 +14,7 @@
 - 竞品 calculatorlib.com 已扒透（528 工具/24 分类/12 语言）。护城河三件：① MCP Server（Streamable HTTP + JSON-RPC 2.0，search-first 把上千工具压成 70 个）；② 每个单位对独立长尾页；③ 六段式内容模板（公式→能做什么→怎么用→公式详解→算例→FAQ）。
 - **它的盲区=我们的主场**：无任何中国本土计算器（个税/社保公积金/年终奖计税/房贷提前还款/增值税）。
 - 明确不搬：多语言 i18n、账户系统 + API Token（破坏纯静态与"不上传数据"承诺）。
-- 四项全做：换算长尾扩容 ✅ / 中国本土计算器 ✅（2026-08-11 上线 6 个）/ 六段式内容 ✅（2026-08-12 收口 94/94=100%，含 20 个生成批小标题归一化为标准「这个工具能做什么」）/ MCP Server 🟡（本地版 v0.1.0 已跑通：Streamable HTTP + JSON-RPC 2.0，复用 `src/lib/*.ts` 纯函数，9 个 MCP tool + search-first 检索 94 工具；公网 HTTPS 接入待备案后）。
+- 四项全做：换算长尾扩容 ✅ / 中国本土计算器 ✅（2026-08-11 上线 6 个）/ 六段式内容 ✅（2026-08-12 收口 94/94=100%，含 20 个生成批小标题归一化为标准「这个工具能做什么」）/ MCP Server ✅（本地版 v0.1.0 已跑通：Streamable HTTP + JSON-RPC 2.0，复用 `src/lib/*.ts` 纯函数，9 个 MCP tool + search-first 检索 94 工具；公网 HTTPS 接入待备案后）。
 - 大美丽建议顺序：**先做本土计算器**（顺势把计算逻辑抽成纯 TS `compute` 层，同时喂饱六段式内容与 MCP），再上 MCP Server。
 
 ## MCP Server（战略核心 · 本地版 v0.1.0 已跑通）
@@ -46,9 +46,14 @@
 ## 待办队列
 1. 🔶 **备案（上线配置已落地，待生产推送）** —— `src/config/site.ts` 已填 `icp='京ICP备2026051111号'`、`launched:true`；`police` 留空（公安号待批）、`altDomains` 暂清空（mokakit.cn 备案待批，过审再填回 `['https://mokakit.cn']`）。**本地构建已验证**（394 页、全站 395 html、页脚正确显示备案号+工信部链、.cn 已从出站白名单移除）。剩余纯基建：绑定 deploy 公钥 → A 记录 → `deploy.sh --live` → `server-setup.sh --cert` → `--enable-ssl`。
 2. ✅ **分享按钮 + 点击计数 + 访问统计** —— **已上线**（2026-08-12 开启 `SITE.counter.enabled`）。基建：`deploy/counter/server.mjs`（零依赖 Node，127.0.0.1:18800，生产落盘 `/var/lib/mokakit/`、本地验证用项目内 `.counter-data/`）+ systemd unit + nginx `/api/` 反代。前端：工具使用次数 `#tool-use-count`（ToolLayout.astro）+ 页脚累计访问 `#site-visits`（Footer.astro）+ 分享按钮 `#tool-share-btn`（原生 `navigator.share`+复制兜底，`SITE.share.enabled` 早已 true）。门禁开启后链路全通。本地验证技巧：起 counter server + `scripts/preview-counter.mjs`（纯 Node：服务 dist 静态 + 反代 `/api/*`→18800），preview 面板即可真跑通计数 JS。MCP Server 可搭同一班车（同 systemd/nginx）。
-3. 💬 SEO / 投稿表单 —— 另开会话专项推进。
+3. ✅ **SEO / 投稿表单** —— 已收口（2026-08-12）：
+   - 补 `public/robots.txt`（指向 sitemap-index.xml，Disallow `/go/` 与 `/workbench.html`）
+   - 新增 `/search/` 页（`src/pages/search/index.astro`）：修 Header 搜索图标 404 + 让 BaseLayout 的 SearchAction JSON-LD 名副其实（SSR 渲染全部 94 工具供爬虫索引 + 客户端 `?q=` 过滤）
+   - 新增 `/submit/` 页（`src/pages/submit/index.astro`）：GitHub Issue 引导 + mailto 兜底，零后端；`site.ts` 加 `github:{owner,repo}` 配置（占位 `mokakit/mokakit-website`，上线前改真实仓库）
+   - 百度统计 `analytics.baiduId` 接口已预留（BaseLayout 注入），给 ID 即生效。OG 动态化（per-tool OG 图）留作进阶。
 4. ⏸️ 摩卡配色打磨 —— 暂缓。
 5. ❌ 已放弃：GitHub 仓库分析工具（吃 API 收益低）、陌生高星仓收录、「真·AI 对话舱」（降为待定）。
+6. ✅ **git 版本管理（风险兜底已解除）** —— 原「非 git 仓库靠时间戳回溯丢档风险」已消除：`git init` + 完善 `.gitignore`（忽略 node_modules/dist/.astro/.counter-data/_build.log/mcp-*.log）+ 首提交 `2eabc3d`（431 文件，分支 master，仓库级身份 旺财先生 `<wangcai@mokakit.com>`）。`.workbuddy/memory/` 等项目记忆**已纳入版本化**（archive 里有一行部署公钥指纹，属公钥非私钥，无害）。后续每完成一项大改即可 `git add -A && git commit`。
 
 ## 环境与坑（可复用）
 - **不启动 Astro 直接跑 src/ 下 TS 模块（比构建快 40 倍）**：`node --experimental-strip-types --import ./scripts/ts-resolve.mjs xxx.mjs`。strip-types 只擦类型不管模块解析，无扩展名导入会 ERR_MODULE_NOT_FOUND，`scripts/ts-resolve.mjs` 用 `registerHooks()` 补后缀。数据类改动一律先这样断言校验。

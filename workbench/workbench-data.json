@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026/8/12 20:08:18",
+  "generatedAt": "2026/8/12 20:36:32",
   "project": {
     "name": "MokaKit",
     "nameCn": "摩卡工具箱",
@@ -1800,13 +1800,13 @@
     "maxCat": 32,
     "latestUpdate": "2026-08-11",
     "earliestCreate": "2026-08-04",
-    "pages": 395,
+    "pages": 396,
     "subpages": 247,
     "mdxCoverage": 100
   },
   "assets": {
     "distExists": true,
-    "pagesTotal": 395,
+    "pagesTotal": 396,
     "subpagesTotal": 247,
     "subpagesByTool": [
       {
@@ -1822,8 +1822,8 @@
         "count": 6
       }
     ],
-    "sitemapUrls": 0,
-    "distBuiltAt": "2026/8/12 20:06:22",
+    "sitemapUrls": 393,
+    "distBuiltAt": "2026/8/12 20:36:12",
     "mdxTools": [
       "90-day",
       "aes-encrypt",
