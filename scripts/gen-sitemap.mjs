@@ -36,6 +36,8 @@ for (const f of files) {
   const rel = relative(DIST, f).split(sep).join('/');
   if (rel === '404.html') continue; // 404 不收录
   if (rel.startsWith('go/')) continue; // 跳转中转页不收录（功能页，noindex）
+  if (rel.startsWith('search/')) continue; // 搜索结果页无收录价值
+  if (rel === 'workbench.html') continue; // 内部进度工作台不收录
   let path = '/' + rel.replace(/index\.html$/, '');
   if (path !== '/' && !path.endsWith('/')) path += '/';
   const depth = path === '/' ? 0 : path.split('/').filter(Boolean).length;
