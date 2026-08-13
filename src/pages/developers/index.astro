@@ -1,0 +1,152 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Icon from '@/components/Icon.astro';
+
+const endpoint = 'https://mokakit.com/mcp';
+const mailto = 'mailto:wangcai@mokakit.com?subject=' + encodeURIComponent('【MokaKit MCP 接入申请】');
+
+// 与 mcp/server.mjs 的 TOOLS 保持一致；改 MCP tool 时此处同步更新
+const mcpTools = [
+  { name: 'mokakit_search', desc: '在全部工具中按关键词检索（search-first 入口），返回工具 id/名称/链接；配有计算型工具时附带 mcpTool 名。' },
+  { name: 'income_tax_cn', desc: '中国综合所得（工资薪金）年度个税：输入年税前收入、三险一金、专项附加等，输出税额、税率、到手收入、实际税负率。' },
+  { name: 'bonus_tax_cn', desc: '年终奖单独计税（2024–2027 延续政策）：输入奖金，输出税额、税率、到手，并提示税率跳档盲区。' },
+  { name: 'bonus_compare_cn', desc: '年终奖「单独计税 vs 并入综合所得」对比：输入奖金与综合所得应纳税所得额，输出更优方案。' },
+  { name: 'social_security_cn', desc: '五险一金计算：输入缴费基数（可含上下限与自定义费率），输出个人/单位各项缴纳额与合计。' },
+  { name: 'vat_general_cn', desc: '增值税一般计税（一般纳税人）：销项 − 进项，输出净额、本期应纳与留抵税额。' },
+  { name: 'vat_simple_cn', desc: '增值税简易计税（小规模/特定业务）：不含税销售额 × 征收率，输出税额。' },
+  { name: 'mortgage_schedule_cn', desc: '房贷还款计划（商贷/公积金）：等额本息或等额本金，输出月供、总利息、总还款与逐期明细。' },
+  { name: 'mortgage_early_repayment_cn', desc: '房贷提前还款测算：对比「减少月供」与「缩短期限」，输出节省利息与新月供/新期数。' },
+];
+
+// curl 示例：花括号放 JS 字符串里避免被 Astro 模板解析；占位符用 HTML 实体
+const curlInit = `curl -X POST ${endpoint} \\
+  -H "Content-Type: application/json" \\
+  -H "Authorization: Bearer &lt;YOUR_TOKEN&gt;" \\
+  -d '{ "jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"my-client","version":"1.0"}} }'`;
+
+const curlList = `curl -X POST ${endpoint} \\
+  -H "Content-Type: application/json" \\
+  -H "Authorization: Bearer &lt;YOUR_TOKEN&gt;" \\
+  -H "Mcp-Session-Id: &lt;SESSION_ID&gt;" \\
+  -d '{ "jsonrpc":"2.0","id":2,"method":"tools/list"} }'`;
+
+const curlCall = `curl -X POST ${endpoint} \\
+  -H "Content-Type: application/json" \\
+  -H "Authorization: Bearer &lt;YOUR_TOKEN&gt;" \\
+  -H "Mcp-Session-Id: &lt;SESSION_ID&gt;" \\
+  -d '{ "jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"income_tax_cn","arguments":{"annualGross":300000}}} }'`;
+
+const clientCfg = JSON.stringify(
+  { mcpServers: { mokakit: { url: endpoint, headers: { Authorization: 'Bearer <YOUR_TOKEN>' } } } },
+  null,
+  2
+).replace(/</g, '&lt;').replace(/>/g, '&gt;');
+---
+
+<BaseLayout
+  title="MokaKit MCP 开发者接入"
+  description="MokaKit 摩卡工具箱 MCP Server 公开接入文档：Streamable HTTP 端点、Bearer 鉴权、快速上手 curl 示例、Claude Desktop / Cursor 客户端配置，以及 9 个可直接调用的中国本土计算工具。"
+  path="/developers/"
+>
+
+  <div class="mx-auto max-w-3xl px-4 py-12">
+    <!-- Hero -->
+    <div class="flex flex-wrap items-center gap-3">
+      <h1 class="text-3xl font-bold tracking-tight flex items-center gap-2">
+        <Icon name="code" size={28} /> MokaKit MCP 接入
+      </h1>
+      <span class="badge badge-success badge-outline">端点已上线</span>
+      <span class="badge badge-warning badge-outline">受限开发者预览</span>
+    </div>
+    <p class="mt-4 text-base opacity-70 leading-relaxed">
+      让你的 AI 助手（Claude、Cursor、自研 Agent）直接调用摩卡工具箱里的中国本土计算工具——
+      个税、五险一金、增值税、房贷月供与提前还款。基于
+      <span class="font-mono text-sm">Model Context Protocol</span>（Streamable HTTP 传输），人和 AI 都能调。
+    </p>
+
+    <!-- §1 端点与协议 -->
+    <h2 class="mt-10 text-xl font-bold flex items-center gap-2"><Icon name="server" size={18} /> 1. 端点与协议</h2>
+    <div class="mt-3 card bg-base-100 border border-base-300 p-5 space-y-2 text-sm">
+      <div class="flex flex-wrap gap-x-6 gap-y-1">
+        <span><span class="opacity-60">端点</span> <code class="font-mono">{endpoint}</code></span>
+        <span><span class="opacity-60">传输</span> Streamable HTTP (JSON-RPC 2.0)</span>
+        <span><span class="opacity-60">协议版本</span> 2025-06-18 / 2024-11-05</span>
+        <span><span class="opacity-60">API 版本</span> <code class="font-mono">v1</code></span>
+      </div>
+      <p class="opacity-70 leading-relaxed">
+        POST 请求走 JSON-RPC；首次 <code class="font-mono">initialize</code> 后从响应头取
+        <code class="font-mono">Mcp-Session-Id</code>，后续请求需带上该头。GET 该端点返回 405，
+        不携带合法 Bearer Token 的 POST 返回 401。
+      </p>
+    </div>
+
+    <!-- §2 鉴权 -->
+    <h2 class="mt-10 text-xl font-bold flex items-center gap-2"><Icon name="lock" size={18} /> 2. 鉴权</h2>
+    <p class="mt-3 text-sm opacity-70 leading-relaxed">
+      端点采用 <strong>Bearer Token</strong> 鉴权。当前为受限开发者预览：正式公开注册开放前，
+      请通过下面的邮箱申请试用 Token（我们会回函告知你的专属 Token）。
+    </p>
+    <div class="mt-3 flex flex-wrap gap-3">
+      <a href={mailto} class="btn btn-primary btn-sm">申请接入 Token</a>
+      <a href="/privacy/" class="btn btn-outline btn-sm">查看隐私承诺</a>
+    </div>
+
+    <!-- §3 快速开始 -->
+    <h2 class="mt-10 text-xl font-bold flex items-center gap-2"><Icon name="zap" size={18} /> 3. 快速开始（curl）</h2>
+
+    <h3 class="mt-5 font-semibold">3.1 初始化会话</h3>
+    <pre class="mt-2 bg-base-300/40 rounded-lg p-4 overflow-x-auto text-xs leading-relaxed"><code set:html={curlInit} /></pre>
+
+    <h3 class="mt-5 font-semibold">3.2 列出工具</h3>
+    <pre class="mt-2 bg-base-300/40 rounded-lg p-4 overflow-x-auto text-xs leading-relaxed"><code set:html={curlList} /></pre>
+
+    <h3 class="mt-5 font-semibold">3.3 调用工具（年入 30 万个税）</h3>
+    <pre class="mt-2 bg-base-300/40 rounded-lg p-4 overflow-x-auto text-xs leading-relaxed"><code set:html={curlCall} /></pre>
+
+    <!-- §4 客户端配置 -->
+    <h2 class="mt-10 text-xl font-bold flex items-center gap-2"><Icon name="server" size={18} /> 4. 客户端配置</h2>
+    <p class="mt-3 text-sm opacity-70 leading-relaxed">
+      支持 Streamable HTTP 的客户端（Claude Desktop、Cursor、VS Code 等）直接填 URL + 请求头即可。
+    </p>
+    <pre class="mt-2 bg-base-300/40 rounded-lg p-4 overflow-x-auto text-xs leading-relaxed"><code set:html={clientCfg} /></pre>
+    <p class="mt-2 text-xs opacity-60">
+      配置文件位置：Claude Desktop <code class="font-mono">~/Library/Application Support/Claude/claude_desktop_config.json</code>；
+      Cursor <code class="font-mono">.cursor/mcp.json</code>；VS Code <code class="font-mono">.vscode/mcp.json</code>。
+    </p>
+
+    <!-- §5 工具清单 -->
+    <h2 class="mt-10 text-xl font-bold flex items-center gap-2"><Icon name="scan" size={18} /> 5. 可用工具（9）</h2>
+    <div class="mt-3 overflow-x-auto">
+      <table class="table table-sm table-zebra">
+        <thead>
+          <tr><th class="font-mono">tool name</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          {mcpTools.map((t) => (
+            <tr>
+              <td class="font-mono whitespace-nowrap align-top">{t.name}</td>
+              <td class="opacity-80 align-top">{t.desc}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- §6 versioning + 公开前 checklist -->
+    <h2 class="mt-10 text-xl font-bold flex items-center gap-2"><Icon name="activity" size={18} /> 6. 版本与公开前状态</h2>
+    <ul class="mt-3 space-y-2 text-sm">
+      <li class="flex gap-2"><span class="text-success mt-0.5">✓</span><span><strong>版本策略</strong>：当前 <code class="font-mono">v1</code>，端点路径 <code class="font-mono">/mcp</code>。破坏性变更走 <code class="font-mono">/mcp/v2</code>（已预留），不破坏 v1 客户端。</span></li>
+      <li class="flex gap-2"><span class="text-success mt-0.5">✓</span><span><strong>端点</strong>：HTTPS 已上线，Bearer Token 鉴权已启用。</span></li>
+      <li class="flex gap-2"><span class="text-warning mt-0.5">⏳</span><span><strong>公开注册</strong>：开放前需先建立申请/发放通道（当前为受限预览）。</span></li>
+      <li class="flex gap-2"><span class="text-warning mt-0.5">⏳</span><span><strong>工具冻结</strong>：公开后 tool name / schema 变更会破坏已接入的客户端，需走版本化或提前公告。</span></li>
+    </ul>
+
+    <div class="mt-8 card bg-primary/10 border border-primary/20 p-5">
+      <p class="text-sm font-semibold flex items-center gap-2"><Icon name="mail" size={16} /> 想提前接入？</p>
+      <p class="mt-1 text-sm opacity-75 leading-relaxed">
+        发邮件到 <a href={mailto} class="link link-primary font-mono">wangcai@mokakit.com</a>，
+        主题注明「MCP 接入申请」，我们会回函发放试用 Token 与对接支持。
+      </p>
+    </div>
+  </div>
+</BaseLayout>
