@@ -6,16 +6,18 @@
 export const SITE = {
   /**
    * 正式域名（含协议，结尾不加斜杠）。
-   * 主域名走 mokakit.com；mokakit.cn 已注册但备案待批，暂不做 301 跳转也不出内容，
-   * 避免备案未过就暴露二级域名。备案成功后把下面 altDomains 改回 ['https://mokakit.cn'] 即可。
+   * 规范域名走 www.mokakit.com；裸 mokakit.com 与 mokakit.cn 仅做 301 跳转、不出内容。
+   * mokakit.cn 已注册但备案待批，暂不做跳转也不出内容，避免备案未过就暴露二级域名；
+   * 备案成功后把 altDomains 里的裸 mokakit.com 换成 ['https://mokakit.cn'] 即可。
    */
-  url: 'https://mokakit.com',
+  url: 'https://www.mokakit.com',
 
   /**
    * 备用域名。做 301 跳转用，不参与 canonical / sitemap。
-   * 部署时在服务器上把它整站 301 到 SITE.url 即可。
+   * 部署时在服务器上把它整站 301 到 SITE.url（www）即可。
+   * 当前裸 mokakit.com 是规范域名的无 www 形态，列入后出站链接判断不会把它当第三方走 /go/。
    */
-  altDomains: [],
+  altDomains: ['https://mokakit.com'],
 
   /** 站点名称（英文品牌）。备案时填的网站名称建议用中文名 */
   name: 'MokaKit',

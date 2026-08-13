@@ -10,8 +10,8 @@
  *   3. 描述从 meta 生成：MCP tool 描述取自对应 meta.ts。
  *
  * 工具清单：
- *   - 8 个计算型 tool（复用 china-tax / social-security / vat / mortgage 纯函数）
- *   - 1 个 search-first 入口 mokakit_search（在 94 工具目录里按词检索）
+ *   - 14 个计算型 tool（复用 china-tax / social-security / vat / mortgage / china-calc-extra 纯函数）
+ *   - 1 个 search-first 入口 mokakit_search（在 100 工具目录里按词检索）
  *
  * 运行：node --experimental-strip-types mcp/server.mjs   （监听 MCP_PORT，默认 18700）
  * 客户端接入 URL：http://localhost:18700/mcp
@@ -24,10 +24,20 @@ import { loadAllMeta } from './meta-loader.mjs';
 // ── 复用纯计算层（src/lib/*.ts，仅依赖 decimal.js，无浏览器 API）─────────
 // 注意：生产态由 mcp/build.mjs 用 esbuild 把本文件与这些 .ts 打成自包含
 // deploy/mcp/server.mjs（target=node18），服务器无需 TS 运行时、无需 src/ 源码。
+// 6 个中国本土计算器（退休年龄/税后工资/存款利息/契税/加班工资/养老金）的纯函数
+// 统一在 china-calc-extra.ts，与 Tool.tsx 同源、零浏览器 API。
 import { calcIncomeTaxAnnual, calcBonusTaxSeparate, compareBonus } from '../src/lib/china-tax.ts';
 import { calcSocialSecurity } from '../src/lib/china-social-security.ts';
 import { calcGeneralVat, calcSimpleVat } from '../src/lib/china-vat.ts';
 import { buildSchedule, calcEarlyRepayment } from '../src/lib/mortgage.ts';
+import {
+  calcRetirementAge,
+  calcAfterTaxSalary,
+  calcDepositInterest,
+  calcDeedTax,
+  calcOvertimePay,
+  calcPensionEstimate,
+} from '../src/lib/china-calc-extra.ts';
 
 const PORT = Number(process.env.MCP_PORT || 18700);
 const SERVER_NAME = 'mokakit-mcp';
@@ -61,6 +71,12 @@ const CONCRETE_BY_ID = {
   'vat-calc': 'vat_general_cn',
   'mortgage-early-repayment': 'mortgage_early_repayment_cn',
   'fund-loan-calc': 'mortgage_schedule_cn',
+  'retirement-age': 'retirement_age_cn',
+  'after-tax-salary': 'after_tax_salary_cn',
+  'deposit-interest': 'deposit_interest_cn',
+  'deed-tax': 'deed_tax_cn',
+  'overtime-pay': 'overtime_pay_cn',
+  'pension-estimate': 'pension_estimate_cn',
 };
 
 function desc(id, fallback) {
@@ -279,6 +295,153 @@ const COMPUTE_TOOLS = [
         paidPeriods: num(a.paidPeriods),
         prepayAmount: num(a.prepayAmount),
         mode: a.mode,
+      }),
+  },
+  {
+    name: 'retirement_age_cn',
+    description: desc(
+      'retirement-age',
+      '退休年龄测算。依据 2025 年起实施的渐进式延迟退休政策，输入出生年月与人员类别（男职工 / 女职工干部 / 女工人），自动测算法定退休年龄、延迟月数与具体退休年月。'
+    ),
+    inputSchema: {
+      type: 'object',
+      properties: {
+        birthYear: { type: 'number', description: '出生年份（1940–2010）' },
+        birthMonth: { type: 'number', description: '出生月份（1–12）' },
+        category: {
+          type: 'string',
+          enum: ['male', 'female-cadre', 'female-worker'],
+          description: 'male=男职工(60→63)，female-cadre=女职工/女干部(55→58)，female-worker=女工人(50→55)',
+          default: 'male',
+        },
+      },
+      required: ['birthYear', 'birthMonth'],
+    },
+    handler: (a) =>
+      calcRetirementAge(num(a.birthYear), num(a.birthMonth), a.category || 'male'),
+  },
+  {
+    name: 'after_tax_salary_cn',
+    description: desc(
+      'after-tax-salary',
+      '税后工资计算器。正算：输入税前月薪、三险一金与专项附加，算出月个税与税后到手；反推：输入税后到手金额，反推对应税前工资。按综合所得年度税率表计算。'
+    ),
+    inputSchema: {
+      type: 'object',
+      properties: {
+        mode: { type: 'string', enum: ['forward', 'reverse'], description: 'forward=正算(税前→税后)，reverse=反推(税后→税前)', default: 'forward' },
+        monthlyGross: { type: 'number', description: '每月税前工资（元），mode=forward 时必填' },
+        monthlyNet: { type: 'number', description: '每月税后到手（元），mode=reverse 时必填' },
+        monthlySocial: { type: 'number', description: '每月三险一金个人缴纳（元）', default: 0 },
+        monthlySpecial: { type: 'number', description: '每月专项附加扣除（元）', default: 0 },
+      },
+      required: ['mode'],
+    },
+    handler: (a) =>
+      calcAfterTaxSalary({
+        mode: a.mode || 'forward',
+        monthlyGross: a.monthlyGross != null ? num(a.monthlyGross) : undefined,
+        monthlyNet: a.monthlyNet != null ? num(a.monthlyNet) : undefined,
+        monthlySocial: num(a.monthlySocial, 0),
+        monthlySpecial: num(a.monthlySpecial, 0),
+      }),
+  },
+  {
+    name: 'deposit_interest_cn',
+    description: desc(
+      'deposit-interest',
+      '存款利息计算器。输入本金、年利率与存期，支持到期一次性还本付息（单利）、自动转存（复利）与按月付息三种计息方式，算出利息金额与到期本息合计。'
+    ),
+    inputSchema: {
+      type: 'object',
+      properties: {
+        principal: { type: 'number', description: '本金（元）' },
+        annualRatePct: { type: 'number', description: '年利率（%），如 2.0' },
+        years: { type: 'number', description: '存期（年，可填小数，如 0.25 为 3 个月）' },
+        mode: { type: 'string', enum: ['once', 'compound', 'monthly'], description: 'once=一次性付息(单利)，compound=自动转存(复利)，monthly=按月付息', default: 'compound' },
+      },
+      required: ['principal', 'annualRatePct', 'years'],
+    },
+    handler: (a) =>
+      calcDepositInterest({
+        principal: num(a.principal),
+        annualRatePct: num(a.annualRatePct),
+        years: num(a.years),
+        mode: a.mode || 'compound',
+      }),
+  },
+  {
+    name: 'deed_tax_cn',
+    description: desc(
+      'deed-tax',
+      '契税计算器。输入房屋成交价格（万元）、建筑面积与家庭住房套数（首套 / 二套 / 三套及以上），按现行契税优惠政策测算适用税率与应缴契税额。支持含税价自动剔除增值税。'
+    ),
+    inputSchema: {
+      type: 'object',
+      properties: {
+        priceWan: { type: 'number', description: '成交价格（万元）' },
+        area: { type: 'number', description: '建筑面积（㎡）' },
+        tier: { type: 'string', enum: ['first', 'second', 'third'], description: 'first=家庭唯一住房，second=第二套改善性住房，third=第三套及以上' },
+        vatInclusive: { type: 'boolean', description: '成交价是否含 5% 增值税（勾选后自动剔除再计税）', default: false },
+      },
+      required: ['priceWan', 'area', 'tier'],
+    },
+    handler: (a) =>
+      calcDeedTax({
+        priceWan: num(a.priceWan),
+        area: num(a.area),
+        tier: a.tier,
+        vatInclusive: a.vatInclusive != null ? !!a.vatInclusive : false,
+      }),
+  },
+  {
+    name: 'overtime_pay_cn',
+    description: desc(
+      'overtime-pay',
+      '加班工资计算器。输入月工资与各类加班小时数，按标准工时制核算加班费：工作日延长 150%、休息日 200%、法定休假日 300%。输出日工资、小时工资与加班费合计。'
+    ),
+    inputSchema: {
+      type: 'object',
+      properties: {
+        monthlySalary: { type: 'number', description: '每月工资（元）' },
+        weekdayHours: { type: 'number', description: '工作日加班小时数', default: 0 },
+        restDayHours: { type: 'number', description: '休息日加班小时数', default: 0 },
+        holidayHours: { type: 'number', description: '法定节假日加班小时数', default: 0 },
+      },
+      required: ['monthlySalary'],
+    },
+    handler: (a) =>
+      calcOvertimePay({
+        monthlySalary: num(a.monthlySalary),
+        weekdayHours: num(a.weekdayHours, 0),
+        restDayHours: num(a.restDayHours, 0),
+        holidayHours: num(a.holidayHours, 0),
+      }),
+  },
+  {
+    name: 'pension_estimate_cn',
+    description: desc(
+      'pension-estimate',
+      '养老金测算。输入退休年龄、当地上年度社平工资、本人平均缴费指数、累计缴费年限与个人账户储存额，按现行职工基本养老保险公式估算每月基础养老金与个人账户养老金。'
+    ),
+    inputSchema: {
+      type: 'object',
+      properties: {
+        retireAge: { type: 'string', enum: ['50', '55', '60', '65'], description: '退休年龄（对应计发月数 195/170/139/101）', default: '60' },
+        avgWage: { type: 'number', description: '当地上年度社平工资（元/月）' },
+        index: { type: 'number', description: '本人平均缴费指数（0.6–3）' },
+        years: { type: 'number', description: '累计缴费年限（年）' },
+        personalBalance: { type: 'number', description: '个人账户储存额（元）' },
+      },
+      required: ['avgWage', 'index', 'years', 'personalBalance'],
+    },
+    handler: (a) =>
+      calcPensionEstimate({
+        retireAge: a.retireAge || '60',
+        avgWage: num(a.avgWage),
+        index: num(a.index),
+        years: num(a.years),
+        personalBalance: num(a.personalBalance),
       }),
   },
 ];

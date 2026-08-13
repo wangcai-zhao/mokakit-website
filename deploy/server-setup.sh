@@ -66,13 +66,13 @@ enable_ssl() {
   # 清掉历史上误放进 conf.d 的副本（conf.d 会被 nginx 自动加载，会和下面 include 重复加载导致 443 块冲突）
   rm -f /etc/nginx/conf.d/mokakit-ssl.conf
   # 注意 mokakit.conf 里这些行带缩进，sed 锚点要允许前导空白才能匹配
-  sed -i 's|^[[:space:]]*# return 301 https://mokakit.com\$request_uri;.*|    return 301 https://mokakit.com$request_uri;|' "$CONF"
+  sed -i 's|^[[:space:]]*# return 301 https://mokakit.com\$request_uri;.*|    return 301 https://www.mokakit.com$request_uri;|' "$CONF"
   sed -i 's|^[[:space:]]*#\? *include /etc/nginx/\(conf\.d/\)\?mokakit-ssl.conf;.*|include /etc/nginx/mokakit-ssl.conf;|' "$CONF"
   # www/.cn 备用域直接 301 到 https 主域，避免 http→https 双重跳转
-  sed -i 's|return 301 http://mokakit.com\$request_uri;|    return 301 https://mokakit.com$request_uri;|' "$CONF"
+  sed -i 's|return 301 http://mokakit.com\$request_uri;|    return 301 https://www.mokakit.com$request_uri;|' "$CONF"
   if nginx -t 2>&1 | grep -q "successful"; then
     systemctl reload nginx
-    c_ok "HTTPS 已启用，访问 http://mokakit.com 会自动跳转到 https"
+    c_ok "HTTPS 已启用，裸 mokakit.com 会自动 301 跳转到 https://www.mokakit.com"
   else
     c_err "Nginx 配置校验失败："; nginx -t
     exit 1

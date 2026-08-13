@@ -2649,6 +2649,203 @@ function calcEarlyRepayment(i) {
   };
 }
 
+// src/lib/china-calc-extra.ts
+var RETIREMENT_RULES = {
+  male: { baseAge: 60, targetAge: 63, baselineY: 1965, baselineM: 1, stepMonths: 4 },
+  "female-cadre": { baseAge: 55, targetAge: 58, baselineY: 1970, baselineM: 1, stepMonths: 4 },
+  "female-worker": { baseAge: 50, targetAge: 55, baselineY: 1975, baselineM: 1, stepMonths: 2 }
+};
+function monthNum(y, m) {
+  return y * 12 + (m - 1);
+}
+function calcRetirementAge(birthYear, birthMonth, category = "male") {
+  if (birthYear < 1940 || birthYear > 2010)
+    return { error: "\u51FA\u751F\u5E74\u4EFD\u9700\u5728 1940\u20132010 \u4E4B\u95F4" };
+  if (birthMonth < 1 || birthMonth > 12)
+    return { error: "\u6708\u4EFD\u9700\u5728 1\u201312 \u4E4B\u95F4" };
+  const rule = RETIREMENT_RULES[category];
+  const birth = monthNum(birthYear, birthMonth);
+  const base = monthNum(rule.baselineY, rule.baselineM);
+  const diff = birth - base;
+  let delayMonths = 0;
+  if (diff > 0) delayMonths = Math.floor(diff / rule.stepMonths);
+  const maxDelay = (rule.targetAge - rule.baseAge) * 12;
+  delayMonths = Math.min(delayMonths, maxDelay);
+  const retireAgeMonths = rule.baseAge * 12 + delayMonths;
+  const retireAgeYears = Math.floor(retireAgeMonths / 12);
+  const retireAgeExtra = retireAgeMonths % 12;
+  const retireTotal = birth + retireAgeMonths;
+  const ry = Math.floor(retireTotal / 12);
+  const rm = retireTotal % 12 + 1;
+  return {
+    category,
+    baseAge: rule.baseAge,
+    targetAge: rule.targetAge,
+    retireAgeYears,
+    retireAgeExtra,
+    delayMonths,
+    retireYear: ry,
+    retireMonth: rm,
+    changed: delayMonths > 0
+  };
+}
+var SALARY_BRACKETS = [
+  { upper: 36e3, rate: 0.03, quick: 0 },
+  { upper: 144e3, rate: 0.1, quick: 2520 },
+  { upper: 3e5, rate: 0.2, quick: 16920 },
+  { upper: 42e4, rate: 0.25, quick: 31920 },
+  { upper: 66e4, rate: 0.3, quick: 52920 },
+  { upper: 96e4, rate: 0.35, quick: 85920 },
+  { upper: Infinity, rate: 0.45, quick: 181920 }
+];
+function taxOf(taxable) {
+  if (taxable <= 0) return { tax: 0, rate: 0, quick: 0 };
+  for (const b of SALARY_BRACKETS) {
+    if (taxable <= b.upper) return { tax: taxable * b.rate - b.quick, rate: b.rate, quick: b.quick };
+  }
+  return { tax: 0, rate: 0, quick: 0 };
+}
+function fromGross(monthlyGross, monthlySocial, monthlySpecial) {
+  const annualGross = monthlyGross * 12;
+  const annualSocial = monthlySocial * 12;
+  const annualSpecial = monthlySpecial * 12;
+  const taxable = annualGross - 6e4 - annualSocial - annualSpecial;
+  const { tax, rate } = taxOf(taxable);
+  const finalTax = Math.max(0, tax);
+  const afterTaxAnnual = annualGross - annualSocial - finalTax;
+  return {
+    annualGross,
+    annualSocial,
+    taxable,
+    rate,
+    annualTax: finalTax,
+    monthlyTax: finalTax / 12,
+    afterTaxMonthly: afterTaxAnnual / 12,
+    afterTaxAnnual
+  };
+}
+function reverseGross(targetNet, monthlySocial, monthlySpecial) {
+  let lo = Math.max(0, targetNet - monthlySocial);
+  let hi = targetNet * 4 + 1e5;
+  for (let i = 0; i < 80; i++) {
+    const mid = (lo + hi) / 2;
+    const net = fromGross(mid, monthlySocial, monthlySpecial).afterTaxMonthly;
+    if (net < targetNet) lo = mid;
+    else hi = mid;
+  }
+  return (lo + hi) / 2;
+}
+function calcAfterTaxSalary(params) {
+  const { mode } = params;
+  const social = params.monthlySocial ?? 0;
+  const special = params.monthlySpecial ?? 0;
+  if (social < 0 || special < 0)
+    return { error: "\u4E09\u9669\u4E00\u91D1 / \u4E13\u9879\u9644\u52A0\u4E0D\u80FD\u4E3A\u8D1F" };
+  if (mode === "forward") {
+    const g2 = params.monthlyGross ?? 0;
+    if (g2 < 0) return { error: "\u7A0E\u524D\u5DE5\u8D44\u4E0D\u80FD\u4E3A\u8D1F" };
+    return { ...fromGross(g2, social, special), mode: "forward" };
+  }
+  const n = params.monthlyNet ?? 0;
+  if (n < 0) return { error: "\u7A0E\u540E\u5DE5\u8D44\u4E0D\u80FD\u4E3A\u8D1F" };
+  const g = reverseGross(n, social, special);
+  const fwd = fromGross(g, social, special);
+  return { ...fwd, mode: "reverse", netTarget: n };
+}
+function calcDepositInterest(params) {
+  const { principal: p, annualRatePct: r, years: y } = params;
+  const mode = params.mode ?? "compound";
+  if (p < 0) return { error: "\u672C\u91D1\u4E0D\u80FD\u4E3A\u8D1F" };
+  if (r < 0) return { error: "\u5229\u7387\u4E0D\u80FD\u4E3A\u8D1F" };
+  if (y <= 0) return { error: "\u5B58\u671F\u9700\u5927\u4E8E 0" };
+  const annualRate = r / 100;
+  let interest;
+  let monthly = 0;
+  if (mode === "once") {
+    interest = p * annualRate * y;
+  } else if (mode === "compound") {
+    interest = p * (Math.pow(1 + annualRate, y) - 1);
+  } else {
+    monthly = p * annualRate / 12;
+    interest = monthly * y * 12;
+  }
+  const total = p + interest;
+  return { principal: p, annualRatePct: r, years: y, mode, interest, total, monthlyInterest: monthly };
+}
+function calcDeedTax(params) {
+  const { priceWan, area, tier } = params;
+  const inclusive = params.vatInclusive ?? false;
+  if (priceWan <= 0) return { error: "\u6210\u4EA4\u4EF7\u683C\u9700\u5927\u4E8E 0" };
+  if (area <= 0) return { error: "\u9762\u79EF\u9700\u5927\u4E8E 0" };
+  const totalPrice = priceWan * 1e4;
+  const base = inclusive ? totalPrice / 1.05 : totalPrice;
+  const small = area <= 90;
+  let rate;
+  if (tier === "first") rate = small ? 0.01 : 0.015;
+  else if (tier === "second") rate = small ? 0.01 : 0.02;
+  else rate = 0.03;
+  const tax = base * rate;
+  return { totalPrice, taxableBase: base, rate, tax, area, tier, vatInclusive: inclusive };
+}
+function calcOvertimePay(params) {
+  const { monthlySalary: s } = params;
+  const wd = params.weekdayHours ?? 0;
+  const rs = params.restDayHours ?? 0;
+  const hd = params.holidayHours ?? 0;
+  if (s <= 0) return { error: "\u6708\u5DE5\u8D44\u9700\u5927\u4E8E 0" };
+  if (wd < 0 || rs < 0 || hd < 0) return { error: "\u52A0\u73ED\u5C0F\u65F6\u4E0D\u80FD\u4E3A\u8D1F" };
+  const dayWage = s / 21.75;
+  const hourWage = dayWage / 8;
+  const weekdayPay = hourWage * 1.5 * wd;
+  const restPay = hourWage * 2 * rs;
+  const holidayPay = hourWage * 3 * hd;
+  const total = weekdayPay + restPay + holidayPay;
+  return {
+    monthlySalary: s,
+    dayWage,
+    hourWage,
+    weekdayHours: wd,
+    restDayHours: rs,
+    holidayHours: hd,
+    weekdayPay,
+    restPay,
+    holidayPay,
+    overtimeTotal: total,
+    totalWithSalary: s + total
+  };
+}
+var PENSION_MONTHS = {
+  "50": 195,
+  "55": 170,
+  "60": 139,
+  "65": 101
+};
+function calcPensionEstimate(params) {
+  const { retireAge, avgWage: w, index: idx, years: y, personalBalance: b } = params;
+  if (w <= 0 || idx <= 0 || y <= 0)
+    return { error: "\u793E\u5E73\u5DE5\u8D44\u3001\u7F34\u8D39\u6307\u6570\u3001\u7F34\u8D39\u5E74\u9650\u9700\u5927\u4E8E 0" };
+  if (b < 0) return { error: "\u4E2A\u4EBA\u8D26\u6237\u50A8\u5B58\u989D\u4E0D\u5C0F\u4E8E 0" };
+  const months = PENSION_MONTHS[retireAge];
+  const basePension = w * ((1 + idx) / 2) * y * 0.01;
+  const personalPension = b / months;
+  const monthly = basePension + personalPension;
+  const annual = monthly * 12;
+  const replacement = monthly / (w * idx || 1);
+  return {
+    retireAge,
+    months,
+    avgWage: w,
+    index: idx,
+    years: y,
+    personalBalance: b,
+    basePension,
+    personalPension,
+    monthlyPension: monthly,
+    annualPension: annual,
+    replacementRate: replacement
+  };
+}
+
 // mcp/server.mjs
 var PORT = Number(process.env.MCP_PORT || 18700);
 var SERVER_NAME = "mokakit-mcp";
@@ -2672,7 +2869,13 @@ var CONCRETE_BY_ID = {
   "social-security-cn": "social_security_cn",
   "vat-calc": "vat_general_cn",
   "mortgage-early-repayment": "mortgage_early_repayment_cn",
-  "fund-loan-calc": "mortgage_schedule_cn"
+  "fund-loan-calc": "mortgage_schedule_cn",
+  "retirement-age": "retirement_age_cn",
+  "after-tax-salary": "after_tax_salary_cn",
+  "deposit-interest": "deposit_interest_cn",
+  "deed-tax": "deed_tax_cn",
+  "overtime-pay": "overtime_pay_cn",
+  "pension-estimate": "pension_estimate_cn"
 };
 function desc(id, fallback) {
   const m = META_BY_ID.get(id);
@@ -2875,6 +3078,147 @@ var COMPUTE_TOOLS = [
       paidPeriods: num(a.paidPeriods),
       prepayAmount: num(a.prepayAmount),
       mode: a.mode
+    })
+  },
+  {
+    name: "retirement_age_cn",
+    description: desc(
+      "retirement-age",
+      "\u9000\u4F11\u5E74\u9F84\u6D4B\u7B97\u3002\u4F9D\u636E 2025 \u5E74\u8D77\u5B9E\u65BD\u7684\u6E10\u8FDB\u5F0F\u5EF6\u8FDF\u9000\u4F11\u653F\u7B56\uFF0C\u8F93\u5165\u51FA\u751F\u5E74\u6708\u4E0E\u4EBA\u5458\u7C7B\u522B\uFF08\u7537\u804C\u5DE5 / \u5973\u804C\u5DE5\u5E72\u90E8 / \u5973\u5DE5\u4EBA\uFF09\uFF0C\u81EA\u52A8\u6D4B\u7B97\u6CD5\u5B9A\u9000\u4F11\u5E74\u9F84\u3001\u5EF6\u8FDF\u6708\u6570\u4E0E\u5177\u4F53\u9000\u4F11\u5E74\u6708\u3002"
+    ),
+    inputSchema: {
+      type: "object",
+      properties: {
+        birthYear: { type: "number", description: "\u51FA\u751F\u5E74\u4EFD\uFF081940\u20132010\uFF09" },
+        birthMonth: { type: "number", description: "\u51FA\u751F\u6708\u4EFD\uFF081\u201312\uFF09" },
+        category: {
+          type: "string",
+          enum: ["male", "female-cadre", "female-worker"],
+          description: "male=\u7537\u804C\u5DE5(60\u219263)\uFF0Cfemale-cadre=\u5973\u804C\u5DE5/\u5973\u5E72\u90E8(55\u219258)\uFF0Cfemale-worker=\u5973\u5DE5\u4EBA(50\u219255)",
+          default: "male"
+        }
+      },
+      required: ["birthYear", "birthMonth"]
+    },
+    handler: (a) => calcRetirementAge(num(a.birthYear), num(a.birthMonth), a.category || "male")
+  },
+  {
+    name: "after_tax_salary_cn",
+    description: desc(
+      "after-tax-salary",
+      "\u7A0E\u540E\u5DE5\u8D44\u8BA1\u7B97\u5668\u3002\u6B63\u7B97\uFF1A\u8F93\u5165\u7A0E\u524D\u6708\u85AA\u3001\u4E09\u9669\u4E00\u91D1\u4E0E\u4E13\u9879\u9644\u52A0\uFF0C\u7B97\u51FA\u6708\u4E2A\u7A0E\u4E0E\u7A0E\u540E\u5230\u624B\uFF1B\u53CD\u63A8\uFF1A\u8F93\u5165\u7A0E\u540E\u5230\u624B\u91D1\u989D\uFF0C\u53CD\u63A8\u5BF9\u5E94\u7A0E\u524D\u5DE5\u8D44\u3002\u6309\u7EFC\u5408\u6240\u5F97\u5E74\u5EA6\u7A0E\u7387\u8868\u8BA1\u7B97\u3002"
+    ),
+    inputSchema: {
+      type: "object",
+      properties: {
+        mode: { type: "string", enum: ["forward", "reverse"], description: "forward=\u6B63\u7B97(\u7A0E\u524D\u2192\u7A0E\u540E)\uFF0Creverse=\u53CD\u63A8(\u7A0E\u540E\u2192\u7A0E\u524D)", default: "forward" },
+        monthlyGross: { type: "number", description: "\u6BCF\u6708\u7A0E\u524D\u5DE5\u8D44\uFF08\u5143\uFF09\uFF0Cmode=forward \u65F6\u5FC5\u586B" },
+        monthlyNet: { type: "number", description: "\u6BCF\u6708\u7A0E\u540E\u5230\u624B\uFF08\u5143\uFF09\uFF0Cmode=reverse \u65F6\u5FC5\u586B" },
+        monthlySocial: { type: "number", description: "\u6BCF\u6708\u4E09\u9669\u4E00\u91D1\u4E2A\u4EBA\u7F34\u7EB3\uFF08\u5143\uFF09", default: 0 },
+        monthlySpecial: { type: "number", description: "\u6BCF\u6708\u4E13\u9879\u9644\u52A0\u6263\u9664\uFF08\u5143\uFF09", default: 0 }
+      },
+      required: ["mode"]
+    },
+    handler: (a) => calcAfterTaxSalary({
+      mode: a.mode || "forward",
+      monthlyGross: a.monthlyGross != null ? num(a.monthlyGross) : void 0,
+      monthlyNet: a.monthlyNet != null ? num(a.monthlyNet) : void 0,
+      monthlySocial: num(a.monthlySocial, 0),
+      monthlySpecial: num(a.monthlySpecial, 0)
+    })
+  },
+  {
+    name: "deposit_interest_cn",
+    description: desc(
+      "deposit-interest",
+      "\u5B58\u6B3E\u5229\u606F\u8BA1\u7B97\u5668\u3002\u8F93\u5165\u672C\u91D1\u3001\u5E74\u5229\u7387\u4E0E\u5B58\u671F\uFF0C\u652F\u6301\u5230\u671F\u4E00\u6B21\u6027\u8FD8\u672C\u4ED8\u606F\uFF08\u5355\u5229\uFF09\u3001\u81EA\u52A8\u8F6C\u5B58\uFF08\u590D\u5229\uFF09\u4E0E\u6309\u6708\u4ED8\u606F\u4E09\u79CD\u8BA1\u606F\u65B9\u5F0F\uFF0C\u7B97\u51FA\u5229\u606F\u91D1\u989D\u4E0E\u5230\u671F\u672C\u606F\u5408\u8BA1\u3002"
+    ),
+    inputSchema: {
+      type: "object",
+      properties: {
+        principal: { type: "number", description: "\u672C\u91D1\uFF08\u5143\uFF09" },
+        annualRatePct: { type: "number", description: "\u5E74\u5229\u7387\uFF08%\uFF09\uFF0C\u5982 2.0" },
+        years: { type: "number", description: "\u5B58\u671F\uFF08\u5E74\uFF0C\u53EF\u586B\u5C0F\u6570\uFF0C\u5982 0.25 \u4E3A 3 \u4E2A\u6708\uFF09" },
+        mode: { type: "string", enum: ["once", "compound", "monthly"], description: "once=\u4E00\u6B21\u6027\u4ED8\u606F(\u5355\u5229)\uFF0Ccompound=\u81EA\u52A8\u8F6C\u5B58(\u590D\u5229)\uFF0Cmonthly=\u6309\u6708\u4ED8\u606F", default: "compound" }
+      },
+      required: ["principal", "annualRatePct", "years"]
+    },
+    handler: (a) => calcDepositInterest({
+      principal: num(a.principal),
+      annualRatePct: num(a.annualRatePct),
+      years: num(a.years),
+      mode: a.mode || "compound"
+    })
+  },
+  {
+    name: "deed_tax_cn",
+    description: desc(
+      "deed-tax",
+      "\u5951\u7A0E\u8BA1\u7B97\u5668\u3002\u8F93\u5165\u623F\u5C4B\u6210\u4EA4\u4EF7\u683C\uFF08\u4E07\u5143\uFF09\u3001\u5EFA\u7B51\u9762\u79EF\u4E0E\u5BB6\u5EAD\u4F4F\u623F\u5957\u6570\uFF08\u9996\u5957 / \u4E8C\u5957 / \u4E09\u5957\u53CA\u4EE5\u4E0A\uFF09\uFF0C\u6309\u73B0\u884C\u5951\u7A0E\u4F18\u60E0\u653F\u7B56\u6D4B\u7B97\u9002\u7528\u7A0E\u7387\u4E0E\u5E94\u7F34\u5951\u7A0E\u989D\u3002\u652F\u6301\u542B\u7A0E\u4EF7\u81EA\u52A8\u5254\u9664\u589E\u503C\u7A0E\u3002"
+    ),
+    inputSchema: {
+      type: "object",
+      properties: {
+        priceWan: { type: "number", description: "\u6210\u4EA4\u4EF7\u683C\uFF08\u4E07\u5143\uFF09" },
+        area: { type: "number", description: "\u5EFA\u7B51\u9762\u79EF\uFF08\u33A1\uFF09" },
+        tier: { type: "string", enum: ["first", "second", "third"], description: "first=\u5BB6\u5EAD\u552F\u4E00\u4F4F\u623F\uFF0Csecond=\u7B2C\u4E8C\u5957\u6539\u5584\u6027\u4F4F\u623F\uFF0Cthird=\u7B2C\u4E09\u5957\u53CA\u4EE5\u4E0A" },
+        vatInclusive: { type: "boolean", description: "\u6210\u4EA4\u4EF7\u662F\u5426\u542B 5% \u589E\u503C\u7A0E\uFF08\u52FE\u9009\u540E\u81EA\u52A8\u5254\u9664\u518D\u8BA1\u7A0E\uFF09", default: false }
+      },
+      required: ["priceWan", "area", "tier"]
+    },
+    handler: (a) => calcDeedTax({
+      priceWan: num(a.priceWan),
+      area: num(a.area),
+      tier: a.tier,
+      vatInclusive: a.vatInclusive != null ? !!a.vatInclusive : false
+    })
+  },
+  {
+    name: "overtime_pay_cn",
+    description: desc(
+      "overtime-pay",
+      "\u52A0\u73ED\u5DE5\u8D44\u8BA1\u7B97\u5668\u3002\u8F93\u5165\u6708\u5DE5\u8D44\u4E0E\u5404\u7C7B\u52A0\u73ED\u5C0F\u65F6\u6570\uFF0C\u6309\u6807\u51C6\u5DE5\u65F6\u5236\u6838\u7B97\u52A0\u73ED\u8D39\uFF1A\u5DE5\u4F5C\u65E5\u5EF6\u957F 150%\u3001\u4F11\u606F\u65E5 200%\u3001\u6CD5\u5B9A\u4F11\u5047\u65E5 300%\u3002\u8F93\u51FA\u65E5\u5DE5\u8D44\u3001\u5C0F\u65F6\u5DE5\u8D44\u4E0E\u52A0\u73ED\u8D39\u5408\u8BA1\u3002"
+    ),
+    inputSchema: {
+      type: "object",
+      properties: {
+        monthlySalary: { type: "number", description: "\u6BCF\u6708\u5DE5\u8D44\uFF08\u5143\uFF09" },
+        weekdayHours: { type: "number", description: "\u5DE5\u4F5C\u65E5\u52A0\u73ED\u5C0F\u65F6\u6570", default: 0 },
+        restDayHours: { type: "number", description: "\u4F11\u606F\u65E5\u52A0\u73ED\u5C0F\u65F6\u6570", default: 0 },
+        holidayHours: { type: "number", description: "\u6CD5\u5B9A\u8282\u5047\u65E5\u52A0\u73ED\u5C0F\u65F6\u6570", default: 0 }
+      },
+      required: ["monthlySalary"]
+    },
+    handler: (a) => calcOvertimePay({
+      monthlySalary: num(a.monthlySalary),
+      weekdayHours: num(a.weekdayHours, 0),
+      restDayHours: num(a.restDayHours, 0),
+      holidayHours: num(a.holidayHours, 0)
+    })
+  },
+  {
+    name: "pension_estimate_cn",
+    description: desc(
+      "pension-estimate",
+      "\u517B\u8001\u91D1\u6D4B\u7B97\u3002\u8F93\u5165\u9000\u4F11\u5E74\u9F84\u3001\u5F53\u5730\u4E0A\u5E74\u5EA6\u793E\u5E73\u5DE5\u8D44\u3001\u672C\u4EBA\u5E73\u5747\u7F34\u8D39\u6307\u6570\u3001\u7D2F\u8BA1\u7F34\u8D39\u5E74\u9650\u4E0E\u4E2A\u4EBA\u8D26\u6237\u50A8\u5B58\u989D\uFF0C\u6309\u73B0\u884C\u804C\u5DE5\u57FA\u672C\u517B\u8001\u4FDD\u9669\u516C\u5F0F\u4F30\u7B97\u6BCF\u6708\u57FA\u7840\u517B\u8001\u91D1\u4E0E\u4E2A\u4EBA\u8D26\u6237\u517B\u8001\u91D1\u3002"
+    ),
+    inputSchema: {
+      type: "object",
+      properties: {
+        retireAge: { type: "string", enum: ["50", "55", "60", "65"], description: "\u9000\u4F11\u5E74\u9F84\uFF08\u5BF9\u5E94\u8BA1\u53D1\u6708\u6570 195/170/139/101\uFF09", default: "60" },
+        avgWage: { type: "number", description: "\u5F53\u5730\u4E0A\u5E74\u5EA6\u793E\u5E73\u5DE5\u8D44\uFF08\u5143/\u6708\uFF09" },
+        index: { type: "number", description: "\u672C\u4EBA\u5E73\u5747\u7F34\u8D39\u6307\u6570\uFF080.6\u20133\uFF09" },
+        years: { type: "number", description: "\u7D2F\u8BA1\u7F34\u8D39\u5E74\u9650\uFF08\u5E74\uFF09" },
+        personalBalance: { type: "number", description: "\u4E2A\u4EBA\u8D26\u6237\u50A8\u5B58\u989D\uFF08\u5143\uFF09" }
+      },
+      required: ["avgWage", "index", "years", "personalBalance"]
+    },
+    handler: (a) => calcPensionEstimate({
+      retireAge: a.retireAge || "60",
+      avgWage: num(a.avgWage),
+      index: num(a.index),
+      years: num(a.years),
+      personalBalance: num(a.personalBalance)
     })
   }
 ];

@@ -2,7 +2,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Icon from '@/components/Icon.astro';
 
-const endpoint = 'https://mokakit.com/mcp';
+const endpoint = 'https://www.mokakit.com/mcp';
 const mailto = 'mailto:wangcai@mokakit.com?subject=' + encodeURIComponent('【MokaKit MCP 接入申请】');
 
 // 与 mcp/server.mjs 的 TOOLS 保持一致；改 MCP tool 时此处同步更新
@@ -16,6 +16,12 @@ const mcpTools = [
   { name: 'vat_simple_cn', desc: '增值税简易计税（小规模/特定业务）：不含税销售额 × 征收率，输出税额。' },
   { name: 'mortgage_schedule_cn', desc: '房贷还款计划（商贷/公积金）：等额本息或等额本金，输出月供、总利息、总还款与逐期明细。' },
   { name: 'mortgage_early_repayment_cn', desc: '房贷提前还款测算：对比「减少月供」与「缩短期限」，输出节省利息与新月供/新期数。' },
+  { name: 'retirement_age_cn', desc: '退休年龄测算：依据渐进式延迟退休政策，输入出生年月与人员类别，输出法定退休年龄、延迟月数与退休年月。' },
+  { name: 'after_tax_salary_cn', desc: '税后工资计算器：正算税前→税后，或反推税后→税前；按综合所得年度税率表，输出月个税、税后月薪与年薪。' },
+  { name: 'deposit_interest_cn', desc: '存款利息计算器：支持一次性付息（单利）、自动转存（复利）与按月付息，输出利息金额与到期本息合计。' },
+  { name: 'deed_tax_cn', desc: '契税计算器：输入成交价、面积与住房套数（首套/二套/三套），按契税优惠政策测算税率与应缴税额，支持含税价剔除。' },
+  { name: 'overtime_pay_cn', desc: '加班工资计算器：工作日 150%、休息日 200%、法定节假日 300%，输出日工资、小时工资与加班费合计。' },
+  { name: 'pension_estimate_cn', desc: '养老金测算：输入退休年龄、社平工资、缴费指数、缴费年限与个人账户余额，估算月领/年领养老金与替代率。' },
 ];
 
 // curl 示例：花括号放 JS 字符串里避免被 Astro 模板解析；占位符用 HTML 实体
@@ -45,7 +51,7 @@ const clientCfg = JSON.stringify(
 
 <BaseLayout
   title="MokaKit MCP 开发者接入"
-  description="MokaKit 摩卡工具箱 MCP Server 公开接入文档：Streamable HTTP 端点、Bearer 鉴权、快速上手 curl 示例、Claude Desktop / Cursor 客户端配置，以及 9 个可直接调用的中国本土计算工具。"
+  description="MokaKit 摩卡工具箱 MCP Server 公开接入文档：Streamable HTTP 端点、Bearer 鉴权、快速上手 curl 示例、Claude Desktop / Cursor 客户端配置，以及 15 个可直接调用的中国本土计算工具。"
   path="/developers/"
 >
 
@@ -60,7 +66,7 @@ const clientCfg = JSON.stringify(
     </div>
     <p class="mt-4 text-base opacity-70 leading-relaxed">
       让你的 AI 助手（Claude、Cursor、自研 Agent）直接调用摩卡工具箱里的中国本土计算工具——
-      个税、五险一金、增值税、房贷月供与提前还款。基于
+      个税、五险一金、增值税、房贷月供与提前还款，以及退休年龄、税后工资、存款利息、契税、加班工资与养老金测算。基于
       <span class="font-mono text-sm">Model Context Protocol</span>（Streamable HTTP 传输），人和 AI 都能调。
     </p>
 
@@ -115,7 +121,7 @@ const clientCfg = JSON.stringify(
     </p>
 
     <!-- §5 工具清单 -->
-    <h2 class="mt-10 text-xl font-bold flex items-center gap-2"><Icon name="scan" size={18} /> 5. 可用工具（9）</h2>
+    <h2 class="mt-10 text-xl font-bold flex items-center gap-2"><Icon name="scan" size={18} /> 5. 可用工具（15）</h2>
     <div class="mt-3 overflow-x-auto">
       <table class="table table-sm table-zebra">
         <thead>

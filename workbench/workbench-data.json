@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026/8/12 20:36:32",
+  "generatedAt": "2026/8/14 01:35:55",
   "project": {
     "name": "MokaKit",
     "nameCn": "摩卡工具箱",
@@ -19,23 +19,26 @@
       "mokakit.com",
       "mokakit.cn"
     ],
-    "domainStatus": "已注册 + 实名认证 + A 记录已指向 58.87.68.151（2026-08-05 旺财确认，外部验证通过）",
-    "firewall": "80/443 已放通（2026-08-05 旺财确认，外部验证通过）",
-    "externalBlock": "ICP 未批，腾讯云接入层拦截未备案域名真实内容、跳转备案提示页（合规，待备案通过自动解除）",
+    "domainStatus": "mokakit.com 已上线 HTTPS；mokakit.cn 备案待批未接入",
+    "firewall": "80/443 已放通",
     "keyBound": true,
     "keyBoundAt": "2026-08-05",
     "serverInit": "done (2026-08-05, --setup 已执行)",
-    "placeholderLive": true,
-    "placeholderNote": "nginx 内部对 mokakit.com/www/.cn 返回 200 占位页（title=网站建设中）；裸 IP 返回 444（备案期防内容泄露）。外部访问因 ICP 未批被腾讯云接入层拦截到备案提示页（合规，待备案通过自动解除）",
+    "prodLive": true,
+    "prodLiveAt": "2026-08-13",
     "icp": {
-      "status": "管局审核中",
+      "status": "已批准",
+      "icpNumber": "京ICP备2026051111号",
+      "policeNumber": "京公网安备11010502062390号",
       "siteName": "摩卡工具箱",
       "submittedAt": "2026-08-04",
-      "etaDays": 7
+      "approvedAt": "2026-08-13"
     },
-    "ssl": "方案就绪（--cert / --enable-ssl），待备案通过后启用",
-    "prodLive": false,
-    "nextStep": "等待 ICP 备案通过（管局核验占位页）→ 通过后本地 deploy.sh 传站 + server-setup.sh --live + --enable-ssl 切正式站"
+    "ssl": "已启用（LE 证书 YE2，2026-11-10 到期，certbot.timer 自动续期）",
+    "https": "http→https 301 单跳；www→主域 301；HSTS max-age=31536000",
+    "mcpServer": "v0.1.0 已公网接入 https://mokakit.com/mcp（Streamable HTTP + JSON-RPC 2.0 + Bearer），9 tool",
+    "counter": "匿名计数 mokakit-counter（systemd 127.0.0.1:18800），nginx /api/ 反代",
+    "nextStep": "mokakit.cn 备案+接入；MCP Server 同步 6 新工具；百度/Google 站长平台提交 sitemap"
   },
   "milestones": [
     {
@@ -66,7 +69,7 @@
       "date": "2026-08-04",
       "title": "ICP 备案提交",
       "detail": "网站名「摩卡工具箱」，管局审核中（约 7 工作日）",
-      "state": "doing"
+      "state": "done"
     },
     {
       "date": "2026-08-04",
@@ -124,20 +127,74 @@
     },
     {
       "date": "2026-08-11",
-      "title": "中国本土计算器（差异化主场）全部上线",
+      "title": "中国本土计算器第一批（差异化主场）全部上线",
       "detail": "6 个工具全部上线，每个均抽纯 TS compute 层（src/lib/china-tax.ts、china-social-security.ts、mortgage.ts、china-vat.ts，decimal.js 精度，未来 MCP 直接复用）+ 六段式 content.mdx：个税 income-tax-cn、年终奖计税 bonus-tax-cn、五险一金 social-security-cn、房贷提前还款 mortgage-early-repayment、公积金贷款 fund-loan-calc、增值税 vat-calc",
       "state": "done"
     },
     {
+      "date": "2026-08-13",
+      "title": "ICP 备案批准 + 正式上线",
+      "detail": "京ICP备2026051111号 + 京公网安备11010502062390号；deploy.sh 传站 + server-setup.sh --live + --enable-ssl；http→https 301、www→主域 301、HSTS 启用；LE 证书 YE2 至 2026-11-10",
+      "state": "done"
+    },
+    {
+      "date": "2026-08-13",
+      "title": "MCP Server v0.1.0 公网接入",
+      "detail": "https://mokakit.com/mcp（Streamable HTTP + JSON-RPC 2.0 + 可选 Bearer）；9 tool（8 计算 + mokakit_search）；esbuild 自包含打包 + catalog.json（94 工具元数据）；systemd mokakit-mcp.service + nginx /mcp 反代",
+      "state": "done"
+    },
+    {
+      "date": "2026-08-13",
+      "title": "匿名计数器上线",
+      "detail": "mokakit-counter（systemd 127.0.0.1:18800），nginx /api/ 反代，落盘 /var/lib/mokakit/",
+      "state": "done"
+    },
+    {
+      "date": "2026-08-13",
+      "title": "Git 仓库推送 GitHub",
+      "detail": "origin = github.com/wangcai-zhao/mokakit-website.git；默认分支 master；PAT 已存 Windows 凭据管理器",
+      "state": "done"
+    },
+    {
+      "date": "2026-08-14",
+      "title": "时间日期类工具批量复刻（21 净增）",
+      "detail": "从 calculatorlib.com 复刻 24 个时间日期工具（5 重叠、2 跳过 egg-boiling/easter），净增 21 个；含 90-day/days-ago/days-between/hms-add/hms-to-units/hours-from-now/seconds-to-time/time-duration/utc-to-cst/utc-to-est/utc-to-edt/utc-to-pst/weeks-pregnant/video-speed/weekly-hours/fortnight-to-hours/calendar-quarter/min-age-birth/gov-shutdown-countdown 等",
+      "state": "done"
+    },
+    {
+      "date": "2026-08-14",
+      "title": "ODE 求解器移植",
+      "detail": "移植自 bchrt.com，一阶常微分方程 RK4 数值解，含 6 个长尾子页",
+      "state": "done"
+    },
+    {
+      "date": "2026-08-14",
+      "title": "中国本土计算器第二批（6 个强护城河）",
+      "detail": "retirement-age 退休年龄 / after-tax-salary 税后工资（含反推）/ deposit-interest 存款利息 / deed-tax 契税 / overtime-pay 加班工资 / pension-estimate 养老金；均六段式 content.mdx + WidgetHost 接线，build+sitemap 已验证",
+      "state": "done"
+    },
+    {
+      "date": "2026-08-14",
+      "title": "content.mdx 100% 覆盖",
+      "detail": "100/100 工具全部配套六段式深度内容（公式→能做什么→怎么用→公式详解→算例→FAQ）",
+      "state": "done"
+    },
+    {
       "date": "待定",
-      "title": "MokaKit MCP Server",
-      "detail": "把工具箱接入 Claude/Cursor，搭 deploy/counter/ 那班车（零依赖 Node + nginx /api/ 反代已就绪），依赖备案后的公网 HTTPS",
+      "title": "MCP Server 同步 6 新工具",
+      "detail": "6 中国计算器第二批仅上了网站，MCP catalog.json 未含；要扩 server.mjs 的 COMPUTE_TOOLS + npm run mcp:build + 重部署，并同步 /developers/ 工具清单",
       "state": "todo"
     },
     {
       "date": "待定",
-      "title": "生产环境上线",
-      "detail": "跑 deploy.sh --live + 启用 SSL，正式对外",
+      "title": "mokakit.cn 备案+接入",
+      "detail": "过审后加 DNS A + 改 site.ts altDomains + nginx 补 .cn server（ssl.conf 已含 .cn 跳转，仅需 DNS）",
+      "state": "todo"
+    },
+    {
+      "date": "待定",
+      "title": "百度/Google 站长平台提交 sitemap",
+      "detail": "手动提交 https://mokakit.com/sitemap-index.xml",
       "state": "todo"
     }
   ],
@@ -152,7 +209,7 @@
       "done": true
     },
     {
-      "text": "三个空分类（calc / life / fun）页 404：已补满工具（现 67 个）",
+      "text": "三个空分类（calc / life / fun）页 404：已补满工具（现 100 个）",
       "done": true
     },
     {
@@ -168,40 +225,52 @@
       "done": true
     },
     {
-      "text": "关注 ICP 备案审核（约 7 工作日），通过则 --live + 启用 SSL",
+      "text": "ICP 备案已批准（京ICP备2026051111号 + 公安备案），正式上线 + SSL 启用 ✅",
+      "done": true
+    },
+    {
+      "text": "中国本土计算器第一批（个税/年终奖/五险一金/房贷/公积金/增值税）全部上线 ✅",
+      "done": true
+    },
+    {
+      "text": "中国本土计算器第二批（退休年龄/税后工资/存款利息/契税/加班工资/养老金）全部上线 ✅",
+      "done": true
+    },
+    {
+      "text": "六段式深度内容 content.mdx 100% 覆盖（100/100）✅",
+      "done": true
+    },
+    {
+      "text": "MCP Server v0.1.0 已公网接入 https://mokakit.com/mcp（9 tool）✅",
+      "done": true
+    },
+    {
+      "text": "匿名计数器 + 分享按钮 + 访问统计已上线 ✅",
+      "done": true
+    },
+    {
+      "text": "Git 仓库已推送 GitHub（origin = wangcai-zhao/mokakit-website.git，master 分支）✅",
+      "done": true
+    },
+    {
+      "text": "mokakit.cn 备案+接入（过审后加 DNS + nginx 补 .cn server）",
+      "done": false
+    },
+    {
+      "text": "MCP Server 同步 6 新工具（扩 server.mjs COMPUTE_TOOLS + mcp:build + 重部署）",
       "done": false,
       "blocker": true
     },
     {
-      "text": "中国本土计算器（竞品盲区·差异化主场）：个税 / 年终奖 / 五险一金 / 房贷提前还款 / 公积金贷款 / 增值税 6 个全部上线 ✅",
-      "done": true
-    },
-    {
-      "text": "六段式深度内容：给缺 content.mdx 的工具页补正文（公式→能做什么→怎么用→公式详解→算例→FAQ）",
+      "text": "百度/Google 站长平台提交 sitemap（手动，https://mokakit.com/sitemap-index.xml）",
       "done": false
     },
     {
-      "text": "MCP Server：先抽同构 compute 层，本地跑通再上公网（等备案）",
-      "done": false
-    },
-    {
-      "text": "分享按钮 + 点击计数 + 访问统计（门禁 SITE.counter.enabled 已开启，本地验证通过）",
-      "done": true
-    },
-    {
-      "text": "SEO / 投稿表单：另开会话专项推进",
+      "text": "MCP Token 公开申请通道（/developers/ 现仅 mailto 入口，纯静态限制下暂未做自动发号）",
       "done": false
     },
     {
       "text": "摩卡配色打磨：旺财指示暂缓，后续再议",
-      "done": false
-    },
-    {
-      "text": "AI 比价工具数据扩展（当前 20-30 条，可续增）",
-      "done": false
-    },
-    {
-      "text": "项目上 git 版本管理（目前无仓库，改动只能靠时间戳回溯）",
       "done": false
     }
   ],
@@ -265,6 +334,21 @@
       "batch": "内容扩容（非新增工具）",
       "tools": "单位换算 6 类 44 单位 → 16 类 161 单位，长尾子页 49 → 213；全站页面 192 → 356。新增网速/功率/压力/能量/时间/速度/角度/力/扭矩/频率十大类目",
       "count": 0
+    },
+    {
+      "batch": "第十三批·时间日期复刻",
+      "tools": "从 calculatorlib.com 复刻 24 个（5 重叠 2 跳过，净增 21）：90-day / days-ago / days-between / hms-add / hms-to-units / hours-from-now / seconds-to-time / time-duration / utc-to-cst / utc-to-est / utc-to-edt / utc-to-pst / weeks-pregnant / video-speed / weekly-hours / fortnight-to-hours / calendar-quarter / min-age-birth / gov-shutdown-countdown 等",
+      "count": 21
+    },
+    {
+      "batch": "第十四批·ODE 求解器",
+      "tools": "ode-solver（移植自 bchrt.com，RK4 数值解，含 6 个长尾子页）",
+      "count": 1
+    },
+    {
+      "batch": "第十五批·中国计算器第二批",
+      "tools": "retirement-age / after-tax-salary（含反推）/ deposit-interest / deed-tax / overtime-pay / pension-estimate（强护城河，补齐竞品盲区）",
+      "count": 6
     }
   ],
   "tools": [
@@ -297,6 +381,21 @@
         "加密",
         "对称",
         "安全"
+      ]
+    },
+    {
+      "id": "after-tax-salary",
+      "name": "税后工资计算器",
+      "tagline": "税前税后双向算，到手多少一目了然",
+      "category": "calc",
+      "status": "stable",
+      "priority": 8,
+      "createdAt": "2026-08-13",
+      "updatedAt": "2026-08-13",
+      "tags": [
+        "工资",
+        "税后收入",
+        "个税"
       ]
     },
     {
@@ -609,6 +708,36 @@
         "转盘",
         "决定",
         "随机"
+      ]
+    },
+    {
+      "id": "deed-tax",
+      "name": "契税计算器",
+      "tagline": "买房交多少契税，提前算清楚",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-08-13",
+      "updatedAt": "2026-08-13",
+      "tags": [
+        "房产",
+        "契税",
+        "买房"
+      ]
+    },
+    {
+      "id": "deposit-interest",
+      "name": "存款利息计算器",
+      "tagline": "算清定存大额存单能赚多少",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-08-13",
+      "updatedAt": "2026-08-13",
+      "tags": [
+        "存款",
+        "利息",
+        "理财"
       ]
     },
     {
@@ -1079,6 +1208,21 @@
       ]
     },
     {
+      "id": "overtime-pay",
+      "name": "加班工资计算器",
+      "tagline": "工作日 1.5 倍，休息日 2 倍，法定节假日 3 倍",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-08-14",
+      "updatedAt": "2026-08-14",
+      "tags": [
+        "工资",
+        "加班",
+        "劳动法"
+      ]
+    },
+    {
       "id": "password-generator",
       "name": "密码生成器",
       "tagline": "一键生成高强度随机密码",
@@ -1109,6 +1253,21 @@
         "security",
         "强度",
         "检测"
+      ]
+    },
+    {
+      "id": "pension-estimate",
+      "name": "养老金测算",
+      "tagline": "估算退休后每月能领多少养老金",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-08-14",
+      "updatedAt": "2026-08-14",
+      "tags": [
+        "养老",
+        "社保",
+        "退休"
       ]
     },
     {
@@ -1236,6 +1395,21 @@
         "regex",
         "开发",
         "调试"
+      ]
+    },
+    {
+      "id": "retirement-age",
+      "name": "退休年龄测算",
+      "tagline": "渐进式延迟退休，算算你几岁退",
+      "category": "calc",
+      "status": "stable",
+      "priority": 8,
+      "createdAt": "2026-08-13",
+      "updatedAt": "2026-08-13",
+      "tags": [
+        "退休",
+        "延迟退休",
+        "社保"
       ]
     },
     {
@@ -1759,7 +1933,7 @@
       "id": "calc",
       "slug": "calc",
       "name": "计算工具",
-      "count": 32
+      "count": 38
     },
     {
       "id": "dev",
@@ -1793,20 +1967,20 @@
     }
   ],
   "stats": {
-    "total": 94,
+    "total": 100,
     "beta": 0,
     "cats": 9,
     "emptyCats": [],
-    "maxCat": 32,
-    "latestUpdate": "2026-08-11",
+    "maxCat": 38,
+    "latestUpdate": "2026-08-14",
     "earliestCreate": "2026-08-04",
-    "pages": 396,
+    "pages": 403,
     "subpages": 247,
     "mdxCoverage": 100
   },
   "assets": {
     "distExists": true,
-    "pagesTotal": 396,
+    "pagesTotal": 403,
     "subpagesTotal": 247,
     "subpagesByTool": [
       {
@@ -1822,11 +1996,12 @@
         "count": 6
       }
     ],
-    "sitemapUrls": 393,
-    "distBuiltAt": "2026/8/12 20:36:12",
+    "sitemapUrls": 0,
+    "distBuiltAt": "2026/8/14 01:34:37",
     "mdxTools": [
       "90-day",
       "aes-encrypt",
+      "after-tax-salary",
       "age-calculator",
       "ai-price-compare",
       "base-converter",
@@ -1847,6 +2022,8 @@
       "days-ago",
       "days-between",
       "decision-wheel",
+      "deed-tax",
+      "deposit-interest",
       "dev-roadmap",
       "dice-roller",
       "emoji-search",
@@ -1877,8 +2054,10 @@
       "mortgage-early-repayment",
       "name-generator",
       "ode-solver",
+      "overtime-pay",
       "password-generator",
       "password-strength",
+      "pension-estimate",
       "percentage-calculator",
       "pressure-convert",
       "prompt-library",
@@ -1887,6 +2066,7 @@
       "qrcode-generator",
       "random-number",
       "regex-tester",
+      "retirement-age",
       "rock-paper-scissors",
       "rsa-keygen",
       "seconds-to-time",

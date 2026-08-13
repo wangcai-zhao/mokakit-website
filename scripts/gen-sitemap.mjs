@@ -17,7 +17,7 @@ const DIST = join(ROOT, 'dist');
 // 从 src/config/site.ts 取 SITE.url（避免与 astro.config 的 SITE.url 漂移）
 const siteSrc = readFileSync(join(ROOT, 'src/config/site.ts'), 'utf8');
 const m = siteSrc.match(/url:\s*'([^']+)'/);
-const BASE = (m ? m[1] : 'https://mokakit.com').replace(/\/$/, '');
+const BASE = (m ? m[1] : 'https://www.mokakit.com').replace(/\/$/, '');
 
 // 递归收集 dist 下所有 index.html / 404.html
 function walk(dir, acc = []) {

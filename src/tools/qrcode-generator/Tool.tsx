@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'preact/hooks';
 import { copyText } from '@/tools/_shared/copy';
 
 export default function QrcodeGenerator() {
-  const [text, setText] = useState('https://mokakit.com');
+  const [text, setText] = useState('https://www.mokakit.com');
   const [size, setSize] = useState(256);
   const [dataUrl, setDataUrl] = useState('');
   const [err, setErr] = useState('');
@@ -66,7 +66,7 @@ export default function QrcodeGenerator() {
           class="textarea textarea-bordered mt-2 w-full h-24 font-mono text-sm"
           value={text}
           onInput={(e) => setText((e.target as HTMLTextAreaElement).value)}
-          placeholder="https://mokakit.com"
+          placeholder="https://www.mokakit.com"
         />
       </div>
 

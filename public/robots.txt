@@ -16,4 +16,4 @@ Disallow: /api/
 # MCP Server 公网 API 端点：非网页，不收录
 Disallow: /mcp/
 
-Sitemap: https://mokakit.com/sitemap-index.xml
+Sitemap: https://www.mokakit.com/sitemap-index.xml

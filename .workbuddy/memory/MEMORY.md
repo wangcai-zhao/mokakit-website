@@ -22,12 +22,13 @@
 - 不搬：多语言 i18n、账户系统+API Token。
 
 ## MCP Server（v0.1.0 已公网接入，战略核心）
-- 公网端点 https://mokakit.com/mcp（Streamable HTTP + JSON-RPC 2.0 + 可选 Bearer）。本地 `npm run mcp` → localhost:18700/mcp。9 tool（8 计算 + mokakit_search）。
-- 生产化：esbuild 自包含打包（mcp/build.mjs → deploy/mcp/server.mjs target=node18）+ catalog.json（94 工具元数据）。server 优先读 catalog.json，不依赖 src/TS 运行时。改工具/加 meta 后必跑 `npm run mcp:build` + 重部署。
+- 公网端点 https://mokakit.com/mcp（Streamable HTTP + JSON-RPC 2.0 + 可选 Bearer）。本地 `npm run mcp` → localhost:18700/mcp。**15 tool（14 计算 + mokakit_search）**。
+- 生产化：esbuild 自包含打包（mcp/build.mjs → deploy/mcp/server.mjs target=node18）+ catalog.json（**100 工具**元数据）。server 优先读 catalog.json，不依赖 src/TS 运行时。改工具/加 meta 后必跑 `npm run mcp:build` + 重部署。
 - mokakit-mcp.service（systemd /opt/mokakit-mcp 仅监听 127.0.0.1:18700）+ nginx `location /mcp` 反代；随机 MCP_TOKEN 写入 /opt/mokakit-mcp/.env（600，不进 git）。
 - versioning：API_VERSION=v1；breaking change 走 /mcp/v2。
 - 公开接入页 /developers/（避开 /mcp/ 反代）已上线；工具清单与 server.mjs 的 TOOLS 需手动同步。
 - 扩展：server.mjs 的 COMPUTE_TOOLS 加项，新逻辑抽 src/lib/*.ts；build 后 catalog 自动含新 meta。
+- 6 新工具纯函数统一在 `src/lib/china-calc-extra.ts`（calcRetirementAge / calcAfterTaxSalary / calcDepositInterest / calcDeedTax / calcOvertimePay / calcPensionEstimate），与 Tool.tsx 同源。
 
 ## 当前规模（2026-08-14 实测）
 - 100 工具 / 9 分类；sitemap 399 URL；长尾子页 247（unit-convert 213 + github-stars 28 + ode-solver 6）。
@@ -40,13 +41,19 @@
 ## 出站链接中转（强制）
 - 第三方链接走 /go/?url=（src/pages/go/index.astro + src/utils/outbound.ts 的 goUrl()）。不中转：站内/mailto:/tel:/本站域名/政府备案链接。gen-sitemap 排除 /go/。
 
+## Git 仓库与推送
+- 远端 `origin` = https://github.com/wangcai-zhao/mokakit-website.git（remote 已加；URL 不含 token，安全）。
+- 默认分支 = **master**（2026-08-14 经 GitHub API 把默认从 main 改到 master；远端原 main 仅含初始 commit，保留不动）。本地 master 已推送（含 6 新工具），HEAD=7e14029。
+- 推送鉴权：本机无 SSH 私钥、GCM 原无缓存 → 用 classic PAT（repo 权限）推；token 已存 Windows 凭据管理器（`cmdkey /add:github.com /user:PersonalAccessToken`），以后 `git push` 自动走凭据无需重填。
+- ⚠️ 该 PAT 在聊天中出现过明文，建议用完（或到期前）于 GitHub Settings→Developer settings→PAT 撤销重建。
+
 ## 待办队列
 1. ⏳ **mokakit.cn 备案+接入** —— 过审后加 DNS A + 改 site.ts 的 altDomains 回填 + nginx 补 .cn server（当前 ssl.conf 已含 .cn 跳转，仅需 DNS）。
 2. ⏸️ **摩卡配色打磨** —— 暂缓。
 3. ❌ 已放弃：GitHub 仓库分析工具、陌生高星仓收录、「真·AI 对话舱」。
 4. ⏳ **MCP Token 公开申请通道** —— /developers/ 现仅 mailto 入口；纯静态限制下暂未做自动发号。
-5. ⏳ **百度/Google 站长平台提交 sitemap** —— 手动，旺财操作（https://mokakit.com/sitemap-index.xml）。
-6. ⏳ **MCP Server 同步 6 新工具** —— 6 中国计算器仅上了网站，MCP catalog.json 未含；要扩 server.mjs 的 COMPUTE_TOOLS + `npm run mcp:build` + 重部署，并同步 /developers/ 工具清单。
+5. ⏳ **百度/Google 站长平台提交 sitemap** —— 手动，旺财操作（https://mokakit.com/sitemap-index.xml）。已在本次给出操作指引，待旺财手动执行。
+6. ✅ ~~MCP Server 同步 6 新工具~~ —— 2026-08-14 完成。server.mjs COMPUTE_TOOLS 扩至 14 项（+china-calc-extra.ts），mcp:build 出 100 tools/0 errors，/developers/ 清单同步至 15，线上 tools/list 验证通过。
 
 ## 环境与坑（可复用）
 - 本地跑 src/ TS：`node --experimental-strip-types --import ./scripts/ts-resolve.mjs xxx.mjs`。
