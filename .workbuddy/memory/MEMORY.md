@@ -34,10 +34,11 @@
 - **鉴权**：可选 Bearer token，设 `MCP_TOKEN` 才强制（无 token → 401；GET /mcp → 405）。对外公开前务必保留 token，且不要在仓库/日志明文泄露（服务器 `.env` 读取）。
 - **versioning**：`API_VERSION=v1` 已暴露；breaking change 走 `/mcp/v2` 路径。
 - 三原则保持：同源发现 / compute 入参即契约（打包进 src/lib 纯函数）/ 描述从 meta 生成。
+- **公开接入页**：`/developers/`（路由刻意避开反代端点 `/mcp/`）已上线，含端点/协议、Bearer 鉴权说明+申请入口、curl 三段上手、Claude Desktop/Cursor/VS Code 客户端配置、9 工具清单、versioning 与公开前状态；Header 主导航+移动端+Footer 均加「开发者」入口。开发者页工具清单与 `server.mjs` 的 TOOLS 需手动保持同步（页面 frontmatter 有注释提醒）。
 - 扩展：在 `server.mjs` 的 `COMPUTE_TOOLS` 加项，新逻辑先抽 `src/lib/*.ts`；build 后 catalog 自动含新 meta。
 
 ## 当前规模（2026-08-12 工作台实测，后续若有大改需重跑 workbench）
-- 94 工具 / 9 分类；全站 395 页（dist 395 html）。长尾子页 247（unit-convert 213 + github-stars 28 + ode-solver 6）。
+- 94 工具 / 9 分类；全站 396 页（dist 396 html，含 08-13 新增 /developers/ 接入页）。长尾子页 247（unit-convert 213 + github-stars 28 + ode-solver 6）。
 - `content.mdx` 覆盖 94/94（100%）。好站导航 31 组 / 494 条（`src/data/sites.ts`）。
 - 工具注册：`src/tools/registry.ts` 自动收，`src/components/WidgetHost.astro` 需手工加 import+分支。
 - 进度看板 `npm run workbench` → `workbench/workbench.html`（内部）+ `public/workbench.html`（公开，要 `cp public/workbench.html dist/workbench.html`）。是静态快照，规模改动后须重跑。
@@ -54,7 +55,7 @@
 3. ✅ **公安联网备案号** —— 2026-08-13 批号 `京公网安备11010502062390号`，已填 `site.ts` 的 `police` + 页脚升级为可点击核验链接（beian.gov.cn），重建推生产生效。
 4. ⏸️ **摩卡配色打磨** —— 暂缓。
 5. ❌ 已放弃：GitHub 仓库分析工具、陌生高星仓收录、「真·AI 对话舱」（降待定）。
-6. ✅ **MCP Server 公网 HTTPS 接入** —— 2026-08-13 完成：esbuild 自包含产物 + nginx `/mcp` 反代 + 可选 Bearer 鉴权 + systemd 自启。公网 `https://mokakit.com/mcp` 已验通。后续：① 对外公开前写客户端接入文档（端点/协议/token 获取）② 工具增改后 `npm run mcp:build` + 重部署 ③ versioning 冻结策略（breaking change 走 `/mcp/v2`）。
+6. ✅ **MCP Server 公网 HTTPS 接入** —— 2026-08-13 完成：esbuild 自包含产物 + nginx `/mcp` 反代 + 可选 Bearer 鉴权 + systemd 自启。公网 `https://mokakit.com/mcp` 已验通。✅ 对外客户端接入文档已完成（`/developers/` 公开接入页 + `archive/MCP_ACCESS_GUIDE.md`）。后续：① 公开注册/Token 申请通道开放 ② 工具增改后 `npm run mcp:build` + 重部署（并同步 `/developers/` 工具清单）③ versioning 冻结策略（breaking change 走 `/mcp/v2`）。
 
 ## 环境与坑（可复用）
 - **本地跑 src/ TS 模块**：`node --experimental-strip-types --import ./scripts/ts-resolve.mjs xxx.mjs`（strip-types 不解析模块，ts-resolve 补后缀）。
