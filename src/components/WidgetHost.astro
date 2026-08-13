@@ -91,6 +91,12 @@ import SocialSecurityCn from '@/tools/social-security-cn/Tool.tsx';
 import MortgageEarly from '@/tools/mortgage-early-repayment/Tool.tsx';
 import FundLoanCalc from '@/tools/fund-loan-calc/Tool.tsx';
 import VatCalc from '@/tools/vat-calc/Tool.tsx';
+import RetirementAge from '@/tools/retirement-age/Tool.tsx';
+import AfterTaxSalary from '@/tools/after-tax-salary/Tool.tsx';
+import DepositInterest from '@/tools/deposit-interest/Tool.tsx';
+import DeedTax from '@/tools/deed-tax/Tool.tsx';
+import OvertimePay from '@/tools/overtime-pay/Tool.tsx';
+import PensionEstimate from '@/tools/pension-estimate/Tool.tsx';
 
 interface Props {
   tool: ToolMeta;
@@ -175,6 +181,12 @@ const isSocialSecurityCn = tool.id === 'social-security-cn';
 const isMortgageEarly = tool.id === 'mortgage-early-repayment';
 const isFundLoanCalc = tool.id === 'fund-loan-calc';
 const isVatCalc = tool.id === 'vat-calc';
+const isRetireAge = tool.id === 'retirement-age';
+const isAfterTax = tool.id === 'after-tax-salary';
+const isDeposit = tool.id === 'deposit-interest';
+const isDeedTax = tool.id === 'deed-tax';
+const isOvertime = tool.id === 'overtime-pay';
+const isPension = tool.id === 'pension-estimate';
 const known =
   isPG || isUC || isTS || isJF || isCC || isBC || isHC ||
   isUE || isB64 || isUUID || isTC || isColor ||
@@ -186,7 +198,8 @@ const known =
   isTD || isLS || isTR || isTOTP || isAES || isISBN ||
   isPA || isBYOX || isDRM || isSD || isPress || isODE ||
   isIncomeTaxCn || isBonusTaxCn ||
-  isSocialSecurityCn || isMortgageEarly || isFundLoanCalc || isVatCalc;
+  isSocialSecurityCn || isMortgageEarly || isFundLoanCalc || isVatCalc ||
+  isRetireAge || isAfterTax || isDeposit || isDeedTax || isOvertime || isPension;
 ---
 
 <!-- 密码生成器 -->
@@ -563,6 +576,36 @@ const known =
 {isVatCalc && mode === 'load' && <VatCalc client:load {...widgetProps} />}
 {isVatCalc && mode === 'idle' && <VatCalc client:idle {...widgetProps} />}
 {isVatCalc && mode === 'visible' && <VatCalc client:visible {...widgetProps} />}
+
+<!-- 退休年龄测算 -->
+{isRetireAge && mode === 'load' && <RetirementAge client:load {...widgetProps} />}
+{isRetireAge && mode === 'idle' && <RetirementAge client:idle {...widgetProps} />}
+{isRetireAge && mode === 'visible' && <RetirementAge client:visible {...widgetProps} />}
+
+<!-- 税后工资计算器 -->
+{isAfterTax && mode === 'load' && <AfterTaxSalary client:load {...widgetProps} />}
+{isAfterTax && mode === 'idle' && <AfterTaxSalary client:idle {...widgetProps} />}
+{isAfterTax && mode === 'visible' && <AfterTaxSalary client:visible {...widgetProps} />}
+
+<!-- 存款利息计算器 -->
+{isDeposit && mode === 'load' && <DepositInterest client:load {...widgetProps} />}
+{isDeposit && mode === 'idle' && <DepositInterest client:idle {...widgetProps} />}
+{isDeposit && mode === 'visible' && <DepositInterest client:visible {...widgetProps} />}
+
+<!-- 契税计算器 -->
+{isDeedTax && mode === 'load' && <DeedTax client:load {...widgetProps} />}
+{isDeedTax && mode === 'idle' && <DeedTax client:idle {...widgetProps} />}
+{isDeedTax && mode === 'visible' && <DeedTax client:visible {...widgetProps} />}
+
+<!-- 加班工资计算器 -->
+{isOvertime && mode === 'load' && <OvertimePay client:load {...widgetProps} />}
+{isOvertime && mode === 'idle' && <OvertimePay client:idle {...widgetProps} />}
+{isOvertime && mode === 'visible' && <OvertimePay client:visible {...widgetProps} />}
+
+<!-- 养老金测算 -->
+{isPension && mode === 'load' && <PensionEstimate client:load {...widgetProps} />}
+{isPension && mode === 'idle' && <PensionEstimate client:idle {...widgetProps} />}
+{isPension && mode === 'visible' && <PensionEstimate client:visible {...widgetProps} />}
 
 <!-- 未接入水合岛屿的工具 -->
 {
