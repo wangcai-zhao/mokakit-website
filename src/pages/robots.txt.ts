@@ -20,6 +20,8 @@ export const GET: APIRoute = () => {
     'Disallow: /workbench.html',
     '# 计数接口是写操作的内部端点，不收录也不让爬虫打',
     'Disallow: /api/',
+    '# MCP Server 公网 API 端点：非网页，不收录',
+    'Disallow: /mcp/',
     '',
     `Sitemap: ${base}/sitemap-index.xml`,
     '',

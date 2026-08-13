@@ -18,9 +18,12 @@
  */
 import http from 'node:http';
 import crypto from 'node:crypto';
+import { existsSync, readFileSync } from 'node:fs';
 import { loadAllMeta } from './meta-loader.mjs';
 
 // ── 复用纯计算层（src/lib/*.ts，仅依赖 decimal.js，无浏览器 API）─────────
+// 注意：生产态由 mcp/build.mjs 用 esbuild 把本文件与这些 .ts 打成自包含
+// deploy/mcp/server.mjs（target=node18），服务器无需 TS 运行时、无需 src/ 源码。
 import { calcIncomeTaxAnnual, calcBonusTaxSeparate, compareBonus } from '../src/lib/china-tax.ts';
 import { calcSocialSecurity } from '../src/lib/china-social-security.ts';
 import { calcGeneralVat, calcSimpleVat } from '../src/lib/china-vat.ts';
@@ -29,10 +32,25 @@ import { buildSchedule, calcEarlyRepayment } from '../src/lib/mortgage.ts';
 const PORT = Number(process.env.MCP_PORT || 18700);
 const SERVER_NAME = 'mokakit-mcp';
 const SERVER_VERSION = '0.1.0';
+const API_VERSION = 'v1';
 const SUPPORTED_PROTOCOLS = ['2025-06-18', '2024-11-05'];
 
+// ── 鉴权（可选 Bearer token；未设置 MCP_TOKEN 则不校验，便于本地/验证态）──
+const REQUIRED_TOKEN = process.env.MCP_TOKEN || '';
+
 // ── 元数据（同源发现）────────────────────────────────────────────────────
-const { tools: CATALOG, errors: META_ERRORS } = loadAllMeta();
+// 优先读构建期生成的 catalog.json（生产态，不依赖 src/ 与 TS 运行时）；
+// 读不到再回退运行时扫描 src/tools/*/meta.ts（本地 dev 态）。
+function getCatalog() {
+  try {
+    const p = new URL('./catalog.json', import.meta.url);
+    if (existsSync(p)) return JSON.parse(readFileSync(p, 'utf8'));
+  } catch {
+    /* ignore */
+  }
+  return loadAllMeta();
+}
+const { tools: CATALOG, errors: META_ERRORS } = getCatalog();
 const META_BY_ID = new Map(CATALOG.map((t) => [t.id, t]));
 
 /** catalog id → 对应的计算型 MCP tool 名（search-first 时告诉 AI 可直接调用） */
@@ -429,6 +447,13 @@ async function handlePost(req, res) {
 }
 
 const server = http.createServer(async (req, res) => {
+  // ── 鉴权守卫：/mcp 的写操作需 Bearer token（若已配置 MCP_TOKEN）──
+  if ((req.method === 'POST' || req.method === 'DELETE') && req.url === '/mcp') {
+    if (REQUIRED_TOKEN && req.headers['authorization'] !== `Bearer ${REQUIRED_TOKEN}`) {
+      writeJson(res, 401, rpcError(null, -32001, 'Unauthorized: missing/invalid Bearer token'));
+      return;
+    }
+  }
   if (req.method === 'POST' && req.url === '/mcp') {
     await handlePost(req, res);
     return;
@@ -455,6 +480,8 @@ const server = http.createServer(async (req, res) => {
       JSON.stringify({
         name: SERVER_NAME,
         version: SERVER_VERSION,
+        apiVersion: API_VERSION,
+        tokenRequired: !!REQUIRED_TOKEN,
         tools: TOOLS.length,
         catalogSize: CATALOG.length,
         metaErrors: META_ERRORS.length,
@@ -467,8 +494,9 @@ const server = http.createServer(async (req, res) => {
   res.end('Not found');
 });
 
-server.listen(PORT, () => {
-  console.log(`[mokakit-mcp] listening on http://localhost:${PORT}/mcp`);
+server.listen(PORT, process.env.HOST || '0.0.0.0', () => {
+  const bound = process.env.HOST || '0.0.0.0';
+  console.log(`[mokakit-mcp] listening on http://${bound}:${PORT}/mcp`);
   console.log(`[mokakit-mcp] catalog=${CATALOG.length} tools, mcpTools=${TOOLS.length}, metaErrors=${META_ERRORS.length}`);
   if (META_ERRORS.length) {
     console.warn('[mokakit-mcp] meta parse errors:', META_ERRORS.slice(0, 5));

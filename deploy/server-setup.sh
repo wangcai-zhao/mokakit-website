@@ -268,7 +268,39 @@ else
 fi
 
 # ------------------------------------------------------------
-c_head "[8/8] 校验并生效"
+c_head "[8/9] 安装 MCP Server（公网 HTTPS 经 nginx 反代）"
+# ------------------------------------------------------------
+# 生产态由本地 mcp/build.mjs 用 esbuild 把 server.mjs + src/lib 打成自包含
+# deploy/mcp/server.mjs（target=node18）+ catalog.json，随部署包上传，无需服务器有 src/ 或 TS 运行时。
+if [[ -z "$NODE_BIN" ]]; then
+  c_warn "未检测到 node，MCP Server 暂不安装（与计数服务同依赖 node）"
+else
+  id mokakit >/dev/null 2>&1 || useradd -r -s /usr/sbin/nologin -d /var/lib/mokakit mokakit
+  install -d -m 755 /opt/mokakit-mcp
+  install -m 644 "$SCRIPT_DIR/mcp/server.mjs" /opt/mokakit-mcp/server.mjs
+  install -m 644 "$SCRIPT_DIR/mcp/catalog.json" /opt/mokakit-mcp/catalog.json
+  # .env 存 MCP_TOKEN（权限 600，不进版本库）；不存在则生成随机强 token
+  if [[ ! -f /opt/mokakit-mcp/.env ]]; then
+    printf 'MCP_TOKEN=%s\n' "$(head -c 24 /dev/urandom | base64 | tr -dc 'A-Za-z0-9')" > /opt/mokakit-mcp/.env
+    chmod 600 /opt/mokakit-mcp/.env
+    chown mokakit:mokakit /opt/mokakit-mcp/.env
+  fi
+  chown -R mokakit:mokakit /opt/mokakit-mcp
+  sed "s|__NODE_BIN__|$NODE_BIN|g" "$SCRIPT_DIR/mcp/mokakit-mcp.service" \
+    > /etc/systemd/system/mokakit-mcp.service
+  chmod 644 /etc/systemd/system/mokakit-mcp.service
+  systemctl daemon-reload
+  systemctl enable --now mokakit-mcp >/dev/null 2>&1 || true
+  sleep 1
+  if curl -fsS http://127.0.0.1:18700/ >/dev/null 2>&1; then
+    c_ok "MCP Server 已启用并通过健康检查（node=$NODE_BIN，端口 18700 仅监听本机）"
+  else
+    c_warn "MCP Server 已尝试启动，但健康检查未通过（可稍后 systemctl status mokakit-mcp 排查）"
+  fi
+fi
+
+# ------------------------------------------------------------
+c_head "[9/9] 校验并生效"
 # ------------------------------------------------------------
 if nginx -t 2>&1 | grep -q "successful"; then
   c_ok "配置语法检查通过"
@@ -286,6 +318,7 @@ printf '\033[1m完成。当前状态：\033[0m\n'
 printf '  模式        %s\n' "$([[ $MODE == live ]] && echo '正式站点' || echo '备案期占位页')"
 printf '  站点目录    %s\n' "$WEB_ROOT"
 printf '  Counter     mokakit-counter 已安装并启用\n'
+printf '  MCP        mokakit-mcp 已安装并启用（公网 /mcp，经 nginx HTTPS 反代）\n'
 printf '  OpenClaw    未受影响，继续运行\n'
 echo
 printf '\033[1m接下来：\033[0m\n'

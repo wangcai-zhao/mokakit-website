@@ -1,0 +1,31 @@
+[Unit]
+Description=MokaKit MCP Server (public HTTPS via nginx reverse proxy)
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+# StateDirectory 自动创建 /var/lib/mokakit 并授权给 mokakit 用户（数据落盘位置，预留）
+StateDirectory=mokakit
+User=mokakit
+Group=mokakit
+WorkingDirectory=/opt/mokakit-mcp
+# __NODE_BIN__ 由 server-setup.sh 用真实 node 路径 sed 替换
+ExecStart=__NODE_BIN__ /opt/mokakit-mcp/server.mjs
+Environment=MCP_PORT=18700
+Environment=HOST=127.0.0.1
+# MCP_TOKEN 存于 /opt/mokakit-mcp/.env（权限 600，不进版本库）；未设则不校验
+EnvironmentFile=/opt/mokakit-mcp/.env
+Restart=on-failure
+RestartSec=2
+
+# 加固：最小权限、不可提权、只读系统盘、内存上限
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+MemoryMax=256M
+Nice=10
+
+[Install]
+WantedBy=multi-user.target

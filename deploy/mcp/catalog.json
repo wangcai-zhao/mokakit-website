@@ -1,0 +1,2054 @@
+{
+  "tools": [
+    {
+      "id": "90-day",
+      "name": "90天计算器",
+      "description": "免费在线90天计算器，输入起始日期即可算出90天、180天或任意天数之后是哪一天，并显示对应的星期几。适用于合同到期、项目节点、账期与各类截止日推算，支持往前推算，全部在浏览器本地计算。",
+      "keywords": [
+        "90天计算器",
+        "90天后是几号",
+        "日期加天数",
+        "到期日推算",
+        "天数后日期"
+      ],
+      "tags": [
+        "日期",
+        "天数",
+        "计算"
+      ],
+      "category": "calc",
+      "icon": "calendar",
+      "tagline": "算 90 天/任意天后是几号",
+      "url": "/tools/90-day/"
+    },
+    {
+      "id": "aes-encrypt",
+      "name": "AES 加解密",
+      "description": "免费在线 AES 加密解密工具，输入文本与密码即可完成 AES-256-GCM 对称加解密。采用 PBKDF2-SHA256 十万次迭代派生密钥，每次随机生成盐值与初始向量，密文自带完整性校验，全程浏览器本地运算不上传。",
+      "keywords": [
+        "AES加密",
+        "在线解密",
+        "对称加密",
+        "AES-GCM",
+        "密码加密"
+      ],
+      "tags": [
+        "aes",
+        "加密",
+        "对称",
+        "安全"
+      ],
+      "category": "security",
+      "icon": "lock",
+      "tagline": "密码保护的对称加密",
+      "url": "/tools/aes-encrypt/"
+    },
+    {
+      "id": "age-calculator",
+      "name": "年龄计算器",
+      "description": "免费在线年龄计算器，输入出生日期即可精确算出你已经多少岁多少个月零多少天，同时显示已存活总天数、今年生日是否已过以及距离下次生日还有几天。适用于周岁核对、生日倒计时、纪念日提醒，全部本地计算。",
+      "keywords": [
+        "年龄计算器",
+        "周岁计算",
+        "生日倒计时",
+        "实际年龄",
+        "出生日期算年龄"
+      ],
+      "tags": [
+        "年龄",
+        "日期"
+      ],
+      "category": "calc",
+      "icon": "cake",
+      "tagline": "精确年龄与下次生日",
+      "url": "/tools/age-calculator/"
+    },
+    {
+      "id": "ai-price-compare",
+      "name": "AI 价格比价",
+      "description": "免费在线 AI 价格比价工具，汇总 OpenAI、Anthropic、Google、DeepSeek、通义千问、智谱、Kimi 等主流大模型的 API 单价（每百万 token 输入/输出价），以及即梦、可灵、Runway、Sora、Veo 等视觉生成工具的价格，支持按场景估算调用成本，数据本地对比、不上传，仅供参考。",
+      "keywords": [
+        "AI价格",
+        "大模型比价",
+        "API价格",
+        "即梦价格",
+        "token价格",
+        "GPU成本"
+      ],
+      "tags": [
+        "ai",
+        "价格",
+        "比价",
+        "大模型",
+        "即梦"
+      ],
+      "category": "ai",
+      "icon": "coins",
+      "tagline": "主流大模型与视觉生成价格对比",
+      "url": "/tools/ai-price-compare/"
+    },
+    {
+      "id": "base-converter",
+      "name": "进制转换",
+      "description": "免费在线进制转换工具，支持二进制、八进制、十进制、十六进制及 2 到 36 任意进制互转，基于 BigInt 任意精度，超长数字也不丢精度。程序员、学生做进制换算的好帮手。",
+      "keywords": [
+        "进制转换",
+        "二进制转换",
+        "十六进制转换",
+        "在线进制计算器",
+        "2进制转16进制"
+      ],
+      "tags": [
+        "进制",
+        "转换",
+        "计算",
+        "数字"
+      ],
+      "category": "convert",
+      "icon": "binary",
+      "tagline": "2/8/10/16 等进制互转",
+      "url": "/tools/base-converter/"
+    },
+    {
+      "id": "base64",
+      "name": "Base64 编解码",
+      "description": "免费在线 Base64 编解码工具，支持中文与 emoji 的 UTF-8 正确处理，可将文本编码为 Base64 或将 Base64 还原为原文，常用于接口传输、图片内联、数据伪装等场景。",
+      "keywords": [
+        "Base64编码",
+        "Base64解码",
+        "在线base64",
+        "base64转文本",
+        "utf8 base64"
+      ],
+      "tags": [
+        "Base64",
+        "编码",
+        "解码",
+        "开发"
+      ],
+      "category": "dev",
+      "icon": "file-code",
+      "tagline": "文本与 Base64 互转",
+      "url": "/tools/base64/"
+    },
+    {
+      "id": "bill-split",
+      "name": "聚餐 AA 分摊",
+      "description": "免费在线 AA 分摊计算器，输入总金额与人数即可算出每人应付多少钱，支持自定义小费比例与一键取整。适合聚餐、旅行、团购、合租水电费等均摊场景，自动处理分摊尾数，结果精确到分并可一键复制。",
+      "keywords": [
+        "AA制计算器",
+        "聚餐分摊",
+        "账单均摊",
+        "每人应付",
+        "小费计算"
+      ],
+      "tags": [
+        "分摊",
+        "AA",
+        "聚餐"
+      ],
+      "category": "life",
+      "icon": "users",
+      "tagline": "均摊含小费每人应付",
+      "url": "/tools/bill-split/"
+    },
+    {
+      "id": "bmi-calculator",
+      "name": "BMI 计算器",
+      "description": "免费在线 BMI 身体质量指数计算器，输入身高厘米与体重公斤，立即得出 BMI 数值与偏瘦、正常、偏胖、肥胖的中国标准体型分类，并给出对应的健康体重区间参考。全部在浏览器本地计算，不上传任何个人数据，打开即用。",
+      "keywords": [
+        "BMI计算器",
+        "身体质量指数",
+        "标准体重",
+        "体型分类",
+        "在线算BMI"
+      ],
+      "tags": [
+        "健康",
+        "BMI",
+        "体重"
+      ],
+      "category": "calc",
+      "icon": "activity",
+      "tagline": "算 BMI 与体型分类",
+      "url": "/tools/bmi-calculator/"
+    },
+    {
+      "id": "bonus-tax-cn",
+      "name": "年终奖计税计算器",
+      "description": "免费在线年终奖计税计算器，输入全年一次性奖金金额，按 2027 年底前有效的单独计税政策算出税额、税率与税后到手；并支持填入当年综合所得应纳税所得额，一键对比「单独计税」与「并入综合所得」哪种更省。同时提示税率跳档盲区（多发 1 元到手反而更少），帮你合理规划年终奖发放，全部在浏览器本地计算。",
+      "keywords": [
+        "年终奖计税",
+        "年终奖个税",
+        "全年一次性奖金",
+        "年终奖单独计税",
+        "税后年终奖"
+      ],
+      "tags": [
+        "年终奖",
+        "个税",
+        "税后收入"
+      ],
+      "category": "calc",
+      "icon": "coins",
+      "tagline": "单独计税还是并入综合所得更省",
+      "url": "/tools/bonus-tax-cn/"
+    },
+    {
+      "id": "build-your-own-x",
+      "name": "从零造 X 项目清单",
+      "description": "免费在线「从零造 X」教程索引，精选 25 个手写实现经典系统的练手项目，覆盖编程语言与编译器、存储与数据库、网络与系统、编辑器与 CLI、Web 框架、算法与图形六大方向。每个主题附带简介与外链教程，支持搜索与分类筛选，是提升工程能力的进阶路线图。",
+      "keywords": [
+        "从零造X",
+        "build your own x",
+        "手写实现",
+        "练手项目",
+        "编程进阶"
+      ],
+      "tags": [
+        "编程",
+        "练手",
+        "教程",
+        "系统",
+        "进阶"
+      ],
+      "category": "dev",
+      "icon": "code",
+      "tagline": "按主题索引「自己实现一个 X」的教程",
+      "url": "/tools/build-your-own-x/"
+    },
+    {
+      "id": "calendar-quarter",
+      "name": "日历季度计算器",
+      "description": "免费在线日历季度计算器，输入任意月份，立即查出它属于第几个日历季度（Q1-Q4），并显示该季度的起止月份。适用于财年规划、季度复盘与报表归类，全部本地计算。",
+      "keywords": [
+        "日历季度",
+        "季度计算",
+        "Q1Q2Q3Q4",
+        "月份查季度",
+        "季度起止"
+      ],
+      "tags": [
+        "季度",
+        "日期",
+        "计算"
+      ],
+      "category": "calc",
+      "icon": "calendar",
+      "tagline": "月份查所属季度",
+      "url": "/tools/calendar-quarter/"
+    },
+    {
+      "id": "case-converter",
+      "name": "大小写转换",
+      "description": "免费在线大小写转换工具，支持 camelCase、PascalCase、snake_case、kebab-case、全大写、全小写、标题大小写等命名风格一键互转，常用于变量命名、SQL 字段、文件名规范化。",
+      "keywords": [
+        "大小写转换",
+        "命名风格转换",
+        "camelCase转换",
+        "snake_case",
+        "在线大小写"
+      ],
+      "tags": [
+        "大小写",
+        "命名",
+        "文本",
+        "转换"
+      ],
+      "category": "text",
+      "icon": "type",
+      "tagline": "大小写与命名风格互转",
+      "url": "/tools/case-converter/"
+    },
+    {
+      "id": "changelog-gen",
+      "name": "CHANGELOG 模板生成器",
+      "description": "免费在线 CHANGELOG 与仓库模板生成器：按 Keep a Changelog 规范，填版本号、日期和 Added/Changed/Fixed 等分类即可生成标准更新日志；同时提供 Bug 报告、功能建议、PR 三类 GitHub 模板，一键复制或下载。纯本地运行，不收集任何数据。",
+      "keywords": [
+        "CHANGELOG生成",
+        "更新日志生成",
+        "Keep a Changelog",
+        "Issue模板",
+        "PR模板",
+        "GitHub模板"
+      ],
+      "tags": [
+        "git",
+        "changelog",
+        "模板",
+        "开源"
+      ],
+      "category": "dev",
+      "icon": "file-text",
+      "tagline": "Keep a Changelog + Issue/PR 模板",
+      "url": "/tools/changelog-gen/"
+    },
+    {
+      "id": "color-converter",
+      "name": "颜色转换",
+      "description": "免费在线颜色转换工具，支持 HEX、RGB、HSL 三种格式互转，实时预览色块并可一键复制，帮助设计师与前端开发者快速换算颜色值，避免手动计算色相饱和度出错。",
+      "keywords": [
+        "颜色转换",
+        "HEX转RGB",
+        "RGB转HSL",
+        "在线颜色",
+        "颜色值换算"
+      ],
+      "tags": [
+        "颜色",
+        "HEX",
+        "RGB",
+        "HSL",
+        "转换"
+      ],
+      "category": "convert",
+      "icon": "palette",
+      "tagline": "HEX / RGB / HSL 互转",
+      "url": "/tools/color-converter/"
+    },
+    {
+      "id": "commit-gen",
+      "name": "Commit 规范生成器",
+      "description": "免费在线 Commit 规范（Conventional Commits）生成器：选类型、填范围与描述，实时拼出 feat/fix/docs 等标准提交信息，支持 BREAKING CHANGE 标记，一键复制。附带完整类型速查表，帮团队统一提交风格、自动生成 CHANGELOG。纯本地运行，不收集任何数据。",
+      "keywords": [
+        "commit规范",
+        "约定式提交",
+        "Conventional Commits",
+        "提交信息生成",
+        "git提交格式"
+      ],
+      "tags": [
+        "git",
+        "提交",
+        "规范",
+        "协作"
+      ],
+      "category": "dev",
+      "icon": "git-compare",
+      "tagline": "约定式提交，秒出标准提交信息",
+      "url": "/tools/commit-gen/"
+    },
+    {
+      "id": "countdown-timer",
+      "name": "倒计时",
+      "description": "免费在线倒计时工具，输入目标日期时间即可实时显示还剩多少天、时、分、秒，每秒自动刷新，到期提示已到期。内置元旦、春节等快捷目标，适合考试、纪念日、项目截止日倒数，纯浏览器本地计算，打开即用。",
+      "keywords": [
+        "倒计时",
+        "在线倒计时",
+        "距离目标日期还有多久",
+        "倒数天数",
+        "日期倒计时"
+      ],
+      "tags": [
+        "倒计时",
+        "日期"
+      ],
+      "category": "life",
+      "icon": "timer",
+      "tagline": "距目标日期还有多久",
+      "url": "/tools/countdown-timer/"
+    },
+    {
+      "id": "cron-parser",
+      "name": "Cron 表达式解读",
+      "description": "免费在线 Cron 表达式解读工具，解析标准 5 段 Cron 表达式（分 时 日 月 周），将其含义翻译为中文可读描述，支持 * , - / 等常见语法，帮助快速确认定时任务何时触发。纯前端解析，立即显示结果。",
+      "keywords": [
+        "Cron",
+        "定时任务",
+        "表达式",
+        "Crontab",
+        "调度"
+      ],
+      "tags": [
+        "cron",
+        "定时",
+        "dev",
+        "解析",
+        "调度"
+      ],
+      "category": "dev",
+      "icon": "clock",
+      "tagline": "把 Cron 表达式翻译成人话",
+      "url": "/tools/cron-parser/"
+    },
+    {
+      "id": "currency-convert",
+      "name": "汇率换算",
+      "description": "免费在线汇率换算工具，支持人民币、美元、欧元、日元、英镑、港币等主流货币一键互转。内置常用币种参考汇率，可手动调整汇率，适用于海淘、留学、旅行、跨境结算等场景。",
+      "keywords": [
+        "汇率换算",
+        "货币换算",
+        "人民币美元换算",
+        "外币兑换",
+        "实时汇率"
+      ],
+      "tags": [
+        "汇率",
+        "货币",
+        "换算",
+        "金融"
+      ],
+      "category": "convert",
+      "icon": "scale",
+      "tagline": "多币种实时换算（内置参考汇率）",
+      "url": "/tools/currency-convert/"
+    },
+    {
+      "id": "date-calculator",
+      "name": "日期计算器",
+      "description": "免费在线日期计算器，输入起始日期与结束日期即可算出相差多少天、多少周、多少个月和多少年，还支持日期加减天数推算到期日。适用于合同期限、项目工期、倒计时、账期核算等场景，全部在浏览器本地计算，打开即用。",
+      "keywords": [
+        "日期计算器",
+        "相差天数",
+        "日期加减",
+        "在线算天数",
+        "两个日期间隔"
+      ],
+      "tags": [
+        "日期",
+        "计算",
+        "天数"
+      ],
+      "category": "calc",
+      "icon": "calendar",
+      "tagline": "计算两日期相差天数",
+      "url": "/tools/date-calculator/"
+    },
+    {
+      "id": "days-ago",
+      "name": "几天前日期计算器",
+      "description": "免费在线几天前日期计算器，输入天数立即得出准确的过去日期、星期几与 ISO 标准格式。跨月、跨年、闰年都算得对，适用于复盘、追溯与历史节点核对，全部本地计算不上传数据。",
+      "keywords": [
+        "几天前日期",
+        "N天前是几号",
+        "过去日期计算",
+        "日期往前推",
+        "几号前"
+      ],
+      "tags": [
+        "日期",
+        "天数",
+        "计算"
+      ],
+      "category": "calc",
+      "icon": "calendar",
+      "tagline": "算 N 天前是几月几号",
+      "url": "/tools/days-ago/"
+    },
+    {
+      "id": "days-between",
+      "name": "两个日期之间天数计算器",
+      "description": "免费在线两个日期之间天数计算器，输入开始与结束日期即可精确算出相隔多少天，并提供周数、约月数、约年数。适用于工期、账期、倒计时与纪念日核算，自动处理闰年与跨年，全部本地计算。",
+      "keywords": [
+        "两个日期相差天数",
+        "日期之间天数",
+        "相隔多少天",
+        "日期差计算",
+        "天数计算器"
+      ],
+      "tags": [
+        "日期",
+        "天数",
+        "计算"
+      ],
+      "category": "calc",
+      "icon": "calendar",
+      "tagline": "算两日期相差多少天",
+      "url": "/tools/days-between/"
+    },
+    {
+      "id": "decision-wheel",
+      "name": "幸运转盘",
+      "description": "免费在线幸运转盘决策工具，每行输入一个选项，点“开始转动”即可随机抽出一项并高亮显示，结果可一键复制。中午吃什么、谁去跑腿、抽奖点名、二选一纠结症，交给转盘三秒搞定，纯本地运算不上传数据。",
+      "keywords": [
+        "幸运转盘",
+        "随机决定",
+        "抽签工具",
+        "吃什么转盘",
+        "在线抽奖"
+      ],
+      "tags": [
+        "转盘",
+        "决定",
+        "随机"
+      ],
+      "category": "fun",
+      "icon": "loader",
+      "tagline": "选项转盘帮你决定",
+      "url": "/tools/decision-wheel/"
+    },
+    {
+      "id": "dev-roadmap",
+      "name": "开发者路线图",
+      "description": "免费在线开发者学习路线图，按前端、后端、DevOps、全栈、数据/AI、安全六大方向，拆解 30+ 个关键学习节点，每个节点附简介与官方文档外链。支持搜索与分类筛选，帮你告别「不知道下一步学什么」的迷茫，循序渐进补齐能力树。",
+      "keywords": [
+        "开发者路线图",
+        "学习路线",
+        "前端路线",
+        "后端路线",
+        "devops路线"
+      ],
+      "tags": [
+        "学习",
+        "路线",
+        "成长",
+        "前端",
+        "后端"
+      ],
+      "category": "dev",
+      "icon": "mapPin",
+      "tagline": "按角色规划该学什么",
+      "url": "/tools/dev-roadmap/"
+    },
+    {
+      "id": "dice-roller",
+      "name": "掷骰子",
+      "description": "免费在线掷骰子工具，可自定义骰子面数（D4/D6/D8/D20 等任意正整数）与投掷数量，一键得出每颗骰子点数、总和与平均值。采用浏览器加密级随机数，公平不可预测，桌游跑团、抽签决策随开随掷，无需下载安装。",
+      "keywords": [
+        "掷骰子",
+        "在线骰子",
+        "骰子模拟器",
+        "随机点数",
+        "D20 骰子"
+      ],
+      "tags": [
+        "骰子",
+        "随机",
+        "游戏"
+      ],
+      "category": "fun",
+      "icon": "dice",
+      "tagline": "自定义面数与数量",
+      "url": "/tools/dice-roller/"
+    },
+    {
+      "id": "emoji-search",
+      "name": "Emoji 表情搜索",
+      "description": "免费在线 Emoji 表情搜索工具，输入“开心”“生气”“点赞”等中文关键词即可秒搜对应表情符号，点一下直接复制到剪贴板，可粘贴到微信、微博、文档与代码注释。内置上百个常用表情并按分类浏览，纯本地无需联网。",
+      "keywords": [
+        "emoji 搜索",
+        "表情符号",
+        "emoji 复制",
+        "表情大全",
+        "颜文字表情"
+      ],
+      "tags": [
+        "emoji",
+        "表情",
+        "复制"
+      ],
+      "category": "fun",
+      "icon": "smile",
+      "tagline": "搜表情一键复制",
+      "url": "/tools/emoji-search/"
+    },
+    {
+      "id": "fortnight-to-hours",
+      "name": "两周转小时计算器",
+      "description": "免费在线两周转小时计算器，把天数快速换算成总小时数（小时 = 天数 × 24），可选填额外小时。适用于工期、工时、活动时长与排期换算，全部本地计算。",
+      "keywords": [
+        "两周转小时",
+        "天数换算小时",
+        "天转小时",
+        "工时换算",
+        "天数乘24"
+      ],
+      "tags": [
+        "时间",
+        "换算",
+        "小时"
+      ],
+      "category": "calc",
+      "icon": "clock",
+      "tagline": "天数换算成总小时数",
+      "url": "/tools/fortnight-to-hours/"
+    },
+    {
+      "id": "fund-loan-calc",
+      "name": "公积金贷款计算器",
+      "description": "免费在线公积金贷款计算器，输入贷款金额、公积金利率与期限，支持等额本息/等额本金两种还款方式，并预置首套房（5 年以上 2.85%）、二套房（3.325%）等参考利率。自动算出月供、每月递减额、总利息与还款总额，帮助你规划公积金购房贷款月供压力，全部在浏览器本地计算、不上传数据。",
+      "keywords": [
+        "公积金贷款计算器",
+        "公积金月供",
+        "公积金利率",
+        "公积金贷款额度",
+        "房贷计算"
+      ],
+      "tags": [
+        "公积金",
+        "房贷",
+        "月供"
+      ],
+      "category": "calc",
+      "icon": "landmark",
+      "tagline": "算清公积金贷款月供与利息",
+      "url": "/tools/fund-loan-calc/"
+    },
+    {
+      "id": "github-stars",
+      "name": "GitHub 高星项目榜",
+      "description": "免费在线 GitHub 高星开源项目榜单，收录 500+ 个 star 数领先的仓库，覆盖 AI 大模型、智能体 Agent、RAG 知识库、AI 绘画、机器学习、自托管服务、开发者工具、Awesome 清单、前端框架、命令行神器等 15 个方向，支持按 star 数、活跃度、编程语言筛选与关键词搜索，可收藏对比，数据本地渲染、打开即用。",
+      "keywords": [
+        "GitHub高星项目",
+        "GitHub排行榜",
+        "开源项目推荐",
+        "star排行",
+        "AI开源项目"
+      ],
+      "tags": [
+        "github",
+        "开源",
+        "排行榜",
+        "ai",
+        "开发",
+        "导航"
+      ],
+      "category": "dev",
+      "icon": "star",
+      "tagline": "按 star 排行的开源项目速查",
+      "url": "/tools/github-stars/"
+    },
+    {
+      "id": "gitignore-gen",
+      "name": ".gitignore 生成器",
+      "description": "免费在线 .gitignore 生成器，覆盖 macOS / Windows / Linux、VS Code / IntelliJ / Vim 等编辑器、Node / Python / Java / Go / Rust 等 20+ 编程语言，以及 Django / Next.js / Flutter / Unity / Terraform 等框架平台。勾选技术栈即实时拼出标准 .gitignore，支持一键复制与下载，纯本地运行、不收集任何数据。",
+      "keywords": [
+        ".gitignore生成器",
+        "gitignore模板",
+        "忽略文件生成",
+        "git忽略规则",
+        "项目初始化"
+      ],
+      "tags": [
+        "git",
+        "开发",
+        "模板",
+        "初始化",
+        "开源"
+      ],
+      "category": "dev",
+      "icon": "file-text",
+      "tagline": "按技术栈勾选，秒出 .gitignore",
+      "url": "/tools/gitignore-gen/"
+    },
+    {
+      "id": "gov-shutdown-countdown",
+      "name": "事件倒计时器",
+      "description": "免费在线事件倒计时器，自定义任意目标日期与时间，按本地时区实时显示距离该时刻还剩多少年、月、天、时、分、秒。适用于截止日、节日、活动与项目节点倒计时，全部本地计算。",
+      "keywords": [
+        "倒计时",
+        "事件倒计时",
+        "目标倒计时",
+        "日期倒计时",
+        "实时倒计时"
+      ],
+      "tags": [
+        "倒计时",
+        "时间",
+        "计算"
+      ],
+      "category": "calc",
+      "icon": "timer",
+      "tagline": "自定义目标实时倒计时",
+      "url": "/tools/gov-shutdown-countdown/"
+    },
+    {
+      "id": "hash-calculator",
+      "name": "哈希计算",
+      "description": "免费在线哈希计算工具，支持 SHA-1 与 SHA-256 摘要计算，纯本地运行，输入内容不会离开你的设备。可用于文件校验、接口签名、数据完整性验证。",
+      "keywords": [
+        "哈希计算",
+        "sha256在线",
+        "sha1计算",
+        "哈希工具",
+        "在线哈希"
+      ],
+      "tags": [
+        "哈希",
+        "sha256",
+        "加密",
+        "校验"
+      ],
+      "category": "security",
+      "icon": "fingerprint",
+      "tagline": "SHA-1 / SHA-256 本地计算",
+      "url": "/tools/hash-calculator/"
+    },
+    {
+      "id": "hms-add",
+      "name": "时间计算器 hh:mm:ss",
+      "description": "免费在线时间计算器（hh:mm:ss 加减），按 时:分:秒 累计加减时间，支持负数时长与超过 59 的数值，结果自动补零显示。适用于排班累计、任务时长汇总、多段工时相加，全部本地计算。",
+      "keywords": [
+        "时间计算器",
+        "时分秒加减",
+        "hh:mm:ss 累加",
+        "时间相加",
+        "时长汇总"
+      ],
+      "tags": [
+        "时间",
+        "计算",
+        "时长"
+      ],
+      "category": "calc",
+      "icon": "timer",
+      "tagline": "按 时:分:秒 累加加减",
+      "url": "/tools/hms-add/"
+    },
+    {
+      "id": "hms-to-units",
+      "name": "时分秒转小时分钟秒",
+      "description": "免费在线时分秒转小时分钟秒计算器，将 HH:MM:SS 时长换算为总小时数、总分钟数或总秒数，支持小数与超过 59 的数值。适用于工时统计、时长汇总、报表换算，全部本地计算。",
+      "keywords": [
+        "时分秒转小时",
+        "HHMMSS换算",
+        "时长转小时",
+        "时间单位换算",
+        "时分秒转分钟"
+      ],
+      "tags": [
+        "时间",
+        "换算",
+        "时长"
+      ],
+      "category": "calc",
+      "icon": "timer",
+      "tagline": "HH:MM:SS 转总小时/分钟/秒",
+      "url": "/tools/hms-to-units/"
+    },
+    {
+      "id": "hours-from-now",
+      "name": "几小时后是几点",
+      "description": "免费在线几小时后是几点计算器，输入起始时间与小时数，立即算出几小时后是几点钟，以 24 小时制 HH:MM 显示，自动处理跨越午夜。适用于排班、行程衔接、倒计时等场景，全部本地计算。",
+      "keywords": [
+        "几小时后是几点",
+        "时间加小时",
+        "小时后是几点",
+        "时间推算",
+        "HH:MM 计算"
+      ],
+      "tags": [
+        "时间",
+        "计算",
+        "小时"
+      ],
+      "category": "calc",
+      "icon": "clock",
+      "tagline": "算 N 小时后是几点钟",
+      "url": "/tools/hours-from-now/"
+    },
+    {
+      "id": "html-escape",
+      "name": "HTML 实体编解码",
+      "description": "免费在线 HTML 实体编解码工具，一键把 & < > \" 等特殊字符转成 &amp;、&lt;、&gt;、&quot; 等实体，或将实体还原为原始文本。常用于在网页安全输出用户内容、防止 XSS 注入、在文章中展示代码片段等场景，纯本地转换、不上传内容，打开即用。",
+      "keywords": [
+        "HTML转义",
+        "HTML实体编码",
+        "HTML解码",
+        "特殊字符转义",
+        "html escape"
+      ],
+      "tags": [
+        "html",
+        "转义",
+        "web"
+      ],
+      "category": "dev",
+      "icon": "code",
+      "tagline": "转义特殊字符",
+      "url": "/tools/html-escape/"
+    },
+    {
+      "id": "http-status",
+      "name": "HTTP 状态码速查",
+      "description": "免费在线 HTTP 状态码速查表，收录常见 HTTP 状态码（1xx–5xx）的编码、类别与含义说明，支持关键字搜索与类别筛选，帮助开发调试接口时快速定位响应含义。纯静态数据，离线可用。",
+      "keywords": [
+        "HTTP状态码",
+        "状态码",
+        "HTTP",
+        "API",
+        "响应码"
+      ],
+      "tags": [
+        "http",
+        "状态码",
+        "dev",
+        "参考",
+        "接口"
+      ],
+      "category": "dev",
+      "icon": "server",
+      "tagline": "常用 HTTP 状态码含义速查",
+      "url": "/tools/http-status/"
+    },
+    {
+      "id": "income-tax-cn",
+      "name": "个人所得税计算器",
+      "description": "免费在线个人所得税计算器，输入每月税前工资、三险一金个人缴纳、专项附加扣除与其他扣除，按综合所得年度税率表自动算出全年应纳税所得额、适用税率、应纳税额与税后到手收入。覆盖子女教育、房贷利息、赡养老人等专项附加扣除，适用于工资薪金汇算清缴估算，全部在浏览器本地计算、不上传数据。",
+      "keywords": [
+        "个人所得税计算器",
+        "个税计算",
+        "工资个税",
+        "综合所得汇算",
+        "税后工资"
+      ],
+      "tags": [
+        "个税",
+        "工资",
+        "税后收入"
+      ],
+      "category": "calc",
+      "icon": "receipt",
+      "tagline": "算清一年工资该交多少税",
+      "url": "/tools/income-tax-cn/"
+    },
+    {
+      "id": "isbn-validator",
+      "name": "ISBN 校验转换",
+      "description": "免费在线 ISBN 校验与转换工具，输入 ISBN-10 或 ISBN-13（可含连字符）即可自动识别位数、验证校验位，并在 10 位与 13 位之间互转。校验失败会给出正确校验位，适合出版、图书馆编目、电商上架核对书号，全部计算本地完成。",
+      "keywords": [
+        "ISBN校验",
+        "ISBN转换",
+        "国际标准书号",
+        "校验位计算",
+        "图书条码"
+      ],
+      "tags": [
+        "isbn",
+        "校验",
+        "图书",
+        "条码"
+      ],
+      "category": "barcode",
+      "icon": "book",
+      "tagline": "校验位与 10/13 互换",
+      "url": "/tools/isbn-validator/"
+    },
+    {
+      "id": "jian-fan-convert",
+      "name": "简繁转换",
+      "description": "免费在线简繁转换工具，支持简体中文转繁体中文、繁体转简体，一键切换方向，适用于文档、网页、字幕的简繁互换。所有转换都在本地浏览器完成，不上传任何文本。",
+      "keywords": [
+        "简繁转换",
+        "简体转繁体",
+        "繁体转简体",
+        "中文转换",
+        "简繁互换工具"
+      ],
+      "tags": [
+        "简繁",
+        "中文",
+        "文本",
+        "转换"
+      ],
+      "category": "text",
+      "icon": "languages",
+      "tagline": "简体中文与繁体中文互转",
+      "url": "/tools/jian-fan-convert/"
+    },
+    {
+      "id": "json-formatter",
+      "name": "JSON 格式化",
+      "description": "免费在线 JSON 格式化工具，支持 JSON 美化（缩进排版）、压缩去空白、语法校验与错误提示。接口调试、配置文件整理、数据校验都能用，纯本地运行不上传任何数据。",
+      "keywords": [
+        "json格式化",
+        "json在线格式化",
+        "json校验",
+        "json美化",
+        "json压缩"
+      ],
+      "tags": [
+        "json",
+        "格式化",
+        "校验",
+        "开发"
+      ],
+      "category": "dev",
+      "icon": "braces",
+      "tagline": "格式化、压缩、校验 JSON",
+      "url": "/tools/json-formatter/"
+    },
+    {
+      "id": "json-to-csv",
+      "name": "JSON 转 CSV",
+      "description": "免费在线 JSON 转 CSV 工具，把对象数组格式的 JSON 一键转换成 Excel 可直接打开的 CSV 表格，自动取所有字段的并集作为表头，并按标准规则转义逗号、双引号与换行，支持结果一键复制或下载为 .csv 文件。全部转换在浏览器本地完成，数据不会上传服务器，立即试试。",
+      "keywords": [
+        "JSON转CSV",
+        "在线JSON转表格",
+        "JSON转Excel",
+        "CSV导出",
+        "JSON工具"
+      ],
+      "tags": [
+        "json",
+        "csv",
+        "转换"
+      ],
+      "category": "dev",
+      "icon": "table",
+      "tagline": "数组对象转表格 CSV",
+      "url": "/tools/json-to-csv/"
+    },
+    {
+      "id": "jwt-decoder",
+      "name": "JWT 解析器",
+      "description": "免费在线 JWT 解析工具，将 JSON Web Token 的三段 base64url 解码为可读的 Header 与 Payload，并显示签名段是否存在、算法等信息。全程在浏览器本地完成，令牌不会上传服务器，适合调试接口鉴权时快速查看 claims。",
+      "keywords": [
+        "JWT解析",
+        "JWT解码",
+        "Token解析",
+        "JSON Web Token"
+      ],
+      "tags": [
+        "jwt",
+        "token",
+        "dev",
+        "解析",
+        "鉴权"
+      ],
+      "category": "dev",
+      "icon": "key",
+      "tagline": "在线解析 JWT，查看 Header / Payload",
+      "url": "/tools/jwt-decoder/"
+    },
+    {
+      "id": "license-gen",
+      "name": "开源协议选择器",
+      "description": "免费在线开源协议（License）选择器：回答三个问题即可获得推荐（MIT / Apache-2.0 / GPL / AGPL / BSD / MPL / ISC / Unlicense），也可直接浏览 10 种主流协议全文，自动替换年份与版权所有者，一键复制或下载 LICENSE 文件。纯本地运行，不收集任何数据。",
+      "keywords": [
+        "开源协议",
+        "License选择器",
+        "许可证生成",
+        "MIT",
+        "GPL",
+        "Apache",
+        "开源协议怎么选"
+      ],
+      "tags": [
+        "license",
+        "开源",
+        "法律",
+        "协议"
+      ],
+      "category": "dev",
+      "icon": "scale",
+      "tagline": "问答推荐 + 一键生成 LICENSE",
+      "url": "/tools/license-gen/"
+    },
+    {
+      "id": "line-sort",
+      "name": "行排序",
+      "description": "免费在线多行文本排序工具，支持按字典序、数值大小、行长度三种方式排序，可一键切换升序降序，并可选去重与删除空行。中文按拼音顺序排列，数字行按真实数值而非字符比较，适合整理名单、词表、日志与数据列表，结果一键复制，本地运算不上传。",
+      "keywords": [
+        "行排序",
+        "文本排序",
+        "在线排序",
+        "字母排序",
+        "数字排序"
+      ],
+      "tags": [
+        "排序",
+        "文本"
+      ],
+      "category": "text",
+      "icon": "arrow-down-narrow-wide",
+      "tagline": "多行文本排序",
+      "url": "/tools/line-sort/"
+    },
+    {
+      "id": "loan-calculator",
+      "name": "贷款月供计算器",
+      "description": "免费在线贷款月供计算器，输入贷款本金、年利率和还款期限，按等额本息方式算出每月月供、支付总利息与还款总额。适用于房贷、车贷、消费贷等场景的还款测算，支持按年或按月填写期限，全部在浏览器本地计算。",
+      "keywords": [
+        "贷款计算器",
+        "房贷月供",
+        "等额本息",
+        "利息计算",
+        "车贷计算"
+      ],
+      "tags": [
+        "贷款",
+        "月供",
+        "利息"
+      ],
+      "category": "calc",
+      "icon": "landmark",
+      "tagline": "等额本息月供与总利息",
+      "url": "/tools/loan-calculator/"
+    },
+    {
+      "id": "lottery-draw",
+      "name": "抽签抽奖",
+      "description": "免费在线抽签抽奖工具，每行输入一个选项即可随机抽取一个或多个结果，抽取结果不重复并高亮显示。适合年会抽奖、随机点名、决定今天吃什么、分组分配等场景，纯浏览器本地随机，公平透明，结果可一键复制。",
+      "keywords": [
+        "在线抽签",
+        "随机抽奖",
+        "随机点名",
+        "抽签工具",
+        "随机选择器"
+      ],
+      "tags": [
+        "抽签",
+        "随机"
+      ],
+      "category": "life",
+      "icon": "ticket",
+      "tagline": "从选项里随机抽取",
+      "url": "/tools/lottery-draw/"
+    },
+    {
+      "id": "markdown-preview",
+      "name": "Markdown 预览",
+      "description": "免费在线 Markdown 预览工具，左侧输入 Markdown 语法，右侧实时渲染为格式化文本，支持标题、列表、加粗、代码块、链接等常用语法，适合写作、笔记与文档排版时快速预览。",
+      "keywords": [
+        "Markdown预览",
+        "Markdown编辑器",
+        "在线Markdown",
+        "MD实时渲染",
+        "Markdown转HTML"
+      ],
+      "tags": [
+        "markdown",
+        "文档",
+        "预览",
+        "写作"
+      ],
+      "category": "text",
+      "icon": "file-text",
+      "tagline": "实时渲染 Markdown 为富文本",
+      "url": "/tools/markdown-preview/"
+    },
+    {
+      "id": "mcp-config-generator",
+      "name": "MCP 配置生成器",
+      "description": "免费在线 MCP 配置生成工具，支持同时添加多个 MCP 服务（文件系统、GitHub、Fetch、Puppeteer、Notion、PostgreSQL、Slack、Brave 搜索、Google Drive、Memory、Time 及自定义 stdio），逐个配置后自动组合成完整 mcp.json，可直接合并进 WorkBuddy 的 mcp.json 启用。",
+      "keywords": [
+        "MCP配置",
+        "mcp.json生成",
+        "Model Context Protocol",
+        "WorkBuddy配置",
+        "MCP服务",
+        "多服务组合"
+      ],
+      "tags": [
+        "mcp",
+        "workbuddy",
+        "配置",
+        "ai",
+        "智能体"
+      ],
+      "category": "ai",
+      "icon": "plug",
+      "tagline": "选服务生成 mcp.json 配置",
+      "url": "/tools/mcp-config-generator/"
+    },
+    {
+      "id": "min-age-birth",
+      "name": "最低年龄出生日期计算器",
+      "description": "免费在线最低年龄出生日期计算器，输入核验日期与要求的最低年龄（如 18、21 岁），反向推算受检者须在哪一天或之前出生才算达标。适用于证件核验、资格审核与入职合规，全部本地计算。",
+      "keywords": [
+        "最低年龄",
+        "出生日期推算",
+        "年龄核验",
+        "达标生日",
+        "资格审核"
+      ],
+      "tags": [
+        "年龄",
+        "日期",
+        "计算"
+      ],
+      "category": "calc",
+      "icon": "cake",
+      "tagline": "反推达标最晚生日",
+      "url": "/tools/min-age-birth/"
+    },
+    {
+      "id": "mortgage-early-repayment",
+      "name": "房贷提前还款计算器",
+      "description": "免费在线房贷提前还款计算器，输入贷款本金、年利率、期限、已还期数与提前还款金额，支持等额本息/等额本金两种还款方式，以及「缩短期限」或「减少月供」两种提前还款处理。自动算出提前还款后新方案月供、新还款期限与节省的利息总额，帮助你判断提前还贷是否划算，全部在浏览器本地计算、不上传数据。",
+      "keywords": [
+        "房贷提前还款计算器",
+        "提前还贷",
+        "缩短贷款期限",
+        "减少月供",
+        "房贷利息"
+      ],
+      "tags": [
+        "房贷",
+        "提前还款",
+        "利息"
+      ],
+      "category": "calc",
+      "icon": "building",
+      "tagline": "提前还贷能省多少利息",
+      "url": "/tools/mortgage-early-repayment/"
+    },
+    {
+      "id": "name-generator",
+      "name": "随机名字生成",
+      "description": "免费在线随机名字生成器，一键批量生成中文姓名与英文姓名，可选单字名或双字名、自定义生成数量，支持单条复制与全部复制。适合小说角色取名、游戏 ID、测试数据填充，纯本地生成不联网。",
+      "keywords": [
+        "随机名字",
+        "姓名生成器",
+        "随机姓名",
+        "英文名生成",
+        "取名工具"
+      ],
+      "tags": [
+        "名字",
+        "生成",
+        "随机"
+      ],
+      "category": "fun",
+      "icon": "user-round",
+      "tagline": "中英文随机姓名",
+      "url": "/tools/name-generator/"
+    },
+    {
+      "id": "ode-solver",
+      "name": "微分方程求解器",
+      "description": "在线微分方程求解器，专解一阶常微分方程初值问题 dy/dx = f(x,y)。采用四阶龙格-库塔法（RK4）高精度数值积分，输入方程、初值与区间即可获得数值解曲线、采样数据表与 JSON，全程浏览器本地计算，不上传任何数据。",
+      "keywords": [
+        "微分方程求解器",
+        "常微分方程",
+        "RK4",
+        "数值解",
+        "ODE"
+      ],
+      "tags": [
+        "微分方程",
+        "数值计算",
+        "数学"
+      ],
+      "category": "calc",
+      "icon": "activity",
+      "tagline": "一阶常微分方程 RK4 数值解",
+      "url": "/tools/ode-solver/"
+    },
+    {
+      "id": "password-generator",
+      "name": "密码生成器",
+      "description": "免费在线随机密码生成器，可自定义长度、大小写字母、数字与符号，支持排除易混淆字符。采用浏览器加密级随机数生成，全程本地运算不上传服务器，安全可靠。",
+      "keywords": [
+        "密码生成器",
+        "随机密码",
+        "强密码生成",
+        "在线密码生成"
+      ],
+      "tags": [
+        "密码",
+        "安全",
+        "随机",
+        "生成器"
+      ],
+      "category": "security",
+      "icon": "key",
+      "tagline": "一键生成高强度随机密码",
+      "url": "/tools/password-generator/"
+    },
+    {
+      "id": "password-strength",
+      "name": "密码强度分析",
+      "description": "免费在线密码强度分析工具，本地检测长度、大小写、数字、符号、常见弱口令与重复/连续模式，给出强度评分与改进建议。所有计算在浏览器完成，不记录、不上传任何输入，可放心粘贴待测密码。",
+      "keywords": [
+        "密码强度",
+        "密码检测",
+        "弱口令",
+        "密码安全"
+      ],
+      "tags": [
+        "密码",
+        "安全",
+        "security",
+        "强度",
+        "检测"
+      ],
+      "category": "security",
+      "icon": "shield",
+      "tagline": "实时评估密码强度与风险",
+      "url": "/tools/password-strength/"
+    },
+    {
+      "id": "percentage-calculator",
+      "name": "百分比计算器",
+      "description": "免费在线百分比计算器，三种常用模式一站搞定：计算 A 是 B 的百分之几、某个数增加或减少百分之几后是多少、以及从原数到新数的增长率与降幅。适用于折扣、涨跌幅、业绩完成率、数据占比等场景，本地实时计算。",
+      "keywords": [
+        "百分比计算器",
+        "增长率计算",
+        "占比计算",
+        "折扣计算",
+        "涨跌幅"
+      ],
+      "tags": [
+        "百分比",
+        "计算"
+      ],
+      "category": "calc",
+      "icon": "percent",
+      "tagline": "百分比/增减/占比一键算",
+      "url": "/tools/percentage-calculator/"
+    },
+    {
+      "id": "pressure-convert",
+      "name": "压力换算",
+      "description": "免费在线压力（压强）单位换算工具，覆盖帕斯卡、百帕、千帕、兆帕、巴、标准大气压、psi、毫米汞柱、千克力每平方厘米共 9 种单位。输入数值即时显示全部单位换算结果，附换算公式、实例与常见问答，全部本地计算不上传。",
+      "keywords": [
+        "压力换算",
+        "压强换算",
+        "单位换算",
+        "bar转psi",
+        "帕斯卡换算",
+        "psi换算",
+        "标准大气压",
+        "毫米汞柱",
+        "胎压换算"
+      ],
+      "tags": [
+        "压力",
+        "压强",
+        "换算"
+      ],
+      "category": "convert",
+      "icon": "gauge",
+      "tagline": "Pa、bar、psi、atm、mmHg 等压强单位在线互转",
+      "url": "/tools/pressure-convert/"
+    },
+    {
+      "id": "prompt-library",
+      "name": "提示词工坊",
+      "description": "免费在线提示词工坊，集合「我的收藏」与「随机生成」两大功能：在浏览器本地保存、搜索、分享常用提示词；也能按角色、任务、格式、语气、约束五个维度自由组合，随机抛出脑洞提示词，支持自定义候选与主题关键词注入。数据存于本机 localStorage，不上传服务器。",
+      "keywords": [
+        "提示词收藏",
+        "Prompt库",
+        "提示词生成",
+        "随机提示词",
+        "提示词管理",
+        "本地收藏"
+      ],
+      "tags": [
+        "prompt",
+        "收藏",
+        "ai",
+        "提示词",
+        "随机生成",
+        "本地"
+      ],
+      "category": "ai",
+      "icon": "bookmark",
+      "tagline": "收藏管理 + 随机生成提示词",
+      "url": "/tools/prompt-library/"
+    },
+    {
+      "id": "prompt-template",
+      "name": "Prompt 变量模板",
+      "description": "免费在线 Prompt 变量模板工具，内置角色扮演、系统提示词、Few-shot、翻译、代码审查、SEO 等常用预设，并支持把模板保存到本地「我的模板」反复调用；用 {{变量}} 占位符编写模板，填入变量值一键渲染出最终提示词，未替换变量会高亮提醒。",
+      "keywords": [
+        "Prompt模板",
+        "提示词变量",
+        "变量替换",
+        "模板生成",
+        "提示词工程",
+        "预设模板",
+        "我的模板"
+      ],
+      "tags": [
+        "prompt",
+        "模板",
+        "ai",
+        "提示词",
+        "变量"
+      ],
+      "category": "ai",
+      "icon": "braces",
+      "tagline": "用变量填充模板，一键生成最终提示词",
+      "url": "/tools/prompt-template/"
+    },
+    {
+      "id": "public-apis",
+      "name": "免费 API 大全",
+      "description": "免费在线免费 API 导航，精选 30+ 个无需付费或免费额度友好的开放接口，覆盖开发测试、数据知识、AI 趣味、金融加密、天气地理、影视图像、太空科学、开放政府等方向。每个接口附带简介与外链，支持关键词搜索与分类筛选，帮你快速给项目接上真实数据。",
+      "keywords": [
+        "免费API",
+        "开放接口",
+        "API导航",
+        "开源API",
+        "公开数据接口"
+      ],
+      "tags": [
+        "api",
+        "开发",
+        "数据",
+        "导航",
+        "开源"
+      ],
+      "category": "dev",
+      "icon": "database",
+      "tagline": "按分类检索可用的免费开放接口",
+      "url": "/tools/public-apis/"
+    },
+    {
+      "id": "qrcode-generator",
+      "name": "二维码生成",
+      "description": "免费在线二维码生成工具，输入网址、文本或任意内容即可一键生成二维码，支持调整尺寸，方便手机扫码跳转。所有生成都在本地完成，内容不上传服务器。",
+      "keywords": [
+        "二维码生成",
+        "生成二维码",
+        "在线二维码",
+        "网址转二维码",
+        "QR码"
+      ],
+      "tags": [
+        "二维码",
+        "QR",
+        "开发",
+        "生成"
+      ],
+      "category": "dev",
+      "icon": "qr",
+      "tagline": "文本/网址一键生成二维码",
+      "url": "/tools/qrcode-generator/"
+    },
+    {
+      "id": "random-number",
+      "name": "随机数生成器",
+      "description": "免费在线随机数生成器，自定义最小值、最大值与生成数量，一次批量产出随机整数，支持不重复模式，适合抽奖、摇号、随机点名、测试数据。基于浏览器加密级随机源生成，结果可一键复制，无需注册。",
+      "keywords": [
+        "随机数生成器",
+        "在线随机数",
+        "随机整数",
+        "批量随机数",
+        "不重复随机数"
+      ],
+      "tags": [
+        "随机",
+        "生成"
+      ],
+      "category": "life",
+      "icon": "dice",
+      "tagline": "区间内批量随机整数",
+      "url": "/tools/random-number/"
+    },
+    {
+      "id": "regex-tester",
+      "name": "正则测试",
+      "description": "免费在线正则表达式测试工具，输入正则与测试文本，实时高亮所有匹配片段并列出捕获组，支持 g/i/m/s 等常用修饰符，帮助快速调试和验证正则表达式。",
+      "keywords": [
+        "正则测试",
+        "正则表达式",
+        "regex在线测试",
+        "正则匹配",
+        "表达式调试"
+      ],
+      "tags": [
+        "正则",
+        "regex",
+        "开发",
+        "调试"
+      ],
+      "category": "dev",
+      "icon": "regex",
+      "tagline": "在线测试正则表达式与匹配",
+      "url": "/tools/regex-tester/"
+    },
+    {
+      "id": "rock-paper-scissors",
+      "name": "石头剪刀布",
+      "description": "免费在线石头剪刀布小游戏，点击出拳即可与电脑对战，自动判定胜负并累计胜、负、平三项战绩与胜率。电脑出拳采用浏览器加密级随机数，绝不偷看你的选择，公平对局。打开即玩，无需下载注册。",
+      "keywords": [
+        "石头剪刀布",
+        "猜拳游戏",
+        "在线猜拳",
+        "人机对战",
+        "划拳小游戏"
+      ],
+      "tags": [
+        "游戏",
+        "剪刀",
+        "对战"
+      ],
+      "category": "fun",
+      "icon": "hand",
+      "tagline": "人机对战记分",
+      "url": "/tools/rock-paper-scissors/"
+    },
+    {
+      "id": "rsa-keygen",
+      "name": "RSA 密钥对生成",
+      "description": "免费在线 RSA 密钥对生成工具，基于浏览器原生 Web Crypto API，在本地生成 RSA 密钥对（2048 / 4096 位），并导出为 PEM 格式的公钥（SPKI）与私钥（PKCS#8）。私钥全程不离开本机，无需任何服务器参与，适合本地快速生成测试用密钥。",
+      "keywords": [
+        "RSA生成",
+        "密钥对",
+        "公钥私钥",
+        "PEM",
+        "Web Crypto"
+      ],
+      "tags": [
+        "rsa",
+        "密钥",
+        "安全",
+        "crypto",
+        "pem"
+      ],
+      "category": "security",
+      "icon": "fingerprint",
+      "tagline": "浏览器内生成 RSA 公钥 / 私钥",
+      "url": "/tools/rsa-keygen/"
+    },
+    {
+      "id": "seconds-to-time",
+      "name": "秒转时分秒计算器",
+      "description": "免费在线秒转时分秒计算器，一键将秒数换算成小时、分钟和秒（HH:MM:SS）格式，并给出完整的时分秒拆解。适用于视频时长、任务耗时、日志与计时数据转换，全部本地计算。",
+      "keywords": [
+        "秒转时分秒",
+        "秒换算",
+        "秒转HHMMSS",
+        "时间格式转换",
+        "秒数拆分"
+      ],
+      "tags": [
+        "时间",
+        "换算",
+        "秒"
+      ],
+      "category": "calc",
+      "icon": "timer",
+      "tagline": "秒数换算成 HH:MM:SS",
+      "url": "/tools/seconds-to-time/"
+    },
+    {
+      "id": "skill-generator",
+      "name": "SKILL.md 生成器",
+      "description": "免费在线 SKILL.md 生成工具，支持名称、简介、触发场景、参数、详细步骤、示例、注意事项、依赖等完整字段，并可粘贴已有 SKILL.md 自动反向解析回填；一键生成符合 WorkBuddy 规范的 SKILL.md，可直接放入用户级或项目级 skills 目录。",
+      "keywords": [
+        "SKILL.md生成",
+        "WorkBuddy技能",
+        "技能生成器",
+        "AI技能文件",
+        "提示词工程",
+        "反向解析"
+      ],
+      "tags": [
+        "workbuddy",
+        "skill",
+        "ai",
+        "配置",
+        "智能体"
+      ],
+      "category": "ai",
+      "icon": "bot",
+      "tagline": "填表生成 WorkBuddy 技能文件",
+      "url": "/tools/skill-generator/"
+    },
+    {
+      "id": "social-security-cn",
+      "name": "五险一金计算器",
+      "description": "免费在线五险一金计算器，输入缴费基数即可算出养老、医疗、失业、工伤、生育与住房公积金的个人与单位各自缴纳金额，并给出企业用工成本与个人费率占比。支持缴费基数上下限夹取、公积金比例 5%–12% 调整，采用全国通用参考费率，适用于 HR 核算与打工人算账，全部在浏览器本地计算、不上传数据。",
+      "keywords": [
+        "五险一金计算器",
+        "社保计算器",
+        "公积金计算",
+        "社保缴费",
+        "用工成本"
+      ],
+      "tags": [
+        "五险一金",
+        "社保",
+        "公积金"
+      ],
+      "category": "calc",
+      "icon": "shield",
+      "tagline": "算清每月社保公积金缴多少",
+      "url": "/tools/social-security-cn/"
+    },
+    {
+      "id": "sql-formatter",
+      "name": "SQL 格式化",
+      "description": "免费在线 SQL 格式化工具，把挤成一行的查询语句按 SELECT、FROM、WHERE、JOIN、GROUP BY 等主要关键字自动换行并缩进，关键字统一大写，让长 SQL 一眼看清结构，方便排查逻辑与代码评审。支持 MySQL、PostgreSQL 等常见方言，纯浏览器本地运算，语句不会外传。",
+      "keywords": [
+        "SQL格式化",
+        "在线SQL美化",
+        "SQL缩进",
+        "SQL在线整理",
+        "sql formatter"
+      ],
+      "tags": [
+        "sql",
+        "格式化",
+        "开发"
+      ],
+      "category": "dev",
+      "icon": "database",
+      "tagline": "关键字换行缩进",
+      "url": "/tools/sql-formatter/"
+    },
+    {
+      "id": "system-design",
+      "name": "系统设计案例库",
+      "description": "免费在线系统设计案例库，拆解 24 个经典系统与设计模式，覆盖 URL 短链、限流、聊天、推送、支付、秒杀等经典案例，以及负载均衡、缓存、消息队列、一致性哈希等基础组件，还有高并发与可靠性专项。每个主题附简介与外链，支持搜索与分类筛选，是备战面试与做架构决策的速查表。",
+      "keywords": [
+        "系统设计",
+        "system design",
+        "架构设计",
+        "高并发",
+        "面试"
+      ],
+      "tags": [
+        "架构",
+        "设计",
+        "面试",
+        "高并发",
+        "分布式"
+      ],
+      "category": "dev",
+      "icon": "server",
+      "tagline": "拆解经典系统的设计要点",
+      "url": "/tools/system-design/"
+    },
+    {
+      "id": "temperature-convert",
+      "name": "温度换算",
+      "description": "免费在线温度单位换算工具，输入数值并选择摄氏度、华氏度或开尔文，实时显示另外两个单位的换算结果。内置常见温度参考点与换算公式说明，适合查看国外天气预报、烤箱食谱温度和理化实验数据，全部本地计算。",
+      "keywords": [
+        "温度换算",
+        "摄氏华氏转换",
+        "华氏度转摄氏度",
+        "开尔文换算",
+        "温度单位"
+      ],
+      "tags": [
+        "温度",
+        "换算"
+      ],
+      "category": "convert",
+      "icon": "thermometer",
+      "tagline": "摄氏华氏开尔文互转",
+      "url": "/tools/temperature-convert/"
+    },
+    {
+      "id": "text-counter",
+      "name": "字数统计",
+      "description": "免费在线字数统计工具，实时统计字符数、不含空格字符数、中文字数、英文词数、行数与 UTF-8 字节数，适合写作字数核对、推文长度限制检查、接口字段长度校验等场景。",
+      "keywords": [
+        "字数统计",
+        "字符统计",
+        "在线字数",
+        "中文字数",
+        "字节数统计"
+      ],
+      "tags": [
+        "字数",
+        "字符",
+        "统计",
+        "文本"
+      ],
+      "category": "text",
+      "icon": "align-left",
+      "tagline": "字符 / 字数 / 字节统计",
+      "url": "/tools/text-counter/"
+    },
+    {
+      "id": "text-dedup",
+      "name": "文本去重",
+      "description": "免费在线文本去重工具，粘贴多行内容即可一键删除重复行，只保留每行首次出现的位置与原有顺序，并实时显示去重前后的行数与删除数量。支持忽略大小写、忽略首尾空白、过滤空行，适合清理名单、日志、关键词与 ID 列表，本地处理不上传。",
+      "keywords": [
+        "文本去重",
+        "删除重复行",
+        "在线去重",
+        "列表去重",
+        "重复内容清理"
+      ],
+      "tags": [
+        "去重",
+        "文本"
+      ],
+      "category": "text",
+      "icon": "copy-x",
+      "tagline": "删除重复行",
+      "url": "/tools/text-dedup/"
+    },
+    {
+      "id": "text-diff",
+      "name": "文本比较 (Diff)",
+      "description": "免费在线文本比较工具，纯前端逐行对比「原文本」与「新文本」，高亮新增、删除与相同行，帮助快速定位改动。适合代码、文案、配置文件的改动比对，数据全部在本地处理，不上传服务器。",
+      "keywords": [
+        "文本比较",
+        "Diff",
+        "文本差异",
+        "代码比对",
+        "改动对比"
+      ],
+      "tags": [
+        "diff",
+        "对比",
+        "文本",
+        "text",
+        "改动"
+      ],
+      "category": "text",
+      "icon": "align-left",
+      "tagline": "逐行对比两段文本差异",
+      "url": "/tools/text-diff/"
+    },
+    {
+      "id": "text-reverse",
+      "name": "文本反转",
+      "description": "免费在线文本反转工具，提供字符反转、单词顺序反转、行序反转三种模式：整串倒序、按空格颠倒词序、把多行内容首尾对调。正确处理中文与 emoji 等多字节字符，常用于文字游戏、密码学练习、数据整理与排版调试，结果一键复制，全程本地运算不上传。",
+      "keywords": [
+        "文本反转",
+        "字符串倒序",
+        "文字倒过来",
+        "单词顺序反转",
+        "行序反转"
+      ],
+      "tags": [
+        "反转",
+        "文本"
+      ],
+      "category": "text",
+      "icon": "flip-horizontal",
+      "tagline": "字符/单词/行反转",
+      "url": "/tools/text-reverse/"
+    },
+    {
+      "id": "time-duration",
+      "name": "时间间隔计算器",
+      "description": "免费在线时间间隔计算器，选择开始与结束的日期时间，即可精确算出两个时间点之间的时长，给出总天数、总小时、总分钟与时分秒。适用于工时统计、行程时长、设备运行时间等场景，自动处理跨天跨月跨年。",
+      "keywords": [
+        "时间间隔计算器",
+        "两个时间相差",
+        "时长计算",
+        "时间差",
+        "datetime 差"
+      ],
+      "tags": [
+        "时间",
+        "时长",
+        "计算"
+      ],
+      "category": "calc",
+      "icon": "clock",
+      "tagline": "算两时刻之间时长",
+      "url": "/tools/time-duration/"
+    },
+    {
+      "id": "timestamp-converter",
+      "name": "时间戳转换",
+      "description": "免费在线时间戳转换工具，支持 Unix 时间戳（秒/毫秒）与日期时间互转，可同时显示本地时间与 UTC，一键复制结果。常用于接口调试、日志分析、数据库时间字段核对。",
+      "keywords": [
+        "时间戳转换",
+        "unix时间戳",
+        "时间戳在线转换",
+        "时间戳转日期",
+        "在线时间戳工具"
+      ],
+      "tags": [
+        "时间戳",
+        "时间",
+        "转换",
+        "开发"
+      ],
+      "category": "dev",
+      "icon": "clock",
+      "tagline": "Unix 时间戳与日期互转",
+      "url": "/tools/timestamp-converter/"
+    },
+    {
+      "id": "tip-calculator",
+      "name": "小费计算器",
+      "description": "免费在线小费计算器，输入账单金额、小费比例和用餐人数，立即算出应付小费、含小费总额以及每人分摊金额。内置 10%、15%、18%、20% 常用比例快捷按钮，适合出国旅行、聚餐 AA 分账使用，全部本地计算。",
+      "keywords": [
+        "小费计算器",
+        "小费比例",
+        "AA分摊",
+        "账单分摊",
+        "人均消费"
+      ],
+      "tags": [
+        "小费",
+        "分摊",
+        "餐厅"
+      ],
+      "category": "calc",
+      "icon": "receipt",
+      "tagline": "账单小费与人均分摊",
+      "url": "/tools/tip-calculator/"
+    },
+    {
+      "id": "today-info",
+      "name": "今天几号",
+      "description": "在线查询今天是几月几号、星期几，一屏看全本年第几周、今年第几天、是否闰年、距离年末还有多少天。支持切换任意日期查询，采用 ISO 8601 标准周数计算，纯浏览器本地运算，打开即用，结果可一键复制。",
+      "keywords": [
+        "今天几号",
+        "今天星期几",
+        "第几周",
+        "今年第几天",
+        "闰年查询"
+      ],
+      "tags": [
+        "日期",
+        "查询"
+      ],
+      "category": "life",
+      "icon": "calendar-days",
+      "tagline": "日期星期与年份信息",
+      "url": "/tools/today-info/"
+    },
+    {
+      "id": "token-counter",
+      "name": "Token 计算器",
+      "description": "免费在线 Token 计算器，可切换 cl100k_base / o200k_base / p50k_base / r50k_base 编码，对应 GPT-4o、4o-mini、3.5-Instruct、GPT-3 等不同模型；实时统计 token 数、字符数、中文字符、英文词、标点与行数，并按单价估算调用花费，所有分词在浏览器本地完成，不上传文本。",
+      "keywords": [
+        "Token计算器",
+        "token估算",
+        "GPT字数",
+        "大模型分词",
+        "提示词字数",
+        "多模型",
+        "价格估算"
+      ],
+      "tags": [
+        "token",
+        "ai",
+        "大模型",
+        "分词",
+        "提示词"
+      ],
+      "category": "ai",
+      "icon": "hash",
+      "tagline": "估算 GPT/Claude 等模型的 token 数量",
+      "url": "/tools/token-counter/"
+    },
+    {
+      "id": "totp-generator",
+      "name": "TOTP 验证码",
+      "description": "免费在线 TOTP 动态验证码生成工具，输入 Base32 密钥即可算出 6 位两步验证码（2FA）并显示 30 秒倒计时。完整实现 RFC 6238 标准，与 Google Authenticator 一致，全程本地运算，密钥不上传。",
+      "keywords": [
+        "TOTP生成",
+        "两步验证",
+        "动态验证码",
+        "2FA",
+        "身份验证器"
+      ],
+      "tags": [
+        "totp",
+        "2fa",
+        "验证码",
+        "安全"
+      ],
+      "category": "security",
+      "icon": "smartphone",
+      "tagline": "两步验证动态码",
+      "url": "/tools/totp-generator/"
+    },
+    {
+      "id": "udi-decoder",
+      "name": "UDI 码解码",
+      "description": "免费在线 UDI 解码工具，支持解析多种格式的 UDI 文本：GS1 括号元素字符串（如 (01)…(17)…）、GS1 Digital Link URI、以及行式 AI 键值文本。自动识别应用标识符（AI），将 DI、批号、序列号、生产 / 失效日期等字段还原为可读中文说明，全部在浏览器本地完成。",
+      "keywords": [
+        "UDI解码",
+        "GS1解析",
+        "应用标识符",
+        "AI解析",
+        "医疗器械追溯",
+        "GS1 Digital Link"
+      ],
+      "tags": [
+        "udi",
+        "gs1",
+        "解码",
+        "解析",
+        "追溯"
+      ],
+      "category": "barcode",
+      "icon": "scan",
+      "tagline": "解析 GS1 应用标识符，还原 UDI 各字段",
+      "url": "/tools/udi-decoder/"
+    },
+    {
+      "id": "udi-generator",
+      "name": "UDI 码生成",
+      "description": "免费在线 UDI（医疗器械唯一标识）码生成工具，按 GS1 标准填写设备标识 DI 与生产标识 PI（批号、序列号、生产日期、失效日期等），一键生成 QR Code、GS1 QR、Data Matrix、GS1 Data Matrix、GS1-128、Code 128、Code 39 等多种格式的二维码与条形码，支持逐码下载 PNG。全部在浏览器本地生成，不上传数据。",
+      "keywords": [
+        "UDI生成",
+        "医疗器械唯一标识",
+        "GS1",
+        "UDI条码",
+        "GS1-128",
+        "Data Matrix",
+        "二维码生成"
+      ],
+      "tags": [
+        "udi",
+        "gs1",
+        "医疗器械",
+        "条码",
+        "二维码",
+        "标识"
+      ],
+      "category": "barcode",
+      "icon": "barcode",
+      "tagline": "生成医疗器械唯一标识的二维码与条形码",
+      "url": "/tools/udi-generator/"
+    },
+    {
+      "id": "unit-convert",
+      "name": "单位换算",
+      "description": "免费在线单位换算工具，覆盖长度、重量、温度、面积、体积、时间、速度、数据存储、网速、功率、能量、压力、角度、力、扭矩、频率共 16 大类 160 多种单位，含厘米转英寸、斤转千克、亩转平方米、摄氏度转华氏度、Mbps 转 MB/s、千瓦转马力、大卡转千焦等常用换算，输入即得结果。",
+      "keywords": [
+        "单位换算",
+        "单位转换",
+        "在线换算器",
+        "长度换算",
+        "重量换算",
+        "网速换算",
+        "功率换算",
+        "压力换算"
+      ],
+      "tags": [
+        "换算",
+        "单位",
+        "计算",
+        "转换"
+      ],
+      "category": "convert",
+      "icon": "ruler",
+      "tagline": "长度重量温度网速等 16 类单位在线互换",
+      "url": "/tools/unit-convert/"
+    },
+    {
+      "id": "url-encoder",
+      "name": "URL 编解码",
+      "description": "免费在线 URL 编解码工具，支持 encodeURIComponent 与 encodeURI 两种编码方式及其反向解码，处理中文、空格、特殊字符在网址中的转义，常用于接口调试、前端开发与爬虫参数构造。",
+      "keywords": [
+        "URL编码",
+        "URL解码",
+        "在线URL编解码",
+        "encodeURIComponent",
+        "urlencode"
+      ],
+      "tags": [
+        "URL",
+        "编码",
+        "解码",
+        "开发"
+      ],
+      "category": "dev",
+      "icon": "link",
+      "tagline": "URL 编码与解码",
+      "url": "/tools/url-encoder/"
+    },
+    {
+      "id": "url-parser",
+      "name": "URL 解析拆解",
+      "description": "免费在线 URL 解析工具，粘贴任意网址即可拆解出协议、域名、端口、路径、查询字符串与哈希片段，并把 query 参数逐条列成表格，参数值自动解码、支持单条复制。排查接口请求、分析推广链接 UTM 参数时特别好用，纯浏览器本地解析，链接不上传。",
+      "keywords": [
+        "URL解析",
+        "网址拆解",
+        "查询参数解析",
+        "URL参数提取",
+        "url parser"
+      ],
+      "tags": [
+        "url",
+        "解析",
+        "开发"
+      ],
+      "category": "dev",
+      "icon": "link",
+      "tagline": "拆解协议域名参数",
+      "url": "/tools/url-parser/"
+    },
+    {
+      "id": "utc-to-cst",
+      "name": "UTC 转中国标准时间",
+      "description": "免费在线 UTC 转中国标准时间（北京时间，UTC+8）换算器，输入 UTC 的小时与分钟，立即得出对应的中国时间，并提示是否跨天到次日。适用于跨国协作、日志时间、国际赛事与会议排期，全部本地计算。",
+      "keywords": [
+        "UTC转北京时间",
+        "UTC转中国时间",
+        "UTC+8",
+        "时区换算",
+        "北京时间计算"
+      ],
+      "tags": [
+        "时区",
+        "UTC",
+        "换算"
+      ],
+      "category": "calc",
+      "icon": "globe",
+      "tagline": "UTC 换算成北京时间",
+      "url": "/tools/utc-to-cst/"
+    },
+    {
+      "id": "utc-to-edt",
+      "name": "UTC 转 EDT 换算器",
+      "description": "免费在线 UTC 转 EDT（美国东部夏令时间）换算器，EDT = UTC − 4 小时。输入 UTC 的小时与分钟，立即得出对应的美东时钟时间，并标注是否跨天。适用于美股交易、美国会议与跨国协作排期，全部本地计算。",
+      "keywords": [
+        "UTC转EDT",
+        "UTC转美东夏令时",
+        "UTC-4",
+        "美国东部时间",
+        "时区换算"
+      ],
+      "tags": [
+        "时区",
+        "UTC",
+        "换算"
+      ],
+      "category": "calc",
+      "icon": "globe",
+      "tagline": "UTC 换算成美东夏令时",
+      "url": "/tools/utc-to-edt/"
+    },
+    {
+      "id": "utc-to-est",
+      "name": "UTC 转 EST 换算器",
+      "description": "免费在线 UTC 转 EST（美国东部标准时间）换算器，EST = UTC − 5 小时。输入 UTC 的小时与分钟，立即换算为美东时钟时间，并清晰标注是前一天、当天还是次日。适用于美股、美国会议与跨境协作，全部本地计算。",
+      "keywords": [
+        "UTC转EST",
+        "UTC转美东标准时",
+        "UTC-5",
+        "美国东部时间",
+        "时区换算"
+      ],
+      "tags": [
+        "时区",
+        "UTC",
+        "换算"
+      ],
+      "category": "calc",
+      "icon": "globe",
+      "tagline": "UTC 换算成美东标准时",
+      "url": "/tools/utc-to-est/"
+    },
+    {
+      "id": "utc-to-pst",
+      "name": "UTC 转 PST 换算器",
+      "description": "免费在线 UTC 转 PST（太平洋标准时间）换算器，PST = UTC − 8 小时。输入 UTC 的小时与分钟，立即得出对应的太平洋时钟时间，并标注是否跨天。适用于硅谷时区、美国西海岸会议与跨境协作排期，全部本地计算。",
+      "keywords": [
+        "UTC转PST",
+        "UTC转太平洋时间",
+        "UTC-8",
+        "美国西部时间",
+        "时区换算"
+      ],
+      "tags": [
+        "时区",
+        "UTC",
+        "换算"
+      ],
+      "category": "calc",
+      "icon": "globe",
+      "tagline": "UTC 换算成太平洋时间",
+      "url": "/tools/utc-to-pst/"
+    },
+    {
+      "id": "uuid-generator",
+      "name": "UUID 生成器",
+      "description": "免费在线 UUID 生成器，一键批量生成符合 RFC 4122 标准的 UUID v4 随机标识符，可用于数据库主键、分布式 ID、测试数据、临时令牌等场景，全部在浏览器本地生成。",
+      "keywords": [
+        "UUID生成",
+        "UUID v4",
+        "在线UUID",
+        "随机ID生成",
+        "guid生成器"
+      ],
+      "tags": [
+        "UUID",
+        "随机",
+        "生成",
+        "开发"
+      ],
+      "category": "dev",
+      "icon": "fingerprint",
+      "tagline": "批量生成 UUID v4",
+      "url": "/tools/uuid-generator/"
+    },
+    {
+      "id": "vat-calc",
+      "name": "增值税计算器",
+      "description": "免费在线增值税计算器，支持一般计税（销项税额 − 进项税额，可形成留抵税额）与简易计税（不含税销售额 × 征收率）两种模式。输入不含税销售额、税率（13%/9%/6%）与采购额，或小规模纳税人征收率（3%/5%），自动算出应纳税额、进项税额、留抵税额与税负。支持含税价一键还原为不含税价，全部在浏览器本地计算、不上传数据。",
+      "keywords": [
+        "增值税计算器",
+        "一般纳税人",
+        "简易计税",
+        "销项进项",
+        "留抵税额"
+      ],
+      "tags": [
+        "增值税",
+        "税务",
+        "进项抵扣"
+      ],
+      "category": "calc",
+      "icon": "percent",
+      "tagline": "一般纳税人/小规模纳税人都能算",
+      "url": "/tools/vat-calc/"
+    },
+    {
+      "id": "video-speed",
+      "name": "视频倍速观看时间计算器",
+      "description": "免费在线视频倍速观看时间计算器，输入视频时长与倍速（1.25/1.5/2 或任意），立即算出以该倍速看完所需的观看时间与节省时间。适用于网课、剧集、长视频与会议录像规划，全部本地计算。",
+      "keywords": [
+        "视频倍速",
+        "观看时间计算",
+        "倍速节省时间",
+        "视频时长",
+        "网课倍速"
+      ],
+      "tags": [
+        "视频",
+        "时间",
+        "计算"
+      ],
+      "category": "calc",
+      "icon": "film",
+      "tagline": "算倍速下看完要多久",
+      "url": "/tools/video-speed/"
+    },
+    {
+      "id": "weekly-hours",
+      "name": "每周工时计算器",
+      "description": "免费在线每周工时计算器，按每天上下班打卡时间与休息时间，自动统计每周总工时、日均工时以及超过 40 小时的加班时长。适用于排班核对、加班统计与薪资核算，全部本地计算。",
+      "keywords": [
+        "每周工时",
+        "周工时计算",
+        "加班时长",
+        "打卡工时",
+        "排班统计"
+      ],
+      "tags": [
+        "工时",
+        "计算",
+        "排班"
+      ],
+      "category": "calc",
+      "icon": "clock",
+      "tagline": "按打卡统计周总/加班工时",
+      "url": "/tools/weekly-hours/"
+    },
+    {
+      "id": "weeks-pregnant",
+      "name": "怀孕周数计算器",
+      "description": "免费在线怀孕周数计算器，输入末次月经（LMP）日期，立即按医学标准算出今天怀孕几周几天，并估算预产期（LMP+280 天）。适用于产检进度对照与孕期记录，全部本地计算。",
+      "keywords": [
+        "怀孕周数",
+        "孕周计算",
+        "末次月经",
+        "预产期",
+        "孕期计算"
+      ],
+      "tags": [
+        "孕期",
+        "日期",
+        "计算"
+      ],
+      "category": "calc",
+      "icon": "calendar",
+      "tagline": "LMP 算今天孕周+天",
+      "url": "/tools/weeks-pregnant/"
+    }
+  ],
+  "errors": []
+}
