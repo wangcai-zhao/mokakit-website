@@ -25,12 +25,16 @@
 - 护城河：① MCP Server（search-first 把上千工具压成 70 个）；② 单位对独立长尾页；③ 六段式内容模板。
 - **竞品盲区=主场**：中国本土计算器（个税/社保公积金/年终奖/房贷提前还款/增值税）。
 - 明确不搬：多语言 i18n、账户系统+API Token。
-- MCP 公网接入：HTTPS 现已就绪，技术可行（复用 counter 的 systemd/nginx 班车），待排期；公开后 tool name/schema 变更会冻结客户端集成，需预留 versioning。
+- **MCP 公网接入已完成（2026-08-13）**：`https://mokakit.com/mcp`（Streamable HTTP + Bearer token）。战略核心落地，详见下方「MCP Server」段。公开后 tool name/schema 变更会冻结客户端集成 → 已预留 `API_VERSION=v1`，breaking change 走 `/mcp/v2`。
 
-## MCP Server（本地版 v0.1.0 已跑通）
-- `mcp/server.mjs`（传输+分发，零依赖）+ `mcp/meta-loader.mjs`（扫 `src/tools/*/meta.ts`）。`npm run mcp` → 默认 **18700**，接入 `http://localhost:18700/mcp`。
-- 三原则：同源发现（meta-loader）/ compute 入参即契约（import `src/lib/*.ts` 纯函数，仅依赖 decimal.js）/ 描述从 meta 生成。
-- 9 个 tool：8 计算型 + `mokakit_search`（search-first）。扩展：在 `server.mjs` 的 `COMPUTE_TOOLS` 加项，新逻辑先抽 `src/lib/*.ts`。
+## MCP Server（v0.1.0 已公网接入，战略核心）
+- **公网端点**：`https://mokakit.com/mcp`（Streamable HTTP + JSON-RPC 2.0）。`npm run mcp` 本地仍 `http://localhost:18700/mcp`。9 个 tool：8 计算型（个税/年终奖/五险一金/增值税/房贷还款/提前还款…）+ `mokakit_search`（search-first）。
+- **生产化改造（关键）**：服务器是 Node v18，无 strip-types，且只部署 dist 无 src/。故 `mcp/build.mjs`（`npm run mcp:build`）用 esbuild 把 `server.mjs` + `src/lib/*.ts` 打成自包含 `deploy/mcp/server.mjs`（target=node18），并抽 `deploy/mcp/catalog.json`（94 工具元数据）。**server 启动优先读 catalog.json，运行时彻底不依赖 src/ 与 TS 运行时**。改了工具/加 meta 后必须重跑 `npm run mcp:build` 再 deploy。
+- **部署班车**：`mokakit-mcp.service`（systemd，`/opt/mokakit-mcp/`，仅监听 127.0.0.1:18700）+ nginx `mokakit-ssl.conf` 的 `location /mcp` 反代公网 HTTPS。`server-setup.sh` 新加 `[8/9]` 段自动装服务并生成随机 `MCP_TOKEN` 写入 `/opt/mokakit-mcp/.env`（权限 600，**不进 git**）。
+- **鉴权**：可选 Bearer token，设 `MCP_TOKEN` 才强制（无 token → 401；GET /mcp → 405）。对外公开前务必保留 token，且不要在仓库/日志明文泄露（服务器 `.env` 读取）。
+- **versioning**：`API_VERSION=v1` 已暴露；breaking change 走 `/mcp/v2` 路径。
+- 三原则保持：同源发现 / compute 入参即契约（打包进 src/lib 纯函数）/ 描述从 meta 生成。
+- 扩展：在 `server.mjs` 的 `COMPUTE_TOOLS` 加项，新逻辑先抽 `src/lib/*.ts`；build 后 catalog 自动含新 meta。
 
 ## 当前规模（2026-08-12 工作台实测，后续若有大改需重跑 workbench）
 - 94 工具 / 9 分类；全站 395 页（dist 395 html）。长尾子页 247（unit-convert 213 + github-stars 28 + ode-solver 6）。
@@ -50,7 +54,7 @@
 3. ✅ **公安联网备案号** —— 2026-08-13 批号 `京公网安备11010502062390号`，已填 `site.ts` 的 `police` + 页脚升级为可点击核验链接（beian.gov.cn），重建推生产生效。
 4. ⏸️ **摩卡配色打磨** —— 暂缓。
 5. ❌ 已放弃：GitHub 仓库分析工具、陌生高星仓收录、「真·AI 对话舱」（降待定）。
-6. ⏳ **MCP Server 公网 HTTPS 接入** —— 技术可行（HTTPS 已就绪），待排期。
+6. ✅ **MCP Server 公网 HTTPS 接入** —— 2026-08-13 完成：esbuild 自包含产物 + nginx `/mcp` 反代 + 可选 Bearer 鉴权 + systemd 自启。公网 `https://mokakit.com/mcp` 已验通。后续：① 对外公开前写客户端接入文档（端点/协议/token 获取）② 工具增改后 `npm run mcp:build` + 重部署 ③ versioning 冻结策略（breaking change 走 `/mcp/v2`）。
 
 ## 环境与坑（可复用）
 - **本地跑 src/ TS 模块**：`node --experimental-strip-types --import ./scripts/ts-resolve.mjs xxx.mjs`（strip-types 不解析模块，ts-resolve 补后缀）。
@@ -62,6 +66,7 @@
 - 沙箱 scp 大文件静默掐 → `ssh host "cat 文件" > 本地` 分片。合规：dist 禁 `example.com`，用 `acme.com`。
 - 服务器出网：github.com / raw.githubusercontent.com 被墙（acme.sh 装不了），但 apt / get.acme.sh / letsencrypt 通 → 用 `apt-get install certbot` + `certbot certonly --webroot`（不要走 acme.sh）。
 - **本机沙箱出站 HTTPS 被拦**（curl 外网只回 `HTTP/1.1 200 Connection established` 桩、拿不到正文）。验证已部署的公网内容时，改走 `ssh root@58.87.68.151 'curl -s --resolve mokakit.com:443:127.0.0.1 https://mokakit.com/ ...'`，让服务器自己当客户端、本地 TLS 解析自测，真实验证 443 SSL 块吐出的内容。注意裸 `127.0.0.1` 会命中兜底 `server_name _` 的 `return 444`（关连接），必须带 `--resolve` 或 `Host:` 命中正式 server 块。
+- **`server-setup.sh --live` 会回退 HTTPS（必踩）**：`--live` 的 [6/8] 会 `rm -f /etc/nginx/mokakit-ssl.conf` 并写回「注释态 ssl include」的 80 配置，导致 443 整段丢失。只要曾经 `--enable-ssl` 过，重跑 `--live`（含 `deploy.sh --live` 的 [3/3]）后**必须再跑一次 `server-setup.sh --enable-ssl`** 才恢复 443/HSTS。证书软链 `/etc/nginx/ssl/mokakit.com/` 不受影响，`enable-ssl` 直接成功。教训：**日常内容更新用 `deploy.sh`（不带 --live，只 reload 不碰 ssl）；只有切模式才用 --live，且随后务必补 `--enable-ssl`**。
 - **页脚备案渲染约定**：`SITE.icp` 与 `SITE.police` 在 `src/config/site.ts` 改一次即全站生效；`src/components/Footer.astro` 自动渲染——ICP 链 `https://beian.miit.gov.cn/`，公安备案号（页脚从 `police` 提取数字拼 `https://beian.gov.cn/portal/registerSystemInfo?recordcode=...`）链全国互联网安全管理服务平台。政府备案链接**不走** `/go/` 中转（见「出站链接中转」）。
 
 ## 会话管理
