@@ -5,6 +5,8 @@ import { getToolsByCategory } from '@/tools/registry';
 const groups = getToolsByCategory();
 const year = new Date().getFullYear();
 const copyrightYears = year > SITE.since ? `${SITE.since}-${year}` : `${SITE.since}`;
+// 公安备案号只取数字部分拼出全国互联网安全管理服务平台的核验链接
+const policeRecordCode = SITE.police ? SITE.police.replace(/\D/g, '') : '';
 ---
 
 <footer class="bg-base-100 border-t border-base-300 mt-12">
@@ -88,7 +90,18 @@ const copyrightYears = year > SITE.since ? `${SITE.since}-${year}` : `${SITE.sin
             </a>
           )
         }
-        {SITE.police && <span>{SITE.police}</span>}
+        {
+          SITE.police && policeRecordCode && (
+            <a
+              href={`https://beian.gov.cn/portal/registerSystemInfo?recordcode=${policeRecordCode}`}
+              target="_blank"
+              rel="nofollow noopener"
+              class="hover:text-primary"
+            >
+              {SITE.police}
+            </a>
+          )
+        }
       </div>
     </div>
   </div>

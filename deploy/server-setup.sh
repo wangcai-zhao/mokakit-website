@@ -59,11 +59,17 @@ issue_cert() {
 # ------------------------------------------------------------
 enable_ssl() {
   local CONF=/etc/nginx/conf.d/mokakit.conf
-  local SSLCONF=/etc/nginx/conf.d/mokakit-ssl.conf
-  [[ -f "$SSLCONF" ]] || { c_err "找不到 $SSLCONF，请先执行 server-setup.sh --live 安装"; exit 1; }
+  local SSLCONF=/etc/nginx/mokakit-ssl.conf
   c_head "开启 HTTPS"
-  sed -i 's|^# return 301 https://mokakit.com\$request_uri;.*|    return 301 https://mokakit.com$request_uri;|' "$CONF"
-  sed -i 's|^# include /etc/nginx/conf.d/mokakit-ssl.conf;.*|include /etc/nginx/conf.d/mokakit-ssl.conf;|' "$CONF"
+  # 证书已就绪，此刻才把 ssl 配置装到 /etc/nginx/（不进 conf.d，避免被 nginx 自动加载两次导致 443 块冲突）
+  install -m 644 "$SCRIPT_DIR/nginx/mokakit-ssl.conf" "$SSLCONF"
+  # 清掉历史上误放进 conf.d 的副本（conf.d 会被 nginx 自动加载，会和下面 include 重复加载导致 443 块冲突）
+  rm -f /etc/nginx/conf.d/mokakit-ssl.conf
+  # 注意 mokakit.conf 里这些行带缩进，sed 锚点要允许前导空白才能匹配
+  sed -i 's|^[[:space:]]*# return 301 https://mokakit.com\$request_uri;.*|    return 301 https://mokakit.com$request_uri;|' "$CONF"
+  sed -i 's|^[[:space:]]*#\? *include /etc/nginx/\(conf\.d/\)\?mokakit-ssl.conf;.*|include /etc/nginx/mokakit-ssl.conf;|' "$CONF"
+  # www/.cn 备用域直接 301 到 https 主域，避免 http→https 双重跳转
+  sed -i 's|return 301 http://mokakit.com\$request_uri;|    return 301 https://mokakit.com$request_uri;|' "$CONF"
   if nginx -t 2>&1 | grep -q "successful"; then
     systemctl reload nginx
     c_ok "HTTPS 已启用，访问 http://mokakit.com 会自动跳转到 https"
@@ -212,8 +218,12 @@ if [[ "$MODE" == "live" ]]; then
     exit 1
   fi
   install -m 644 "$SCRIPT_DIR/nginx/mokakit.conf" /etc/nginx/conf.d/mokakit.conf
-  install -m 644 "$SCRIPT_DIR/nginx/mokakit-ssl.conf" /etc/nginx/conf.d/mokakit-ssl.conf 2>/dev/null || true
-  c_ok "已启用正式站点配置（HTTPS 段默认注释，证书就位后 --enable-ssl 开启）"
+  # 清掉历史残留的 ssl 配置（含误放进 conf.d 的副本），避免 nginx -t 因缺证书或旧指令（http2 on）失败、连 80 正式站都 reload 不了
+  rm -f /etc/nginx/mokakit-ssl.conf /etc/nginx/conf.d/mokakit-ssl.conf
+  # 注意：mokakit-ssl.conf 不在此装入 conf.d。它引用了尚不存在的证书，
+  # 若提前装入会让 nginx -t 失败、无法 reload 正式站，进而卡住证书申请的 HTTP-01 挑战。
+  # 改为在 --enable-ssl 阶段（证书就位后）再装入。
+  c_ok "已启用正式站点配置（80 端口；HTTPS 段待证书就位后 --enable-ssl 开启）"
 else
   install -m 644 "$SCRIPT_DIR/nginx/icp-pending.conf" /etc/nginx/conf.d/mokakit.conf
   c_ok "已启用备案期占位配置（备案通过后执行 bash server-setup.sh --live 切换）"

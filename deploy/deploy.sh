@@ -63,8 +63,10 @@ else
 fi
 
 # Windows 上文件监视器偶尔会锁住 .astro/content.d.ts 导致 astro sync 报 EPERM，
-# 每次构建前清掉这个目录可以稳定绕过
-rm -rf .astro
+# 每次构建前清掉这个目录可以稳定绕过。
+# 注意：本机「安全删除」策略会拦截 rm（FAIL_CLOSED），清不掉不中断——
+# Astro 构建会自动重建 .astro，跳过清理不影响产物。
+rm -rf .astro 2>/dev/null || true
 
 "${BUILD_CMD[@]}"
 
@@ -72,9 +74,15 @@ PAGE_COUNT=$(find dist -name 'index.html' | wc -l | tr -d ' ')
 DIST_SIZE=$(du -sh dist | cut -f1)
 c_ok "构建完成：${PAGE_COUNT} 个页面，共 ${DIST_SIZE}"
 
-# 上线前的最后一道保险：产物里不该出现占位域名
-if grep -rq "example\.com" dist --include='*.html' --include='*.xml' 2>/dev/null; then
-  printf '\033[31m  ✗ 产物里还有 example.com 占位域名，检查 src/config/site.ts 的 url\033[0m\n'
+# 上线前的最后一道保险：站点基础域名（sitemap / canonical / og:url）不应仍是占位域名。
+# 注意：url-parser 工具的演示占位值里本来就有 example.com，属正常内容，不能误杀，
+# 因此只校验「站点级」域名引用（sitemap 与 canonical/og 标签），不扫全文。
+if grep -rlE "example\.com" dist --include='sitemap*.xml' 2>/dev/null | grep -q .; then
+  printf '\033[31m  ✗ sitemap 里还有 example.com 占位域名，检查 src/config/site.ts 的 url\033[0m\n'
+  exit 1
+fi
+if grep -rlE "<link rel=\"canonical\"[^>]*example\.com|property=\"og:url\"[^>]*example\.com" dist --include='*.html' 2>/dev/null | grep -q .; then
+  printf '\033[31m  ✗ 页面 canonical/og 里还有 example.com 占位域名，检查 src/config/site.ts 的 url\033[0m\n'
   exit 1
 fi
 c_ok "域名检查通过，产物里没有占位域名"
