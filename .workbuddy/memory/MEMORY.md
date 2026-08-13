@@ -4,12 +4,12 @@
 
 ## 项目身份
 - 纯静态工具站：Astro 7 + Preact + daisyUI + Tailwind v4。不引 WordPress/PHP/MySQL/管理后台。
-- 主域 mokakit.com（已上线 HTTPS）。ICP：京ICP备2026051111号（真相源 `src/config/site.ts` 的 `icp`，`Footer.astro` 自动渲染链工信部）；公安备案 `京公网安备11010502062390号`（site.ts 的 `police`，页脚可点击核验 beian.gov.cn）；**mokakit.cn 备案待批未接入**。
+- 规范域名 **www.mokakit.com**（已上线 HTTPS；裸 mokakit.com 与 mokakit.cn 仅 301 跳转、不出内容）。ICP：京ICP备2026051111号（真相源 `src/config/site.ts` 的 `icp`，`Footer.astro` 自动渲染链工信部）；公安备案 `京公网安备11010502062390号`（site.ts 的 `police`，页脚可点击核验 beian.gov.cn）；**mokakit.cn 备案待批未接入**。
 - 品牌「摩卡工具箱 / MokaKit」。`launched:true`、counter/share 启用。双主题 toolbox/toolboxdark。
 - 部署服务器：腾讯云轻量 58.87.68.151（Ubuntu 24.04）。deploy 公钥已绑；本地 `deploy/deploy.sh`，服务器 `deploy/server-setup.sh`。
 
 ## 生产环境 / 部署运维
-- 公网：http(.com/www)→https 301 单跳；www→主域 301；主域 200 + HSTS max-age=31536000。证书 LE YE2 至 2026-11-10，certbot.timer 自动续期。
+- 公网：裸 mokakit.com / .cn → 301 → https://www.mokakit.com（规范域）；www 主域 200 + HSTS max-age=31536000。证书 LE YE2 至 2026-11-10，certbot.timer 自动续期（**SAN 已含 www.mokakit.com**）。
 - nginx：站点根 /var/www/mokakit；80 配置 /etc/nginx/conf.d/mokakit.conf；SSL 配置 /etc/nginx/mokakit-ssl.conf（**故意在 conf.d 外**，由 mokakit.conf 末尾 include 引入）。
   - ⚠️ ssl 配置放 conf.d 内会双重加载→443 冲突吞 www 块；`--enable-ssl` 的 sed 解注 include 须同步改路径。
   - `listen 443 ssl http2;`（非 `http2 on;`）；YE2 证书无 OCSP→`ssl_stapling off;`。
@@ -22,7 +22,7 @@
 - 不搬：多语言 i18n、账户系统+API Token。
 
 ## MCP Server（v0.1.0 已公网接入，战略核心）
-- 公网端点 https://mokakit.com/mcp（Streamable HTTP + JSON-RPC 2.0 + 可选 Bearer）。本地 `npm run mcp` → localhost:18700/mcp。**15 tool（14 计算 + mokakit_search）**。
+- 公网端点 https://www.mokakit.com/mcp（Streamable HTTP + JSON-RPC 2.0 + 可选 Bearer）。本地 `npm run mcp` → localhost:18700/mcp。**15 tool（14 计算 + mokakit_search）**。（裸 mokakit.com/mcp 也 301 跳 www，旧客户端仍可连。）
 - 生产化：esbuild 自包含打包（mcp/build.mjs → deploy/mcp/server.mjs target=node18）+ catalog.json（**100 工具**元数据）。server 优先读 catalog.json，不依赖 src/TS 运行时。改工具/加 meta 后必跑 `npm run mcp:build` + 重部署。
 - mokakit-mcp.service（systemd /opt/mokakit-mcp 仅监听 127.0.0.1:18700）+ nginx `location /mcp` 反代；随机 MCP_TOKEN 写入 /opt/mokakit-mcp/.env（600，不进 git）。
 - versioning：API_VERSION=v1；breaking change 走 /mcp/v2。
@@ -43,16 +43,16 @@
 
 ## Git 仓库与推送
 - 远端 `origin` = https://github.com/wangcai-zhao/mokakit-website.git（remote 已加；URL 不含 token，安全）。
-- 默认分支 = **master**（2026-08-14 经 GitHub API 把默认从 main 改到 master；远端原 main 仅含初始 commit，保留不动）。本地 master 已推送（含 6 新工具），HEAD=7e14029。
+- 默认分支 = **master**（2026-08-14 经 GitHub API 把默认从 main 改到 master；远端原 main 仅含初始 commit，保留不动）。本地 master 已推送（含 6 新工具 + www 翻转），HEAD=e79c370。
 - 推送鉴权：本机无 SSH 私钥、GCM 原无缓存 → 用 classic PAT（repo 权限）推；token 已存 Windows 凭据管理器（`cmdkey /add:github.com /user:PersonalAccessToken`），以后 `git push` 自动走凭据无需重填。
 - ⚠️ 该 PAT 在聊天中出现过明文，建议用完（或到期前）于 GitHub Settings→Developer settings→PAT 撤销重建。
 
 ## 待办队列
-1. ⏳ **mokakit.cn 备案+接入** —— 过审后加 DNS A + 改 site.ts 的 altDomains 回填 + nginx 补 .cn server（当前 ssl.conf 已含 .cn 跳转，仅需 DNS）。
+1. ⏳ **mokakit.cn 备案+接入** —— 过审后加 DNS A + 把 site.ts 的 altDomains 从 ['https://mokakit.com'] 换成 ['https://mokakit.cn'] + nginx .cn 跳 www 已就绪（当前 ssl.conf 已含 .cn 跳转，仅需 DNS）。
 2. ⏸️ **摩卡配色打磨** —— 暂缓。
 3. ❌ 已放弃：GitHub 仓库分析工具、陌生高星仓收录、「真·AI 对话舱」。
 4. ⏳ **MCP Token 公开申请通道** —— /developers/ 现仅 mailto 入口；纯静态限制下暂未做自动发号。
-5. ⏳ **百度/Google 站长平台提交 sitemap** —— 手动，旺财操作（https://mokakit.com/sitemap-index.xml）。已在本次给出操作指引，待旺财手动执行。
+5. ⏳ **百度/Google 站长平台提交 sitemap** —— 手动，旺财操作（https://www.mokakit.com/sitemap-index.xml）。已在本次给出操作指引，待旺财手动执行。
 6. ✅ ~~MCP Server 同步 6 新工具~~ —— 2026-08-14 完成。server.mjs COMPUTE_TOOLS 扩至 14 项（+china-calc-extra.ts），mcp:build 出 100 tools/0 errors，/developers/ 清单同步至 15，线上 tools/list 验证通过。
 
 ## 环境与坑（可复用）
