@@ -16,6 +16,8 @@ interface Props {
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   /** og:type，文章类页面可传 article */
   ogType?: 'website' | 'article';
+  /** 沉浸式模式：隐藏 Header 和 Footer（时钟等全屏工具用） */
+  immersive?: boolean;
 }
 
 const {
@@ -26,6 +28,7 @@ const {
   noindex = false,
   jsonLd,
   ogType = 'website',
+  immersive = false,
 } = Astro.props;
 
 const canonical = absUrl(path ?? Astro.url.pathname);
@@ -148,8 +151,7 @@ const pageJsonLd = jsonLd
       SITE.analytics.baiduId && (
         <script
           is:inline
-          define:vars={{ id: SITE.analytics.baiduId }}
-          set:html={`var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="https://hm.baidu.com/hm.js?"+id;var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();`}
+          set:html={`var _hmt = _hmt || [];\n(function() {\n  var hm = document.createElement("script");\n  hm.src = "https://hm.baidu.com/hm.js?${SITE.analytics.baiduId}";\n  var s = document.getElementsByTagName("script")[0];\n  s.parentNode.insertBefore(hm, s);\n})();`}
         />
       )
     }
@@ -162,10 +164,10 @@ const pageJsonLd = jsonLd
       >跳到主要内容</a
     >
     <IconSprite />
-    <Header />
-    <main id="main" class="flex-1 w-full">
+    {!immersive && <Header />}
+    <main id="main" class={immersive ? 'w-full' : 'flex-1 w-full'}>
       <slot />
     </main>
-    <Footer />
+    {!immersive && <Footer />}
   </body>
 </html>

@@ -6,6 +6,7 @@
 - 纯静态工具站：Astro 7 + Preact + daisyUI + Tailwind v4。不引 WordPress/PHP/MySQL/管理后台。
 - 规范域名 **www.mokakit.com**（已上线 HTTPS；裸 mokakit.com 与 mokakit.cn 仅 301 跳转、不出内容）。ICP：京ICP备2026051111号（真相源 `src/config/site.ts` 的 `icp`，`Footer.astro` 自动渲染链工信部）；公安备案 `京公网安备11010502062390号`（site.ts 的 `police`，页脚可点击核验 beian.gov.cn）；**mokakit.cn 备案待批未接入**。
 - 品牌「摩卡工具箱 / MokaKit」。`launched:true`、counter/share 启用。双主题 toolbox/toolboxdark。
+- **百度统计**：hm.js ID = `c1ce047dfb4bbcfe58cba2418b56332a`（真相源 `src/config/site.ts` 的 `analytics.baiduId`；`BaseLayout.astro` 的 `<head>` 内 `SITE.analytics.baiduId &&` 注入，全站生效）。
 - 部署服务器：腾讯云轻量 58.87.68.151（Ubuntu 24.04）。deploy 公钥已绑；本地 `deploy/deploy.sh`，服务器 `deploy/server-setup.sh`。
 
 ## 生产环境 / 部署运维
@@ -67,6 +68,7 @@
 - 本机沙箱出站 HTTPS 被拦→验证已部署内容走 `ssh root@58.87.68.151 'curl -s --resolve mokakit.com:443:127.0.0.1 https://mokakit.com/ ...'`（裸 127.0.0.1 命中兜底 return 444，须带 --resolve）。
 - ⚠️ `server-setup.sh --live` 会回退 HTTPS（[6/8] rm ssl.conf）→重跑 --live 后必补 `--enable-ssl`。日常更新用 `deploy.sh`（不带 --live，只 reload 不碰 ssl）。
 - 页脚备案：site.ts 改 icp/police 全站生效；政府备案链接不走 /go/。
+- **Astro 坑：百度统计脚本**——`BaseLayout.astro` 的 `<head>` 注入 hm.js 时，**绝不能**把 `define:vars` 和 `set:html` 用在同一个 `<script>` 上：二者冲突会导致 `set:html` 内容被整段吞掉，产物只剩 `const id="...";` 加一个孤立 `})();`，hm.js 从不加载（统计静默失效）。**正确写法**：只用 `set:html`，且把 ID 直接在模板字面量里插值（`hm.src="https://hm.baidu.com/hm.js?${SITE.analytics.baiduId}"`），不要 `define:vars`。改完务必 `python3` 抽 `hm.baidu`/`_hmt` 核对产物真的有脚本体。
 
 ## 会话管理
 - 续干：读本文件 + conversation_search。日级日志 YYYY-MM-DD.md。

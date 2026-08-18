@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#16321f"/>
+      <stop offset="0.55" stop-color="#22452e"/>
+      <stop offset="1" stop-color="#3a5a3c"/>
+    </linearGradient>
+    <linearGradient id="mist" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#dfeee0" stop-opacity="0"/>
+      <stop offset="1" stop-color="#dfeee0" stop-opacity="0.5"/>
+    </linearGradient>
+    <filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0"/></filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#g)"/>
+  <g fill="#0e2417">
+    <path d="M120,900 L120,420 L150,470 L150,900 Z"/><path d="M150,470 L120,420 L180,440 Z"/>
+    <path d="M360,900 L360,360 L400,430 L400,900 Z"/><path d="M400,430 L360,360 L440,400 Z"/>
+    <path d="M700,900 L700,300 L750,390 L750,900 Z"/><path d="M750,390 L700,300 L820,350 Z"/>
+    <path d="M1040,900 L1040,370 L1080,440 L1080,900 Z"/><path d="M1080,440 L1040,370 L1130,410 Z"/>
+    <path d="M1360,900 L1360,340 L1410,420 L1410,900 Z"/><path d="M1410,420 L1360,340 L1470,390 Z"/>
+  </g>
+  <rect y="380" width="1600" height="520" fill="url(#mist)"/>
+  <rect width="1600" height="900" filter="url(#n)" opacity="0.05"/>
+</svg>

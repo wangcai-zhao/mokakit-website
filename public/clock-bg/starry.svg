@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0a0e27"/>
+      <stop offset="0.55" stop-color="#10173f"/>
+      <stop offset="1" stop-color="#1b1145"/>
+    </linearGradient>
+    <radialGradient id="mw" cx="0.7" cy="0.35" r="0.55">
+      <stop offset="0" stop-color="#5b3a8c" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#5b3a8c" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0"/></filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#g)"/>
+  <ellipse cx="1120" cy="315" rx="520" ry="220" fill="url(#mw)"/>
+  <g fill="#ffffff">
+    <circle cx="120" cy="90" r="2.2"/><circle cx="260" cy="180" r="1.4"/><circle cx="410" cy="70" r="1.8"/>
+    <circle cx="540" cy="240" r="1.2"/><circle cx="700" cy="120" r="2.6"/><circle cx="880" cy="200" r="1.5"/>
+    <circle cx="980" cy="80" r="1.9"/><circle cx="1180" cy="150" r="1.3"/><circle cx="1320" cy="260" r="2.1"/>
+    <circle cx="1460" cy="110" r="1.6"/><circle cx="1540" cy="320" r="1.4"/><circle cx="190" cy="360" r="1.7"/>
+    <circle cx="360" cy="430" r="1.3"/><circle cx="620" cy="380" r="2"/><circle cx="1010" cy="420" r="1.5"/>
+    <circle cx="1250" cy="470" r="1.8"/><circle cx="1500" cy="500" r="1.2"/><circle cx="80" cy="540" r="1.5"/>
+    <circle cx="470" cy="600" r="1.4"/><circle cx="900" cy="640" r="2.3"/><circle cx="1380" cy="660" r="1.6"/>
+    <circle cx="300" cy="720" r="1.2"/><circle cx="760" cy="780" r="1.8"/><circle cx="1150" cy="800" r="1.4"/>
+  </g>
+  <rect width="1600" height="900" filter="url(#n)" opacity="0.05"/>
+</svg>

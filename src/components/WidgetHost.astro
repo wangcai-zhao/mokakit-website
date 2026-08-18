@@ -97,6 +97,10 @@ import DepositInterest from '@/tools/deposit-interest/Tool.tsx';
 import DeedTax from '@/tools/deed-tax/Tool.tsx';
 import OvertimePay from '@/tools/overtime-pay/Tool.tsx';
 import PensionEstimate from '@/tools/pension-estimate/Tool.tsx';
+import DigitalClock from '@/tools/digital-clock/Tool.tsx';
+import FlipClock from '@/tools/flip-clock/Tool.tsx';
+import AnalogClock from '@/tools/analog-clock/Tool.tsx';
+import WorldClock from '@/tools/world-clock/Tool.tsx';
 
 interface Props {
   tool: ToolMeta;
@@ -187,6 +191,10 @@ const isDeposit = tool.id === 'deposit-interest';
 const isDeedTax = tool.id === 'deed-tax';
 const isOvertime = tool.id === 'overtime-pay';
 const isPension = tool.id === 'pension-estimate';
+const isDigital = tool.id === 'digital-clock';
+const isFlip = tool.id === 'flip-clock';
+const isAnalog = tool.id === 'analog-clock';
+const isWorld = tool.id === 'world-clock';
 const known =
   isPG || isUC || isTS || isJF || isCC || isBC || isHC ||
   isUE || isB64 || isUUID || isTC || isColor ||
@@ -199,7 +207,8 @@ const known =
   isPA || isBYOX || isDRM || isSD || isPress || isODE ||
   isIncomeTaxCn || isBonusTaxCn ||
   isSocialSecurityCn || isMortgageEarly || isFundLoanCalc || isVatCalc ||
-  isRetireAge || isAfterTax || isDeposit || isDeedTax || isOvertime || isPension;
+  isRetireAge || isAfterTax || isDeposit || isDeedTax || isOvertime || isPension ||
+  isDigital || isFlip || isAnalog || isWorld;
 ---
 
 <!-- 密码生成器 -->
@@ -606,6 +615,26 @@ const known =
 {isPension && mode === 'load' && <PensionEstimate client:load {...widgetProps} />}
 {isPension && mode === 'idle' && <PensionEstimate client:idle {...widgetProps} />}
 {isPension && mode === 'visible' && <PensionEstimate client:visible {...widgetProps} />}
+
+<!-- 数字时钟 -->
+{isDigital && mode === 'load' && <DigitalClock client:load {...widgetProps} />}
+{isDigital && mode === 'idle' && <DigitalClock client:idle {...widgetProps} />}
+{isDigital && mode === 'visible' && <DigitalClock client:visible {...widgetProps} />}
+
+<!-- 翻页时钟 -->
+{isFlip && mode === 'load' && <FlipClock client:load {...widgetProps} />}
+{isFlip && mode === 'idle' && <FlipClock client:idle {...widgetProps} />}
+{isFlip && mode === 'visible' && <FlipClock client:visible {...widgetProps} />}
+
+<!-- 模拟时钟 -->
+{isAnalog && mode === 'load' && <AnalogClock client:load {...widgetProps} />}
+{isAnalog && mode === 'idle' && <AnalogClock client:idle {...widgetProps} />}
+{isAnalog && mode === 'visible' && <AnalogClock client:visible {...widgetProps} />}
+
+<!-- 世界时钟 -->
+{isWorld && mode === 'load' && <WorldClock client:load {...widgetProps} />}
+{isWorld && mode === 'idle' && <WorldClock client:idle {...widgetProps} />}
+{isWorld && mode === 'visible' && <WorldClock client:visible {...widgetProps} />}
 
 <!-- 未接入水合岛屿的工具 -->
 {

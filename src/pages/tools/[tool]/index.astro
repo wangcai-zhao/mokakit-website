@@ -1,5 +1,6 @@
 ---
 import ToolLayout from '@/layouts/ToolLayout.astro';
+import ClockImmersiveLayout from '@/layouts/ClockImmersiveLayout.astro';
 import WidgetHost from '@/components/WidgetHost.astro';
 import { TOOLS, getTool } from '@/tools/registry';
 
@@ -8,6 +9,9 @@ import { TOOLS, getTool } from '@/tools/registry';
  *
  * 遍历注册表为每个工具生成一个静态页面。
  * 新增工具只要有 meta.ts，这里就会自动多出一个页面，无需改动本文件。
+ *
+ * 时钟类工具（category === 'clock'）使用沉浸式布局（ClockImmersiveLayout），
+ * 全屏舞台 + 下方 SEO 内容区，仿 clockhub 体验。
  */
 export function getStaticPaths() {
   return TOOLS.map((t) => ({ params: { tool: t.id } }));
@@ -16,17 +20,30 @@ export function getStaticPaths() {
 const { tool: toolId } = Astro.params;
 const meta = getTool(toolId!);
 
+// 时钟工具用沉浸式布局
+const isClock = meta.category === 'clock';
+
 // 文案仍用 glob 自动收集（content 不需要水合，可动态加载）
 const contents = import.meta.glob<{ default: any }>('../../../tools/*/content.mdx');
 const contentLoader = contents[`../../../tools/${meta.id}/content.mdx`];
 const Content = contentLoader ? (await contentLoader()).default : null;
 ---
 
-<ToolLayout tool={meta}>
-  <!-- 交互岛屿通过 WidgetHost 渲染（静态引用，支持 client:* 水合） -->
-  <WidgetHost tool={meta} />
+{isClock ? (
+  <ClockImmersiveLayout tool={meta}>
+    <WidgetHost tool={meta} slot="clock" />
 
-  <Fragment slot="content">
-    {Content && <Content />}
-  </Fragment>
-</ToolLayout>
+    <Fragment slot="content">
+      {Content && <Content />}
+    </Fragment>
+  </ClockImmersiveLayout>
+) : (
+  <ToolLayout tool={meta}>
+    <!-- 交互岛屿通过 WidgetHost 渲染（静态引用，支持 client:* 水合） -->
+    <WidgetHost tool={meta} />
+
+    <Fragment slot="content">
+      {Content && <Content />}
+    </Fragment>
+  </ToolLayout>
+)}

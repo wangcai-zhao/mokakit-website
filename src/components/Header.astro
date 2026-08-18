@@ -53,6 +53,13 @@ const pathname = Astro.url.pathname;
             pathname.startsWith('/developers') && 'text-primary bg-base-200',
           ]}>开发者</a
         >
+        <a
+          href="/time/"
+          class:list={[
+            'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors hover:bg-base-200',
+            pathname.startsWith('/time') && 'text-primary bg-base-200',
+          ]}>时间日期</a
+        >
         {
           navCategories.slice(0, 4).map((c) => (
             <a
@@ -113,6 +120,9 @@ const pathname = Astro.url.pathname;
         >
         <a href="/developers/" class="px-3 py-2 rounded-lg text-sm hover:bg-base-200"
           >开发者</a
+        >
+        <a href="/time/" class="px-3 py-2 rounded-lg text-sm hover:bg-base-200"
+          >时间日期</a
         >
         {
           navCategories.map((c) => (

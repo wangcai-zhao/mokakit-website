@@ -102,6 +102,15 @@ export const CATEGORIES = [
     icon: 'sparkles',
     order: 9,
   },
+  {
+    id: 'clock',
+    slug: 'clock',
+    name: '时钟',
+    desc: '全屏数字/翻页/模拟时钟、世界时钟，毫秒级精准、可全屏沉浸',
+    seoTitle: '在线时钟工具',
+    icon: 'clock',
+    order: 10,
+  },
 ] as const satisfies readonly Category[];
 
 export type CategoryId = (typeof CATEGORIES)[number]['id'];

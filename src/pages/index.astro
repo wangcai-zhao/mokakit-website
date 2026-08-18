@@ -4,13 +4,16 @@ import ToolCard from '@/components/ToolCard.astro';
 import Icon from '@/components/Icon.astro';
 import AdSlot from '@/components/AdSlot.astro';
 import { SITE } from '@/config/site';
-import { getToolsByCategory, INDEXABLE_TOOLS } from '@/tools/registry';
+import { getToolsByCategory, INDEXABLE_TOOLS, getTool } from '@/tools/registry';
 import { itemListLd } from '@/utils/jsonld';
 import { SITE_GROUPS } from '@/data/sites';
 import { faviconOf } from '@/utils/favicon';
 
 const groups = getToolsByCategory();
 const total = INDEXABLE_TOOLS.length;
+
+// 首页「今日推荐」：重点推荐数字时钟（动态取 meta，保持同步）
+const featuredTool = getTool('digital-clock');
 
 // 首页「精选好站」：跨前 4 个分组各取 2 条，上限 8 条，链内页（外链在详情页才走中转）
 const featured = SITE_GROUPS.slice(0, 4)
@@ -74,6 +77,47 @@ const jsonLd = itemListLd(
         )
       }
     </div>
+  </section>
+
+  <!-- 首页「今日推荐」：数字时钟 -->
+  <section class="mx-auto max-w-6xl px-4 mt-8">
+    <a
+      href={`/tools/${featuredTool.id}/`}
+      class="group relative block overflow-hidden rounded-3xl border border-base-300 bg-gradient-to-br from-base-100 via-base-100 to-primary/10 p-6 sm:p-8 transition-all duration-200 hover:border-primary/50 hover:shadow-lg"
+    >
+      <div class="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-primary/10 blur-3xl"></div>
+      <div class="relative flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex items-start gap-4">
+          <span class="grid place-items-center w-14 h-14 shrink-0 rounded-2xl bg-primary/10 text-primary">
+            <Icon name={featuredTool.icon} size={28} />
+          </span>
+          <div class="min-w-0">
+            <p class="flex items-center gap-1 text-xs font-medium text-primary/80">
+              <Icon name="sparkles" size={12} /> 今日推荐
+            </p>
+            <h2 class="mt-1 text-xl sm:text-2xl font-bold">{featuredTool.name}</h2>
+            <p class="mt-1 text-sm opacity-70 leading-relaxed max-w-md">
+              {featuredTool.tagline} · 全屏大字、多时区、10 套主题，一键沉浸显示当前时间，本地运行不上传数据。
+            </p>
+          </div>
+        </div>
+        <div class="flex items-center gap-4 sm:gap-5">
+          <div class="text-left sm:text-right">
+            <div
+              id="home-rec-clock"
+              class="font-mono text-2xl sm:text-3xl font-bold tabular-nums tracking-tight leading-none"
+            >
+              --:--:--
+            </div>
+            <div id="home-rec-date" class="mt-1 text-xs opacity-60"></div>
+          </div>
+          <span class="btn btn-primary shrink-0 group-hover:scale-105 transition-transform">
+            打开
+            <Icon name="arrowRight" size={16} />
+          </span>
+        </div>
+      </div>
+    </a>
   </section>
 
   <div class="mx-auto max-w-6xl px-4 py-8">
@@ -160,3 +204,25 @@ const jsonLd = itemListLd(
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  (function () {
+    var t = document.getElementById('home-rec-clock');
+    var d = document.getElementById('home-rec-date');
+    function pad(n: number) {
+      return String(n).padStart(2, '0');
+    }
+    function tick() {
+      var now = new Date();
+      if (t) t.textContent = pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
+      if (d)
+        d.textContent = now.toLocaleDateString('zh-CN', {
+          month: 'long',
+          day: 'numeric',
+          weekday: 'long',
+        });
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+</script>

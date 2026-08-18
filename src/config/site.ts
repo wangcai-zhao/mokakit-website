@@ -55,7 +55,7 @@ export const SITE = {
   /** 统计与广告开关：拿到 ID 前保持空字符串，相关脚本不会被注入 */
   analytics: {
     /** 百度统计 hm.js 的 ID */
-    baiduId: '944d68a7dfe7ae7fab7d0db7d5d6fa12',
+    baiduId: 'c1ce047dfb4bbcfe58cba2418b56332a',
     /** Google Analytics 衡量 ID，形如 G-XXXXXXX */
     gaId: '',
   },

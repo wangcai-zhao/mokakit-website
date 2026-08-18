@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#03243a"/>
+      <stop offset="0.5" stop-color="#064e6b"/>
+      <stop offset="1" stop-color="#0a8aa0"/>
+    </linearGradient>
+    <linearGradient id="sh" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#bdf0ff" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#bdf0ff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0"/></filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#g)"/>
+  <ellipse cx="800" cy="160" rx="380" ry="120" fill="url(#sh)"/>
+  <g stroke="#bdf0ff" stroke-opacity="0.5" fill="none" stroke-width="3">
+    <path d="M0,360 C200,330 400,390 600,360 C800,330 1000,390 1200,360 C1400,330 1600,390 1600,360"/>
+    <path d="M0,480 C200,450 400,510 600,480 C800,450 1000,510 1200,480 C1400,450 1600,510 1600,480"/>
+    <path d="M0,620 C200,590 400,650 600,620 C800,590 1000,650 1200,620 C1400,590 1600,650 1600,620"/>
+    <path d="M0,780 C200,750 400,810 600,780 C800,750 1000,810 1200,780 C1400,750 1600,810 1600,780"/>
+  </g>
+  <rect width="1600" height="900" filter="url(#n)" opacity="0.05"/>
+</svg>

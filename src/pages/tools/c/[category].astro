@@ -61,6 +61,23 @@ const jsonLd = [
       </div>
     </header>
 
+    {
+      category.id === 'clock' && (
+        <a
+          href="/clock/"
+          class="mb-6 flex items-center justify-between gap-3 rounded-2xl border border-primary/30 bg-primary/5 px-5 py-4 transition hover:border-primary"
+        >
+          <div>
+            <div class="flex items-center gap-2 font-semibold">
+              <Icon name="sparkles" size={16} /> 时钟专题页已上线
+            </div>
+            <div class="mt-0.5 text-sm opacity-70">背景自定义 · 保持唤醒 · 多主题 · 一键全屏，一个页面看全。</div>
+          </div>
+          <span class="btn btn-sm btn-primary shrink-0">进入专题 →</span>
+        </a>
+      )
+    }
+
     <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
       {tools.map((t) => <ToolCard tool={t} />)}
     </div>

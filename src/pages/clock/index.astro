@@ -1,0 +1,227 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ToolCard from '@/components/ToolCard.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import Icon from '@/components/Icon.astro';
+import { getCategory, CATEGORIES } from '@/config/categories';
+import { getToolsOf } from '@/tools/registry';
+import { breadcrumbLd, itemListLd, type Crumb } from '@/utils/jsonld';
+
+const category = getCategory('clock');
+const tools = getToolsOf('clock');
+const url = '/clock/';
+
+const crumbs: Crumb[] = [
+  { name: '首页', url: '/' },
+  { name: '时钟', url },
+];
+
+const features = [
+  { icon: 'palette', title: '10 套主题', desc: '午夜红 / 深海蓝 / 森林绿 / 日落橙 / 薰衣草 / 极简白 / 流金 / 极光 / 摩卡 / 纯黑，翻页与模拟时钟通用。' },
+  { icon: 'eye', title: '背景图 / 模糊 / 透明', desc: '可贴任意图片作背景，配模糊、暗化与暗角，秒变全屏屏保，时间依旧清晰。' },
+  { icon: 'zap', title: '保持唤醒', desc: '开启后屏幕常亮，时钟常驻大屏也不怕休眠黑屏。' },
+  { icon: 'sparkles', title: '辉光描边', desc: '数字、翻牌与指针带柔和辉光，夜里也清透不刺眼。' },
+  { icon: 'globe', title: '全球时区', desc: '世界时钟覆盖主要城市，夏令时随季节自动变化。' },
+  { icon: 'clock', title: '一键全屏', desc: '会议室、教室、家居屏，点一下即全屏沉浸显示。' },
+];
+
+const faqs = [
+  {
+    q: '摩卡时钟和 clockhub 之类的站点有什么不同？',
+    a: '同样主打全前端、零后端的纯时钟体验，但摩卡时钟全部工具内置在摩卡工具箱，不依赖任何账号，且所有计算都在你本地浏览器完成，不上传数据。背景、保持唤醒、字号等设置也更完整。',
+  },
+  {
+    q: '「保持唤醒」在所有浏览器都能用吗？',
+    a: '基于 Screen Wake Lock API。Chrome / Edge 等 Chromium 内核浏览器支持；Safari、Firefox 等暂不支持的浏览器会自动忽略，不影响其它功能。不支持时建议配合系统「永不休眠」设置使用。',
+  },
+  {
+    q: '背景自定义会影响可读性吗？',
+    a: '纯黑、纯白、取色模式会按背景亮度自动计算前景文字颜色（深底浅字 / 浅底深字）。若贴背景图，可叠加暗化与暗角，时间始终清晰可读。',
+  },
+  {
+    q: '时间准吗？需要联网校时吗？',
+    a: '时钟直接读取你设备的系统时间，精度取决于设备本身与系统校时设置，无需联网。若设备时间不准，请在系统中开启自动校时（NTP）后再使用。',
+  },
+];
+
+const jsonLd = [
+  breadcrumbLd(crumbs),
+  itemListLd(
+    tools.map((t) => ({
+      name: t.name,
+      url: `/tools/${t.id}/`,
+      description: t.tagline,
+    })),
+  ),
+];
+
+const presetBgs = [
+  { id: 'starry', name: '星空' },
+  { id: 'aurora', name: '极光' },
+  { id: 'sunrise', name: '晨曦' },
+  { id: 'ocean', name: '深海' },
+  { id: 'forest', name: '森林雾' },
+  { id: 'neon', name: '霓虹城' },
+  { id: 'desert', name: '沙漠落日' },
+  { id: 'galaxy', name: '银河' },
+];
+---
+
+<BaseLayout
+  title="摩卡时钟 · 数字/翻页/模拟/世界时钟专题"
+  description="摩卡工具箱时钟专题：免费在线数字时钟、翻页时钟、模拟时钟与世界时钟。支持背景自定义、保持唤醒、多主题、一键全屏，全部本地运算、零数据上传，打开即用的纯净时钟站。"
+  path={url}
+  jsonLd={jsonLd}
+>
+  <div class="mx-auto max-w-6xl px-4 py-5">
+    <Breadcrumb crumbs={crumbs} />
+
+    <!-- Hero：实时时钟 -->
+    <section
+      class="mt-4 rounded-3xl p-8 sm:p-14 text-center text-white overflow-hidden relative"
+      style="background:radial-gradient(120% 120% at 50% 0%,#1e293b 0%,#0f172a 55%,#08080f 100%)"
+    >
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(60% 50% at 50% 38%,rgba(233,69,96,0.18),transparent 70%)"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at center,transparent 42%,rgba(0,0,0,0.5) 100%)"></div>
+      <div class="relative z-10">
+        <p class="text-sm opacity-70 mb-2">摩卡工具箱 · 时钟专题</p>
+        <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">把任意屏幕，变成一只时钟</h1>
+        <p class="mt-3 max-w-2xl mx-auto text-sm opacity-75 leading-relaxed">
+          数字、翻页、模拟、世界时钟，四种形态随你挑。背景随心换、屏幕常亮不休眠、一键全屏沉浸——
+          全部在你的浏览器里完成，干净、免费、不上传任何数据。
+        </p>
+
+        <div class="mt-8 flex flex-col items-center">
+          <div
+            id="clock-hero-time"
+            class="font-mono font-bold tracking-tight tabular-nums leading-none"
+            style="font-size:clamp(3rem,14vw,8rem);text-shadow:0 0 26px rgba(233,69,96,0.55),0 0 60px rgba(233,69,96,0.4)"
+          >
+            --:--:--
+          </div>
+          <div id="clock-hero-date" class="mt-3 text-sm sm:text-base opacity-75"></div>
+        </div>
+
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="/tools/digital-clock/" class="btn btn-primary">打开数字时钟</a>
+        <a href="/tools/flip-clock/" class="btn btn-outline btn-light">翻页时钟</a>
+        <a href="/tools/world-clock/" class="btn btn-outline btn-light">世界时钟</a>
+      </div>
+      </div>
+    </section>
+
+    <!-- 内置精选背景 -->
+    <section class="mt-10">
+      <h2 class="text-xl font-bold mb-3 flex items-center gap-2">
+        <span class="grid place-items-center w-7 h-7 rounded-lg bg-primary/10 text-primary">
+          <Icon name="palette" size={16} />
+        </span>
+        内置精选背景，一秒换装
+      </h2>
+      <p class="text-sm opacity-70 mb-4">
+        8 款本地精美背景（零流量、不依赖网络），外加「上传照片」做你的专属壁纸——贴图后自动模糊、暗化、加暗角，时间始终清晰。
+      </p>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {presetBgs.map((b) => (
+          <a href={`/tools/flip-clock/#bg=${b.id}`} title={`使用「${b.name}」背景`} class="group block">
+            <div
+              class="aspect-[2/1] rounded-xl border border-white/10 overflow-hidden transition-transform group-hover:scale-[1.03]"
+              style={`background-image:url('/clock-bg/${b.id}.svg');background-size:cover;background-position:center`}
+            >
+            </div>
+            <div class="mt-1.5 text-center text-xs opacity-70 group-hover:opacity-100 group-hover:text-primary">{b.name}</div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- 功能亮点 -->
+    <section class="mt-10">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+        <span class="grid place-items-center w-7 h-7 rounded-lg bg-primary/10 text-primary">
+          <Icon name="sparkles" size={16} />
+        </span>
+        这个专题能做什么
+      </h2>
+      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          features.map((f) => (
+            <div class="rounded-xl border border-base-300 bg-base-100 p-4">
+              <span class="grid place-items-center w-9 h-9 rounded-lg bg-primary/10 text-primary mb-3">
+                <Icon name={f.icon} size={18} />
+              </span>
+              <h3 class="font-semibold">{f.title}</h3>
+              <p class="text-sm opacity-65 mt-1 leading-relaxed">{f.desc}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- 工具清单 -->
+    <section class="mt-10">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl font-bold flex items-center gap-2">
+          <span class="grid place-items-center w-7 h-7 rounded-lg bg-primary/10 text-primary">
+            <Icon name="clock" size={16} />
+          </span>
+          时钟工具
+        </h2>
+        <a href={`/tools/c/${category.slug}/`} class="text-sm opacity-60 hover:opacity-100 hover:text-primary transition flex items-center gap-0.5">
+          分类总览
+          <Icon name="chevronRight" size={14} />
+        </a>
+      </div>
+      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {tools.map((t) => <ToolCard tool={t} />)}
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="mt-10">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+        <span class="grid place-items-center w-7 h-7 rounded-lg bg-primary/10 text-primary">
+          <Icon name="book" size={16} />
+        </span>
+        常见问题
+      </h2>
+      <div class="space-y-2">
+        {
+          faqs.map((item) => (
+            <details class="rounded-xl border border-base-300 bg-base-100">
+              <summary class="cursor-pointer select-none list-none px-4 py-3 font-medium">{item.q}</summary>
+              <p class="px-4 pb-4 text-sm opacity-70 leading-relaxed">{item.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </section>
+
+    <div class="mt-10 text-center">
+      <a href="/tools/" class="text-sm text-primary hover:underline">← 查看摩卡工具箱全部工具</a>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  (function () {
+    var t = document.getElementById('clock-hero-time');
+    var d = document.getElementById('clock-hero-date');
+    function pad(n: number) {
+      return String(n).padStart(2, '0');
+    }
+    function tick() {
+      var now = new Date();
+      if (t) t.textContent = pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
+      if (d)
+        d.textContent = now.toLocaleDateString('zh-CN', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          weekday: 'long',
+        });
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+</script>

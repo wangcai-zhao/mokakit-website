@@ -1,4 +1,16 @@
 ---
+/**
+ * ★ 时钟工具沉浸式布局 ★
+ *
+ * 仿 clockhub.app 的全屏时钟体验：
+ * - 舞台区（stage）：100vh 全视口，背景图/主题铺满，时钟居中
+ * - SEO 区：舞台下方，包含面包屑、标题、content.mdx、FAQ、相关工具
+ *
+ * 与 ToolLayout 的区别：
+ *   无 Header / Footer / 工具卡片边框
+ *   时钟组件直接占据整个视口
+ *   SEO 内容在下方滚动区域，对搜索引擎友好
+ */
 import BaseLayout from './BaseLayout.astro';
 import Breadcrumb from '@/components/Breadcrumb.astro';
 import ToolCard from '@/components/ToolCard.astro';
@@ -12,13 +24,10 @@ import { breadcrumbLd, faqLd, toolLd, type Crumb } from '@/utils/jsonld';
 
 interface Props {
   tool: ToolMeta;
-  /** 子页会覆盖标题与描述 */
   title?: string;
   description?: string;
   path?: string;
-  /** 子页的额外面包屑层级 */
   extraCrumbs?: Crumb[];
-  /** 子页专属 FAQ，覆盖工具默认 FAQ */
   faq?: FaqItem[];
   noindex?: boolean;
 }
@@ -35,7 +44,7 @@ const {
 
 const category = getCategory(tool.category);
 const url = path ?? `/tools/${tool.id}/`;
-const pageTitle = title ?? `${tool.name} - 在线免费工具`;
+const pageTitle = title ?? `${tool.name} - 在线免费全屏时钟`;
 const pageDesc = description ?? tool.description;
 const faqItems = faq ?? tool.faq ?? [];
 const related = getRelatedTools(tool, 4);
@@ -48,10 +57,7 @@ const crumbs: Crumb[] = [
   ...extraCrumbs,
 ];
 
-const jsonLd: Record<string, unknown>[] = [
-  toolLd(tool, url),
-  breadcrumbLd(crumbs),
-];
+const jsonLd: Record<string, unknown>[] = [toolLd(tool, url), breadcrumbLd(crumbs)];
 if (faqItems.length > 0) jsonLd.push(faqLd(faqItems));
 ---
 
@@ -62,8 +68,33 @@ if (faqItems.length > 0) jsonLd.push(faqLd(faqItems));
   keywords={tool.keywords}
   jsonLd={jsonLd}
   noindex={noindex ?? tool.noindex}
+  immersive={true}
 >
-  <div class="mx-auto max-w-4xl px-4 py-5">
+  {/* ====== 沉浸式舞台：时钟组件全视口 ====== */}
+  {/* 物理深色兜底：即便 JS 背景层未渲染，底色也是深色，白字绝不隐形 */}
+  {/* isolation: 把内部所有定位（背景/顶栏）的堆叠上下文锁死在舞台内，绝不外溢盖住正文 */}
+  <div id="ck-immersive-stage" style="position:relative;width:100%;height:100vh;overflow:hidden;background:#0b0b16;isolation:isolate">
+    <slot name="clock" />
+    {/* 向下滚动提示：首屏满屏，引导用户发现下方说明 */}
+    <a
+      href="#ck-seo"
+      aria-label="向下滚动查看工具说明"
+      style="position:absolute;bottom:1.1rem;left:50%;transform:translateX(-50%);z-index:60;display:flex;flex-direction:column;align-items:center;gap:0.15rem;color:rgba(255,255,255,0.72);font-size:0.72rem;letter-spacing:0.04em;text-decoration:none;animation:ck-bounce 1.8s ease-in-out infinite;cursor:pointer;"
+    >
+      <span>向下滚动查看说明</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+    </a>
+  </div>
+
+  <style is:global>
+    @keyframes ck-bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+  </style>
+
+  {/* ====== SEO 内容区：舞台下方 ====== */}
+  <div id="ck-seo" style="position:relative;z-index:1" class="mx-auto max-w-4xl px-4 py-8">
     <Breadcrumb crumbs={crumbs} />
 
     <header class="mt-4 mb-5">
@@ -106,18 +137,9 @@ if (faqItems.length > 0) jsonLd.push(faqLd(faqItems));
       </div>
     </header>
 
-    {/* 工具主体：交互岛屿挂在这里 */}
-    <section
-      class="rounded-2xl bg-base-100 border border-base-300 p-4 sm:p-6"
-      aria-label="工具操作区"
-      data-tool-id={tool.id}
-    >
-      <slot />
-    </section>
-
     <AdSlot slot="tool-below" format="banner" class="my-6" />
 
-    {/* 说明长文：这才是被搜索引擎索引的主要内容 */}
+    {/* 说明长文 */}
     <article class="prose-cn mt-2">
       <slot name="content" />
     </article>
@@ -163,14 +185,16 @@ if (faqItems.length > 0) jsonLd.push(faqLd(faqItems));
         </section>
       )
     }
+
+    <div class="mt-10 text-center">
+      <a href="/tools/" class="text-sm text-primary hover:underline">← 查看摩卡工具箱全部工具</a>
+    </div>
   </div>
 
   <script>
     // 纯内联实现，不用 import（避免 "Cannot use import statement outside a module" 致命错误）
     (function() {
-      const section = document.querySelector('[data-tool-id]');
-      const toolId = section?.dataset.toolId;
-      if (!toolId) return; // 不是工具页，静默退出
+      const toolId = /* @json {toolId} */ '';
 
       /* ---- 计数器（仅生产环境；dev 模式 /api/counter 不存在） ---- */
       const useEl = document.getElementById('tool-use-count');
