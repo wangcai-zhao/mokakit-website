@@ -15,6 +15,14 @@ const total = INDEXABLE_TOOLS.length;
 // 首页「今日推荐」：重点推荐数字时钟（动态取 meta，保持同步）
 const featuredTool = getTool('digital-clock');
 
+// 中国本土计算器（护城河）：搜索量高、竞品盲区，首页突出展示
+const CN_CALC_IDS = [
+  'income-tax-cn', 'bonus-tax-cn', 'social-security-cn', 'after-tax-salary',
+  'mortgage-early-repayment', 'fund-loan-calc', 'vat-calc', 'retirement-age',
+  'deposit-interest', 'deed-tax', 'overtime-pay', 'pension-estimate',
+];
+const cnCalc = INDEXABLE_TOOLS.filter((t) => CN_CALC_IDS.includes(t.id));
+
 // 首页「精选好站」：跨前 4 个分组各取 2 条，上限 8 条，链内页（外链在详情页才走中转）
 const featured = SITE_GROUPS.slice(0, 4)
   .flatMap((g) => g.links.slice(0, 2).map((link) => ({ link, groupId: g.id })))
@@ -41,7 +49,8 @@ const jsonLd = itemListLd(
         {SITE.slogan}
       </h1>
       <p class="mt-3 text-base opacity-70 max-w-2xl mx-auto leading-relaxed">
-        免费、免注册、打开即用。所有计算都在你的浏览器里完成，数据不会离开你的设备。
+        免费、免注册、打开即用，所有计算都在本地完成、数据不出设备。既能自己上手用，也能通过
+        MCP 协议让 Claude、Cursor 等 AI 助手直接调用这 {total} 个工具。
       </p>
 
       <form
@@ -118,6 +127,32 @@ const jsonLd = itemListLd(
         </div>
       </div>
     </a>
+  </section>
+
+  <!-- 中国本土计算器（护城河专区）：搜索量高、竞品盲区 -->
+  <section class="mx-auto max-w-6xl px-4 mt-10" aria-labelledby="cn-calc-title">
+    <div class="flex items-center justify-between mb-1">
+      <h2 id="cn-calc-title" class="flex items-center gap-2 text-lg font-bold">
+        <span class="grid place-items-center w-7 h-7 rounded-lg bg-primary/10 text-primary">
+          <Icon name="landmark" size={16} />
+        </span>
+        中国本土计算器
+        <span class="badge badge-primary badge-sm">本土特色</span>
+      </h2>
+      <a
+        href="/tools/c/calc/"
+        class="text-sm opacity-60 hover:opacity-100 hover:text-primary transition-all flex items-center gap-0.5"
+      >
+        查看全部
+        <Icon name="chevronRight" size={14} />
+      </a>
+    </div>
+    <p class="text-sm opacity-60 mb-3">
+      个税、五险一金、房贷契税、退休养老金…… 为中国场景量身定制，也是 AI 助手爱调的高频工具。
+    </p>
+    <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {cnCalc.map((t) => <ToolCard tool={t} />)}
+    </div>
   </section>
 
   <div class="mx-auto max-w-6xl px-4 py-8">

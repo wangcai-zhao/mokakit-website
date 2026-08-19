@@ -47,6 +47,13 @@ const pathname = Astro.url.pathname;
           ]}>好站导航</a
         >
         <a
+          href="/blog/"
+          class:list={[
+            'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors hover:bg-base-200',
+            pathname.startsWith('/blog') && 'text-primary bg-base-200',
+          ]}>博客</a
+        >
+        <a
           href="/developers/"
           class:list={[
             'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors hover:bg-base-200',
@@ -117,6 +124,9 @@ const pathname = Astro.url.pathname;
         >
         <a href="/sites/" class="px-3 py-2 rounded-lg text-sm hover:bg-base-200"
           >好站导航</a
+        >
+        <a href="/blog/" class="px-3 py-2 rounded-lg text-sm hover:bg-base-200"
+          >博客</a
         >
         <a href="/developers/" class="px-3 py-2 rounded-lg text-sm hover:bg-base-200"
           >开发者</a
