@@ -34,13 +34,13 @@ const curlList = `curl -X POST ${endpoint} \\
   -H "Content-Type: application/json" \\
   -H "Authorization: Bearer &lt;YOUR_TOKEN&gt;" \\
   -H "Mcp-Session-Id: &lt;SESSION_ID&gt;" \\
-  -d '{ "jsonrpc":"2.0","id":2,"method":"tools/list"} }'`;
+  -d '{ "jsonrpc":"2.0","id":2,"method":"tools/list"}'`;
 
 const curlCall = `curl -X POST ${endpoint} \\
   -H "Content-Type: application/json" \\
   -H "Authorization: Bearer &lt;YOUR_TOKEN&gt;" \\
   -H "Mcp-Session-Id: &lt;SESSION_ID&gt;" \\
-  -d '{ "jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"income_tax_cn","arguments":{"annualGross":300000}}} }'`;
+  -d '{ "jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"income_tax_cn","arguments":{"annualGross":300000}}}'`;
 
 const clientCfg = JSON.stringify(
   { mcpServers: { mokakit: { url: endpoint, headers: { Authorization: 'Bearer <YOUR_TOKEN>' } } } },

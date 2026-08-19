@@ -101,6 +101,25 @@ import DigitalClock from '@/tools/digital-clock/Tool.tsx';
 import FlipClock from '@/tools/flip-clock/Tool.tsx';
 import AnalogClock from '@/tools/analog-clock/Tool.tsx';
 import WorldClock from '@/tools/world-clock/Tool.tsx';
+import NinetyDay from '@/tools/90-day/Tool.tsx';
+import CalendarQuarter from '@/tools/calendar-quarter/Tool.tsx';
+import DaysAgo from '@/tools/days-ago/Tool.tsx';
+import DaysBetween from '@/tools/days-between/Tool.tsx';
+import FortnightToHours from '@/tools/fortnight-to-hours/Tool.tsx';
+import GovShutdownCountdown from '@/tools/gov-shutdown-countdown/Tool.tsx';
+import HmsAdd from '@/tools/hms-add/Tool.tsx';
+import HmsToUnits from '@/tools/hms-to-units/Tool.tsx';
+import HoursFromNow from '@/tools/hours-from-now/Tool.tsx';
+import MinAgeBirth from '@/tools/min-age-birth/Tool.tsx';
+import SecondsToTime from '@/tools/seconds-to-time/Tool.tsx';
+import TimeDuration from '@/tools/time-duration/Tool.tsx';
+import UtcToCst from '@/tools/utc-to-cst/Tool.tsx';
+import UtcToEdt from '@/tools/utc-to-edt/Tool.tsx';
+import UtcToEst from '@/tools/utc-to-est/Tool.tsx';
+import UtcToPst from '@/tools/utc-to-pst/Tool.tsx';
+import VideoSpeed from '@/tools/video-speed/Tool.tsx';
+import WeeklyHours from '@/tools/weekly-hours/Tool.tsx';
+import WeeksPregnant from '@/tools/weeks-pregnant/Tool.tsx';
 
 interface Props {
   tool: ToolMeta;
@@ -195,6 +214,25 @@ const isDigital = tool.id === 'digital-clock';
 const isFlip = tool.id === 'flip-clock';
 const isAnalog = tool.id === 'analog-clock';
 const isWorld = tool.id === 'world-clock';
+const is90Day = tool.id === '90-day';
+const isCalQ = tool.id === 'calendar-quarter';
+const isDaysAgo = tool.id === 'days-ago';
+const isDaysBetween = tool.id === 'days-between';
+const isF2H = tool.id === 'fortnight-to-hours';
+const isGovSD = tool.id === 'gov-shutdown-countdown';
+const isHmsAdd = tool.id === 'hms-add';
+const isHmsToUnits = tool.id === 'hms-to-units';
+const isHoursFromNow = tool.id === 'hours-from-now';
+const isMinAge = tool.id === 'min-age-birth';
+const isSec2Time = tool.id === 'seconds-to-time';
+const isTimeDur = tool.id === 'time-duration';
+const isUtcCst = tool.id === 'utc-to-cst';
+const isUtcEdt = tool.id === 'utc-to-edt';
+const isUtcEst = tool.id === 'utc-to-est';
+const isUtcPst = tool.id === 'utc-to-pst';
+const isVideoSpeed = tool.id === 'video-speed';
+const isWeeklyHours = tool.id === 'weekly-hours';
+const isWeeksPregnant = tool.id === 'weeks-pregnant';
 const known =
   isPG || isUC || isTS || isJF || isCC || isBC || isHC ||
   isUE || isB64 || isUUID || isTC || isColor ||
@@ -208,7 +246,11 @@ const known =
   isIncomeTaxCn || isBonusTaxCn ||
   isSocialSecurityCn || isMortgageEarly || isFundLoanCalc || isVatCalc ||
   isRetireAge || isAfterTax || isDeposit || isDeedTax || isOvertime || isPension ||
-  isDigital || isFlip || isAnalog || isWorld;
+  isDigital || isFlip || isAnalog || isWorld ||
+  is90Day || isCalQ || isDaysAgo || isDaysBetween || isF2H || isGovSD ||
+  isHmsAdd || isHmsToUnits || isHoursFromNow || isMinAge || isSec2Time || isTimeDur ||
+  isUtcCst || isUtcEdt || isUtcEst || isUtcPst || isVideoSpeed || isWeeklyHours ||
+  isWeeksPregnant;
 ---
 
 <!-- 密码生成器 -->
@@ -635,6 +677,101 @@ const known =
 {isWorld && mode === 'load' && <WorldClock client:load {...widgetProps} />}
 {isWorld && mode === 'idle' && <WorldClock client:idle {...widgetProps} />}
 {isWorld && mode === 'visible' && <WorldClock client:visible {...widgetProps} />}
+
+<!-- 90 天后是哪天 -->
+{is90Day && mode === 'load' && <NinetyDay client:load {...widgetProps} />}
+{is90Day && mode === 'idle' && <NinetyDay client:idle {...widgetProps} />}
+{is90Day && mode === 'visible' && <NinetyDay client:visible {...widgetProps} />}
+
+<!-- 日历季度查询 -->
+{isCalQ && mode === 'load' && <CalendarQuarter client:load {...widgetProps} />}
+{isCalQ && mode === 'idle' && <CalendarQuarter client:idle {...widgetProps} />}
+{isCalQ && mode === 'visible' && <CalendarQuarter client:visible {...widgetProps} />}
+
+<!-- N 天前是哪天 -->
+{isDaysAgo && mode === 'load' && <DaysAgo client:load {...widgetProps} />}
+{isDaysAgo && mode === 'idle' && <DaysAgo client:idle {...widgetProps} />}
+{isDaysAgo && mode === 'visible' && <DaysAgo client:visible {...widgetProps} />}
+
+<!-- 两个日期相差几天 -->
+{isDaysBetween && mode === 'load' && <DaysBetween client:load {...widgetProps} />}
+{isDaysBetween && mode === 'idle' && <DaysBetween client:idle {...widgetProps} />}
+{isDaysBetween && mode === 'visible' && <DaysBetween client:visible {...widgetProps} />}
+
+<!-- 两周等于多少小时 -->
+{isF2H && mode === 'load' && <FortnightToHours client:load {...widgetProps} />}
+{isF2H && mode === 'idle' && <FortnightToHours client:idle {...widgetProps} />}
+{isF2H && mode === 'visible' && <FortnightToHours client:visible {...widgetProps} />}
+
+<!-- 政府停摆倒计时 -->
+{isGovSD && mode === 'load' && <GovShutdownCountdown client:load {...widgetProps} />}
+{isGovSD && mode === 'idle' && <GovShutdownCountdown client:idle {...widgetProps} />}
+{isGovSD && mode === 'visible' && <GovShutdownCountdown client:visible {...widgetProps} />}
+
+<!-- 时分秒相加 -->
+{isHmsAdd && mode === 'load' && <HmsAdd client:load {...widgetProps} />}
+{isHmsAdd && mode === 'idle' && <HmsAdd client:idle {...widgetProps} />}
+{isHmsAdd && mode === 'visible' && <HmsAdd client:visible {...widgetProps} />}
+
+<!-- 时分秒换算单位 -->
+{isHmsToUnits && mode === 'load' && <HmsToUnits client:load {...widgetProps} />}
+{isHmsToUnits && mode === 'idle' && <HmsToUnits client:idle {...widgetProps} />}
+{isHmsToUnits && mode === 'visible' && <HmsToUnits client:visible {...widgetProps} />}
+
+<!-- N 小时后是几点 -->
+{isHoursFromNow && mode === 'load' && <HoursFromNow client:load {...widgetProps} />}
+{isHoursFromNow && mode === 'idle' && <HoursFromNow client:idle {...widgetProps} />}
+{isHoursFromNow && mode === 'visible' && <HoursFromNow client:visible {...widgetProps} />}
+
+<!-- 最低出生日期测算 -->
+{isMinAge && mode === 'load' && <MinAgeBirth client:load {...widgetProps} />}
+{isMinAge && mode === 'idle' && <MinAgeBirth client:idle {...widgetProps} />}
+{isMinAge && mode === 'visible' && <MinAgeBirth client:visible {...widgetProps} />}
+
+<!-- 秒数转时分秒 -->
+{isSec2Time && mode === 'load' && <SecondsToTime client:load {...widgetProps} />}
+{isSec2Time && mode === 'idle' && <SecondsToTime client:idle {...widgetProps} />}
+{isSec2Time && mode === 'visible' && <SecondsToTime client:visible {...widgetProps} />}
+
+<!-- 时间段计算 -->
+{isTimeDur && mode === 'load' && <TimeDuration client:load {...widgetProps} />}
+{isTimeDur && mode === 'idle' && <TimeDuration client:idle {...widgetProps} />}
+{isTimeDur && mode === 'visible' && <TimeDuration client:visible {...widgetProps} />}
+
+<!-- UTC 转北京时间 -->
+{isUtcCst && mode === 'load' && <UtcToCst client:load {...widgetProps} />}
+{isUtcCst && mode === 'idle' && <UtcToCst client:idle {...widgetProps} />}
+{isUtcCst && mode === 'visible' && <UtcToCst client:visible {...widgetProps} />}
+
+<!-- UTC 转美东时间 -->
+{isUtcEdt && mode === 'load' && <UtcToEdt client:load {...widgetProps} />}
+{isUtcEdt && mode === 'idle' && <UtcToEdt client:idle {...widgetProps} />}
+{isUtcEdt && mode === 'visible' && <UtcToEdt client:visible {...widgetProps} />}
+
+<!-- UTC 转美东标准时间 -->
+{isUtcEst && mode === 'load' && <UtcToEst client:load {...widgetProps} />}
+{isUtcEst && mode === 'idle' && <UtcToEst client:idle {...widgetProps} />}
+{isUtcEst && mode === 'visible' && <UtcToEst client:visible {...widgetProps} />}
+
+<!-- UTC 转美西时间 -->
+{isUtcPst && mode === 'load' && <UtcToPst client:load {...widgetProps} />}
+{isUtcPst && mode === 'idle' && <UtcToPst client:idle {...widgetProps} />}
+{isUtcPst && mode === 'visible' && <UtcToPst client:visible {...widgetProps} />}
+
+<!-- 视频倍速时长计算 -->
+{isVideoSpeed && mode === 'load' && <VideoSpeed client:load {...widgetProps} />}
+{isVideoSpeed && mode === 'idle' && <VideoSpeed client:idle {...widgetProps} />}
+{isVideoSpeed && mode === 'visible' && <VideoSpeed client:visible {...widgetProps} />}
+
+<!-- 每周工作小时计算 -->
+{isWeeklyHours && mode === 'load' && <WeeklyHours client:load {...widgetProps} />}
+{isWeeklyHours && mode === 'idle' && <WeeklyHours client:idle {...widgetProps} />}
+{isWeeklyHours && mode === 'visible' && <WeeklyHours client:visible {...widgetProps} />}
+
+<!-- 怀孕周数计算 -->
+{isWeeksPregnant && mode === 'load' && <WeeksPregnant client:load {...widgetProps} />}
+{isWeeksPregnant && mode === 'idle' && <WeeksPregnant client:idle {...widgetProps} />}
+{isWeeksPregnant && mode === 'visible' && <WeeksPregnant client:visible {...widgetProps} />}
 
 <!-- 未接入水合岛屿的工具 -->
 {

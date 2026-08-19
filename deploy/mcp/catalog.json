@@ -109,6 +109,26 @@
       "url": "/tools/ai-price-compare/"
     },
     {
+      "id": "analog-clock",
+      "name": "模拟时钟",
+      "description": "免费在线模拟时钟，传统指针表盘平滑走动，提供 8 种精美主题。时针、分针、秒针实时同步设备时间，适合喜欢经典钟表设计、追求视觉美感的你，也可一键全屏当装饰钟。纯浏览器本地运行，打开即用。",
+      "keywords": [
+        "模拟时钟",
+        "在线时钟",
+        "指针时钟",
+        "传统时钟",
+        "表盘时钟"
+      ],
+      "tags": [
+        "时钟",
+        "模拟"
+      ],
+      "category": "clock",
+      "icon": "clock",
+      "tagline": "经典指针表盘",
+      "url": "/tools/analog-clock/"
+    },
+    {
       "id": "base-converter",
       "name": "进制转换",
       "description": "免费在线进制转换工具，支持二进制、八进制、十进制、十六进制及 2 到 36 任意进制互转，基于 BigInt 任意精度，超长数字也不丢精度。程序员、学生做进制换算的好帮手。",
@@ -585,6 +605,26 @@
       "url": "/tools/dice-roller/"
     },
     {
+      "id": "digital-clock",
+      "name": "数字时钟",
+      "description": "免费在线数字时钟，大字号清晰显示当前时间，支持多时区切换、12/24 小时制、多种主题与一键全屏。毫秒级实时同步，适合会议室、教室、家居大屏，纯浏览器本地运行，打开即用，不上传任何数据。",
+      "keywords": [
+        "数字时钟",
+        "在线时钟",
+        "全屏时钟",
+        "电子时钟",
+        "实时时间"
+      ],
+      "tags": [
+        "时钟",
+        "时间"
+      ],
+      "category": "clock",
+      "icon": "clock",
+      "tagline": "全屏大字时间显示",
+      "url": "/tools/digital-clock/"
+    },
+    {
       "id": "emoji-search",
       "name": "Emoji 表情搜索",
       "description": "免费在线 Emoji 表情搜索工具，输入“开心”“生气”“点赞”等中文关键词即可秒搜对应表情符号，点一下直接复制到剪贴板，可粘贴到微信、微博、文档与代码注释。内置上百个常用表情并按分类浏览，纯本地无需联网。",
@@ -604,6 +644,26 @@
       "icon": "smile",
       "tagline": "搜表情一键复制",
       "url": "/tools/emoji-search/"
+    },
+    {
+      "id": "flip-clock",
+      "name": "翻页时钟",
+      "description": "免费在线翻页时钟，还原经典机械翻牌动画，每秒翻动数字，怀旧又吸睛。支持 12/24 小时制、多套主题与一键全屏，适合直播、大屏展示或桌面常驻。纯浏览器本地运行，打开即用，不上传任何数据。",
+      "keywords": [
+        "翻页时钟",
+        "翻牌时钟",
+        "在线翻页时钟",
+        "flip clock",
+        "复古时钟"
+      ],
+      "tags": [
+        "时钟",
+        "翻页"
+      ],
+      "category": "clock",
+      "icon": "timer",
+      "tagline": "经典翻牌动画时钟",
+      "url": "/tools/flip-clock/"
     },
     {
       "id": "fortnight-to-hours",
@@ -2174,6 +2234,26 @@
       "icon": "calendar",
       "tagline": "LMP 算今天孕周+天",
       "url": "/tools/weeks-pregnant/"
+    },
+    {
+      "id": "world-clock",
+      "name": "世界时钟",
+      "description": "免费在线世界时钟，并列显示全球主要城市的当前时间，支持搜索添加、一键收藏与移除，自动标注 UTC 偏移与夏令时。一屏掌握多地时差，出差、跨国协作、看球赛必备。纯浏览器本地运行，打开即用，不上传任何数据。",
+      "keywords": [
+        "世界时钟",
+        "世界时间",
+        "多时区时钟",
+        "全球时间",
+        "时区对照"
+      ],
+      "tags": [
+        "时钟",
+        "时区"
+      ],
+      "category": "clock",
+      "icon": "globe",
+      "tagline": "多时区并列对照",
+      "url": "/tools/world-clock/"
     }
   ],
   "errors": []
