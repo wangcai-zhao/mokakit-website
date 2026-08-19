@@ -657,8 +657,8 @@ const server = http.createServer(async (req, res) => {
   res.end('Not found');
 });
 
-server.listen(PORT, process.env.HOST || '0.0.0.0', () => {
-  const bound = process.env.HOST || '0.0.0.0';
+server.listen(PORT, process.env.HOST || '127.0.0.1', () => {
+  const bound = process.env.HOST || '127.0.0.1';
   console.log(`[mokakit-mcp] listening on http://${bound}:${PORT}/mcp`);
   console.log(`[mokakit-mcp] catalog=${CATALOG.length} tools, mcpTools=${TOOLS.length}, metaErrors=${META_ERRORS.length}`);
   if (META_ERRORS.length) {

@@ -35,6 +35,13 @@ c_head() { printf '\n\033[1m%s\033[0m\n' "$*"; }
 # --setup：把部署配置传上去并初始化服务器
 # ------------------------------------------------------------
 if [[ "$ACTION" == "--setup" ]]; then
+  # 护栏①：若服务器已部署正式站点，--setup 会把它切回备案占位页，必须先人工确认
+  if ssh "$SSH_TARGET" 'test -f /var/www/mokakit/index.html && echo EXISTS' 2>/dev/null | grep -q EXISTS; then
+    c_head "⚠️ 检测到服务器已部署正式站点（/var/www/mokakit/index.html 存在）"
+    c_warn "--setup 会把站点切回备案占位页（icp-pending），正式站将无法访问！"
+    read -r -p "确认要继续吗？输入 yes 继续，其他任意键取消: " ANS
+    [[ "$ANS" == "yes" ]] || { echo "已取消 --setup"; exit 1; }
+  fi
   c_head "上传部署配置并初始化服务器"
   # Windows 写出来的文件可能是 CRLF 换行，Linux 下会报 bad interpreter，先统一转掉
   tar -czf - deploy | ssh "$SSH_TARGET" "
@@ -129,6 +136,13 @@ if [[ "$ACTION" == "--live" ]]; then
     bash /root/mokakit-deploy/server-setup.sh --live
   "
   c_ok "已切换到正式站点配置"
+  # 护栏②：--live 会移除 ssl 配置导致 HTTPS 回退；若证书已就绪则自动补 --enable-ssl 恢复
+  if ssh "$SSH_TARGET" 'test -f /etc/nginx/ssl/mokakit.com/fullchain.cer && echo CERTOK' 2>/dev/null | grep -q CERTOK; then
+    ssh "$SSH_TARGET" "bash /root/mokakit-deploy/server-setup.sh --enable-ssl" >/dev/null
+    c_ok "检测到证书已就绪，已自动恢复 HTTPS（--enable-ssl）"
+  else
+    c_warn "未检测到证书 /etc/nginx/ssl/mokakit.com/fullchain.cer，HTTPS 未开启；证书就绪后执行 bash server-setup.sh --enable-ssl"
+  fi
 else
   ssh "$SSH_TARGET" "nginx -t >/dev/null 2>&1 && systemctl reload nginx && echo reloaded" >/dev/null
   c_ok "Nginx 已重载"
