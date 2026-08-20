@@ -94,11 +94,20 @@ const policeRecordCode = SITE.police ? SITE.police.replace(/\D/g, '') : '';
         {
           SITE.police && policeRecordCode && (
             <a
-              href={`https://beian.gov.cn/portal/registerSystemInfo?recordcode=${policeRecordCode}`}
+              href={`https://beian.mps.gov.cn/#/query/webSearch?code=${policeRecordCode}`}
               target="_blank"
-              rel="nofollow noopener"
-              class="hover:text-primary"
+              rel="noreferrer noopener"
+              class="hover:text-primary inline-flex items-center gap-1.5"
             >
+              <img
+                src="/police-icon.png"
+                alt=""
+                width="16"
+                height="16"
+                class="inline-block"
+                loading="lazy"
+                decoding="async"
+              />
               {SITE.police}
             </a>
           )
