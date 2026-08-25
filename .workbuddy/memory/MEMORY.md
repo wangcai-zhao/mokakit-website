@@ -33,8 +33,11 @@
 - 第三方链接走 /go/?url=（src/pages/go + src/utils/outbound.ts goUrl()）。不中转：站内/mailto:/tel:/本站域/政府备案链接。gen-sitemap 排除 /go/。
 
 ## Git 与推送
-- 远端 https://github.com/wangcai-zhao/mokakit-website.git（master）。最新本地 commit=75c1957（2026-08-20 公安备案链接修复）。
-- ⚠️ 原 classic PAT 2026-08-20 失效（401），push 被阻断。需旺财到 GitHub 重建 repo PAT，或存回 Windows 凭据管理器后 push。
+- 远端 https://github.com/wangcai-zhao/mokakit-website.git（master）。最新已推送 commit=79aab2b（2026-08-25 多批计算器+广告开关+好站导航/博客+看板+站长验证，89 文件）。
+- ⚠️ 本机 git = WorkBuddy 自带 PortableGit，credential.helper=helper-selector + selected=manager（即 **Git Credential Manager / GCM**）。GCM **不读** Windows 凭据管理器里手动建的 `git:https://github.com` 普通凭据条目 → 手动填 PAT 无效、常规 push 静默失败（exit 1 无输出）。
+- 常规 push 可用方式：① 用户临时提供 PAT 内联（`git -c credential.helper= push "https://<user>:<token>@github.com/wangcai-zhao/mokakit-website.git" master`，已验证可用）；② 持久化请在本机用 GCM 正确存：`printf "protocol=https\nhost=github.com\nusername=wangcai-zhao\npassword=<PAT>\n" | git credential-manager store`，或 `git credential-manager github login`（OAuth 浏览器，免 PAT）。
+- ⚠️ 验证 push 请在本机终端跑（WorkBuddy 沙箱访问不到本机凭据存储，Agent 侧 push 测不准）；Agent 侧如需推，用内联 token + `-c credential.helper=`。
+- ⚠️ 对话中曾暴露过一次 PAT，已 push 完成，建议用户在 GitHub 轮换/revoke 该 token。
 
 ## 待办
 1. ✅ mokakit.cn 接入（2026-08-23 完成：备案/ DNS/ 证书 SAN/ 301 全验证）。
@@ -42,6 +45,9 @@
 3. ⏳ MCP Token 公开申请通道（/developers/ 仅 mailto）。
 4. ⏳ 百度/Google 站长平台提交 sitemap（sitemap 已上线，GSC 验证文件待加 public/）。
 5. ✅ MCP Server 同步 6 中国计算器（2026-08-14）。
+6. ✅ 部署上线（2026-08-25 晚间：combo-loan-calc + ads.enabled=true 已上线；git 89 文件 push master 入库）。
+7. ⏳ AdSense 真实 ca-pub ID（ads.enabled 已开但 adsenseClient 空，广告未渲染）。
+8. ⏳ 本机 Git 凭据仍未真正生效：git 用 GCM，手动填的 Windows 普通凭据条目 GCM 不认→常规 push 静默失败；需改用 `git credential-manager store`（PAT）或 `git credential-manager github login`（OAuth）。
 
 ## 环境与坑（可复用）
 - 本地跑 src/ TS：`node --experimental-strip-types --import ./scripts/ts-resolve.mjs xxx.mjs`。
