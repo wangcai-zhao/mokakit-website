@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026/8/14 01:35:55",
+  "generatedAt": "2026/8/24 21:29:10",
   "project": {
     "name": "MokaKit",
     "nameCn": "摩卡工具箱",
@@ -7,7 +7,7 @@
     "owner": "旺财先生",
     "siteName": "MokaKit",
     "siteNameCn": "摩卡工具箱",
-    "siteUrl": "https://mokakit.com",
+    "siteUrl": "https://www.mokakit.com",
     "siteVersion": "v0.9.0"
   },
   "deploy": {
@@ -19,7 +19,7 @@
       "mokakit.com",
       "mokakit.cn"
     ],
-    "domainStatus": "mokakit.com 已上线 HTTPS；mokakit.cn 备案待批未接入",
+    "domainStatus": "mokakit.com 已上线 HTTPS；mokakit.cn 2026-08-23 备案批准并接入（DNS A + 证书 SAN，整站 301 到 www 已验证）",
     "firewall": "80/443 已放通",
     "keyBound": true,
     "keyBoundAt": "2026-08-05",
@@ -34,11 +34,11 @@
       "submittedAt": "2026-08-04",
       "approvedAt": "2026-08-13"
     },
-    "ssl": "已启用（LE 证书 YE2，2026-11-10 到期，certbot.timer 自动续期）",
+    "ssl": "已启用（LE 证书 ECDSA，2026-11-20 到期，certbot.timer 自动续期）",
     "https": "http→https 301 单跳；www→主域 301；HSTS max-age=31536000",
-    "mcpServer": "v0.1.0 已公网接入 https://mokakit.com/mcp（Streamable HTTP + JSON-RPC 2.0 + Bearer），9 tool",
+    "mcpServer": "v0.1.0 已公网接入 https://mokakit.com/mcp（Streamable HTTP + JSON-RPC 2.0 + 可选 Bearer）；15 tool（14 计算 + mokakit_search），catalog 104 工具元数据",
     "counter": "匿名计数 mokakit-counter（systemd 127.0.0.1:18800），nginx /api/ 反代",
-    "nextStep": "mokakit.cn 备案+接入；MCP Server 同步 6 新工具；百度/Google 站长平台提交 sitemap"
+    "nextStep": "GSC 验证文件加入 public/ 完成站长平台提交；MCP Token 公开申请通道（/developers/ 现仅 mailto）；摩卡配色打磨（暂缓）"
   },
   "milestones": [
     {
@@ -180,21 +180,21 @@
       "state": "done"
     },
     {
-      "date": "待定",
+      "date": "2026-08-14",
       "title": "MCP Server 同步 6 新工具",
-      "detail": "6 中国计算器第二批仅上了网站，MCP catalog.json 未含；要扩 server.mjs 的 COMPUTE_TOOLS + npm run mcp:build + 重部署，并同步 /developers/ 工具清单",
-      "state": "todo"
+      "detail": "6 中国计算器第二批已扩 server.mjs 的 COMPUTE_TOOLS + npm run mcp:build + 重部署，/developers/ 清单同步至 15，线上 tools/list 验证通过",
+      "state": "done"
     },
     {
-      "date": "待定",
-      "title": "mokakit.cn 备案+接入",
-      "detail": "过审后加 DNS A + 改 site.ts altDomains + nginx 补 .cn server（ssl.conf 已含 .cn 跳转，仅需 DNS）",
-      "state": "todo"
+      "date": "2026-08-23",
+      "title": "mokakit.cn 备案批准并接入",
+      "detail": "京ICP备2026051111号（同主体）过审；DNS A 指向 58.87.68.151；LE 证书重签加 SAN（mokakit.cn + www.mokakit.cn），至 2026-11-20；nginx 80/443 整站 301 到 www 已验证",
+      "state": "done"
     },
     {
-      "date": "待定",
-      "title": "百度/Google 站长平台提交 sitemap",
-      "detail": "手动提交 https://mokakit.com/sitemap-index.xml",
+      "date": "2026-08-19",
+      "title": "sitemap 上线 + 站长平台提交",
+      "detail": "sitemap-index.xml 已上线（410 条，含博客页）；待 GSC 验证文件加入 public/ 后完成百度/Google 提交",
       "state": "todo"
     }
   ],
@@ -253,13 +253,12 @@
       "done": true
     },
     {
-      "text": "mokakit.cn 备案+接入（过审后加 DNS + nginx 补 .cn server）",
-      "done": false
+      "text": "mokakit.cn 备案+接入（2026-08-23 已批准并接入：DNS A + 证书 SAN + 整站 301 验证）✅",
+      "done": true
     },
     {
-      "text": "MCP Server 同步 6 新工具（扩 server.mjs COMPUTE_TOOLS + mcp:build + 重部署）",
-      "done": false,
-      "blocker": true
+      "text": "MCP Server 同步 6 新工具（扩 server.mjs COMPUTE_TOOLS + mcp:build + 重部署，/developers/ 同步至 15）✅",
+      "done": true
     },
     {
       "text": "百度/Google 站长平台提交 sitemap（手动，https://mokakit.com/sitemap-index.xml）",
@@ -349,6 +348,11 @@
       "batch": "第十五批·中国计算器第二批",
       "tools": "retirement-age / after-tax-salary（含反推）/ deposit-interest / deed-tax / overtime-pay / pension-estimate（强护城河，补齐竞品盲区）",
       "count": 6
+    },
+    {
+      "batch": "第十六批·时钟栏目",
+      "tools": "新增 clock 分类 4 个：analog-clock / flip-clock / digital-clock / world-clock；站点工具总数 100 → 105",
+      "count": 4
     }
   ],
   "tools": [
@@ -427,6 +431,20 @@
         "比价",
         "大模型",
         "即梦"
+      ]
+    },
+    {
+      "id": "analog-clock",
+      "name": "模拟时钟",
+      "tagline": "经典指针表盘",
+      "category": "clock",
+      "status": "stable",
+      "priority": 8,
+      "createdAt": "2026-08-14",
+      "updatedAt": "2026-08-14",
+      "tags": [
+        "时钟",
+        "模拟"
       ]
     },
     {
@@ -773,6 +791,20 @@
       ]
     },
     {
+      "id": "digital-clock",
+      "name": "数字时钟",
+      "tagline": "全屏大字时间显示",
+      "category": "clock",
+      "status": "stable",
+      "priority": 9,
+      "createdAt": "2026-08-14",
+      "updatedAt": "2026-08-14",
+      "tags": [
+        "时钟",
+        "时间"
+      ]
+    },
+    {
       "id": "emoji-search",
       "name": "Emoji 表情搜索",
       "tagline": "搜表情一键复制",
@@ -785,6 +817,20 @@
         "emoji",
         "表情",
         "复制"
+      ]
+    },
+    {
+      "id": "flip-clock",
+      "name": "翻页时钟",
+      "tagline": "经典翻牌动画时钟",
+      "category": "clock",
+      "status": "stable",
+      "priority": 10,
+      "createdAt": "2026-08-14",
+      "updatedAt": "2026-08-14",
+      "tags": [
+        "时钟",
+        "翻页"
       ]
     },
     {
@@ -1908,6 +1954,20 @@
         "日期",
         "计算"
       ]
+    },
+    {
+      "id": "world-clock",
+      "name": "世界时钟",
+      "tagline": "多时区并列对照",
+      "category": "clock",
+      "status": "stable",
+      "priority": 9,
+      "createdAt": "2026-08-14",
+      "updatedAt": "2026-08-14",
+      "tags": [
+        "时钟",
+        "时区"
+      ]
     }
   ],
   "categories": [
@@ -1964,23 +2024,29 @@
       "slug": "fun",
       "name": "趣味娱乐",
       "count": 5
+    },
+    {
+      "id": "clock",
+      "slug": "clock",
+      "name": "时钟",
+      "count": 4
     }
   ],
   "stats": {
-    "total": 100,
+    "total": 104,
     "beta": 0,
-    "cats": 9,
+    "cats": 10,
     "emptyCats": [],
     "maxCat": 38,
     "latestUpdate": "2026-08-14",
     "earliestCreate": "2026-08-04",
-    "pages": 403,
+    "pages": 418,
     "subpages": 247,
     "mdxCoverage": 100
   },
   "assets": {
     "distExists": true,
-    "pagesTotal": 403,
+    "pagesTotal": 418,
     "subpagesTotal": 247,
     "subpagesByTool": [
       {
@@ -1997,13 +2063,14 @@
       }
     ],
     "sitemapUrls": 0,
-    "distBuiltAt": "2026/8/14 01:34:37",
+    "distBuiltAt": "2026/8/22 00:44:53",
     "mdxTools": [
       "90-day",
       "aes-encrypt",
       "after-tax-salary",
       "age-calculator",
       "ai-price-compare",
+      "analog-clock",
       "base-converter",
       "base64",
       "bill-split",
@@ -2026,7 +2093,9 @@
       "deposit-interest",
       "dev-roadmap",
       "dice-roller",
+      "digital-clock",
       "emoji-search",
+      "flip-clock",
       "fortnight-to-hours",
       "fund-loan-calc",
       "github-stars",
@@ -2098,7 +2167,8 @@
       "vat-calc",
       "video-speed",
       "weekly-hours",
-      "weeks-pregnant"
+      "weeks-pregnant",
+      "world-clock"
     ],
     "units": {
       "categories": 16,

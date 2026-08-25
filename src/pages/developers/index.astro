@@ -3,7 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Icon from '@/components/Icon.astro';
 
 const endpoint = 'https://www.mokakit.com/mcp';
-const mailto = 'mailto:wangcai@mokakit.com?subject=' + encodeURIComponent('【MokaKit MCP 接入申请】');
+const mailto = 'mailto:bo.zhao2026@outlook.com?subject=' + encodeURIComponent('【MokaKit MCP 接入申请】');
 
 // 与 mcp/server.mjs 的 TOOLS 保持一致；改 MCP tool 时此处同步更新
 const mcpTools = [
@@ -97,6 +97,15 @@ const clientCfg = JSON.stringify(
       <a href="/privacy/" class="btn btn-outline btn-sm">查看隐私承诺</a>
     </div>
 
+    <div class="mt-4 alert alert-warning text-sm leading-relaxed">
+      <Icon name="activity" size={16} />
+      <span>
+        <strong>调用顺序（重点）</strong>：所有请求必须先 <code class="font-mono">initialize</code>，从响应头取
+        <code class="font-mono">Mcp-Session-Id</code>，后续 <code class="font-mono">tools/list</code> / <code class="font-mono">tools/call</code>
+        都必须带上该 Session-Id 头，否则返回 <code class="font-mono">No valid sessionId. Send initialize first.</code> 错误。第 3 节示例已严格按此顺序给出。
+      </span>
+    </div>
+
     <!-- §3 快速开始 -->
     <h2 class="mt-10 text-xl font-bold flex items-center gap-2"><Icon name="zap" size={18} /> 3. 快速开始（curl）</h2>
 
@@ -150,7 +159,7 @@ const clientCfg = JSON.stringify(
     <div class="mt-8 card bg-primary/10 border border-primary/20 p-5">
       <p class="text-sm font-semibold flex items-center gap-2"><Icon name="mail" size={16} /> 想提前接入？</p>
       <p class="mt-1 text-sm opacity-75 leading-relaxed">
-        发邮件到 <a href={mailto} class="link link-primary font-mono">wangcai@mokakit.com</a>，
+        发邮件到 <a href={mailto} class="link link-primary font-mono">bo.zhao2026@outlook.com</a>，
         主题注明「MCP 接入申请」，我们会回函发放试用 Token 与对接支持。
       </p>
     </div>

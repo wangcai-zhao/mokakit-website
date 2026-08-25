@@ -7,17 +7,17 @@ export const SITE = {
   /**
    * 正式域名（含协议，结尾不加斜杠）。
    * 规范域名走 www.mokakit.com；裸 mokakit.com 与 mokakit.cn 仅做 301 跳转、不出内容。
-   * mokakit.cn 已注册但备案待批，暂不做跳转也不出内容，避免备案未过就暴露二级域名；
-   * 备案成功后把 altDomains 里的裸 mokakit.com 换成 ['https://mokakit.cn'] 即可。
+   * mokakit.cn 已备案（京ICP备2026051111号，与 mokakit.com 同主体），DNS 已解析、证书已加 SAN，整站 301 到 www。
    */
   url: 'https://www.mokakit.com',
 
   /**
    * 备用域名。做 301 跳转用，不参与 canonical / sitemap。
    * 部署时在服务器上把它整站 301 到 SITE.url（www）即可。
-   * 当前裸 mokakit.com 是规范域名的无 www 形态，列入后出站链接判断不会把它当第三方走 /go/。
+   * 裸 mokakit.com（无 www 形态）与 mokakit.cn（同主体备用域名）都列入，
+   * 出站链接判断才不会把它们当第三方走 /go/。
    */
-  altDomains: ['https://mokakit.com'],
+  altDomains: ['https://mokakit.com', 'https://mokakit.cn'],
 
   /** 站点名称（英文品牌）。备案时填的网站名称建议用中文名 */
   name: 'MokaKit',
@@ -60,9 +60,9 @@ export const SITE = {
     gaId: '',
   },
   ads: {
-    /** 全局广告开关。上线初期流量不足时保持 false，只保留占位不请求广告 */
-    enabled: false,
-    /** AdSense 发布商 ID，形如 ca-pub-0000000000000000 */
+    /** 全局广告开关。变现落地：已开启，但需先填入 adsenseClient 真实发布商 ID 广告才会真正请求 */
+    enabled: true,
+    /** AdSense 发布商 ID，形如 ca-pub-0000000000000000。留空时即使 enabled=true 也不会渲染广告 */
     adsenseClient: '',
   },
 

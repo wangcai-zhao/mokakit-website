@@ -11,7 +11,7 @@ const hasGithub = !!(gh && gh.owner && gh.repo);
 const issueBase = hasGithub
   ? `https://github.com/${gh.owner}/${gh.repo}/issues/new`
   : '';
-const mailtoBase = `mailto:wangcai@mokakit.com?subject=${encodeURIComponent('【摩卡工具箱投稿】')}`;
+const mailtoBase = `mailto:bo.zhao2026@outlook.com?subject=${encodeURIComponent('【摩卡工具箱投稿】')}`;
 ---
 
 <BaseLayout title={title} description={description} path="/submit/">
@@ -102,7 +102,7 @@ const mailtoBase = `mailto:wangcai@mokakit.com?subject=${encodeURIComponent('【
       }
       var subject = encodeURIComponent('【摩卡工具箱投稿】' + val('f-name'));
       var body = encodeURIComponent(buildBody());
-      window.location.href = 'mailto:wangcai@mokakit.com?subject=' + subject + '&body=' + body;
+      window.location.href = 'mailto:bo.zhao2026@outlook.com?subject=' + subject + '&body=' + body;
     }
 
     var btnG = document.getElementById('btn-github');

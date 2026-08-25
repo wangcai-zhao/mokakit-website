@@ -33,5 +33,39 @@ _build.log
 # 运行时数据（本地计数验证遗留，非源码）
 .counter-data/
 
+# 反链看板本地数据（示例/真实 CSV + 生成产物，含隐私，不入库）
+seo/
+
 # MCP 本地常驻调试日志（stdout 重定向产生）
 /mcp-*.log
+
+# 根目录调试/构建临时产物（下划线前缀的日志、预览页、pid、备份）
+_*.log
+_*.html
+_*.pid
+dist_bak_*
+dist_bak_p0/
+dist_bak_p1/
+dist_bak_p2/
+dist_bak_p3/
+dist_partial_*
+build-run.log
+deploy-run.log
+_push.log
+_err.log
+_baidu_deploy.log
+_dev_run.log
+_build_mk.log
+_build_run.log
+_clock_build.log
+_clock_preview.log
+_sitemap.log
+_out.log
+_p0_build.log
+_p0_build2.log
+_p2_build.log
+_p2_build2.log
+_p3_build.log
+_combo_build.log
+_combo_build4.log
+_deploy_p0.log

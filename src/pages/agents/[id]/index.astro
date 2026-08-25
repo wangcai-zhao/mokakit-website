@@ -1,0 +1,85 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Icon from '@/components/Icon.astro';
+import { AGENT_GROUPS } from '@/data/agents';
+import { goUrl } from '@/utils/outbound';
+import { faviconOf } from '@/utils/favicon';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths = (() => {
+  return AGENT_GROUPS.map((group) => ({
+    params: { id: group.id },
+    props: { group },
+  }));
+}) satisfies GetStaticPaths;
+
+const { group } = Astro.props;
+const title = `${group.name} · 智能体专栏`;
+const description = `${group.desc}：摩卡工具箱精选的 ${group.links.length} 个${group.name}站点，一键直达。`;
+---
+
+<BaseLayout title={title} description={description} path={`/agents/${group.id}/`}>
+  <div class="mx-auto max-w-6xl px-4 py-8">
+    <nav class="mb-6 text-sm opacity-60 flex items-center gap-1">
+      <a href="/agents/" class="hover:text-primary">智能体专栏</a>
+      <Icon name="chevronRight" size={14} />
+      <span class="opacity-80">{group.name}</span>
+    </nav>
+
+    <header class="mb-8">
+      <h1 class="text-3xl font-bold flex items-center gap-3">
+        <span class="grid place-items-center w-12 h-12 rounded-xl bg-primary/10 text-primary">
+          <Icon name={group.icon} size={26} />
+        </span>
+        {group.name}
+      </h1>
+      <p class="mt-2 opacity-65 max-w-2xl">{group.desc} · 共 {group.links.length} 个站点</p>
+    </header>
+
+    <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        group.links.map((link) => (
+          <a
+            href={goUrl(link.url)}
+            target="_blank"
+            rel="noopener noreferrer nofollow"
+            class="group flex items-start gap-3 rounded-xl border border-base-300 bg-base-100 p-4 hover:border-primary hover:shadow-sm transition"
+          >
+            <span class="relative grid place-items-center w-10 h-10 shrink-0 rounded-lg bg-primary/10 text-primary font-bold overflow-hidden">
+              {link.name.charAt(0)}
+              <img
+                src={faviconOf(link.url)}
+                alt=""
+                loading="lazy"
+                referrerpolicy="no-referrer"
+                class="absolute inset-0 w-full h-full object-contain p-1.5 bg-base-100"
+                onerror="this.style.display='none'"
+              />
+            </span>
+            <span class="min-w-0 flex-1">
+              <span class="flex items-center justify-between gap-2">
+                <span class="font-medium truncate">{link.name}</span>
+                <Icon
+                  name="arrowRight"
+                  size={16}
+                  class="opacity-0 group-hover:opacity-60 transition shrink-0"
+                />
+              </span>
+              <span class="block text-sm opacity-60 leading-snug mt-0.5">
+                {link.desc}
+              </span>
+            </span>
+          </a>
+        ))
+      }
+    </div>
+
+    <a
+      href="/agents/"
+      class="mt-10 inline-flex items-center gap-2 text-sm text-primary hover:underline"
+    >
+      <Icon name="chevronRight" size={16} class="rotate-180" />
+      返回全部分类
+    </a>
+  </div>
+</BaseLayout>

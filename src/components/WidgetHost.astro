@@ -55,6 +55,7 @@ import ChangelogGen from '@/tools/changelog-gen/Tool.tsx';
 import DateCalc from '@/tools/date-calculator/Tool.tsx';
 import BmiCalc from '@/tools/bmi-calculator/Tool.tsx';
 import LoanCalc from '@/tools/loan-calculator/Tool.tsx';
+import ComboLoanCalc from '@/tools/combo-loan-calc/Tool.tsx';
 import PctCalc from '@/tools/percentage-calculator/Tool.tsx';
 import TipCalc from '@/tools/tip-calculator/Tool.tsx';
 import AgeCalc from '@/tools/age-calculator/Tool.tsx';
@@ -120,6 +121,26 @@ import UtcToPst from '@/tools/utc-to-pst/Tool.tsx';
 import VideoSpeed from '@/tools/video-speed/Tool.tsx';
 import WeeklyHours from '@/tools/weekly-hours/Tool.tsx';
 import WeeksPregnant from '@/tools/weeks-pregnant/Tool.tsx';
+import FractionCalc from '@/tools/fraction-calculator/Tool.tsx';
+import AverageCalc from '@/tools/average-calculator/Tool.tsx';
+import RatioCalc from '@/tools/ratio-calculator/Tool.tsx';
+import CompoundInterest from '@/tools/compound-interest/Tool.tsx';
+import GcdLcm from '@/tools/gcd-lcm/Tool.tsx';
+import RomanNumeral from '@/tools/roman-numeral/Tool.tsx';
+import RoundingCalc from '@/tools/rounding-calculator/Tool.tsx';
+import ScientificNotation from '@/tools/scientific-notation/Tool.tsx';
+import PermComb from '@/tools/permutation-combination/Tool.tsx';
+import DiscountCalc from '@/tools/discount-calculator/Tool.tsx';
+import ProvidentFundCalc from '@/tools/provident-fund-calc/Tool.tsx';
+import InflationCalc from '@/tools/inflation-calculator/Tool.tsx';
+import LogCalculator from '@/tools/log-calculator/Tool.tsx';
+import PowerRootCalc from '@/tools/power-root/Tool.tsx';
+import PrimeFactorCalc from '@/tools/prime-factor/Tool.tsx';
+import HourlyWageCalc from '@/tools/hourly-wage/Tool.tsx';
+import GpaCalc from '@/tools/gpa-calculator/Tool.tsx';
+import BmrCalc from '@/tools/bmr-calculator/Tool.tsx';
+import MenstrualCycleCalc from '@/tools/menstrual-cycle/Tool.tsx';
+import ShoeSizeCalc from '@/tools/shoe-size/Tool.tsx';
 
 interface Props {
   tool: ToolMeta;
@@ -168,6 +189,7 @@ const isCL = tool.id === 'changelog-gen';
 const isDC = tool.id === 'date-calculator';
 const isBMI = tool.id === 'bmi-calculator';
 const isLoan = tool.id === 'loan-calculator';
+const isComboLoan = tool.id === 'combo-loan-calc';
 const isPct = tool.id === 'percentage-calculator';
 const isTip = tool.id === 'tip-calculator';
 const isAge = tool.id === 'age-calculator';
@@ -233,6 +255,26 @@ const isUtcPst = tool.id === 'utc-to-pst';
 const isVideoSpeed = tool.id === 'video-speed';
 const isWeeklyHours = tool.id === 'weekly-hours';
 const isWeeksPregnant = tool.id === 'weeks-pregnant';
+const isFraction = tool.id === 'fraction-calculator';
+const isAverage = tool.id === 'average-calculator';
+const isRatio = tool.id === 'ratio-calculator';
+const isCompound = tool.id === 'compound-interest';
+const isGcdLcm = tool.id === 'gcd-lcm';
+const isRoman = tool.id === 'roman-numeral';
+const isRounding = tool.id === 'rounding-calculator';
+const isSci = tool.id === 'scientific-notation';
+const isPermComb = tool.id === 'permutation-combination';
+const isDiscount = tool.id === 'discount-calculator';
+const isProvident = tool.id === 'provident-fund-calc';
+const isInflate = tool.id === 'inflation-calculator';
+const isLog = tool.id === 'log-calculator';
+const isPowRoot = tool.id === 'power-root';
+const isPrime = tool.id === 'prime-factor';
+const isHourly = tool.id === 'hourly-wage';
+const isGpa = tool.id === 'gpa-calculator';
+const isBmr = tool.id === 'bmr-calculator';
+const isMenstrual = tool.id === 'menstrual-cycle';
+const isShoe = tool.id === 'shoe-size';
 const known =
   isPG || isUC || isTS || isJF || isCC || isBC || isHC ||
   isUE || isB64 || isUUID || isTC || isColor ||
@@ -250,7 +292,8 @@ const known =
   is90Day || isCalQ || isDaysAgo || isDaysBetween || isF2H || isGovSD ||
   isHmsAdd || isHmsToUnits || isHoursFromNow || isMinAge || isSec2Time || isTimeDur ||
   isUtcCst || isUtcEdt || isUtcEst || isUtcPst || isVideoSpeed || isWeeklyHours ||
-  isWeeksPregnant;
+  isWeeksPregnant ||
+  isFraction || isAverage || isRatio || isCompound || isGcdLcm || isRoman || isRounding || isSci || isPermComb || isDiscount || isProvident || isInflate || isLog || isPowRoot || isPrime || isHourly || isGpa || isBmr || isMenstrual || isShoe || isComboLoan;
 ---
 
 <!-- 密码生成器 -->
@@ -447,6 +490,11 @@ const known =
 {isLoan && mode === 'load' && <LoanCalc client:load {...widgetProps} />}
 {isLoan && mode === 'idle' && <LoanCalc client:idle {...widgetProps} />}
 {isLoan && mode === 'visible' && <LoanCalc client:visible {...widgetProps} />}
+
+<!-- 组合贷月供计算器 -->
+{isComboLoan && mode === 'load' && <ComboLoanCalc client:load {...widgetProps} />}
+{isComboLoan && mode === 'idle' && <ComboLoanCalc client:idle {...widgetProps} />}
+{isComboLoan && mode === 'visible' && <ComboLoanCalc client:visible {...widgetProps} />}
 
 <!-- 百分比计算器 -->
 {isPct && mode === 'load' && <PctCalc client:load {...widgetProps} />}
@@ -772,6 +820,106 @@ const known =
 {isWeeksPregnant && mode === 'load' && <WeeksPregnant client:load {...widgetProps} />}
 {isWeeksPregnant && mode === 'idle' && <WeeksPregnant client:idle {...widgetProps} />}
 {isWeeksPregnant && mode === 'visible' && <WeeksPregnant client:visible {...widgetProps} />}
+
+<!-- 分数计算器 -->
+{isFraction && mode === 'load' && <FractionCalc client:load {...widgetProps} />}
+{isFraction && mode === 'idle' && <FractionCalc client:idle {...widgetProps} />}
+{isFraction && mode === 'visible' && <FractionCalc client:visible {...widgetProps} />}
+
+<!-- 平均数计算器 -->
+{isAverage && mode === 'load' && <AverageCalc client:load {...widgetProps} />}
+{isAverage && mode === 'idle' && <AverageCalc client:idle {...widgetProps} />}
+{isAverage && mode === 'visible' && <AverageCalc client:visible {...widgetProps} />}
+
+<!-- 比例计算器 -->
+{isRatio && mode === 'load' && <RatioCalc client:load {...widgetProps} />}
+{isRatio && mode === 'idle' && <RatioCalc client:idle {...widgetProps} />}
+{isRatio && mode === 'visible' && <RatioCalc client:visible {...widgetProps} />}
+
+<!-- 复利计算器 -->
+{isCompound && mode === 'load' && <CompoundInterest client:load {...widgetProps} />}
+{isCompound && mode === 'idle' && <CompoundInterest client:idle {...widgetProps} />}
+{isCompound && mode === 'visible' && <CompoundInterest client:visible {...widgetProps} />}
+
+<!-- 最大公约数与最小公倍数 -->
+{isGcdLcm && mode === 'load' && <GcdLcm client:load {...widgetProps} />}
+{isGcdLcm && mode === 'idle' && <GcdLcm client:idle {...widgetProps} />}
+{isGcdLcm && mode === 'visible' && <GcdLcm client:visible {...widgetProps} />}
+
+<!-- 罗马数字转换 -->
+{isRoman && mode === 'load' && <RomanNumeral client:load {...widgetProps} />}
+{isRoman && mode === 'idle' && <RomanNumeral client:idle {...widgetProps} />}
+{isRoman && mode === 'visible' && <RomanNumeral client:visible {...widgetProps} />}
+
+<!-- 四舍五入计算器 -->
+{isRounding && mode === 'load' && <RoundingCalc client:load {...widgetProps} />}
+{isRounding && mode === 'idle' && <RoundingCalc client:idle {...widgetProps} />}
+{isRounding && mode === 'visible' && <RoundingCalc client:visible {...widgetProps} />}
+
+<!-- 科学计数法转换 -->
+{isSci && mode === 'load' && <ScientificNotation client:load {...widgetProps} />}
+{isSci && mode === 'idle' && <ScientificNotation client:idle {...widgetProps} />}
+{isSci && mode === 'visible' && <ScientificNotation client:visible {...widgetProps} />}
+
+<!-- 排列组合计算器 -->
+{isPermComb && mode === 'load' && <PermComb client:load {...widgetProps} />}
+{isPermComb && mode === 'idle' && <PermComb client:idle {...widgetProps} />}
+{isPermComb && mode === 'visible' && <PermComb client:visible {...widgetProps} />}
+
+<!-- 打折计算器 -->
+{isDiscount && mode === 'load' && <DiscountCalc client:load {...widgetProps} />}
+{isDiscount && mode === 'idle' && <DiscountCalc client:idle {...widgetProps} />}
+{isDiscount && mode === 'visible' && <DiscountCalc client:visible {...widgetProps} />}
+
+<!-- 公积金计算器 -->
+{isProvident && mode === 'load' && <ProvidentFundCalc client:load {...widgetProps} />}
+{isProvident && mode === 'idle' && <ProvidentFundCalc client:idle {...widgetProps} />}
+{isProvident && mode === 'visible' && <ProvidentFundCalc client:visible {...widgetProps} />}
+
+<!-- 通货膨胀计算器 -->
+{isInflate && mode === 'load' && <InflationCalc client:load {...widgetProps} />}
+{isInflate && mode === 'idle' && <InflationCalc client:idle {...widgetProps} />}
+{isInflate && mode === 'visible' && <InflationCalc client:visible {...widgetProps} />}
+
+<!-- 对数计算器 -->
+{isLog && mode === 'load' && <LogCalculator client:load {...widgetProps} />}
+{isLog && mode === 'idle' && <LogCalculator client:idle {...widgetProps} />}
+{isLog && mode === 'visible' && <LogCalculator client:visible {...widgetProps} />}
+
+<!-- 幂与根式计算器 -->
+{isPowRoot && mode === 'load' && <PowerRootCalc client:load {...widgetProps} />}
+{isPowRoot && mode === 'idle' && <PowerRootCalc client:idle {...widgetProps} />}
+{isPowRoot && mode === 'visible' && <PowerRootCalc client:visible {...widgetProps} />}
+
+<!-- 质因数分解 -->
+{isPrime && mode === 'load' && <PrimeFactorCalc client:load {...widgetProps} />}
+{isPrime && mode === 'idle' && <PrimeFactorCalc client:idle {...widgetProps} />}
+{isPrime && mode === 'visible' && <PrimeFactorCalc client:visible {...widgetProps} />}
+
+<!-- 时薪换算器 -->
+{isHourly && mode === 'load' && <HourlyWageCalc client:load {...widgetProps} />}
+{isHourly && mode === 'idle' && <HourlyWageCalc client:idle {...widgetProps} />}
+{isHourly && mode === 'visible' && <HourlyWageCalc client:visible {...widgetProps} />}
+
+<!-- GPA 计算器 -->
+{isGpa && mode === 'load' && <GpaCalc client:load {...widgetProps} />}
+{isGpa && mode === 'idle' && <GpaCalc client:idle {...widgetProps} />}
+{isGpa && mode === 'visible' && <GpaCalc client:visible {...widgetProps} />}
+
+<!-- 基础代谢率计算器 -->
+{isBmr && mode === 'load' && <BmrCalc client:load {...widgetProps} />}
+{isBmr && mode === 'idle' && <BmrCalc client:idle {...widgetProps} />}
+{isBmr && mode === 'visible' && <BmrCalc client:visible {...widgetProps} />}
+
+<!-- 月经周期与排卵期 -->
+{isMenstrual && mode === 'load' && <MenstrualCycleCalc client:load {...widgetProps} />}
+{isMenstrual && mode === 'idle' && <MenstrualCycleCalc client:idle {...widgetProps} />}
+{isMenstrual && mode === 'visible' && <MenstrualCycleCalc client:visible {...widgetProps} />}
+
+<!-- 鞋码换算 -->
+{isShoe && mode === 'load' && <ShoeSizeCalc client:load {...widgetProps} />}
+{isShoe && mode === 'idle' && <ShoeSizeCalc client:idle {...widgetProps} />}
+{isShoe && mode === 'visible' && <ShoeSizeCalc client:visible {...widgetProps} />}
 
 <!-- 未接入水合岛屿的工具 -->
 {
