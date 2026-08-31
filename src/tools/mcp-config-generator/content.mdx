@@ -1,3 +1,5 @@
+import InviteCta from '@/components/InviteCta.astro';
+
 ## MCP 配置生成原理
 
 按 MCP 规范（stdio / HTTP+SSE）生成客户端所需的 JSON 配置，填入命令、参数、环境变量或服务端地址
@@ -33,3 +35,5 @@ A：WorkBuddy 的 MCP 配置文件是用户主目录下的 ~/.workbuddy/mcp.json
 **Q：stdio 和 HTTP/SSE 类型有什么区别？**
 
 A：本工具生成的是最常见的 stdio 类型（本地用命令启动）。若你接入的是远程 HTTP/SSE 服务，需改用 url 字段，可参考官方文档手动调整。
+
+<InviteCta variant="compact" trackLabel="mcp-config-generator" />

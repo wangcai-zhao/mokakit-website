@@ -87,3 +87,34 @@ export function itemListLd(
     })),
   };
 }
+
+/** 文章页结构化数据（/blog/ 与 /tips/ 共用）。吃 Google 的 Article 富摘要 */
+export function articleLd(opts: {
+  title: string;
+  description: string;
+  url: string;
+  datePublished: string | Date;
+  dateModified?: string | Date;
+  author?: string;
+  tags?: string[];
+}) {
+  const iso = (d: string | Date) => (typeof d === 'string' ? d : d.toISOString());
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: opts.title,
+    description: opts.description,
+    url: absUrl(opts.url),
+    mainEntityOfPage: { '@type': 'WebPage', '@id': absUrl(opts.url) },
+    datePublished: iso(opts.datePublished),
+    dateModified: iso(opts.dateModified ?? opts.datePublished),
+    author: { '@type': 'Person', name: opts.author ?? SITE.name },
+    publisher: {
+      '@type': 'Organization',
+      name: SITE.name,
+      url: absUrl('/'),
+    },
+    inLanguage: 'zh-CN',
+    ...(opts.tags?.length ? { keywords: opts.tags.join(', ') } : {}),
+  };
+}

@@ -4,6 +4,8 @@ import Icon from '@/components/Icon.astro';
 import { AGENT_GROUPS } from '@/data/agents';
 import { goUrl } from '@/utils/outbound';
 import { faviconOf } from '@/utils/favicon';
+import InviteCta from '@/components/InviteCta.astro';
+import { getCollection } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 
 export const getStaticPaths = (() => {
@@ -14,6 +16,20 @@ export const getStaticPaths = (() => {
 }) satisfies GetStaticPaths;
 
 const { group } = Astro.props;
+
+/**
+ * WorkBuddy 生态页内嵌技巧文。
+ * 只对这个分组加载 —— 进来的人本来就是 WorkBuddy 用户，
+ * 这是全站转化最高的一块位置，同时把流量导回 /tips/ 与工具页。
+ */
+const recentTips =
+  group.id === 'workbuddy-eco'
+    ? (await getCollection('tips'))
+        .filter((t) => !t.data.draft)
+        .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
+        .slice(0, 3)
+    : [];
+
 const title = `${group.name} · 智能体专栏`;
 const description = `${group.desc}：摩卡工具箱精选的 ${group.links.length} 个${group.name}站点，一键直达。`;
 ---
@@ -73,6 +89,36 @@ const description = `${group.desc}：摩卡工具箱精选的 ${group.links.leng
         ))
       }
     </div>
+
+    {
+      group.id === 'workbuddy-eco' && (
+        <div class="mt-10 space-y-6">
+          {recentTips.length > 0 && (
+            <section>
+              <h2 class="text-lg font-bold flex items-center gap-2">
+                <Icon name="sparkles" size={18} /> 相关使用技巧
+              </h2>
+              <div class="mt-4 grid gap-3 sm:grid-cols-3">
+                {recentTips.map((tip) => (
+                  <a
+                    href={`/tips/${tip.id}/`}
+                    class="group rounded-xl border border-base-300 bg-base-100 p-4 hover:border-primary hover:shadow-sm transition"
+                  >
+                    <span class="block font-medium group-hover:text-primary">
+                      {tip.data.title}
+                    </span>
+                    <span class="block text-sm opacity-60 leading-snug mt-1">
+                      {tip.data.description}
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </section>
+          )}
+          <InviteCta variant="compact" trackLabel="agents-workbuddy-eco" />
+        </div>
+      )
+    }
 
     <a
       href="/agents/"

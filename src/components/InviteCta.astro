@@ -1,0 +1,176 @@
+---
+/**
+ * WorkBuddy 官方邀请卡。
+ *
+ * 三条设计约束，改之前先读完：
+ *
+ * 1. **全站唯一维护点**：链接、规则文案、开关全部从 site.ts 的 WORKBUDDY 派生。
+ *    活动规则一变只改配置，不用翻任何页面。
+ * 2. **不走 /go/ 中转**：中转页会渲染「即将离开摩卡工具箱」+ 财产安全警示，
+ *    对「注册领权益」这类 CTA 是直接劝退；且 /go/ 已 noindex、链接本身也 nofollow，
+ *    中转不带来额外权重收益。代价是失去中转页的"告知"作用 ——
+ *    因此**卡片内必须自行明示目标域名**（见下方 targetHint）。
+ * 3. **合规**：rel 带 sponsored；利益关系披露紧邻链接；**不承诺任何具体积分数字**
+ *    （活动规则会变，写死了就是埋雷）。
+ */
+import Icon from './Icon.astro';
+import { WORKBUDDY } from '@/config/site';
+
+interface Props {
+  /** full = 文章页完整卡；compact = 工具页 / 列表页窄条 */
+  variant?: 'full' | 'compact';
+  /** 埋点标签，传文章 slug 或工具 id，用于在百度统计里区分各位置的转化 */
+  trackLabel?: string;
+  /** 额外关闭位（如单篇 frontmatter 的 showInvite: false） */
+  show?: boolean;
+}
+
+const { variant = 'full', trackLabel = 'unknown', show = true } = Astro.props;
+
+// 活动结束或单篇关闭 → 整块不渲染，不留空白占位
+const visible = WORKBUDDY.inviteActive && show;
+
+const url = WORKBUDDY.inviteUrl;
+const full = variant === 'full';
+/** sponsored 是 Google 为付费/联盟链接明确推荐的 rel 值 */
+const REL = 'nofollow noopener noreferrer sponsored';
+/** 放弃中转页后，告知义务由这行字承担 */
+const targetHost = new URL(WORKBUDDY.activityUrl).hostname;
+
+// 教师普惠福利：独立机制（无邀请码、限教师、需实名认证），仅 full 变体展示，避免窄条喧宾夺主
+const teacherActive = WORKBUDDY.teacherBenefit.active;
+const teacherUrl = WORKBUDDY.teacherBenefit.activityUrl;
+const teacherHost = new URL(teacherUrl).hostname;
+---
+
+{
+  visible && (
+    <Fragment>
+      <aside
+        class:list={[
+          'rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/5 to-base-100',
+          full ? 'p-6 sm:p-7' : 'p-4',
+        ]}
+        aria-labelledby="invite-cta-title"
+      >
+        <div class="flex items-center gap-2 text-primary">
+          <Icon name="gift" size={full ? 22 : 18} />
+          <h2
+            id="invite-cta-title"
+            class={full ? 'text-lg font-bold' : 'text-sm font-bold'}
+          >
+            用邀请码注册 WorkBuddy
+          </h2>
+        </div>
+
+        {full && (
+          <p class="mt-2 text-sm opacity-75 leading-relaxed">
+            如果你的日常里有重复的查算、整理、写稿这类活，可以试试 WorkBuddy ——
+            它不只是聊天，能真的动手读文件、跑命令、交结果。
+            走下面的链接注册，双方都能拿到官方的邀请权益。
+          </p>
+          <ul class="mt-4 grid gap-2 text-sm sm:grid-cols-2">
+            <li class="flex gap-2">
+              <Icon name="check" size={16} class="text-primary shrink-0 mt-0.5" />
+              <span>新用户注册可享受官方当前的邀请权益</span>
+            </li>
+            <li class="flex gap-2">
+              <Icon name="check" size={16} class="text-primary shrink-0 mt-0.5" />
+              <span>好友 7 日内累计使用 3 天，邀请方还有额外奖励</span>
+            </li>
+          </ul>
+        )}
+
+        <div class:list={['flex flex-wrap items-center gap-3', full ? 'mt-5' : 'mt-3']}>
+          <a
+            href={url}
+            target="_blank"
+            rel={REL}
+            data-track="invite-cta"
+            data-track-label={trackLabel}
+            class="btn btn-primary btn-sm sm:btn-md"
+          >
+            用邀请码注册
+            <Icon name="external-link" size={16} />
+          </a>
+          <a
+            href={WORKBUDDY.activityUrl}
+            target="_blank"
+            rel={REL}
+            class="text-xs opacity-60 hover:opacity-100 hover:text-primary underline"
+          >
+            查看官方活动规则
+          </a>
+        </div>
+
+        {/* 明示目标域名：替代 /go/ 中转页的告知作用 */}
+        <p class="mt-2 text-xs opacity-50">
+          跳转至 {targetHost}（WorkBuddy 官方站点，与 CodeBuddy 同属腾讯）
+        </p>
+
+        {/* 教师专属福利：与邀请裂变是两套机制，独立成块、通用化文案、以官方为准 */}
+        {
+          teacherActive && full && (
+            <div class="mt-5 rounded-xl border border-base-300 bg-base-200/40 p-4">
+              <div class="flex items-center gap-2 text-secondary">
+                <Icon name="graduation" size={18} />
+                <h3 class="text-sm font-bold">教师专属福利（限在职教师）</h3>
+              </div>
+              <p class="mt-2 text-sm opacity-75 leading-relaxed">
+                各级各类学校在职教师，完成「中国教师」平台实名认证后，可在官方活动页领取教师福利积分。
+                名额有限、活动期内有效，<strong class="opacity-80">以官方活动页为准</strong>。
+              </p>
+              <a
+                href={teacherUrl}
+                target="_blank"
+                rel="nofollow noopener noreferrer"
+                data-track="invite-teacher"
+                data-track-label={trackLabel}
+                class="mt-3 inline-flex items-center gap-1 btn btn-outline btn-sm"
+              >
+                查看教师福利活动
+                <Icon name="external-link" size={14} />
+              </a>
+              <p class="mt-2 text-xs opacity-50">
+                跳转至 {teacherHost}（需微信小程序 + 教师身份认证，非教师无法参与；本站不因该链接获得积分奖励）
+              </p>
+            </div>
+          )
+        }
+
+        {full && (
+          <p class="mt-4 text-xs opacity-55 leading-relaxed border-t border-base-300 pt-3">
+            <strong class="opacity-80">利益关系披露：</strong>
+            本链接为本站的官方邀请链接，通过它注册，本站可能获得官方积分奖励。
+            这不改变本站工具免费、免注册、本地计算的使用方式。
+            积分与奖励规则由 WorkBuddy 官方制定并可能调整，
+            <strong class="opacity-80">一切以官方活动页为准</strong>
+            （本站最后核对：{WORKBUDDY.rulesCheckedAt}）。
+          </p>
+        )}
+      </aside>
+
+      <script is:inline>
+        // 邀请点击埋点：区分各位置的转化效果
+        // 百度统计脚本已在 BaseLayout 注入，window._hmt 可直接用
+        document.addEventListener(
+          'click',
+          function (e) {
+            var a = e.target.closest && e.target.closest('[data-track="invite-cta"]');
+            if (!a) return;
+            try {
+              window._hmt &&
+                window._hmt.push([
+                  '_trackEvent',
+                  'invite',
+                  'click',
+                  a.getAttribute('data-track-label') || '',
+                ]);
+            } catch (_) {}
+          },
+          true
+        );
+      </script>
+    </Fragment>
+  )
+}

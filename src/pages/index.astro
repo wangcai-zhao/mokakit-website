@@ -6,6 +6,8 @@ import AdSlot from '@/components/AdSlot.astro';
 import { SITE } from '@/config/site';
 import { getToolsByCategory, INDEXABLE_TOOLS, getTool } from '@/tools/registry';
 import { itemListLd } from '@/utils/jsonld';
+import TipCard from '@/components/TipCard.astro';
+import { getCollection } from 'astro:content';
 import { SITE_GROUPS } from '@/data/sites';
 import { faviconOf } from '@/utils/favicon';
 
@@ -27,6 +29,21 @@ const cnCalc = INDEXABLE_TOOLS.filter((t) => CN_CALC_IDS.includes(t.id));
 const featured = SITE_GROUPS.slice(0, 4)
   .flatMap((g) => g.links.slice(0, 2).map((link) => ({ link, groupId: g.id })))
   .slice(0, 8);
+
+/**
+ * 首页技巧专栏卡位：只取 featured 的前 3 篇。
+ * 一篇都没标记 featured 时整个区块不渲染 —— 栏目刚起步、还没有拿得出手的文章时，
+ * 宁可不占位，也不要让首页出现空卡片。
+ */
+const featuredTips = (await getCollection('tips'))
+  .filter((t) => !t.data.draft && t.data.featured)
+  .sort((a, b) => {
+    const ao = a.data.order ?? 0;
+    const bo = b.data.order ?? 0;
+    if (ao !== bo) return bo - ao;
+    return b.data.publishDate.valueOf() - a.data.publishDate.valueOf();
+  })
+  .slice(0, 3);
 
 const jsonLd = itemListLd(
   INDEXABLE_TOOLS.map((t) => ({
@@ -154,6 +171,34 @@ const jsonLd = itemListLd(
       {cnCalc.map((t) => <ToolCard tool={t} />)}
     </div>
   </section>
+
+  {
+    featuredTips.length > 0 && (
+      <section class="mx-auto max-w-6xl px-4 mt-10" aria-labelledby="home-tips-title">
+        <div class="flex items-center justify-between mb-1">
+          <h2 id="home-tips-title" class="flex items-center gap-2 text-lg font-bold">
+            <span class="grid place-items-center w-7 h-7 rounded-lg bg-primary/10 text-primary">
+              <Icon name="sparkles" size={16} />
+            </span>
+            WorkBuddy 使用技巧
+          </h2>
+          <a
+            href="/tips/"
+            class="text-sm opacity-60 hover:opacity-100 hover:text-primary transition-all flex items-center gap-0.5"
+          >
+            查看全部
+            <Icon name="chevronRight" size={14} />
+          </a>
+        </div>
+        <p class="text-sm opacity-60 mb-3">
+          真实场景里怎么用 AI 干活：怎么配、卡在哪、怎么绕过去，每篇都附能直接用的工具。
+        </p>
+        <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {featuredTips.map((tip) => <TipCard tip={tip} />)}
+        </div>
+      </section>
+    )
+  }
 
   <div class="mx-auto max-w-6xl px-4 py-8">
     {

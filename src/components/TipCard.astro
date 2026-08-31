@@ -1,0 +1,55 @@
+---
+/**
+ * 技巧文列表卡片。样式与 blog/index.astro 的文章卡保持一致，
+ * 额外渲染难度徽章，方便读者判断上手成本。
+ */
+import type { CollectionEntry } from 'astro:content';
+import Icon from './Icon.astro';
+
+interface Props {
+  tip: CollectionEntry<'tips'>;
+}
+
+const { tip } = Astro.props;
+const { title, description, publishDate, tags, difficulty } = tip.data;
+
+const dateStr = publishDate.toLocaleDateString('zh-CN', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<a
+  href={`/tips/${tip.id}/`}
+  class="group block rounded-2xl border border-base-300 bg-base-100 p-5 transition-all duration-200 hover:border-primary/50 hover:shadow-md"
+>
+  <div class="flex flex-wrap items-center gap-2 text-xs opacity-60">
+    <span class="flex items-center gap-1">
+      <Icon name="calendar" size={14} />
+      <time datetime={publishDate.toISOString().slice(0, 10)}>{dateStr}</time>
+    </span>
+    <span class="badge badge-outline badge-sm">{difficulty}</span>
+    {
+      tags.length > 0 && (
+        <span class="flex items-center gap-1.5">
+          {tags.slice(0, 3).map((t) => (
+            <span class="badge badge-outline badge-sm">{t}</span>
+          ))}
+        </span>
+      )
+    }
+  </div>
+
+  <h3 class="mt-2 text-xl font-bold group-hover:text-primary transition-colors">
+    {title}
+  </h3>
+  <p class="mt-1.5 text-sm opacity-70 leading-relaxed">{description}</p>
+
+  <span
+    class="mt-3 inline-flex items-center gap-0.5 text-sm text-primary opacity-80 group-hover:opacity-100"
+  >
+    阅读全文
+    <Icon name="arrowRight" size={14} />
+  </span>
+</a>

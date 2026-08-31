@@ -46,7 +46,7 @@
 4. ⏳ 百度/Google 站长平台提交 sitemap（sitemap 已上线，GSC 验证文件待加 public/）。
 5. ✅ MCP Server 同步 6 中国计算器（2026-08-14）。
 6. ✅ 部署上线（2026-08-25 晚间：combo-loan-calc + ads.enabled=true 已上线；git 89 文件 push master 入库）。
-7. ⏳ AdSense 真实 ca-pub ID（ads.enabled 已开但 adsenseClient 空，广告未渲染）。
+7. ✅ AdSense 接入完成（2026-08-28）：ca-pub-0218164655974877。全站元标记（BaseLayout 验证）+ adsbygoogle 加载器（Auto Ads）+ public/ads.txt 已上线；**站点验证已通过**。剩后台开「自动广告」+ 等审核期。
 8. ⏳ 本机 Git 凭据仍未真正生效：git 用 GCM，手动填的 Windows 普通凭据条目 GCM 不认→常规 push 静默失败；需改用 `git credential-manager store`（PAT）或 `git credential-manager github login`（OAuth）。
 
 ## 环境与坑（可复用）

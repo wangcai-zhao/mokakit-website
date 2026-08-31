@@ -1,0 +1,142 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Icon from '@/components/Icon.astro';
+import InviteCta from '@/components/InviteCta.astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { TOOL_MAP } from '@/tools/registry';
+import type { ToolMeta } from '@/tools/types';
+import { articleLd } from '@/utils/jsonld';
+
+export async function getStaticPaths() {
+  const tips = await getCollection('tips');
+  return tips
+    .filter((t) => !t.data.draft)
+    .map((tip) => ({
+      params: { slug: tip.id },
+      props: { tip },
+    }));
+}
+
+interface Props {
+  tip: CollectionEntry<'tips'>;
+}
+
+const { tip } = Astro.props;
+const { Content } = await render(tip);
+const {
+  title,
+  description,
+  publishDate,
+  updatedDate,
+  tags,
+  difficulty,
+  relatedTools,
+  author,
+  showInvite,
+} = tip.data;
+
+const dateStr = publishDate.toLocaleDateString('zh-CN', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+/**
+ * relatedTools → 真实存在的工具 meta。
+ * 用查表而不是 getTool()（后者找不到会抛错），
+ * 就算 frontmatter 里写错一个 id 也只会少一张卡，不会让 build 崩掉。
+ */
+const related = relatedTools
+  .map((id) => TOOL_MAP.get(id))
+  .filter((t): t is ToolMeta => Boolean(t));
+---
+
+<BaseLayout
+  title={`${title} - WorkBuddy 使用技巧`}
+  description={description}
+  path={`/tips/${tip.id}/`}
+  keywords={tags}
+  ogType="article"
+  jsonLd={articleLd({
+    title,
+    description,
+    url: `/tips/${tip.id}/`,
+    datePublished: publishDate,
+    dateModified: updatedDate ?? publishDate,
+    author,
+    tags,
+  })}
+>
+  <article class="mx-auto max-w-3xl px-4 py-12">
+    <a
+      href="/tips/"
+      class="inline-flex items-center gap-1 text-sm opacity-60 hover:opacity-100 hover:text-primary transition-all"
+    >
+      <Icon name="chevronRight" size={14} class="rotate-180" /> 返回技巧专栏
+    </a>
+
+    <h1 class="mt-4 text-3xl sm:text-4xl font-bold tracking-tight leading-tight">
+      {title}
+    </h1>
+
+    <div class="mt-4 flex flex-wrap items-center gap-2 text-sm opacity-60">
+      <span class="flex items-center gap-1">
+        <Icon name="calendar" size={14} />
+        <time datetime={publishDate.toISOString().slice(0, 10)}>{dateStr}</time>
+      </span>
+      <span class="badge badge-outline badge-sm">{difficulty}</span>
+      {
+        tags.length > 0 && (
+          <span class="flex items-center gap-1.5">
+            {tags.map((t) => (
+              <span class="badge badge-outline badge-sm">{t}</span>
+            ))}
+          </span>
+        )
+      }
+    </div>
+
+    <div class="prose-cn mt-8">
+      <Content />
+    </div>
+
+    {
+      related.length > 0 && (
+        <section class="mt-12">
+          <h2 class="text-lg font-bold flex items-center gap-2">
+            <Icon name="grid" size={18} /> 这篇用到的在线工具
+          </h2>
+          <div class="mt-4 grid gap-3 sm:grid-cols-2">
+            {related.map((tool) => (
+              <a
+                href={`/tools/${tool.id}/`}
+                class="group flex items-start gap-3 rounded-xl border border-base-300 bg-base-100 p-4 hover:border-primary hover:shadow-sm transition"
+              >
+                <span class="grid place-items-center w-9 h-9 shrink-0 rounded-lg bg-primary/10 text-primary">
+                  <Icon name={tool.icon} size={18} />
+                </span>
+                <span class="min-w-0 flex-1">
+                  <span class="flex items-center justify-between gap-2">
+                    <span class="font-medium">{tool.name}</span>
+                    <Icon
+                      name="arrowRight"
+                      size={16}
+                      class="opacity-0 group-hover:opacity-60 transition shrink-0"
+                    />
+                  </span>
+                  <span class="block text-sm opacity-60 leading-snug mt-0.5">
+                    {tool.tagline}
+                  </span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    <div class="mt-10">
+      <InviteCta variant="full" trackLabel={tip.id} show={showInvite} />
+    </div>
+  </article>
+</BaseLayout>

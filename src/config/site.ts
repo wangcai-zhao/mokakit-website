@@ -63,7 +63,7 @@ export const SITE = {
     /** 全局广告开关。变现落地：已开启，但需先填入 adsenseClient 真实发布商 ID 广告才会真正请求 */
     enabled: true,
     /** AdSense 发布商 ID，形如 ca-pub-0000000000000000。留空时即使 enabled=true 也不会渲染广告 */
-    adsenseClient: '',
+    adsenseClient: 'ca-pub-0218164655974877',
   },
 
   /** 匿名访问量统计：仅聚合计数，不写追踪 Cookie、不记录 IP/设备指纹 */
@@ -82,6 +82,55 @@ export const SITE = {
   github: {
     owner: 'wangcai-zhao',
     repo: 'mokakit-website',
+  },
+
+  /**
+   * WorkBuddy 官方邀请（/tips/ 技巧专栏 + WorkBuddy 生态工具页内嵌）。
+   * 全站唯一维护点：只改这里的 inviteCode / inviteActive，InviteCta 组件自动跟着变。
+   */
+  workbuddy: {
+    /** 官方邀请活动页，规则以该页为准。域名已迁至 workbuddy.cn（原 codebuddy.cn；WorkBuddy 与 CodeBuddy 同属腾讯） */
+    activityUrl: 'https://www.workbuddy.cn/events/invite',
+    /** 专属邀请码 */
+    inviteCode: '7a17nrwwpe',
+    /** 规则文案最后核对日期。活动规则会变（如活动期延长、域名迁移），每月复核一次 */
+    rulesCheckedAt: '2026-09-01',
+    /** 活动总开关。活动结束或规则大改时置 false，全站邀请位一键下线，不用删代码 */
+    inviteActive: true,
+
+    /**
+     * 教师普惠福利（2026 教师节活动，限在职教师）。
+     * 与邀请裂变是两套机制：本活动无邀请码、MokaKit 不因此得积分，纯用户福利；
+     * 且需「中国教师」平台实名认证，受众仅限教师。故独立成块、文案通用化、标以官方为准。
+     */
+    teacherBenefit: {
+      /** 官方活动页，规则以该页为准（域名 workbuddy.cn，同为腾讯官方） */
+      activityUrl: 'https://www.workbuddy.cn/events/teacher-benefit/',
+      /** 活动总开关。活动结束（2026-09-30）或规则大改时置 false，教师位一键下线 */
+      active: true,
+      /** 规则文案最后核对日期。教师节活动期短，每月复核一次 */
+      rulesCheckedAt: '2026-09-01',
+    },
+  },
+} as const;
+
+/**
+ * 派生对象：邀请链接与开关统一从这里取，组件不要直接读 SITE.workbuddy。
+ *
+ * ⚠️ inviteActive 必须显式断言成 boolean —— SITE 是 as const，
+ * `inviteActive: true` 会被推导成字面量类型 `true`，
+ * 组件里写 if (!SITE.workbuddy.inviteActive) 会被 TS 判定为「条件恒为 false」而告警。
+ */
+export const WORKBUDDY = {
+  ...SITE.workbuddy,
+  inviteActive: SITE.workbuddy.inviteActive as boolean,
+  teacherBenefit: {
+    ...SITE.workbuddy.teacherBenefit,
+    /** 同样需断言 boolean，避免 as const 把 true 推成字面量导致条件恒为真告警 */
+    active: SITE.workbuddy.teacherBenefit.active as boolean,
+  },
+  get inviteUrl() {
+    return `${SITE.workbuddy.activityUrl}?inviteCode=${SITE.workbuddy.inviteCode}`;
   },
 } as const;
 

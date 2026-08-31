@@ -89,6 +89,7 @@ const pageJsonLd = jsonLd
     <link rel="canonical" href={canonical} />
 
     <meta name="baidu-site-verification" content="codeva-wqP5dYwLKY" />
+    <meta name="google-adsense-account" content="ca-pub-0218164655974877" />
 
     {noindex && <meta name="robots" content="noindex, follow" />}
     {!noindex && <meta name="robots" content="index, follow, max-image-preview:large" />}
@@ -152,6 +153,17 @@ const pageJsonLd = jsonLd
         <script
           is:inline
           set:html={`var _hmt = _hmt || [];\n(function() {\n  var hm = document.createElement("script");\n  hm.src = "https://hm.baidu.com/hm.js?${SITE.analytics.baiduId}";\n  var s = document.getElementsByTagName("script")[0];\n  s.parentNode.insertBefore(hm, s);\n})();`}
+        />
+      )
+    }
+
+    {
+      SITE.ads.enabled && SITE.ads.adsenseClient && (
+        <script
+          is:inline
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${SITE.ads.adsenseClient}`}
+          crossorigin="anonymous"
         />
       )
     }

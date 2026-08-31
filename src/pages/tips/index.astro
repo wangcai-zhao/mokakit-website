@@ -1,0 +1,58 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Icon from '@/components/Icon.astro';
+import TipCard from '@/components/TipCard.astro';
+import InviteCta from '@/components/InviteCta.astro';
+import { getCollection } from 'astro:content';
+import { itemListLd } from '@/utils/jsonld';
+
+const tips = (await getCollection('tips'))
+  .filter((t) => !t.data.draft)
+  .sort((a, b) => {
+    // 有 order 先按 order 降序（系列内倒序展示），否则按发布日期倒序
+    const ao = a.data.order ?? 0;
+    const bo = b.data.order ?? 0;
+    if (ao !== bo) return bo - ao;
+    return b.data.publishDate.valueOf() - a.data.publishDate.valueOf();
+  });
+---
+
+<BaseLayout
+  title="WorkBuddy 使用技巧"
+  description="用真实的踩坑经历讲 WorkBuddy 怎么用：MCP 配置、SKILL.md 编写、定时任务、让 AI 算个税和房贷。每篇都附上可以直接抄的操作流与在线小工具。"
+  path="/tips/"
+  keywords={['WorkBuddy 使用技巧', 'WorkBuddy 教程', 'MCP 配置', 'SKILL.md', 'AI 办公']}
+  jsonLd={itemListLd(
+    tips.map((t) => ({
+      name: t.data.title,
+      url: `/tips/${t.id}/`,
+      description: t.data.description,
+    })),
+  )}
+>
+  <div class="mx-auto max-w-3xl px-4 py-12">
+    <h1 class="text-3xl font-bold tracking-tight flex items-center gap-2">
+      <Icon name="sparkles" size={28} /> WorkBuddy 使用技巧
+    </h1>
+    <p class="mt-3 text-base opacity-70 leading-relaxed">
+      不讲概念，只讲我实际跑通的用法：怎么配、卡在哪、怎么绕过去。
+      每篇都会顺手给出能直接用的在线小工具。
+    </p>
+
+    {/* 列表页用窄条，完整卡留给文章页，避免喧宾夺主 */}
+    <div class="mt-6">
+      <InviteCta variant="compact" trackLabel="tips-index" />
+    </div>
+
+    <div class="mt-8 flex flex-col gap-4">
+      {
+        tips.length === 0 && (
+          <div class="text-center py-16 opacity-60">
+            <p>技巧文章正在陆续上线，敬请期待。</p>
+          </div>
+        )
+      }
+      {tips.map((tip) => <TipCard tip={tip} />)}
+    </div>
+  </div>
+</BaseLayout>

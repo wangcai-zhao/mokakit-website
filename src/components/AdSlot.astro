@@ -39,11 +39,14 @@ const show = SITE.ads.enabled && SITE.ads.adsenseClient;
     show ? (
       <ins
         class="adsbygoogle block w-full"
-        data-ad-client={SITE.ads.adsenseClient}
-        data-ad-slot={slot}
         data-ad-format="auto"
         data-full-width-responsive="true"
       />
     ) : null
+  }
+  {
+    show && (
+      <script is:inline>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    )
   }
 </div>
