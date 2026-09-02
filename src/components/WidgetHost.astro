@@ -141,6 +141,26 @@ import GpaCalc from '@/tools/gpa-calculator/Tool.tsx';
 import BmrCalc from '@/tools/bmr-calculator/Tool.tsx';
 import MenstrualCycleCalc from '@/tools/menstrual-cycle/Tool.tsx';
 import ShoeSizeCalc from '@/tools/shoe-size/Tool.tsx';
+import AnnualTaxSettlement from '@/tools/annual-tax-settlement/Tool.tsx';
+import DueDate from '@/tools/due-date/Tool.tsx';
+import BodyFat from '@/tools/body-fat/Tool.tsx';
+import ProfitMargin from '@/tools/profit-margin/Tool.tsx';
+import VarianceStd from '@/tools/variance-std/Tool.tsx';
+import StampDuty from '@/tools/stamp-duty/Tool.tsx';
+import MedicalInsurance from '@/tools/medical-insurance/Tool.tsx';
+import MaternityBenefit from '@/tools/maternity-benefit/Tool.tsx';
+import CardInstallment from '@/tools/card-installment/Tool.tsx';
+import Factorial from '@/tools/factorial/Tool.tsx';
+import CarLoan from '@/tools/car-loan/Tool.tsx';
+import AnnualizedReturn from '@/tools/annualized-return/Tool.tsx';
+import RentalYield from '@/tools/rental-yield/Tool.tsx';
+import IdealWeight from '@/tools/ideal-weight/Tool.tsx';
+import ChildHeight from '@/tools/child-height/Tool.tsx';
+import ClothingSize from '@/tools/clothing-size/Tool.tsx';
+import WaterIntake from '@/tools/water-intake/Tool.tsx';
+import CalorieBurn from '@/tools/calorie-burn/Tool.tsx';
+import Trigonometry from '@/tools/trigonometry/Tool.tsx';
+import WorkdaysCount from '@/tools/workdays-count/Tool.tsx';
 
 interface Props {
   tool: ToolMeta;
@@ -275,6 +295,26 @@ const isGpa = tool.id === 'gpa-calculator';
 const isBmr = tool.id === 'bmr-calculator';
 const isMenstrual = tool.id === 'menstrual-cycle';
 const isShoe = tool.id === 'shoe-size';
+const isAnnualTax = tool.id === 'annual-tax-settlement';
+const isDueDate = tool.id === 'due-date';
+const isBodyFat = tool.id === 'body-fat';
+const isProfitMargin = tool.id === 'profit-margin';
+const isVarianceStd = tool.id === 'variance-std';
+const isStampDuty = tool.id === 'stamp-duty';
+const isMedical = tool.id === 'medical-insurance';
+const isMaternity = tool.id === 'maternity-benefit';
+const isCardInstall = tool.id === 'card-installment';
+const isFactorial = tool.id === 'factorial';
+const isCarLoan = tool.id === 'car-loan';
+const isAnnualized = tool.id === 'annualized-return';
+const isRental = tool.id === 'rental-yield';
+const isIdealWeight = tool.id === 'ideal-weight';
+const isChildHeight = tool.id === 'child-height';
+const isClothing = tool.id === 'clothing-size';
+const isWater = tool.id === 'water-intake';
+const isCalorie = tool.id === 'calorie-burn';
+const isTrig = tool.id === 'trigonometry';
+const isWorkdays = tool.id === 'workdays-count';
 const known =
   isPG || isUC || isTS || isJF || isCC || isBC || isHC ||
   isUE || isB64 || isUUID || isTC || isColor ||
@@ -293,7 +333,11 @@ const known =
   isHmsAdd || isHmsToUnits || isHoursFromNow || isMinAge || isSec2Time || isTimeDur ||
   isUtcCst || isUtcEdt || isUtcEst || isUtcPst || isVideoSpeed || isWeeklyHours ||
   isWeeksPregnant ||
-  isFraction || isAverage || isRatio || isCompound || isGcdLcm || isRoman || isRounding || isSci || isPermComb || isDiscount || isProvident || isInflate || isLog || isPowRoot || isPrime || isHourly || isGpa || isBmr || isMenstrual || isShoe || isComboLoan;
+  isFraction || isAverage || isRatio || isCompound || isGcdLcm || isRoman || isRounding || isSci || isPermComb || isDiscount || isProvident || isInflate || isLog || isPowRoot || isPrime || isHourly || isGpa || isBmr || isMenstrual || isShoe || isComboLoan ||
+  isAnnualTax || isDueDate || isBodyFat || isProfitMargin || isVarianceStd ||
+  isStampDuty || isMedical || isMaternity || isCardInstall || isFactorial ||
+  isCarLoan || isAnnualized || isRental || isIdealWeight || isChildHeight ||
+  isClothing || isWater || isCalorie || isTrig || isWorkdays;
 ---
 
 <!-- 密码生成器 -->
@@ -920,6 +964,106 @@ const known =
 {isShoe && mode === 'load' && <ShoeSizeCalc client:load {...widgetProps} />}
 {isShoe && mode === 'idle' && <ShoeSizeCalc client:idle {...widgetProps} />}
 {isShoe && mode === 'visible' && <ShoeSizeCalc client:visible {...widgetProps} />}
+
+<!-- 个税年度汇算 -->
+{isAnnualTax && mode === 'load' && <AnnualTaxSettlement client:load {...widgetProps} />}
+{isAnnualTax && mode === 'idle' && <AnnualTaxSettlement client:idle {...widgetProps} />}
+{isAnnualTax && mode === 'visible' && <AnnualTaxSettlement client:visible {...widgetProps} />}
+
+<!-- 预产期 -->
+{isDueDate && mode === 'load' && <DueDate client:load {...widgetProps} />}
+{isDueDate && mode === 'idle' && <DueDate client:idle {...widgetProps} />}
+{isDueDate && mode === 'visible' && <DueDate client:visible {...widgetProps} />}
+
+<!-- 体脂率 -->
+{isBodyFat && mode === 'load' && <BodyFat client:load {...widgetProps} />}
+{isBodyFat && mode === 'idle' && <BodyFat client:idle {...widgetProps} />}
+{isBodyFat && mode === 'visible' && <BodyFat client:visible {...widgetProps} />}
+
+<!-- 利润率 -->
+{isProfitMargin && mode === 'load' && <ProfitMargin client:load {...widgetProps} />}
+{isProfitMargin && mode === 'idle' && <ProfitMargin client:idle {...widgetProps} />}
+{isProfitMargin && mode === 'visible' && <ProfitMargin client:visible {...widgetProps} />}
+
+<!-- 方差标准差 -->
+{isVarianceStd && mode === 'load' && <VarianceStd client:load {...widgetProps} />}
+{isVarianceStd && mode === 'idle' && <VarianceStd client:idle {...widgetProps} />}
+{isVarianceStd && mode === 'visible' && <VarianceStd client:visible {...widgetProps} />}
+
+<!-- 印花税 -->
+{isStampDuty && mode === 'load' && <StampDuty client:load {...widgetProps} />}
+{isStampDuty && mode === 'idle' && <StampDuty client:idle {...widgetProps} />}
+{isStampDuty && mode === 'visible' && <StampDuty client:visible {...widgetProps} />}
+
+<!-- 医保报销 -->
+{isMedical && mode === 'load' && <MedicalInsurance client:load {...widgetProps} />}
+{isMedical && mode === 'idle' && <MedicalInsurance client:idle {...widgetProps} />}
+{isMedical && mode === 'visible' && <MedicalInsurance client:visible {...widgetProps} />}
+
+<!-- 生育津贴 -->
+{isMaternity && mode === 'load' && <MaternityBenefit client:load {...widgetProps} />}
+{isMaternity && mode === 'idle' && <MaternityBenefit client:idle {...widgetProps} />}
+{isMaternity && mode === 'visible' && <MaternityBenefit client:visible {...widgetProps} />}
+
+<!-- 信用卡分期真实利率 -->
+{isCardInstall && mode === 'load' && <CardInstallment client:load {...widgetProps} />}
+{isCardInstall && mode === 'idle' && <CardInstallment client:idle {...widgetProps} />}
+{isCardInstall && mode === 'visible' && <CardInstallment client:visible {...widgetProps} />}
+
+<!-- 阶乘 -->
+{isFactorial && mode === 'load' && <Factorial client:load {...widgetProps} />}
+{isFactorial && mode === 'idle' && <Factorial client:idle {...widgetProps} />}
+{isFactorial && mode === 'visible' && <Factorial client:visible {...widgetProps} />}
+
+<!-- 车贷月供 -->
+{isCarLoan && mode === 'load' && <CarLoan client:load {...widgetProps} />}
+{isCarLoan && mode === 'idle' && <CarLoan client:idle {...widgetProps} />}
+{isCarLoan && mode === 'visible' && <CarLoan client:visible {...widgetProps} />}
+
+<!-- 年化收益率 -->
+{isAnnualized && mode === 'load' && <AnnualizedReturn client:load {...widgetProps} />}
+{isAnnualized && mode === 'idle' && <AnnualizedReturn client:idle {...widgetProps} />}
+{isAnnualized && mode === 'visible' && <AnnualizedReturn client:visible {...widgetProps} />}
+
+<!-- 租售比/房产回报 -->
+{isRental && mode === 'load' && <RentalYield client:load {...widgetProps} />}
+{isRental && mode === 'idle' && <RentalYield client:idle {...widgetProps} />}
+{isRental && mode === 'visible' && <RentalYield client:visible {...widgetProps} />}
+
+<!-- 理想体重 -->
+{isIdealWeight && mode === 'load' && <IdealWeight client:load {...widgetProps} />}
+{isIdealWeight && mode === 'idle' && <IdealWeight client:idle {...widgetProps} />}
+{isIdealWeight && mode === 'visible' && <IdealWeight client:visible {...widgetProps} />}
+
+<!-- 儿童身高预测 -->
+{isChildHeight && mode === 'load' && <ChildHeight client:load {...widgetProps} />}
+{isChildHeight && mode === 'idle' && <ChildHeight client:idle {...widgetProps} />}
+{isChildHeight && mode === 'visible' && <ChildHeight client:visible {...widgetProps} />}
+
+<!-- 衣服尺码换算 -->
+{isClothing && mode === 'load' && <ClothingSize client:load {...widgetProps} />}
+{isClothing && mode === 'idle' && <ClothingSize client:idle {...widgetProps} />}
+{isClothing && mode === 'visible' && <ClothingSize client:visible {...widgetProps} />}
+
+<!-- 每日饮水量 -->
+{isWater && mode === 'load' && <WaterIntake client:load {...widgetProps} />}
+{isWater && mode === 'idle' && <WaterIntake client:idle {...widgetProps} />}
+{isWater && mode === 'visible' && <WaterIntake client:visible {...widgetProps} />}
+
+<!-- 运动消耗卡路里 -->
+{isCalorie && mode === 'load' && <CalorieBurn client:load {...widgetProps} />}
+{isCalorie && mode === 'idle' && <CalorieBurn client:idle {...widgetProps} />}
+{isCalorie && mode === 'visible' && <CalorieBurn client:visible {...widgetProps} />}
+
+<!-- 三角函数 -->
+{isTrig && mode === 'load' && <Trigonometry client:load {...widgetProps} />}
+{isTrig && mode === 'idle' && <Trigonometry client:idle {...widgetProps} />}
+{isTrig && mode === 'visible' && <Trigonometry client:visible {...widgetProps} />}
+
+<!-- 工作天数 -->
+{isWorkdays && mode === 'load' && <WorkdaysCount client:load {...widgetProps} />}
+{isWorkdays && mode === 'idle' && <WorkdaysCount client:idle {...widgetProps} />}
+{isWorkdays && mode === 'visible' && <WorkdaysCount client:visible {...widgetProps} />}
 
 <!-- 未接入水合岛屿的工具 -->
 {
