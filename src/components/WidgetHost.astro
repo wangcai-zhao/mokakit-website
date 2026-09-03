@@ -162,6 +162,26 @@ import CalorieBurn from '@/tools/calorie-burn/Tool.tsx';
 import Trigonometry from '@/tools/trigonometry/Tool.tsx';
 import WorkdaysCount from '@/tools/workdays-count/Tool.tsx';
 import Weather from '@/tools/weather/Tool.tsx';
+import FuelEfficiencyConvert from '@/tools/fuel-efficiency/Tool.tsx';
+import ResistanceConvert from '@/tools/resistance/Tool.tsx';
+import CapacitanceConvert from '@/tools/capacitance/Tool.tsx';
+import InductanceConvert from '@/tools/inductance/Tool.tsx';
+import VoltageConvert from '@/tools/voltage/Tool.tsx';
+import CurrentConvert from '@/tools/current/Tool.tsx';
+import DataBinaryConvert from '@/tools/data-binary/Tool.tsx';
+import FlowRateConvert from '@/tools/flow-rate/Tool.tsx';
+import IlluminanceConvert from '@/tools/illuminance/Tool.tsx';
+import TypographyConvert from '@/tools/typography/Tool.tsx';
+import DensityConvert from '@/tools/density/Tool.tsx';
+import ViscosityConvert from '@/tools/viscosity/Tool.tsx';
+import AngularVelocityConvert from '@/tools/angular-velocity/Tool.tsx';
+import AccelerationConvert from '@/tools/acceleration/Tool.tsx';
+import MagneticConvert from '@/tools/magnetic/Tool.tsx';
+import RingSizeConvert from '@/tools/ring-size/Tool.tsx';
+import PaperSizeConvert from '@/tools/paper-size/Tool.tsx';
+import HatSizeConvert from '@/tools/hat-size/Tool.tsx';
+import BraSizeConvert from '@/tools/bra-size/Tool.tsx';
+import BakingConvert from '@/tools/baking/Tool.tsx';
 
 interface Props {
   tool: ToolMeta;
@@ -317,6 +337,26 @@ const isCalorie = tool.id === 'calorie-burn';
 const isTrig = tool.id === 'trigonometry';
 const isWorkdays = tool.id === 'workdays-count';
 const isWeather = tool.id === 'weather';
+const isFuelEff = tool.id === 'fuel-efficiency';
+const isResist = tool.id === 'resistance';
+const isCap = tool.id === 'capacitance';
+const isInd = tool.id === 'inductance';
+const isVolt = tool.id === 'voltage';
+const isCurr = tool.id === 'current';
+const isDataBin = tool.id === 'data-binary';
+const isFlow = tool.id === 'flow-rate';
+const isIllum = tool.id === 'illuminance';
+const isTypo = tool.id === 'typography';
+const isDens = tool.id === 'density';
+const isVisc = tool.id === 'viscosity';
+const isAngVel = tool.id === 'angular-velocity';
+const isAccel = tool.id === 'acceleration';
+const isMag = tool.id === 'magnetic';
+const isRing = tool.id === 'ring-size';
+const isPaper = tool.id === 'paper-size';
+const isHat = tool.id === 'hat-size';
+const isBra = tool.id === 'bra-size';
+const isBake = tool.id === 'baking';
 const known =
   isPG || isUC || isTS || isJF || isCC || isBC || isHC ||
   isUE || isB64 || isUUID || isTC || isColor ||
@@ -339,7 +379,10 @@ const known =
   isAnnualTax || isDueDate || isBodyFat || isProfitMargin || isVarianceStd ||
   isStampDuty || isMedical || isMaternity || isCardInstall || isFactorial ||
   isCarLoan || isAnnualized || isRental || isIdealWeight || isChildHeight ||
-  isClothing || isWater || isCalorie || isTrig || isWorkdays || isWeather;
+  isClothing || isWater || isCalorie || isTrig || isWorkdays || isWeather ||
+  isFuelEff || isResist || isCap || isInd || isVolt || isCurr || isDataBin ||
+  isFlow || isIllum || isTypo || isDens || isVisc || isAngVel || isAccel || isMag ||
+  isRing || isPaper || isHat || isBra || isBake;
 ---
 
 <!-- 密码生成器 -->
@@ -1069,6 +1112,106 @@ const known =
 {isWeather && mode === 'load' && <Weather client:load {...widgetProps} />}
 {isWeather && mode === 'idle' && <Weather client:idle {...widgetProps} />}
 {isWeather && mode === 'visible' && <Weather client:visible {...widgetProps} />}
+
+<!-- 燃油效率换算 -->
+{isFuelEff && mode === 'load' && <FuelEfficiencyConvert client:load {...widgetProps} />}
+{isFuelEff && mode === 'idle' && <FuelEfficiencyConvert client:idle {...widgetProps} />}
+{isFuelEff && mode === 'visible' && <FuelEfficiencyConvert client:visible {...widgetProps} />}
+
+<!-- 电阻单位换算 -->
+{isResist && mode === 'load' && <ResistanceConvert client:load {...widgetProps} />}
+{isResist && mode === 'idle' && <ResistanceConvert client:idle {...widgetProps} />}
+{isResist && mode === 'visible' && <ResistanceConvert client:visible {...widgetProps} />}
+
+<!-- 电容单位换算 -->
+{isCap && mode === 'load' && <CapacitanceConvert client:load {...widgetProps} />}
+{isCap && mode === 'idle' && <CapacitanceConvert client:idle {...widgetProps} />}
+{isCap && mode === 'visible' && <CapacitanceConvert client:visible {...widgetProps} />}
+
+<!-- 电感单位换算 -->
+{isInd && mode === 'load' && <InductanceConvert client:load {...widgetProps} />}
+{isInd && mode === 'idle' && <InductanceConvert client:idle {...widgetProps} />}
+{isInd && mode === 'visible' && <InductanceConvert client:visible {...widgetProps} />}
+
+<!-- 电压单位换算 -->
+{isVolt && mode === 'load' && <VoltageConvert client:load {...widgetProps} />}
+{isVolt && mode === 'idle' && <VoltageConvert client:idle {...widgetProps} />}
+{isVolt && mode === 'visible' && <VoltageConvert client:visible {...widgetProps} />}
+
+<!-- 电流单位换算 -->
+{isCurr && mode === 'load' && <CurrentConvert client:load {...widgetProps} />}
+{isCurr && mode === 'idle' && <CurrentConvert client:idle {...widgetProps} />}
+{isCurr && mode === 'visible' && <CurrentConvert client:visible {...widgetProps} />}
+
+<!-- 存储单位换算 -->
+{isDataBin && mode === 'load' && <DataBinaryConvert client:load {...widgetProps} />}
+{isDataBin && mode === 'idle' && <DataBinaryConvert client:idle {...widgetProps} />}
+{isDataBin && mode === 'visible' && <DataBinaryConvert client:visible {...widgetProps} />}
+
+<!-- 体积流量换算 -->
+{isFlow && mode === 'load' && <FlowRateConvert client:load {...widgetProps} />}
+{isFlow && mode === 'idle' && <FlowRateConvert client:idle {...widgetProps} />}
+{isFlow && mode === 'visible' && <FlowRateConvert client:visible {...widgetProps} />}
+
+<!-- 照度换算 -->
+{isIllum && mode === 'load' && <IlluminanceConvert client:load {...widgetProps} />}
+{isIllum && mode === 'idle' && <IlluminanceConvert client:idle {...widgetProps} />}
+{isIllum && mode === 'visible' && <IlluminanceConvert client:visible {...widgetProps} />}
+
+<!-- 排版单位换算 -->
+{isTypo && mode === 'load' && <TypographyConvert client:load {...widgetProps} />}
+{isTypo && mode === 'idle' && <TypographyConvert client:idle {...widgetProps} />}
+{isTypo && mode === 'visible' && <TypographyConvert client:visible {...widgetProps} />}
+
+<!-- 密度换算 -->
+{isDens && mode === 'load' && <DensityConvert client:load {...widgetProps} />}
+{isDens && mode === 'idle' && <DensityConvert client:idle {...widgetProps} />}
+{isDens && mode === 'visible' && <DensityConvert client:visible {...widgetProps} />}
+
+<!-- 粘度换算 -->
+{isVisc && mode === 'load' && <ViscosityConvert client:load {...widgetProps} />}
+{isVisc && mode === 'idle' && <ViscosityConvert client:idle {...widgetProps} />}
+{isVisc && mode === 'visible' && <ViscosityConvert client:visible {...widgetProps} />}
+
+<!-- 角速度换算 -->
+{isAngVel && mode === 'load' && <AngularVelocityConvert client:load {...widgetProps} />}
+{isAngVel && mode === 'idle' && <AngularVelocityConvert client:idle {...widgetProps} />}
+{isAngVel && mode === 'visible' && <AngularVelocityConvert client:visible {...widgetProps} />}
+
+<!-- 加速度换算 -->
+{isAccel && mode === 'load' && <AccelerationConvert client:load {...widgetProps} />}
+{isAccel && mode === 'idle' && <AccelerationConvert client:idle {...widgetProps} />}
+{isAccel && mode === 'visible' && <AccelerationConvert client:visible {...widgetProps} />}
+
+<!-- 磁感应强度换算 -->
+{isMag && mode === 'load' && <MagneticConvert client:load {...widgetProps} />}
+{isMag && mode === 'idle' && <MagneticConvert client:idle {...widgetProps} />}
+{isMag && mode === 'visible' && <MagneticConvert client:visible {...widgetProps} />}
+
+<!-- 戒指圈号换算 -->
+{isRing && mode === 'load' && <RingSizeConvert client:load {...widgetProps} />}
+{isRing && mode === 'idle' && <RingSizeConvert client:idle {...widgetProps} />}
+{isRing && mode === 'visible' && <RingSizeConvert client:visible {...widgetProps} />}
+
+<!-- 纸张尺寸换算 -->
+{isPaper && mode === 'load' && <PaperSizeConvert client:load {...widgetProps} />}
+{isPaper && mode === 'idle' && <PaperSizeConvert client:idle {...widgetProps} />}
+{isPaper && mode === 'visible' && <PaperSizeConvert client:visible {...widgetProps} />}
+
+<!-- 帽子尺码换算 -->
+{isHat && mode === 'load' && <HatSizeConvert client:load {...widgetProps} />}
+{isHat && mode === 'idle' && <HatSizeConvert client:idle {...widgetProps} />}
+{isHat && mode === 'visible' && <HatSizeConvert client:visible {...widgetProps} />}
+
+<!-- 胸罩尺码换算 -->
+{isBra && mode === 'load' && <BraSizeConvert client:load {...widgetProps} />}
+{isBra && mode === 'idle' && <BraSizeConvert client:idle {...widgetProps} />}
+{isBra && mode === 'visible' && <BraSizeConvert client:visible {...widgetProps} />}
+
+<!-- 烘焙用量换算 -->
+{isBake && mode === 'load' && <BakingConvert client:load {...widgetProps} />}
+{isBake && mode === 'idle' && <BakingConvert client:idle {...widgetProps} />}
+{isBake && mode === 'visible' && <BakingConvert client:visible {...widgetProps} />}
 
 <!-- 未接入水合岛屿的工具 -->
 {

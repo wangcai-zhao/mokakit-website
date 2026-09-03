@@ -24,8 +24,9 @@
 - 对外邮箱 bo.zhao2026@outlook.com（/developers/ 与 /submit/ 均用此；勿用 wangcai@mokakit.com）。
 - 扩展：server.mjs COMPUTE_TOOLS 加项，新逻辑抽 src/lib/*.ts；6 中国计算器纯函数在 src/lib/china-calc-extra.ts。
 
-## 当前规模（2026-09-02）
-- 143 工具 / 10 分类（calc 74 / dev 23 / text 8 / security 6 / ai 6 / convert 6 / life 8 / fun 5 / clock 4 / barcode 3）；dist 工具页 145（含单位换算子页）。2026-09-01 起新增「自由发挥高频计算器」一波 20 个（个税汇算/预产期/体脂率/利润率/方差标准差/印花税/医保报销/生育津贴/信用卡分期/阶乘/车贷/年化收益/租售比/理想体重/儿童身高/衣服尺码/饮水/卡路里/三角函数/工作天数），均 meta+Tool.tsx+六段式 content.mdx+WidgetHost 接线，4 批构建全绿、零死工具。详情见 2026-09-02.md。
+## 当前规模（2026-09-03）
+- 144 工具 / 10 分类（calc 74 / dev 23 / text 8 / security 6 / ai 6 / convert 6 / life 9 / fun 5 / clock 4 / barcode 3）；dist 工具页 146（含单位换算子页）。2026-09-01 起新增「自由发挥高频计算器」一波 20 个（个税汇算/预产期/体脂率/利润率/方差标准差/印花税/医保报销/生育津贴/信用卡分期/阶乘/车贷/年化收益/租售比/理想体重/儿童身高/衣服尺码/饮水/卡路里/三角函数/工作天数）+ 天气查询(Open-Meteo 免费无key源, life 分类)，均 meta+Tool.tsx+六段式 content.mdx+WidgetHost 接线，构建全绿、零死工具。详情见 2026-09-02.md / 2026-09-03.md。
+- ⚠️ **天气工具数据源决策**：用户原想接 Azure Maps（需付费 subscription-key + 无前端CORS），纯静态站不可行。改采 Open-Meteo（免费/免注册/免key/CORS友好），纯前端 fetch。天气查询 = src/tools/weather/{meta.ts,Tool.tsx,content.mdx}。
 - content.mdx 覆盖 100%。好站导航 31 组 / 494 条。进度看板 npm run workbench → public/workbench.html（要 cp 到 dist）。单位换算 16 类 161 单位 213 页 / 649 FAQ。
 - ⚠️ 曾 19 个"死工具"（meta+Tool 但 WidgetHost 未接线）→ 2026-08-19 全补（commit 693524d）。
 
@@ -37,7 +38,8 @@
 - ⚠️ 本机 git = WorkBuddy 自带 PortableGit，credential.helper=helper-selector + selected=manager（即 **Git Credential Manager / GCM**）。GCM **不读** Windows 凭据管理器里手动建的 `git:https://github.com` 普通凭据条目 → 手动填 PAT 无效、常规 push 静默失败（exit 1 无输出）。
 - 常规 push 可用方式：① 用户临时提供 PAT 内联（`git -c credential.helper= push "https://<user>:<token>@github.com/wangcai-zhao/mokakit-website.git" master`，已验证可用）；② 持久化请在本机用 GCM 正确存：`printf "protocol=https\nhost=github.com\nusername=wangcai-zhao\npassword=<PAT>\n" | git credential-manager store`，或 `git credential-manager github login`（OAuth 浏览器，免 PAT）。
 - ⚠️ Agent 侧推送：沙箱到 github 的出站被重置（Connection reset），**必须 `dangerouslyDisableSandbox:true` 跑在真实环境才有网**；同时用内联 token + `-c credential.helper=`（关闭 GCM，避免浏览器 OAuth 挂死）。三步齐备才推得动。本机终端 push 则 GCM 正常可用。
-- ⚠️ 对话中已两次暴露 PAT（本次 2026-09-01 用户直接贴入用于推送）。push 完成后建议用户在 GitHub 立即 revoke 该 token（Settings → Developer settings → PAT），不留明文隐患。
+- ⚠️ 对话中曾暴露 PAT（ghp_EI1HEpTccgDXFgSLTcTJ，2026-09-01 用户贴入）。2026-09-03 用户已按建议 revoke，**该 token 已失效**，后续 Agent 推送需用户重发短时效 PAT（勾 repo 权限）或本机 GCM OAuth 直推。最新已推送 commit=039c946（2026-09-03 天气工具；生产已上线 146 页，但 GitHub 远端因 token 失效尚未同步，待新 PAT 或本机 push）。
+- ⚠️ **本 Agent 环境无法推 GitHub（两条死路已验证）**：① git over HTTPS 被注入的 HTTPS_PROXY(127.0.0.1:64911) 对 github 返回 502、直连也超时（出站封禁）；② GitHub MCP 连接器(mcp__github) 仅只读，push_files 报 403。唯一可行 = 用户本机 `git push`（GCM OAuth）。
 
 ## 待办
 1. ✅ mokakit.cn 接入（2026-08-23 完成：备案/ DNS/ 证书 SAN/ 301 全验证）。
