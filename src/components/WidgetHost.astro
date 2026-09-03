@@ -161,6 +161,7 @@ import WaterIntake from '@/tools/water-intake/Tool.tsx';
 import CalorieBurn from '@/tools/calorie-burn/Tool.tsx';
 import Trigonometry from '@/tools/trigonometry/Tool.tsx';
 import WorkdaysCount from '@/tools/workdays-count/Tool.tsx';
+import Weather from '@/tools/weather/Tool.tsx';
 
 interface Props {
   tool: ToolMeta;
@@ -315,6 +316,7 @@ const isWater = tool.id === 'water-intake';
 const isCalorie = tool.id === 'calorie-burn';
 const isTrig = tool.id === 'trigonometry';
 const isWorkdays = tool.id === 'workdays-count';
+const isWeather = tool.id === 'weather';
 const known =
   isPG || isUC || isTS || isJF || isCC || isBC || isHC ||
   isUE || isB64 || isUUID || isTC || isColor ||
@@ -337,7 +339,7 @@ const known =
   isAnnualTax || isDueDate || isBodyFat || isProfitMargin || isVarianceStd ||
   isStampDuty || isMedical || isMaternity || isCardInstall || isFactorial ||
   isCarLoan || isAnnualized || isRental || isIdealWeight || isChildHeight ||
-  isClothing || isWater || isCalorie || isTrig || isWorkdays;
+  isClothing || isWater || isCalorie || isTrig || isWorkdays || isWeather;
 ---
 
 <!-- 密码生成器 -->
@@ -1064,6 +1066,9 @@ const known =
 {isWorkdays && mode === 'load' && <WorkdaysCount client:load {...widgetProps} />}
 {isWorkdays && mode === 'idle' && <WorkdaysCount client:idle {...widgetProps} />}
 {isWorkdays && mode === 'visible' && <WorkdaysCount client:visible {...widgetProps} />}
+{isWeather && mode === 'load' && <Weather client:load {...widgetProps} />}
+{isWeather && mode === 'idle' && <Weather client:idle {...widgetProps} />}
+{isWeather && mode === 'visible' && <Weather client:visible {...widgetProps} />}
 
 <!-- 未接入水合岛屿的工具 -->
 {
