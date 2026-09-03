@@ -1,0 +1,45 @@
+## 为什么需要 YAML 与 JSON 互转
+
+K8s、CI（GitHub Actions / GitLab CI）、Docker Compose、各种配置文件都用 YAML；而前端、接口、配置中心更多是 JSON。两边要互转时，手工改缩进和括号极易出错——YAML 对缩进敏感，差一格就解析失败。
+
+本工具在 YAML 与 JSON 之间双向转换：YAML 转 JSON 得到规范缩进的树；JSON 转 YAML 得到可读性更好的配置。支持嵌套、数组、行内 `[ ] { }`。
+
+## 概念与公式
+
+YAML 用缩进表达层级，JSON 用花括号和方括号。核心映射：
+
+- 缩进块 `key:` 下挂子块 → JSON 对象；
+- `- 项` 列表 → JSON 数组；
+- 标量（字符串/数字/布尔/null）→ 对应 JSON 类型；
+- 行内 `[a, b]`、`{k: v}` → 数组 / 对象。
+
+本工具支持最常见的 YAML 子集（块映射、块序列、嵌套、标量、行内集合），**不支持**锚点 `&`/别名 `*`、多文档 `---`、块标量 `|`/`>` 等高级写法——遇到会给出提示。
+
+转换：解析阶段把 YAML 文本建成通用树，序列化阶段再输出目标格式（JSON 用 `JSON.stringify(..., 2)`，YAML 用本工具的缩进序列化器）。
+
+## 细分场景
+
+- **配置迁移**：把 YAML 配置转 JSON 喂给只认 JSON 的服务。
+- **可读性**：把扁平 JSON 转 YAML 方便人工审阅。
+- **文档 / 教学**：直观对照两种格式。
+
+## 怎么用本工具
+
+把 YAML 或 JSON 贴入，选择方向（YAML → JSON 或 JSON → YAML），结果即时显示，复制即用。解析错误会标出大致行。
+
+## 常见场景与实例
+
+**例：K8s 片段**
+```yaml
+replicas: 3
+image: nginx:1.27
+ports:
+  - 80
+```
+→ JSON 的 `{replicas:3, image:"nginx:1.27", ports:[80]}`。
+
+> 相关工具：[XML ↔ JSON](/tools/xml-json/)、[JSONPath 查询](/tools/jsonpath/)。
+
+## 隐私说明
+
+全程浏览器本地计算，不联网、不上传你粘贴的配置。

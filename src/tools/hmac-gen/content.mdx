@@ -1,0 +1,42 @@
+## 为什么需要 HMAC 生成
+
+验签、Webhook 校验、接口防篡改，常常要用 HMAC：用一把密钥给消息算出一个「带密钥的摘要」，对方用同一把密钥重算比对，一致才说明消息没被改、来源可信。光发明文或裸哈希都不够——HMAC 把密钥揉进计算过程。
+
+本工具用浏览器原生 Web Crypto 生成 HMAC（SHA-256/1/512，输出 hex/base64/base64url），输入消息和密钥即可出签名。
+
+## 概念与公式
+
+HMAC（Hash-based Message Authentication Code）结构：
+
+`HMAC(K, m) = H( (K ⊕ opad) ∥ H( (K ⊕ ipad) ∥ m ) )`
+
+其中 `H` 是哈希（SHA-256 等），`K` 是密钥，`opad`/`ipad` 是固定的填充常量。它结合密钥与哈希，既有完整性又有认证。
+
+本工具参数：
+
+- **算法**：SHA-1 / SHA-256 / SHA-512（推荐 256 及以上）。
+- **格式**：hex（十六进制）、base64、base64url。
+- **密钥 / 消息**：任意文本（按 UTF-8 处理）。
+
+> 注意：HMAC 依赖 Web Crypto（`crypto.subtle`），需在 **HTTPS 或 localhost** 安全上下文下使用；HTTP 明文站点无法运行，属浏览器安全限制。
+
+## 细分场景
+
+- **Webhook 校验**：GitHub / 支付回调常用 HMAC 验真。
+- **接口防篡改**：客户端和服务器共享密钥，对请求体签名。
+- **令牌完整性**：给短时 token 加 MAC 防伪造。
+
+## 怎么用本工具
+
+填消息、填密钥，选算法与输出格式，点「计算」按钮，签名即时显示，复制即用。可切换不同算法对比长度。
+
+## 常见场景与实例
+
+**例：校验 GitHub Webhook**
+GitHub 用 `X-Hub-Signature-256: sha256=...` 头，把请求体用你的 secret 算 HMAC-SHA256，与头部比对即可确认来源。
+
+> 相关工具：[JWT 生成](/tools/jwt-generator/)、[API Key 生成](/tools/api-key-gen/)。
+
+## 隐私说明
+
+全程浏览器本地用 Web Crypto 计算，不联网、不上传你的消息与密钥；密钥仅用于本次计算，不保存。

@@ -1,0 +1,43 @@
+## 为什么需要解析 User-Agent
+
+服务端日志、埋点、风控里满是一长串 User-Agent（UA）字符串，藏着浏览器、操作系统、设备类型。肉眼读 `Mozilla/5.0 (Windows NT 10.0; ...)` 又臭又长，出报表时得先拆出来。
+
+本工具把 UA 字符串解析成结构化结果：浏览器及版本、操作系统、设备类型（手机/平板/桌面/电视），粘贴即出。
+
+## 概念与公式
+
+UA 是 HTTP 请求头里声明客户端身份的字符串，通常形如：
+
+`Mozilla/5.0 (平台) 引擎 浏览器/版本`
+
+解析靠**正则特征匹配**（非标准语法，各家格式不一，靠经验规则）：
+
+- 浏览器：`Edg`→Edge、`OPR`→Opera、`Chrome`→Chrome、`Firefox`→Firefox、`Safari`→Safari（注意 Chrome 也带 Safari 字样，需顺序排除）。
+- 系统：`Windows NT`→Windows、`Mac OS X`→macOS、`Android`→Android、`iPhone`/`iPad`→iOS、`Linux`→Linux。
+- 设备：`Mobile`/`Android`→手机、`iPad`/`Tablet`→平板、`TV`/`CrKey`→电视，否则桌面。
+
+结果是「尽力识别」，遇到罕见 UA 可能只给部分字段。
+
+## 细分场景
+
+- **数据分析**：按浏览器 / OS / 设备拆分访问量。
+- **风控**：识别爬虫、模拟器、异常设备。
+- **兼容性决策**：看用户主要在什么浏览器，决定要测哪些。
+
+## 怎么用本工具
+
+把 UA 字符串贴入输入框，结果即时显示浏览器、版本、操作系统、设备类型。可一次解析多条（每行一条）。
+
+## 常见场景与实例
+
+**例：Chrome on Windows**
+`Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/... Chrome/126.0 Safari/537.36` → 浏览器 Chrome 126、系统 Windows 10/11、设备 桌面。
+
+**例：iPhone Safari**
+含 `iPhone` 与 `Safari` → 设备 手机、系统 iOS。
+
+> 相关工具：[查询参数解析](/tools/query-params/)、[提取链接](/tools/extract-links/)。
+
+## 隐私说明
+
+全程浏览器本地计算，不联网、不上传你输入的 UA 字符串。

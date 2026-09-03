@@ -25,7 +25,7 @@
 - 扩展：server.mjs COMPUTE_TOOLS 加项，新逻辑抽 src/lib/*.ts；6 中国计算器纯函数在 src/lib/china-calc-extra.ts。
 
 ## 当前规模（2026-09-03）
-- 144 工具 / 10 分类（calc 74 / dev 23 / text 8 / security 6 / ai 6 / convert 6 / life 9 / fun 5 / clock 4 / barcode 3）；dist 工具页 146（含单位换算子页）。2026-09-01 起新增「自由发挥高频计算器」一波 20 个（个税汇算/预产期/体脂率/利润率/方差标准差/印花税/医保报销/生育津贴/信用卡分期/阶乘/车贷/年化收益/租售比/理想体重/儿童身高/衣服尺码/饮水/卡路里/三角函数/工作天数）+ 天气查询(Open-Meteo 免费无key源, life 分类)，均 meta+Tool.tsx+六段式 content.mdx+WidgetHost 接线，构建全绿、零死工具。详情见 2026-09-02.md / 2026-09-03.md。
+- 约 184 工具 / 10 分类（calc 74 / dev 43 / text 8 / security 6 / ai 6 / convert 26 / life 9 / fun 5 / clock 4 / barcode 3）；dist 工具页 512（含单位换算子页）。2026-09-01 起新增「自由发挥高频计算器」一波20 + 天气查询(Open-Meteo) + 2026-09-03 连发两波各20：单位换算扩军(convert) + 开发者小工具(dev)，均 meta+Tool.tsx+六段式 content.mdx+WidgetHost 接线，构建全绿、零死工具。详情见 2026-09-02.md / 2026-09-03.md。
 - ⚠️ **天气工具数据源决策**：用户原想接 Azure Maps（需付费 subscription-key + 无前端CORS），纯静态站不可行。改采 Open-Meteo（免费/免注册/免key/CORS友好），纯前端 fetch。天气查询 = src/tools/weather/{meta.ts,Tool.tsx,content.mdx}。
 - content.mdx 覆盖 100%。好站导航 31 组 / 494 条。进度看板 npm run workbench → public/workbench.html（要 cp 到 dist）。单位换算 16 类 161 单位 213 页 / 649 FAQ。
 - ⚠️ 曾 19 个"死工具"（meta+Tool 但 WidgetHost 未接线）→ 2026-08-19 全补（commit 693524d）。
@@ -55,6 +55,7 @@
 - 本地跑 src/ TS：`node --experimental-strip-types --import ./scripts/ts-resolve.mjs xxx.mjs`。
 - 构建绕沙箱：`export NODE_OPTIONS="--require=D:/WorkBuddy/website/noop-shim.cjs"` 后 `node node_modules/astro/bin/astro.mjs build`。build 收尾可能挂死→扫 /proc kill astro build node PID；sitemap 解耦单跑 `node scripts/gen-sitemap.mjs`。
 - Astro build 偶发 Exit 1/只产 1 html→ `mv dist dist_bak_xxx` 逼全量；或 vite 重优化卡死时直接重跑通常即通过。
+- ⚠️ **构建卡在 "Collecting build info" 之后无输出 = 陈旧 .astro 缓存损坏**（曾由孤儿构建 PID 509 残留导致整站挂死，误判为某工具源码死循环）。先 `mv .astro _astro_bak_xxx` 清缓存再重建；别急着二分源码。node 探针验证 solveODE 等对示例 <1ms、有 MAX_STEPS 守卫不可能死循环。
 - ⚠️ build Exit 1 产物可能不完整（缺页）→ 上传前必校验 dist 关键页（index + developers + 页面数）。deploy.sh 内嵌构建卡死时，用已校验 dist 走「tar 上传 + nginx reload」。
 - ⚠️ `server-setup.sh --live` 会回退 HTTPS→重滚后必补 `--enable-ssl`。日常更新用 deploy.sh（不带 --live）。
 - ⚠️ **百度统计脚本**：BaseLayout 注入 hm.js 时切勿 `define:vars`+`set:html` 共用（冲突吞脚本），只用 `set:html` 且 ID 在模板字面量插值；改完抽 hm.baidu/_hmt 核对产物。

@@ -1,0 +1,38 @@
+## 为什么需要 JWT 生成
+
+做登录、做接口联调、给前端塞一个测试 token，时常要现场造一个 JWT（JSON Web Token）看看结构、验证签名。手写 header.payload.signature 三段 base64 很容易把 `.` 漏了或签名算错。
+
+本工具用 HS256/384/512 生成 JWT：填 header、payload 和密钥，即时算出完整三段式 token，并展示每段的明文，方便你核对。
+
+## 概念与公式
+
+JWT 由三部分用 `.` 连接：`header.payload.signature`。
+
+1. **header**（JSON）：`{"alg":"HS256","typ":"JWT"}`，base64url 编码。
+2. **payload**（JSON）：业务声明（如 `sub`、`exp`、`name`），base64url 编码。
+3. **signature**：`HMAC-SHAxxx( base64url(header) + "." + base64url(payload), 密钥 )`，再 base64url 编码。
+
+最终：`xxxxx.yyyyy.zzzzz`。`alg` 里的 HS 表示 HMAC 对称签名（同一把密钥签和验）。
+
+> 注意：JWT 依赖 Web Crypto（`crypto.subtle`），需在 **HTTPS 或 localhost** 安全上下文下生成；HTTP 明文站点无法运行。
+
+## 细分场景
+
+- **接口联调**：造一个带 `exp` 的测试 token 发给后端验证。
+- **教学演示**：直观看 header/payload/signature 三段结构。
+- **本地开发**：给前端塞一个临时 token 跳过登录。
+
+## 怎么用本工具
+
+填 header（默认 `{"alg":"HS256","typ":"JWT"}`）、payload（JSON）、密钥，选算法（HS256/384/512），点「生成」即得完整 token，下方分别展示三段解码内容。复制整段或单段均可。
+
+## 常见场景与实例
+
+**例：带过期时间**
+payload `{"sub":"user1","exp":1893456000}` → 生成 token，解码后能看到声明与过期时间。
+
+> 相关工具：[HMAC 生成](/tools/hmac-gen/)、[API Key 生成](/tools/api-key-gen/)。
+
+## 隐私说明
+
+全程浏览器本地用 Web Crypto 计算，不联网、不上传你的 payload 与密钥；请勿在公共设备填入生产级敏感声明。

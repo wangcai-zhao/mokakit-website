@@ -182,6 +182,26 @@ import PaperSizeConvert from '@/tools/paper-size/Tool.tsx';
 import HatSizeConvert from '@/tools/hat-size/Tool.tsx';
 import BraSizeConvert from '@/tools/bra-size/Tool.tsx';
 import BakingConvert from '@/tools/baking/Tool.tsx';
+import Base58 from '@/tools/base58/Tool.tsx';
+import SlugGenerator from '@/tools/slug-generator/Tool.tsx';
+import PortLookup from '@/tools/port-lookup/Tool.tsx';
+import QueryParams from '@/tools/query-params/Tool.tsx';
+import ExtractLinks from '@/tools/extract-links/Tool.tsx';
+import EnvParser from '@/tools/env-parser/Tool.tsx';
+import SemverCompare from '@/tools/semver-compare/Tool.tsx';
+import LocCounter from '@/tools/loc-counter/Tool.tsx';
+import HashIdentify from '@/tools/hash-identify/Tool.tsx';
+import WcagContrast from '@/tools/wcag-contrast/Tool.tsx';
+import CsvToMarkdown from '@/tools/csv-to-markdown/Tool.tsx';
+import UserAgentParse from '@/tools/user-agent-parse/Tool.tsx';
+import ApiKeyGen from '@/tools/api-key-gen/Tool.tsx';
+import XmlJson from '@/tools/xml-json/Tool.tsx';
+import JsonPath from '@/tools/jsonpath/Tool.tsx';
+import YamlJson from '@/tools/yaml-json/Tool.tsx';
+import HtmlToMarkdown from '@/tools/html-to-markdown/Tool.tsx';
+import HmacGen from '@/tools/hmac-gen/Tool.tsx';
+import JwtGenerator from '@/tools/jwt-generator/Tool.tsx';
+import Punycode from '@/tools/punycode/Tool.tsx';
 
 interface Props {
   tool: ToolMeta;
@@ -357,6 +377,26 @@ const isPaper = tool.id === 'paper-size';
 const isHat = tool.id === 'hat-size';
 const isBra = tool.id === 'bra-size';
 const isBake = tool.id === 'baking';
+const isBase58 = tool.id === 'base58';
+const isSlug = tool.id === 'slug-generator';
+const isPort = tool.id === 'port-lookup';
+const isQP = tool.id === 'query-params';
+const isExtract = tool.id === 'extract-links';
+const isEnv = tool.id === 'env-parser';
+const isSemver = tool.id === 'semver-compare';
+const isLoc = tool.id === 'loc-counter';
+const isHashId = tool.id === 'hash-identify';
+const isWcag = tool.id === 'wcag-contrast';
+const isCsvMd = tool.id === 'csv-to-markdown';
+const isUa = tool.id === 'user-agent-parse';
+const isApiKey = tool.id === 'api-key-gen';
+const isXmlJson = tool.id === 'xml-json';
+const isJsonPath = tool.id === 'jsonpath';
+const isYamlJson = tool.id === 'yaml-json';
+const isHtmlMd = tool.id === 'html-to-markdown';
+const isHmac = tool.id === 'hmac-gen';
+const isJwtGen = tool.id === 'jwt-generator';
+const isPuny = tool.id === 'punycode';
 const known =
   isPG || isUC || isTS || isJF || isCC || isBC || isHC ||
   isUE || isB64 || isUUID || isTC || isColor ||
@@ -382,7 +422,11 @@ const known =
   isClothing || isWater || isCalorie || isTrig || isWorkdays || isWeather ||
   isFuelEff || isResist || isCap || isInd || isVolt || isCurr || isDataBin ||
   isFlow || isIllum || isTypo || isDens || isVisc || isAngVel || isAccel || isMag ||
-  isRing || isPaper || isHat || isBra || isBake;
+  isRing || isPaper || isHat || isBra || isBake ||
+  isBase58 || isSlug || isPort || isQP || isExtract || isEnv ||
+  isSemver || isLoc || isHashId || isWcag || isCsvMd || isUa ||
+  isApiKey || isXmlJson || isJsonPath || isYamlJson || isHtmlMd ||
+  isHmac || isJwtGen || isPuny;
 ---
 
 <!-- 密码生成器 -->
@@ -1212,6 +1256,68 @@ const known =
 {isBake && mode === 'load' && <BakingConvert client:load {...widgetProps} />}
 {isBake && mode === 'idle' && <BakingConvert client:idle {...widgetProps} />}
 {isBake && mode === 'visible' && <BakingConvert client:visible {...widgetProps} />}
+
+<!-- 开发者小工具波 -->
+{isBase58 && mode === 'load' && <Base58 client:load {...widgetProps} />}
+{isBase58 && mode === 'idle' && <Base58 client:idle {...widgetProps} />}
+{isBase58 && mode === 'visible' && <Base58 client:visible {...widgetProps} />}
+{isSlug && mode === 'load' && <SlugGenerator client:load {...widgetProps} />}
+{isSlug && mode === 'idle' && <SlugGenerator client:idle {...widgetProps} />}
+{isSlug && mode === 'visible' && <SlugGenerator client:visible {...widgetProps} />}
+{isPort && mode === 'load' && <PortLookup client:load {...widgetProps} />}
+{isPort && mode === 'idle' && <PortLookup client:idle {...widgetProps} />}
+{isPort && mode === 'visible' && <PortLookup client:visible {...widgetProps} />}
+{isQP && mode === 'load' && <QueryParams client:load {...widgetProps} />}
+{isQP && mode === 'idle' && <QueryParams client:idle {...widgetProps} />}
+{isQP && mode === 'visible' && <QueryParams client:visible {...widgetProps} />}
+{isExtract && mode === 'load' && <ExtractLinks client:load {...widgetProps} />}
+{isExtract && mode === 'idle' && <ExtractLinks client:idle {...widgetProps} />}
+{isExtract && mode === 'visible' && <ExtractLinks client:visible {...widgetProps} />}
+{isEnv && mode === 'load' && <EnvParser client:load {...widgetProps} />}
+{isEnv && mode === 'idle' && <EnvParser client:idle {...widgetProps} />}
+{isEnv && mode === 'visible' && <EnvParser client:visible {...widgetProps} />}
+{isSemver && mode === 'load' && <SemverCompare client:load {...widgetProps} />}
+{isSemver && mode === 'idle' && <SemverCompare client:idle {...widgetProps} />}
+{isSemver && mode === 'visible' && <SemverCompare client:visible {...widgetProps} />}
+{isLoc && mode === 'load' && <LocCounter client:load {...widgetProps} />}
+{isLoc && mode === 'idle' && <LocCounter client:idle {...widgetProps} />}
+{isLoc && mode === 'visible' && <LocCounter client:visible {...widgetProps} />}
+{isHashId && mode === 'load' && <HashIdentify client:load {...widgetProps} />}
+{isHashId && mode === 'idle' && <HashIdentify client:idle {...widgetProps} />}
+{isHashId && mode === 'visible' && <HashIdentify client:visible {...widgetProps} />}
+{isWcag && mode === 'load' && <WcagContrast client:load {...widgetProps} />}
+{isWcag && mode === 'idle' && <WcagContrast client:idle {...widgetProps} />}
+{isWcag && mode === 'visible' && <WcagContrast client:visible {...widgetProps} />}
+{isCsvMd && mode === 'load' && <CsvToMarkdown client:load {...widgetProps} />}
+{isCsvMd && mode === 'idle' && <CsvToMarkdown client:idle {...widgetProps} />}
+{isCsvMd && mode === 'visible' && <CsvToMarkdown client:visible {...widgetProps} />}
+{isUa && mode === 'load' && <UserAgentParse client:load {...widgetProps} />}
+{isUa && mode === 'idle' && <UserAgentParse client:idle {...widgetProps} />}
+{isUa && mode === 'visible' && <UserAgentParse client:visible {...widgetProps} />}
+{isApiKey && mode === 'load' && <ApiKeyGen client:load {...widgetProps} />}
+{isApiKey && mode === 'idle' && <ApiKeyGen client:idle {...widgetProps} />}
+{isApiKey && mode === 'visible' && <ApiKeyGen client:visible {...widgetProps} />}
+{isXmlJson && mode === 'load' && <XmlJson client:load {...widgetProps} />}
+{isXmlJson && mode === 'idle' && <XmlJson client:idle {...widgetProps} />}
+{isXmlJson && mode === 'visible' && <XmlJson client:visible {...widgetProps} />}
+{isJsonPath && mode === 'load' && <JsonPath client:load {...widgetProps} />}
+{isJsonPath && mode === 'idle' && <JsonPath client:idle {...widgetProps} />}
+{isJsonPath && mode === 'visible' && <JsonPath client:visible {...widgetProps} />}
+{isYamlJson && mode === 'load' && <YamlJson client:load {...widgetProps} />}
+{isYamlJson && mode === 'idle' && <YamlJson client:idle {...widgetProps} />}
+{isYamlJson && mode === 'visible' && <YamlJson client:visible {...widgetProps} />}
+{isHtmlMd && mode === 'load' && <HtmlToMarkdown client:load {...widgetProps} />}
+{isHtmlMd && mode === 'idle' && <HtmlToMarkdown client:idle {...widgetProps} />}
+{isHtmlMd && mode === 'visible' && <HtmlToMarkdown client:visible {...widgetProps} />}
+{isHmac && mode === 'load' && <HmacGen client:load {...widgetProps} />}
+{isHmac && mode === 'idle' && <HmacGen client:idle {...widgetProps} />}
+{isHmac && mode === 'visible' && <HmacGen client:visible {...widgetProps} />}
+{isJwtGen && mode === 'load' && <JwtGenerator client:load {...widgetProps} />}
+{isJwtGen && mode === 'idle' && <JwtGenerator client:idle {...widgetProps} />}
+{isJwtGen && mode === 'visible' && <JwtGenerator client:visible {...widgetProps} />}
+{isPuny && mode === 'load' && <Punycode client:load {...widgetProps} />}
+{isPuny && mode === 'idle' && <Punycode client:idle {...widgetProps} />}
+{isPuny && mode === 'visible' && <Punycode client:visible {...widgetProps} />}
 
 <!-- 未接入水合岛屿的工具 -->
 {
