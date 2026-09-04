@@ -14,8 +14,8 @@
 | 一堆 JSON 要改、单位要换 | 批量 json 格式化 / 批量单位换算 | json-formatter, unit-convert, base64, case-converter | AI 批量处理文件 | 入门 | 已发布 |
 | 个税/社保算不明白，让 AI 调计算器 | workbuddy 算个税 / ai 计算 | income-tax-cn, social-security-cn, bonus-tax-cn | 让 AI 调用工具 + MCP | 入门 | 写作中 |
 | 房贷月供到底多少，别再拿计算器瞎按 | workbuddy 房贷计算 / ai 算房贷 | mortgage-early-repayment, fund-loan-calc | AI 编排多步计算 | 进阶 | 写作中 |
-| 把常用命令固化成 Skill，开机即用的小助手 | workbuddy 常用命令 skill | skill-generator, cron-generator | Skill + 命令封装 | 入门 | 待写 |
-| 会议纪要自动整理：录音转文字再提炼 | workbuddy 会议纪要 / ai 整理会议纪要 | summarizer, case-converter | 文件读取 + 摘要 | 进阶 | 待写 |
+| 把常用命令固化成 Skill，开机即用的小助手 | workbuddy 常用命令 skill | skill-generator, cron-parser | Skill + 命令封装 | 入门 | 写作中 |
+| 会议纪要自动整理：录音转文字再提炼 | workbuddy 会议纪要 / ai 整理会议纪要 | text-dedup, case-converter | 文件读取 + 摘要 | 进阶 | 写作中 |
 | 用 WorkBuddy 批量重命名 + 格式转换 | workbuddy 批量重命名 / 批量转换 | case-converter, base64 | 批量文件操作 | 入门 | 待写 |
 | 让 AI 帮我写 SQL 并自查：接数据库的 MCP | workbuddy 连数据库 / mcp 数据库 | sql-formatter, json-formatter | 数据库 MCP | 高手 | 待写 |
 | 定时抓取竞品价格， weekly 汇总给我 | workbuddy 定时抓取 / 网页抓取 | json-formatter, unit-convert | 定时任务 + 网页抓取 | 进阶 | 待写 |

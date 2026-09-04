@@ -29,6 +29,7 @@ PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJECT_DIR"
 
 c_ok()   { printf '\033[32m  ✓ %s\033[0m\n' "$*"; }
+c_warn() { printf '\033[33m  ⚠ %s\033[0m\n' "$*"; }
 c_head() { printf '\n\033[1m%s\033[0m\n' "$*"; }
 
 # ------------------------------------------------------------
@@ -146,6 +147,22 @@ if [[ "$ACTION" == "--live" ]]; then
 else
   ssh "$SSH_TARGET" "nginx -t >/dev/null 2>&1 && systemctl reload nginx && echo reloaded" >/dev/null
   c_ok "Nginx 已重载"
+fi
+
+# ------------------------------------------------------------
+# 主动推送 IndexNow（部署完后告知 Bing/Yandex 等秒级来抓取）
+# ------------------------------------------------------------
+c_head "[4/4] IndexNow 主动推送"
+
+# 推送失败也不阻断部署——只记录警告，搜索引擎被动发现也能兜底
+if [[ -f "$PROJECT_DIR/scripts/indexnow.mjs" && -f "$PROJECT_DIR/dist/sitemap-0.xml" ]]; then
+  if (cd "$PROJECT_DIR" && node scripts/indexnow.mjs) 2>&1; then
+    c_ok "IndexNow 推送完成"
+  else
+    c_warn "IndexNow 推送失败，但站点已上线，不影响本次部署"
+  fi
+else
+  c_warn "缺少 scripts/indexnow.mjs 或 dist/sitemap-0.xml，跳过推送"
 fi
 
 echo

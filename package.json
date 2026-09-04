@@ -12,7 +12,8 @@
     "astro": "astro",
     "workbench": "node --experimental-strip-types --no-warnings --import ./scripts/ts-resolve.mjs scripts/build-workbench.mjs",
     "mcp": "node --experimental-strip-types --no-warnings mcp/server.mjs",
-    "mcp:build": "node mcp/build.mjs"
+    "mcp:build": "node mcp/build.mjs",
+    "indexnow": "node scripts/indexnow.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^7.0.5",

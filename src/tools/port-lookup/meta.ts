@@ -5,7 +5,7 @@ export default defineTool({
   name: '端口号速查',
   tagline: '常见端口号与用途速查，TCP/UDP 一览',
   description:
-    '免费在线端口号速查工具，收录 HTTP、HTTPS、SSH、数据库、容器、消息队列等常见端口及用途，支持按端口号或关键词搜索。排查服务冲突、配置防火墙时随手查，全部本地数据。',
+    '免费在线端口号速查工具，收录 HTTP、HTTPS、SSH、FTP、MySQL、PostgreSQL、MongoDB、Redis、Docker、K8s、MQ 等 200+ 常见端口及用途，支持按端口号或关键词搜索、TCP/UDP 筛选。排查服务冲突、配置防火墙时随手查，全部本地数据离线可用。',
   keywords: ['端口号', '端口速查', '常见端口', 'port lookup'],
   category: 'dev',
   tags: ['网络', '端口', '开发'],

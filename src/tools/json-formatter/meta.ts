@@ -5,7 +5,7 @@ export default defineTool({
   name: 'JSON 格式化',
   tagline: '格式化、压缩、校验 JSON',
   description:
-    '免费在线 JSON 格式化工具，支持 JSON 美化（缩进排版）、压缩去空白、语法校验与错误提示。接口调试、配置文件整理、数据校验都能用，纯本地运行不上传任何数据。',
+    '免费在线 JSON 格式化工具，支持 JSON 美化（缩进排版 2/4 空格）、压缩去空白、语法校验与错误定位提示，可对 key 排序、转义。接口调试、配置文件整理、接口 mock 数据校验都能用，纯本地运行不上传任何数据，结果支持一键复制。',
   keywords: ['json格式化', 'json在线格式化', 'json校验', 'json美化', 'json压缩'],
   category: 'dev',
   tags: ['json', '格式化', '校验', '开发'],

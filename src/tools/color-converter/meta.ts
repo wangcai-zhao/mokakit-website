@@ -5,7 +5,7 @@ export default defineTool({
   name: '颜色转换',
   tagline: 'HEX / RGB / HSL 互转',
   description:
-    '免费在线颜色转换工具，支持 HEX、RGB、HSL 三种格式互转，实时预览色块并可一键复制，帮助设计师与前端开发者快速换算颜色值，避免手动计算色相饱和度出错。',
+    '免费在线颜色转换工具，支持 HEX、RGB、HSL、HSV、CMYK 五种格式互转，实时预览色块并可一键复制 CSS 值。帮助设计师与前端开发者快速换算颜色值，避免手动计算色相饱和度出错，输入即得所有格式结果。',
   keywords: ['颜色转换', 'HEX转RGB', 'RGB转HSL', '在线颜色', '颜色值换算'],
   category: 'convert',
   tags: ['颜色', 'HEX', 'RGB', 'HSL', '转换'],

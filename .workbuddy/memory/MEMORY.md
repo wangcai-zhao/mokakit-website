@@ -8,6 +8,7 @@
 - 品牌「摩卡工具箱 / MokaKit」，launched:true，双主题 toolbox/toolboxdark，counter/share 启用。
 - 百度统计 hm.js ID = c1ce047dfb4bbcfe58cba2418b56332a（site.ts `analytics.baiduId`，BaseLayout 注入）。
 - 部署：腾讯云轻量 58.87.68.151（Ubuntu 24.04）。deploy 公钥已绑；本地 deploy/deploy.sh，服务器 deploy/server-setup.sh。
+- **DNS 管理：腾讯云 DNSPod**（mokakit.com/.cn 的 NS = `eleanor`/`word.dnspod.net`）。加解析/改记录去 dnspod.cn 控制台，不在腾讯云域名注册台。
 
 ## 生产环境
 - 裸 mokakit.com/.cn → 301 → https://www.mokakit.com；www 200 + HSTS max-age=31536000。证书 LE(ECDSA) 至 2026-11-20，certbot.timer 自动续期；SAN 已含 mokakit.com/www.mokakit.com/mokakit.cn/www.mokakit.cn（2026-08-23 重签）。
@@ -45,7 +46,7 @@
 1. ✅ mokakit.cn 接入（2026-08-23 完成：备案/ DNS/ 证书 SAN/ 301 全验证）。
 2. ⏸️ 摩卡配色打磨（暂缓）。
 3. ⏳ MCP Token 公开申请通道（/developers/ 仅 mailto）。
-4. ⏳ 百度/Google 站长平台提交 sitemap（sitemap 已上线，GSC 验证文件待加 public/）。
+4. ⏳ 站长平台验证+sitemap：GSC 走 **DNS TXT 验证**（记录值 `google-site-verification=Jdq425qhDTUKyXMl00HefI7AYGuyQX2Ce821cTkMtcg`，待加 DNSPod TXT 记录）；Bing 验证文件 `public/F0f48757FB174b5b9b5c87940b29d6CF.txt` 已部署生产根目录（HTTP 200 可访问）。sitemap-index.xml 已上线，验证通过后提交。
 5. ✅ MCP Server 同步 6 中国计算器（2026-08-14）。
 6. ✅ 部署上线（2026-08-25 晚间：combo-loan-calc + ads.enabled=true 已上线；git 89 文件 push master 入库）。
 7. ✅ AdSense 接入完成（2026-08-28）：ca-pub-0218164655974877。全站元标记（BaseLayout 验证）+ adsbygoogle 加载器（Auto Ads）+ public/ads.txt 已上线；**站点验证已通过**。剩后台开「自动广告」+ 等审核期。

@@ -5,7 +5,7 @@ export default defineTool({
   name: 'User-Agent 解析器',
   tagline: '解析 UA 识别浏览器、系统、设备',
   description:
-    '免费在线 User-Agent 解析器，粘贴一段 UA 字符串，识别出浏览器及版本、操作系统及版本、设备类型（桌面/手机/平板/爬虫）。用于日志分析、兼容性排查、反爬识别，全部本地正则解析。',
+    '免费在线 User-Agent 解析器，粘贴一段 UA 字符串，识别出浏览器及版本、操作系统及版本、设备类型（桌面/手机/平板/电视/爬虫）、渲染引擎（Blink/WebKit/Gecko），附是否为 bot 爬虫标记。用于日志分析、兼容性排查、反爬识别与设备统计，全部本地正则解析。',
   keywords: ['user agent 解析', 'ua 解析', '浏览器识别', 'ua 分析'],
   category: 'dev',
   tags: ['UA', '解析', '开发'],

@@ -5,7 +5,7 @@ export default defineTool({
   name: '照度换算',
   tagline: 'lux、foot-candle、phot 等光照度单位在线互转',
   description:
-    '免费在线照度（光照度）单位换算工具，覆盖勒克斯（lux）、英尺烛光（foot-candle）、 phot、流明每平方米（lm/m²）等常用单位。用于灯光设计、摄影布光、阅读照明评估，全部本地计算。',
+    '免费在线照度（光照度）单位换算工具，覆盖勒克斯（lux）、英尺烛光（foot-candle/fc）、phot、流明每平方米（lm/m²）等常用单位，附常见场景推荐照度（办公/阅读/手术）。用于灯光设计、摄影布光、阅读照明评估与植物补光强度计算，全部本地计算。',
   keywords: ['照度换算', 'lux 英尺烛光', '勒克斯', 'foot-candle', '光照度', '照明单位'],
   category: 'convert',
   tags: ['照度', '照明', '换算'],

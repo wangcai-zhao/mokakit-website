@@ -5,7 +5,7 @@ export default defineTool({
   name: '排版单位换算',
   tagline: 'pt、px、mm、Q、pc 等字号单位在线互转',
   description:
-    '免费在线排版/字体单位换算工具，覆盖点（pt）、像素（px，按 96dpi）、毫米（mm）、厘米（cm）、级（Q）、派卡（pc）等。设计稿、印刷品、网页字号对照不再乱，全部本地计算。',
+    '免费在线排版/字体单位换算工具，覆盖点（pt）、像素（px，按 96dpi）、毫米（mm）、厘米（cm）、英寸（in）、级（Q）、派卡（pc）、西塞罗（cicero）。设计稿、印刷品、网页字号、Office 字号对照不再乱，附常见字号（9pt/12pt/14pt/16pt）换算表，全部本地计算。',
   keywords: ['排版单位换算', 'pt px mm', '字号换算', '磅 像素', '字体单位', '点派卡'],
   category: 'convert',
   tags: ['排版', '字体', '换算'],

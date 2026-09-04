@@ -5,7 +5,7 @@ export default defineTool({
   name: 'UUID 生成器',
   tagline: '批量生成 UUID v4',
   description:
-    '免费在线 UUID 生成器，一键批量生成符合 RFC 4122 标准的 UUID v4 随机标识符，可用于数据库主键、分布式 ID、测试数据、临时令牌等场景，全部在浏览器本地生成。',
+    '免费在线 UUID 生成器，一键批量生成符合 RFC 4122 标准的 UUID v1/v3/v4/v5/v7 多种版本随机标识符，支持大小写与连字符/无连字符格式，可生成指定数量并一键导出。可用于数据库主键、分布式 ID、测试数据、订单号、临时令牌等场景，全部浏览器本地生成。',
   keywords: ['UUID生成', 'UUID v4', '在线UUID', '随机ID生成', 'guid生成器'],
   category: 'dev',
   tags: ['UUID', '随机', '生成', '开发'],

@@ -43,12 +43,16 @@ seo/
 _*.log
 _*.html
 _*.pid
+_*.txt
 dist_bak_*
 dist_bak_p0/
 dist_bak_p1/
 dist_bak_p2/
 dist_bak_p3/
 dist_partial_*
+dist_py_moved/
+dist_test_renamed/
+_astro_bak_*/
 build-run.log
 deploy-run.log
 _push.log
@@ -69,3 +73,10 @@ _p3_build.log
 _combo_build.log
 _combo_build4.log
 _deploy_p0.log
+
+# 项目外临时文件（个人菜谱、独立测试页等，不入库）
+recipe-card-*.html
+
+# WorkBuddy 自动化运行时数据（每个自动化一个目录，含 memory.md / status-*.md）
+.workbuddy/automations/
+.workbuddy/memory/automations/

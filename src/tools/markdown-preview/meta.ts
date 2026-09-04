@@ -5,7 +5,7 @@ export default defineTool({
   name: 'Markdown 预览',
   tagline: '实时渲染 Markdown 为富文本',
   description:
-    '免费在线 Markdown 预览工具，左侧输入 Markdown 语法，右侧实时渲染为格式化文本，支持标题、列表、加粗、代码块、链接等常用语法，适合写作、笔记与文档排版时快速预览。',
+    '免费在线 Markdown 预览工具，左侧输入 Markdown 语法（GFM 标准），右侧实时渲染为格式化文本，支持标题、列表、加粗、斜体、代码块、表格、流程图、数学公式与脚注等常用语法。适合写作、笔记、文档排版、README 预览与公众号排版，所见即所得。',
   keywords: ['Markdown预览', 'Markdown编辑器', '在线Markdown', 'MD实时渲染', 'Markdown转HTML'],
   category: 'text',
   tags: ['markdown', '文档', '预览', '写作'],

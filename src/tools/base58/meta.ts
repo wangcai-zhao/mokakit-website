@@ -5,7 +5,7 @@ export default defineTool({
   name: 'Base58 编解码',
   tagline: 'Base58 编码解码，比特币风格去易混字符',
   description:
-    '免费在线 Base58 编解码工具，使用比特币（Bitcoin）字母表，去除了 0/O、I/l 等易混字符，常用于钱包地址、IPFS 哈希。支持文本与十六进制输入，全部本地计算。',
+    '免费在线 Base58 编解码工具，使用比特币（Bitcoin）/Ripple 字母表，去除了 0/O、I/l 等易混字符，专为短 URL 与加密场景设计。常用于钱包地址、IPFS 哈希、短链服务与去中心化应用，支持文本与十六进制输入，全部本地计算。',
   keywords: ['base58', 'base58编码', 'base58解码', '比特币base58'],
   category: 'dev',
   tags: ['编码', 'Base58', '区块链'],

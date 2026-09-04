@@ -5,7 +5,7 @@ export default defineTool({
   name: 'Base64 编解码',
   tagline: '文本与 Base64 互转',
   description:
-    '免费在线 Base64 编解码工具，支持中文与 emoji 的 UTF-8 正确处理，可将文本编码为 Base64 或将 Base64 还原为原文，常用于接口传输、图片内联、数据伪装等场景。',
+    '免费在线 Base64 编解码工具，支持中文与 emoji 的 UTF-8 正确处理（不是 Latin1），可将文本/文件编码为 Base64 或将 Base64 还原为原文，常用于接口传输（JWT/DataURL）、图片内联（CSS/HTML）、数据伪装与签名调试，结果支持 URL-safe 模式。',
   keywords: ['Base64编码', 'Base64解码', '在线base64', 'base64转文本', 'utf8 base64'],
   category: 'dev',
   tags: ['Base64', '编码', '解码', '开发'],
