@@ -9,6 +9,7 @@
     "preview": "astro preview",
     "check": "astro check",
     "check:units": "node --experimental-strip-types --no-warnings --import ./scripts/ts-resolve.mjs scripts/check-units.mjs",
+    "changelog:check": "node scripts/changelog-check.mjs",
     "astro": "astro",
     "workbench": "node --experimental-strip-types --no-warnings --import ./scripts/ts-resolve.mjs scripts/build-workbench.mjs",
     "mcp": "node --experimental-strip-types --no-warnings mcp/server.mjs",

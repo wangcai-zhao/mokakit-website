@@ -2,15 +2,42 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Icon from '@/components/Icon.astro';
 import { getCollection } from 'astro:content';
+import { CATEGORY_MAP } from '@/config/categories';
+import { TOOL_MAP } from '@/tools/registry';
+import { RELEASES_DESC, getChangelogTotals } from '@/data/changelog';
 
 const posts = (await getCollection('blog'))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+
+// 更新日志板块的数据：取最近一批新增工具做摘要，完整内容在 /changelog/
+const { releaseCount, toolCount } = getChangelogTotals();
+const latest = RELEASES_DESC[0];
+const latestTools = latest.groups
+  .flatMap((g) => g.tools)
+  .map((t) => {
+    const meta = TOOL_MAP.get(t.id);
+    if (!meta) return null;
+    return {
+      id: t.id,
+      name: meta.name,
+      role: t.role ?? meta.tagline,
+      icon: meta.icon,
+      categoryName: CATEGORY_MAP.get(meta.category)?.name ?? meta.category,
+      url: `/tools/${t.id}/`,
+    };
+  })
+  .filter((x): x is NonNullable<typeof x> => Boolean(x));
+
+/** 摘要区只摆前几个，剩下的用"+N"兜住，不把博客页撑爆 */
+const SHOW = 6;
+const shownTools = latestTools.slice(0, SHOW);
+const restCount = latestTools.length - shownTools.length;
 ---
 
 <BaseLayout
   title="博客 - 摩卡工具箱 MokaKit"
-  description="MokaKit 摩卡工具箱的博客：AI 时代工具箱的定位、MCP 接入指南、中国本土计算器使用手册。"
+  description="MokaKit 摩卡工具箱的博客：AI 时代工具箱的定位、MCP 接入指南、中国本土计算器使用手册，以及每次新增工具的更新日志。"
   path="/blog/"
 >
   <div class="mx-auto max-w-3xl px-4 py-12">
@@ -21,7 +48,76 @@ const posts = (await getCollection('blog'))
       关于「AI 时代的工具箱」的思考、MCP 接入教程，以及中国本土计算器的使用指南。
     </p>
 
-    <div class="mt-8 flex flex-col gap-4">
+    <!-- 更新日志板块：让读者先看到"最近多了什么能力"，再往下读长文 -->
+    <section class="mt-9">
+      <div class="flex flex-wrap items-baseline justify-between gap-2 mb-3">
+        <h2 class="text-xl font-bold flex items-center gap-2">
+          <span class="grid place-items-center w-7 h-7 rounded-lg bg-primary/10 text-primary">
+            <Icon name="refresh" size={16} />
+          </span>
+          更新日志
+        </h2>
+        <a
+          href="/changelog/"
+          class="text-sm text-primary hover:underline inline-flex items-center gap-0.5"
+        >
+          全部 {releaseCount} 个批次
+          <Icon name="arrowRight" size={14} />
+        </a>
+      </div>
+
+      <p class="text-sm opacity-70 leading-relaxed mb-3">
+        每上线一批新工具都会记一笔：名称、用途、核心功能。目前累计
+        <strong class="text-primary">{toolCount}</strong> 个新增工具，最近一批是
+        {latest.date} —— {latest.title}。
+      </p>
+
+      <div class="rounded-2xl border border-base-300 bg-base-100 p-4">
+        <div class="grid gap-2 sm:grid-cols-2">
+          {
+            shownTools.map((t) => (
+              <a
+                href={t.url}
+                class="group flex items-start gap-2.5 px-3 py-2 rounded-xl border border-base-300 bg-base-100 hover:border-primary/50 hover:shadow-sm transition-all duration-200"
+              >
+                <span class="grid place-items-center w-7 h-7 shrink-0 rounded-lg bg-primary/10 text-primary mt-0.5">
+                  <Icon name={t.icon} size={14} />
+                </span>
+                <span class="min-w-0 flex-1">
+                  <span class="block text-sm font-medium group-hover:text-primary transition-colors">
+                    {t.name}
+                  </span>
+                  <span class="block text-xs opacity-60 mt-0.5 leading-snug line-clamp-2">
+                    {t.role}
+                  </span>
+                </span>
+              </a>
+            ))
+          }
+        </div>
+
+        <div class="mt-3 pt-3 border-t border-base-300 flex flex-wrap items-center gap-x-3 gap-y-1.5">
+          <a
+            href="/changelog/"
+            class="text-sm text-primary hover:underline inline-flex items-center gap-1"
+          >
+            查看完整更新日志{restCount > 0 && `（本批还有 ${restCount} 个）`}
+            <Icon name="arrowRight" size={14} />
+          </a>
+          <span class="text-xs opacity-50">|</span>
+          <a href="/tools/" class="text-xs opacity-70 hover:text-primary hover:underline">
+            全部工具按分类浏览
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <div class="mt-12 mb-4 flex items-center gap-2">
+      <h2 class="text-xl font-bold">全部文章</h2>
+      <span class="text-xs opacity-50 mt-1">{posts.length} 篇</span>
+    </div>
+
+    <div class="mt-6 flex flex-col gap-4">
       {
         posts.length === 0 && (
           <div class="text-center py-16 opacity-60">

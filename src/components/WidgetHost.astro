@@ -202,6 +202,18 @@ import HtmlToMarkdown from '@/tools/html-to-markdown/Tool.tsx';
 import HmacGen from '@/tools/hmac-gen/Tool.tsx';
 import JwtGenerator from '@/tools/jwt-generator/Tool.tsx';
 import Punycode from '@/tools/punycode/Tool.tsx';
+import StockFeeCalc from '@/tools/stock-fee-calc/Tool.tsx';
+import FundDcaCalc from '@/tools/fund-dca-calc/Tool.tsx';
+import InstallmentApr from '@/tools/installment-apr/Tool.tsx';
+import FundYieldConvert from '@/tools/fund-yield-convert/Tool.tsx';
+import AnnualLeaveCalc from '@/tools/annual-leave/Tool.tsx';
+import SeveranceCalc from '@/tools/severance-calc/Tool.tsx';
+import RunningPace from '@/tools/running-pace/Tool.tsx';
+import SleepCycle from '@/tools/sleep-cycle/Tool.tsx';
+import ElectricityCost from '@/tools/electricity-cost/Tool.tsx';
+import FuelCost from '@/tools/fuel-cost/Tool.tsx';
+import GoldWeightConvert from '@/tools/gold-weight-convert/Tool.tsx';
+import VolumeWeight from '@/tools/volume-weight/Tool.tsx';
 
 interface Props {
   tool: ToolMeta;
@@ -210,6 +222,19 @@ interface Props {
 
 const { tool, widgetProps = {} } = Astro.props;
 const mode = tool.hydrate ?? 'load';
+
+const isStockFee = tool.id === 'stock-fee-calc';
+const isFundDca = tool.id === 'fund-dca-calc';
+const isInstallApr = tool.id === 'installment-apr';
+const isFundYield = tool.id === 'fund-yield-convert';
+const isAnnualLeave = tool.id === 'annual-leave';
+const isSeverance = tool.id === 'severance-calc';
+const isRunPace = tool.id === 'running-pace';
+const isSleepCycle = tool.id === 'sleep-cycle';
+const isElecCost = tool.id === 'electricity-cost';
+const isFuelCost = tool.id === 'fuel-cost';
+const isGoldW = tool.id === 'gold-weight-convert';
+const isVolW = tool.id === 'volume-weight';
 
 const isPG = tool.id === 'password-generator';
 const isUC = tool.id === 'unit-convert';
@@ -426,7 +451,10 @@ const known =
   isBase58 || isSlug || isPort || isQP || isExtract || isEnv ||
   isSemver || isLoc || isHashId || isWcag || isCsvMd || isUa ||
   isApiKey || isXmlJson || isJsonPath || isYamlJson || isHtmlMd ||
-  isHmac || isJwtGen || isPuny;
+  isHmac || isJwtGen || isPuny ||
+  isStockFee || isFundDca || isInstallApr || isFundYield ||
+  isAnnualLeave || isSeverance || isRunPace || isSleepCycle ||
+  isElecCost || isFuelCost || isGoldW || isVolW;
 ---
 
 <!-- 密码生成器 -->
@@ -1318,6 +1346,44 @@ const known =
 {isPuny && mode === 'load' && <Punycode client:load {...widgetProps} />}
 {isPuny && mode === 'idle' && <Punycode client:idle {...widgetProps} />}
 {isPuny && mode === 'visible' && <Punycode client:visible {...widgetProps} />}
+
+<!-- 2026-09-11 夜间批次：中国金融/生活/换算计算器 -->
+{isStockFee && mode === 'load' && <StockFeeCalc client:load {...widgetProps} />}
+{isStockFee && mode === 'idle' && <StockFeeCalc client:idle {...widgetProps} />}
+{isStockFee && mode === 'visible' && <StockFeeCalc client:visible {...widgetProps} />}
+{isFundDca && mode === 'load' && <FundDcaCalc client:load {...widgetProps} />}
+{isFundDca && mode === 'idle' && <FundDcaCalc client:idle {...widgetProps} />}
+{isFundDca && mode === 'visible' && <FundDcaCalc client:visible {...widgetProps} />}
+{isInstallApr && mode === 'load' && <InstallmentApr client:load {...widgetProps} />}
+{isInstallApr && mode === 'idle' && <InstallmentApr client:idle {...widgetProps} />}
+{isInstallApr && mode === 'visible' && <InstallmentApr client:visible {...widgetProps} />}
+{isFundYield && mode === 'load' && <FundYieldConvert client:load {...widgetProps} />}
+{isFundYield && mode === 'idle' && <FundYieldConvert client:idle {...widgetProps} />}
+{isFundYield && mode === 'visible' && <FundYieldConvert client:visible {...widgetProps} />}
+{isAnnualLeave && mode === 'load' && <AnnualLeaveCalc client:load {...widgetProps} />}
+{isAnnualLeave && mode === 'idle' && <AnnualLeaveCalc client:idle {...widgetProps} />}
+{isAnnualLeave && mode === 'visible' && <AnnualLeaveCalc client:visible {...widgetProps} />}
+{isSeverance && mode === 'load' && <SeveranceCalc client:load {...widgetProps} />}
+{isSeverance && mode === 'idle' && <SeveranceCalc client:idle {...widgetProps} />}
+{isSeverance && mode === 'visible' && <SeveranceCalc client:visible {...widgetProps} />}
+{isRunPace && mode === 'load' && <RunningPace client:load {...widgetProps} />}
+{isRunPace && mode === 'idle' && <RunningPace client:idle {...widgetProps} />}
+{isRunPace && mode === 'visible' && <RunningPace client:visible {...widgetProps} />}
+{isSleepCycle && mode === 'load' && <SleepCycle client:load {...widgetProps} />}
+{isSleepCycle && mode === 'idle' && <SleepCycle client:idle {...widgetProps} />}
+{isSleepCycle && mode === 'visible' && <SleepCycle client:visible {...widgetProps} />}
+{isElecCost && mode === 'load' && <ElectricityCost client:load {...widgetProps} />}
+{isElecCost && mode === 'idle' && <ElectricityCost client:idle {...widgetProps} />}
+{isElecCost && mode === 'visible' && <ElectricityCost client:visible {...widgetProps} />}
+{isFuelCost && mode === 'load' && <FuelCost client:load {...widgetProps} />}
+{isFuelCost && mode === 'idle' && <FuelCost client:idle {...widgetProps} />}
+{isFuelCost && mode === 'visible' && <FuelCost client:visible {...widgetProps} />}
+{isGoldW && mode === 'load' && <GoldWeightConvert client:load {...widgetProps} />}
+{isGoldW && mode === 'idle' && <GoldWeightConvert client:idle {...widgetProps} />}
+{isGoldW && mode === 'visible' && <GoldWeightConvert client:visible {...widgetProps} />}
+{isVolW && mode === 'load' && <VolumeWeight client:load {...widgetProps} />}
+{isVolW && mode === 'idle' && <VolumeWeight client:idle {...widgetProps} />}
+{isVolW && mode === 'visible' && <VolumeWeight client:visible {...widgetProps} />}
 
 <!-- 未接入水合岛屿的工具 -->
 {

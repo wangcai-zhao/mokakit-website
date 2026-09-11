@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026/8/24 21:29:10",
+  "generatedAt": "2026/9/11 01:57:12",
   "project": {
     "name": "MokaKit",
     "nameCn": "摩卡工具箱",
@@ -353,6 +353,16 @@
       "batch": "第十六批·时钟栏目",
       "tools": "新增 clock 分类 4 个：analog-clock / flip-clock / digital-clock / world-clock；站点工具总数 100 → 105",
       "count": 4
+    },
+    {
+      "batch": "第十七批·数学计算器",
+      "tools": "fraction-calculator / average-calculator / ratio-calculator / compound-interest / gcd-lcm / roman-numeral / rounding-calculator / scientific-notation / permutation-combination / discount-calculator（数学计算高搜索量品类，均六段式 content.mdx + 1 篇 SEO 博客）",
+      "count": 10
+    },
+    {
+      "batch": "第十八批·实用计算器",
+      "tools": "provident-fund-calc 公积金 / inflation-calculator 通胀 / log-calculator 对数 / power-root 幂与根 / prime-factor 质因数 / hourly-wage 时薪 / gpa-calculator GPA（calc 7）+ bmr-calculator 基础代谢率 / menstrual-cycle 月经周期 / shoe-size 鞋码（life 3）；均六段式 content.mdx + 1 篇 SEO 博客 everyday-calculators-guide",
+      "count": 10
     }
   ],
   "tools": [
@@ -369,6 +379,20 @@
         "日期",
         "天数",
         "计算"
+      ]
+    },
+    {
+      "id": "acceleration",
+      "name": "加速度换算",
+      "tagline": "m/s²、g、ft/s²、Gal 等加速度单位在线互转",
+      "category": "convert",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "加速度",
+        "换算"
       ]
     },
     {
@@ -448,6 +472,115 @@
       ]
     },
     {
+      "id": "angular-velocity",
+      "name": "角速度换算",
+      "tagline": "rad/s、rpm、°/s、rps 等角速度单位在线互转",
+      "category": "convert",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "角速度",
+        "转速",
+        "换算"
+      ]
+    },
+    {
+      "id": "annual-leave",
+      "name": "年假天数计算器",
+      "tagline": "按工龄一算该休几天",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "tags": [
+        "年假",
+        "劳动权益",
+        "职场"
+      ]
+    },
+    {
+      "id": "annual-tax-settlement",
+      "name": "个税年度汇算计算器",
+      "tagline": "算清你该补税还是退税",
+      "category": "calc",
+      "status": "stable",
+      "priority": 9,
+      "createdAt": "2026-09-01",
+      "updatedAt": "2026-09-01",
+      "tags": [
+        "个税",
+        "汇算清缴",
+        "退税",
+        "补税",
+        "综合所得"
+      ]
+    },
+    {
+      "id": "annualized-return",
+      "name": "年化收益率计算器",
+      "tagline": "把任意期限的收益折算成年化",
+      "category": "calc",
+      "status": "stable",
+      "priority": 8,
+      "createdAt": "2026-09-01",
+      "updatedAt": "2026-09-01",
+      "tags": [
+        "年化",
+        "收益率",
+        "投资",
+        "复利",
+        "理财"
+      ]
+    },
+    {
+      "id": "api-key-gen",
+      "name": "随机密钥/Token 生成器",
+      "tagline": "生成高强度随机密钥、API Key、Token",
+      "category": "dev",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "密钥",
+        "随机",
+        "安全"
+      ]
+    },
+    {
+      "id": "average-calculator",
+      "name": "平均数计算器",
+      "tagline": "均值、中位数与众数",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-08-25",
+      "updatedAt": "2026-08-25",
+      "tags": [
+        "平均数",
+        "统计",
+        "数学"
+      ]
+    },
+    {
+      "id": "baking",
+      "name": "烘焙用量换算",
+      "tagline": "杯/汤匙/茶匙/毫升/克 烘焙单位在线互转",
+      "category": "convert",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "烘焙",
+        "用量",
+        "换算"
+      ]
+    },
+    {
       "id": "base-converter",
       "name": "进制转换",
       "tagline": "2/8/10/16 等进制互转",
@@ -461,6 +594,21 @@
         "转换",
         "计算",
         "数字"
+      ]
+    },
+    {
+      "id": "base58",
+      "name": "Base58 编解码",
+      "tagline": "Base58 编码解码，比特币风格去易混字符",
+      "category": "dev",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "编码",
+        "Base58",
+        "区块链"
       ]
     },
     {
@@ -510,6 +658,38 @@
       ]
     },
     {
+      "id": "bmr-calculator",
+      "name": "基础代谢率计算器",
+      "tagline": "算每日最低热量消耗",
+      "category": "life",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-08-25",
+      "updatedAt": "2026-08-25",
+      "tags": [
+        "BMR",
+        "健康",
+        "计算"
+      ]
+    },
+    {
+      "id": "body-fat",
+      "name": "体脂率计算器",
+      "tagline": "美国海军法估算体脂与分级",
+      "category": "life",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-01",
+      "updatedAt": "2026-09-01",
+      "tags": [
+        "体脂率",
+        "海军法",
+        "健身",
+        "减肥",
+        "身材"
+      ]
+    },
+    {
       "id": "bonus-tax-cn",
       "name": "年终奖计税计算器",
       "tagline": "单独计税还是并入综合所得更省",
@@ -522,6 +702,21 @@
         "年终奖",
         "个税",
         "税后收入"
+      ]
+    },
+    {
+      "id": "bra-size",
+      "name": "胸罩尺码换算",
+      "tagline": "下围+罩杯 各国文胸尺码在线互转",
+      "category": "convert",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "胸罩",
+        "尺码",
+        "换算"
       ]
     },
     {
@@ -557,6 +752,72 @@
       ]
     },
     {
+      "id": "calorie-burn",
+      "name": "运动消耗卡路里计算器",
+      "tagline": "体重 × 运动 × 时长算消耗",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-01",
+      "updatedAt": "2026-09-01",
+      "tags": [
+        "卡路里",
+        "运动",
+        "消耗",
+        "减肥",
+        "健身"
+      ]
+    },
+    {
+      "id": "capacitance",
+      "name": "电容单位换算",
+      "tagline": "pF、nF、μF、mF、F 等电容单位在线互转",
+      "category": "convert",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "电容",
+        "电子",
+        "换算"
+      ]
+    },
+    {
+      "id": "car-loan",
+      "name": "车贷月供计算器",
+      "tagline": "贷款买车，算清每月还多少",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-01",
+      "updatedAt": "2026-09-01",
+      "tags": [
+        "车贷",
+        "月供",
+        "等额本息",
+        "买车",
+        "利息"
+      ]
+    },
+    {
+      "id": "card-installment",
+      "name": "信用卡分期真实利率",
+      "tagline": "名义手续费率背后的真实年化",
+      "category": "calc",
+      "status": "stable",
+      "priority": 8,
+      "createdAt": "2026-09-01",
+      "updatedAt": "2026-09-01",
+      "tags": [
+        "信用卡",
+        "分期",
+        "真实利率",
+        "APR",
+        "手续费"
+      ]
+    },
+    {
       "id": "case-converter",
       "name": "大小写转换",
       "tagline": "大小写与命名风格互转",
@@ -589,6 +850,40 @@
       ]
     },
     {
+      "id": "child-height",
+      "name": "儿童身高预测计算器",
+      "tagline": "父母身高估算孩子能长多高",
+      "category": "calc",
+      "status": "stable",
+      "priority": 6,
+      "createdAt": "2026-09-01",
+      "updatedAt": "2026-09-01",
+      "tags": [
+        "身高预测",
+        "遗传",
+        "儿童",
+        "父母身高",
+        "成长"
+      ]
+    },
+    {
+      "id": "clothing-size",
+      "name": "衣服尺码换算",
+      "tagline": "国际 / 中国 / 美码 对照",
+      "category": "calc",
+      "status": "stable",
+      "priority": 5,
+      "createdAt": "2026-09-01",
+      "updatedAt": "2026-09-01",
+      "tags": [
+        "尺码",
+        "衣服",
+        "SML",
+        "对照",
+        "海淘"
+      ]
+    },
+    {
       "id": "color-converter",
       "name": "颜色转换",
       "tagline": "HEX / RGB / HSL 互转",
@@ -606,6 +901,22 @@
       ]
     },
     {
+      "id": "combo-loan-calc",
+      "name": "组合贷月供计算器",
+      "tagline": "公积金+商贷月供合计",
+      "category": "calc",
+      "status": "stable",
+      "priority": 9,
+      "createdAt": "2026-08-25",
+      "updatedAt": "2026-08-25",
+      "tags": [
+        "组合贷",
+        "月供",
+        "公积金",
+        "商贷"
+      ]
+    },
+    {
       "id": "commit-gen",
       "name": "Commit 规范生成器",
       "tagline": "约定式提交，秒出标准提交信息",
@@ -619,6 +930,21 @@
         "提交",
         "规范",
         "协作"
+      ]
+    },
+    {
+      "id": "compound-interest",
+      "name": "复利计算器",
+      "tagline": "利滚利与定投复利",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-08-25",
+      "updatedAt": "2026-08-25",
+      "tags": [
+        "复利",
+        "理财",
+        "金融"
       ]
     },
     {
@@ -653,6 +979,21 @@
       ]
     },
     {
+      "id": "csv-to-markdown",
+      "name": "CSV 转 Markdown 表格",
+      "tagline": "把 CSV 数据一键转成 Markdown 表格",
+      "category": "dev",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "CSV",
+        "Markdown",
+        "转换"
+      ]
+    },
+    {
       "id": "currency-convert",
       "name": "汇率换算",
       "tagline": "多币种实时换算（内置参考汇率）",
@@ -666,6 +1007,36 @@
         "货币",
         "换算",
         "金融"
+      ]
+    },
+    {
+      "id": "current",
+      "name": "电流单位换算",
+      "tagline": "μA、mA、A、kA 等电流单位在线互转",
+      "category": "convert",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "电流",
+        "电子",
+        "换算"
+      ]
+    },
+    {
+      "id": "data-binary",
+      "name": "存储单位换算",
+      "tagline": "bit/B/KB/KiB/MB/MiB/GB/GiB 等存储容量在线互转",
+      "category": "convert",
+      "status": "stable",
+      "priority": 8,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "存储",
+        "数据",
+        "换算"
       ]
     },
     {
@@ -744,6 +1115,20 @@
       ]
     },
     {
+      "id": "density",
+      "name": "密度单位换算",
+      "tagline": "kg/m³、g/cm³、lb/ft³ 等密度单位在线互转",
+      "category": "convert",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "密度",
+        "换算"
+      ]
+    },
+    {
       "id": "deposit-interest",
       "name": "存款利息计算器",
       "tagline": "算清定存大额存单能赚多少",
@@ -805,6 +1190,53 @@
       ]
     },
     {
+      "id": "discount-calculator",
+      "name": "打折计算器",
+      "tagline": "折扣价与到手价",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-08-25",
+      "updatedAt": "2026-08-25",
+      "tags": [
+        "折扣",
+        "购物",
+        "计算"
+      ]
+    },
+    {
+      "id": "due-date",
+      "name": "预产期计算器",
+      "tagline": "末次月经推算预产期与孕周",
+      "category": "life",
+      "status": "stable",
+      "priority": 8,
+      "createdAt": "2026-09-01",
+      "updatedAt": "2026-09-01",
+      "tags": [
+        "预产期",
+        "孕周",
+        "末次月经",
+        "怀孕",
+        "母婴"
+      ]
+    },
+    {
+      "id": "electricity-cost",
+      "name": "电器电费计算器",
+      "tagline": "算算家电一年吃多少电费",
+      "category": "life",
+      "status": "stable",
+      "priority": 6,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "tags": [
+        "电费",
+        "家电",
+        "生活成本"
+      ]
+    },
+    {
       "id": "emoji-search",
       "name": "Emoji 表情搜索",
       "tagline": "搜表情一键复制",
@@ -820,6 +1252,53 @@
       ]
     },
     {
+      "id": "env-parser",
+      "name": ".env 配置解析",
+      "tagline": "解析 dotenv 配置，校验键值与重复",
+      "category": "dev",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "env",
+        "配置",
+        "开发"
+      ]
+    },
+    {
+      "id": "extract-links",
+      "name": "链接提取器",
+      "tagline": "从文本或 HTML 提取所有 URL 链接",
+      "category": "dev",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "URL",
+        "提取",
+        "开发"
+      ]
+    },
+    {
+      "id": "factorial",
+      "name": "阶乘计算器",
+      "tagline": "阶乘、排列数、组合数一键算",
+      "category": "calc",
+      "status": "stable",
+      "priority": 6,
+      "createdAt": "2026-09-01",
+      "updatedAt": "2026-09-01",
+      "tags": [
+        "阶乘",
+        "排列",
+        "组合",
+        "数学",
+        "概率"
+      ]
+    },
+    {
       "id": "flip-clock",
       "name": "翻页时钟",
       "tagline": "经典翻牌动画时钟",
@@ -831,6 +1310,20 @@
       "tags": [
         "时钟",
         "翻页"
+      ]
+    },
+    {
+      "id": "flow-rate",
+      "name": "体积流量换算",
+      "tagline": "L/s、L/min、m³/h、gpm、cfm 等流量单位在线互转",
+      "category": "convert",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "流量",
+        "换算"
       ]
     },
     {
@@ -849,6 +1342,66 @@
       ]
     },
     {
+      "id": "fraction-calculator",
+      "name": "分数计算器",
+      "tagline": "分数加减乘除与约分",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-08-25",
+      "updatedAt": "2026-08-25",
+      "tags": [
+        "分数",
+        "数学",
+        "计算"
+      ]
+    },
+    {
+      "id": "fuel-cost",
+      "name": "油费计算器",
+      "tagline": "里程油耗油价一算便知",
+      "category": "life",
+      "status": "stable",
+      "priority": 6,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "tags": [
+        "油费",
+        "用车成本",
+        "自驾"
+      ]
+    },
+    {
+      "id": "fuel-efficiency",
+      "name": "油耗换算",
+      "tagline": "L/100km、km/L、mpg 等燃油效率单位在线互转",
+      "category": "convert",
+      "status": "stable",
+      "priority": 8,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "油耗",
+        "燃油效率",
+        "换算"
+      ]
+    },
+    {
+      "id": "fund-dca-calc",
+      "name": "基金定投收益计算器",
+      "tagline": "定期定额复利收益一目了然",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "tags": [
+        "基金",
+        "定投",
+        "理财"
+      ]
+    },
+    {
       "id": "fund-loan-calc",
       "name": "公积金贷款计算器",
       "tagline": "算清公积金贷款月供与利息",
@@ -861,6 +1414,36 @@
         "公积金",
         "房贷",
         "月供"
+      ]
+    },
+    {
+      "id": "fund-yield-convert",
+      "name": "货币基金收益换算器",
+      "tagline": "万份收益与七日年化互算",
+      "category": "calc",
+      "status": "stable",
+      "priority": 6,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "tags": [
+        "货币基金",
+        "收益",
+        "理财"
+      ]
+    },
+    {
+      "id": "gcd-lcm",
+      "name": "最大公约数与最小公倍数",
+      "tagline": "GCD / LCM 一键求",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-08-25",
+      "updatedAt": "2026-08-25",
+      "tags": [
+        "数论",
+        "数学",
+        "计算"
       ]
     },
     {
@@ -899,6 +1482,21 @@
       ]
     },
     {
+      "id": "gold-weight-convert",
+      "name": "黄金重量换算器",
+      "tagline": "克两钱盎司快速互算",
+      "category": "convert",
+      "status": "stable",
+      "priority": 6,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "tags": [
+        "黄金",
+        "重量",
+        "换算"
+      ]
+    },
+    {
       "id": "gov-shutdown-countdown",
       "name": "事件倒计时器",
       "tagline": "自定义目标实时倒计时",
@@ -910,6 +1508,21 @@
       "tags": [
         "倒计时",
         "时间",
+        "计算"
+      ]
+    },
+    {
+      "id": "gpa-calculator",
+      "name": "GPA 计算器",
+      "tagline": "学分加权算绩点",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-08-25",
+      "updatedAt": "2026-08-25",
+      "tags": [
+        "GPA",
+        "成绩",
         "计算"
       ]
     },
@@ -927,6 +1540,51 @@
         "sha256",
         "加密",
         "校验"
+      ]
+    },
+    {
+      "id": "hash-identify",
+      "name": "哈希类型识别",
+      "tagline": "根据长度与特征识别 md5/sha/bcrypt 等",
+      "category": "dev",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "哈希",
+        "识别",
+        "安全"
+      ]
+    },
+    {
+      "id": "hat-size",
+      "name": "帽子尺码换算",
+      "tagline": "美码/英码/欧码/中码帽子尺寸在线互转",
+      "category": "convert",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "帽子",
+        "尺码",
+        "换算"
+      ]
+    },
+    {
+      "id": "hmac-gen",
+      "name": "HMAC 生成器",
+      "tagline": "HMAC-SHA256/384/512 带密钥签名",
+      "category": "dev",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "HMAC",
+        "签名",
+        "安全"
       ]
     },
     {
@@ -960,6 +1618,21 @@
       ]
     },
     {
+      "id": "hourly-wage",
+      "name": "时薪换算器",
+      "tagline": "时薪与月薪互转",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-08-25",
+      "updatedAt": "2026-08-25",
+      "tags": [
+        "时薪",
+        "工资",
+        "计算"
+      ]
+    },
+    {
       "id": "hours-from-now",
       "name": "几小时后是几点",
       "tagline": "算 N 小时后是几点钟",
@@ -990,6 +1663,21 @@
       ]
     },
     {
+      "id": "html-to-markdown",
+      "name": "HTML 转 Markdown",
+      "tagline": "把 HTML 片段转成 Markdown 文本",
+      "category": "dev",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "HTML",
+        "Markdown",
+        "转换"
+      ]
+    },
+    {
       "id": "http-status",
       "name": "HTTP 状态码速查",
       "tagline": "常用 HTTP 状态码含义速查",
@@ -1007,6 +1695,38 @@
       ]
     },
     {
+      "id": "ideal-weight",
+      "name": "理想体重计算器",
+      "tagline": "按身高算标准体重区间",
+      "category": "calc",
+      "status": "stable",
+      "priority": 6,
+      "createdAt": "2026-09-01",
+      "updatedAt": "2026-09-01",
+      "tags": [
+        "理想体重",
+        "标准体重",
+        "BMI",
+        "健康",
+        "身高"
+      ]
+    },
+    {
+      "id": "illuminance",
+      "name": "照度换算",
+      "tagline": "lux、foot-candle、phot 等光照度单位在线互转",
+      "category": "convert",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "照度",
+        "照明",
+        "换算"
+      ]
+    },
+    {
       "id": "income-tax-cn",
       "name": "个人所得税计算器",
       "tagline": "算清一年工资该交多少税",
@@ -1019,6 +1739,51 @@
         "个税",
         "工资",
         "税后收入"
+      ]
+    },
+    {
+      "id": "inductance",
+      "name": "电感单位换算",
+      "tagline": "nH、μH、mH、H 等电感单位在线互转",
+      "category": "convert",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "电感",
+        "电子",
+        "换算"
+      ]
+    },
+    {
+      "id": "inflation-calculator",
+      "name": "通货膨胀计算器",
+      "tagline": "算清钱随时间的购买力",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-08-25",
+      "updatedAt": "2026-08-25",
+      "tags": [
+        "通胀",
+        "理财",
+        "计算"
+      ]
+    },
+    {
+      "id": "installment-apr",
+      "name": "分期真实利率计算器",
+      "tagline": "名义费率换算真实年化IRR",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "tags": [
+        "分期",
+        "利率",
+        "信用卡"
       ]
     },
     {
@@ -1085,6 +1850,21 @@
       ]
     },
     {
+      "id": "jsonpath",
+      "name": "JSONPath 提取器",
+      "tagline": "用 JSONPath 从 JSON 提取任意字段",
+      "category": "dev",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "JSON",
+        "提取",
+        "开发"
+      ]
+    },
+    {
       "id": "jwt-decoder",
       "name": "JWT 解析器",
       "tagline": "在线解析 JWT，查看 Header / Payload",
@@ -1099,6 +1879,21 @@
         "dev",
         "解析",
         "鉴权"
+      ]
+    },
+    {
+      "id": "jwt-generator",
+      "name": "JWT 生成器",
+      "tagline": "自定义 Header/Payload 生成并 HS256 签名 JWT",
+      "category": "dev",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "JWT",
+        "签名",
+        "安全"
       ]
     },
     {
@@ -1147,6 +1942,36 @@
       ]
     },
     {
+      "id": "loc-counter",
+      "name": "代码行数统计",
+      "tagline": "统计代码总行数/注释/空行/有效代码",
+      "category": "dev",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "代码",
+        "统计",
+        "开发"
+      ]
+    },
+    {
+      "id": "log-calculator",
+      "name": "对数计算器",
+      "tagline": "任意底数的对数",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-08-25",
+      "updatedAt": "2026-08-25",
+      "tags": [
+        "对数",
+        "数学",
+        "计算"
+      ]
+    },
+    {
       "id": "lottery-draw",
       "name": "抽签抽奖",
       "tagline": "从选项里随机抽取",
@@ -1158,6 +1983,20 @@
       "tags": [
         "抽签",
         "随机"
+      ]
+    },
+    {
+      "id": "magnetic",
+      "name": "磁感应强度换算",
+      "tagline": "T、mT、μT、nT、G 等磁感应强度在线互转",
+      "category": "convert",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "磁场",
+        "换算"
       ]
     },
     {
@@ -1177,6 +2016,23 @@
       ]
     },
     {
+      "id": "maternity-benefit",
+      "name": "生育津贴计算器",
+      "tagline": "单位月均工资除30乘产假天数",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-01",
+      "updatedAt": "2026-09-01",
+      "tags": [
+        "生育津贴",
+        "产假",
+        "社保",
+        "工资",
+        "母婴"
+      ]
+    },
+    {
       "id": "mcp-config-generator",
       "name": "MCP 配置生成器",
       "tagline": "选服务生成 mcp.json 配置",
@@ -1191,6 +2047,38 @@
         "配置",
         "ai",
         "智能体"
+      ]
+    },
+    {
+      "id": "medical-insurance",
+      "name": "医保报销计算器",
+      "tagline": "总费用减起付线乘比例，算能报多少",
+      "category": "calc",
+      "status": "stable",
+      "priority": 8,
+      "createdAt": "2026-09-01",
+      "updatedAt": "2026-09-01",
+      "tags": [
+        "医保",
+        "报销",
+        "起付线",
+        "封顶线",
+        "看病"
+      ]
+    },
+    {
+      "id": "menstrual-cycle",
+      "name": "月经周期与排卵期",
+      "tagline": "推算排卵日与易孕窗口",
+      "category": "life",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-08-25",
+      "updatedAt": "2026-08-25",
+      "tags": [
+        "月经",
+        "排卵期",
+        "健康"
       ]
     },
     {
@@ -1269,6 +2157,21 @@
       ]
     },
     {
+      "id": "paper-size",
+      "name": "纸张尺寸换算",
+      "tagline": "A/B/C 系列、Letter、Legal 等纸张尺寸在线互转",
+      "category": "convert",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "纸张",
+        "尺寸",
+        "换算"
+      ]
+    },
+    {
       "id": "password-generator",
       "name": "密码生成器",
       "tagline": "一键生成高强度随机密码",
@@ -1331,6 +2234,51 @@
       ]
     },
     {
+      "id": "permutation-combination",
+      "name": "排列组合计算器",
+      "tagline": "排列数 P(n,k) 与组合数 C(n,k)",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-08-25",
+      "updatedAt": "2026-08-25",
+      "tags": [
+        "排列组合",
+        "概率",
+        "数学"
+      ]
+    },
+    {
+      "id": "port-lookup",
+      "name": "端口号速查",
+      "tagline": "常见端口号与用途速查，TCP/UDP 一览",
+      "category": "dev",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "网络",
+        "端口",
+        "开发"
+      ]
+    },
+    {
+      "id": "power-root",
+      "name": "幂与根式计算器",
+      "tagline": "a^b 与 n 次根",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-08-25",
+      "updatedAt": "2026-08-25",
+      "tags": [
+        "幂",
+        "数学",
+        "计算"
+      ]
+    },
+    {
       "id": "pressure-convert",
       "name": "压力换算",
       "tagline": "Pa、bar、psi、atm、mmHg 等压强单位在线互转",
@@ -1343,6 +2291,38 @@
         "压力",
         "压强",
         "换算"
+      ]
+    },
+    {
+      "id": "prime-factor",
+      "name": "质因数分解",
+      "tagline": "分解质因数并判定素数",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-08-25",
+      "updatedAt": "2026-08-25",
+      "tags": [
+        "质因数",
+        "数学",
+        "计算"
+      ]
+    },
+    {
+      "id": "profit-margin",
+      "name": "利润率计算器",
+      "tagline": "成本售价算毛利，反推定价",
+      "category": "calc",
+      "status": "stable",
+      "priority": 8,
+      "createdAt": "2026-09-01",
+      "updatedAt": "2026-09-01",
+      "tags": [
+        "利润率",
+        "毛利率",
+        "定价",
+        "成本",
+        "生意"
       ]
     },
     {
@@ -1381,6 +2361,21 @@
       ]
     },
     {
+      "id": "provident-fund-calc",
+      "name": "公积金计算器",
+      "tagline": "算清每月公积金缴存额",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-08-25",
+      "updatedAt": "2026-08-25",
+      "tags": [
+        "公积金",
+        "理财",
+        "计算"
+      ]
+    },
+    {
       "id": "public-apis",
       "name": "免费 API 大全",
       "tagline": "按分类检索可用的免费开放接口",
@@ -1395,6 +2390,21 @@
         "数据",
         "导航",
         "开源"
+      ]
+    },
+    {
+      "id": "punycode",
+      "name": "Punycode 编解码",
+      "tagline": "中文域名与 xn-- 编码互转",
+      "category": "dev",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "域名",
+        "编码",
+        "开发"
       ]
     },
     {
@@ -1414,6 +2424,21 @@
       ]
     },
     {
+      "id": "query-params",
+      "name": "URL 查询参数处理",
+      "tagline": "解析、排序、去重、拼接 URL 查询参数",
+      "category": "dev",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "URL",
+        "参数",
+        "开发"
+      ]
+    },
+    {
       "id": "random-number",
       "name": "随机数生成器",
       "tagline": "区间内批量随机整数",
@@ -1425,6 +2450,21 @@
       "tags": [
         "随机",
         "生成"
+      ]
+    },
+    {
+      "id": "ratio-calculator",
+      "name": "比例计算器",
+      "tagline": "比例换算与按比例分配",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-08-25",
+      "updatedAt": "2026-08-25",
+      "tags": [
+        "比例",
+        "数学",
+        "计算"
       ]
     },
     {
@@ -1444,6 +2484,38 @@
       ]
     },
     {
+      "id": "rental-yield",
+      "name": "租售比 / 房产回报计算器",
+      "tagline": "房价和租金，算回本要几年",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-01",
+      "updatedAt": "2026-09-01",
+      "tags": [
+        "租售比",
+        "租金",
+        "房产",
+        "回报",
+        "投资"
+      ]
+    },
+    {
+      "id": "resistance",
+      "name": "电阻单位换算",
+      "tagline": "Ω、mΩ、kΩ、MΩ、GΩ 等电阻单位在线互转",
+      "category": "convert",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "电阻",
+        "电子",
+        "换算"
+      ]
+    },
+    {
       "id": "retirement-age",
       "name": "退休年龄测算",
       "tagline": "渐进式延迟退休，算算你几岁退",
@@ -1459,6 +2531,21 @@
       ]
     },
     {
+      "id": "ring-size",
+      "name": "戒指圈号换算",
+      "tagline": "美码/港码/欧码/日码/中码戒指尺寸在线互转",
+      "category": "convert",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "戒指",
+        "尺码",
+        "换算"
+      ]
+    },
+    {
       "id": "rock-paper-scissors",
       "name": "石头剪刀布",
       "tagline": "人机对战记分",
@@ -1471,6 +2558,36 @@
         "游戏",
         "剪刀",
         "对战"
+      ]
+    },
+    {
+      "id": "roman-numeral",
+      "name": "罗马数字转换",
+      "tagline": "阿拉伯数字与罗马数字互转",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-08-25",
+      "updatedAt": "2026-08-25",
+      "tags": [
+        "罗马数字",
+        "进制",
+        "数学"
+      ]
+    },
+    {
+      "id": "rounding-calculator",
+      "name": "四舍五入计算器",
+      "tagline": "指定位数四舍五入",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-08-25",
+      "updatedAt": "2026-08-25",
+      "tags": [
+        "四舍五入",
+        "数学",
+        "计算"
       ]
     },
     {
@@ -1491,6 +2608,36 @@
       ]
     },
     {
+      "id": "running-pace",
+      "name": "跑步配速计算器",
+      "tagline": "配速时间完赛成绩互算",
+      "category": "life",
+      "status": "stable",
+      "priority": 6,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "tags": [
+        "跑步",
+        "配速",
+        "运动"
+      ]
+    },
+    {
+      "id": "scientific-notation",
+      "name": "科学计数法转换",
+      "tagline": "普通数字与科学计数法互转",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-08-25",
+      "updatedAt": "2026-08-25",
+      "tags": [
+        "科学计数法",
+        "数学",
+        "换算"
+      ]
+    },
+    {
       "id": "seconds-to-time",
       "name": "秒转时分秒计算器",
       "tagline": "秒数换算成 HH:MM:SS",
@@ -1503,6 +2650,51 @@
         "时间",
         "换算",
         "秒"
+      ]
+    },
+    {
+      "id": "semver-compare",
+      "name": "版本号比较",
+      "tagline": "语义化版本号比较与校验",
+      "category": "dev",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "版本",
+        "semver",
+        "开发"
+      ]
+    },
+    {
+      "id": "severance-calc",
+      "name": "经济补偿金计算器",
+      "tagline": "算清N、N+1还是2N",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "tags": [
+        "劳动权益",
+        "补偿金",
+        "职场"
+      ]
+    },
+    {
+      "id": "shoe-size",
+      "name": "鞋码换算",
+      "tagline": "中/欧/美/英码互转",
+      "category": "life",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-08-25",
+      "updatedAt": "2026-08-25",
+      "tags": [
+        "鞋码",
+        "换码",
+        "生活"
       ]
     },
     {
@@ -1520,6 +2712,36 @@
         "ai",
         "配置",
         "智能体"
+      ]
+    },
+    {
+      "id": "sleep-cycle",
+      "name": "睡眠周期计算器",
+      "tagline": "按90分钟周期倒推入睡",
+      "category": "life",
+      "status": "stable",
+      "priority": 6,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "tags": [
+        "睡眠",
+        "作息",
+        "健康"
+      ]
+    },
+    {
+      "id": "slug-generator",
+      "name": "URL Slug 生成器",
+      "tagline": "标题转 URL 友好 slug，支持中英文",
+      "category": "dev",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "URL",
+        "slug",
+        "开发"
       ]
     },
     {
@@ -1550,6 +2772,38 @@
         "sql",
         "格式化",
         "开发"
+      ]
+    },
+    {
+      "id": "stamp-duty",
+      "name": "印花税计算器",
+      "tagline": "选合同类型填金额，算应缴印花税",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-01",
+      "updatedAt": "2026-09-01",
+      "tags": [
+        "印花税",
+        "合同",
+        "税率",
+        "财税",
+        "报税"
+      ]
+    },
+    {
+      "id": "stock-fee-calc",
+      "name": "A股交易费用计算器",
+      "tagline": "算清佣金印花税过户费成本",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "tags": [
+        "股票",
+        "交易费用",
+        "投资"
       ]
     },
     {
@@ -1738,6 +2992,38 @@
       ]
     },
     {
+      "id": "trigonometry",
+      "name": "三角函数计算器",
+      "tagline": "角度一输，六函数全出",
+      "category": "calc",
+      "status": "stable",
+      "priority": 6,
+      "createdAt": "2026-09-01",
+      "updatedAt": "2026-09-01",
+      "tags": [
+        "三角函数",
+        "sin",
+        "cos",
+        "tan",
+        "数学"
+      ]
+    },
+    {
+      "id": "typography",
+      "name": "排版单位换算",
+      "tagline": "pt、px、mm、Q、pc 等字号单位在线互转",
+      "category": "convert",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "排版",
+        "字体",
+        "换算"
+      ]
+    },
+    {
       "id": "udi-decoder",
       "name": "UDI 码解码",
       "tagline": "解析 GS1 应用标识符，还原 UDI 各字段",
@@ -1820,6 +3106,21 @@
       ]
     },
     {
+      "id": "user-agent-parse",
+      "name": "User-Agent 解析器",
+      "tagline": "解析 UA 识别浏览器、系统、设备",
+      "category": "dev",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "UA",
+        "解析",
+        "开发"
+      ]
+    },
+    {
       "id": "utc-to-cst",
       "name": "UTC 转中国标准时间",
       "tagline": "UTC 换算成北京时间",
@@ -1896,6 +3197,23 @@
       ]
     },
     {
+      "id": "variance-std",
+      "name": "方差标准差计算器",
+      "tagline": "一组数据算均值与波动",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-01",
+      "updatedAt": "2026-09-01",
+      "tags": [
+        "方差",
+        "标准差",
+        "统计",
+        "均值",
+        "数据分析"
+      ]
+    },
+    {
       "id": "vat-calc",
       "name": "增值税计算器",
       "tagline": "一般纳税人/小规模纳税人都能算",
@@ -1923,6 +3241,100 @@
         "视频",
         "时间",
         "计算"
+      ]
+    },
+    {
+      "id": "viscosity",
+      "name": "粘度换算",
+      "tagline": "Pa·s、mPa·s、cP 等动力粘度单位在线互转",
+      "category": "convert",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "粘度",
+        "流体",
+        "换算"
+      ]
+    },
+    {
+      "id": "voltage",
+      "name": "电压单位换算",
+      "tagline": "μV、mV、V、kV、MV 等电压单位在线互转",
+      "category": "convert",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "电压",
+        "电子",
+        "换算"
+      ]
+    },
+    {
+      "id": "volume-weight",
+      "name": "快递体积重量计算器",
+      "tagline": "抛重计费重一算便知",
+      "category": "convert",
+      "status": "stable",
+      "priority": 6,
+      "createdAt": "2026-09-11",
+      "updatedAt": "2026-09-11",
+      "tags": [
+        "快递",
+        "物流",
+        "换算"
+      ]
+    },
+    {
+      "id": "water-intake",
+      "name": "每日饮水量计算器",
+      "tagline": "按体重算每天该喝多少水",
+      "category": "calc",
+      "status": "stable",
+      "priority": 6,
+      "createdAt": "2026-09-01",
+      "updatedAt": "2026-09-01",
+      "tags": [
+        "饮水",
+        "水量",
+        "体重",
+        "健康",
+        "补水"
+      ]
+    },
+    {
+      "id": "wcag-contrast",
+      "name": "WCAG 对比度检查",
+      "tagline": "前景/背景色对比度，过 AA/AAA 无障碍",
+      "category": "dev",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "WCAG",
+        "颜色",
+        "无障碍"
+      ]
+    },
+    {
+      "id": "weather",
+      "name": "天气查询",
+      "tagline": "查任意城市的实时天气与 7 天预报",
+      "category": "life",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-02",
+      "updatedAt": "2026-09-02",
+      "tags": [
+        "天气",
+        "预报",
+        "城市",
+        "温度",
+        "生活"
       ]
     },
     {
@@ -1956,6 +3368,23 @@
       ]
     },
     {
+      "id": "workdays-count",
+      "name": "工作天数计算器",
+      "tagline": "起止日期算工作日",
+      "category": "calc",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-01",
+      "updatedAt": "2026-09-01",
+      "tags": [
+        "工作天数",
+        "工作日",
+        "排期",
+        "工期",
+        "日期"
+      ]
+    },
+    {
       "id": "world-clock",
       "name": "世界时钟",
       "tagline": "多时区并列对照",
@@ -1968,6 +3397,38 @@
         "时钟",
         "时区"
       ]
+    },
+    {
+      "id": "xml-json",
+      "name": "XML 与 JSON 互转",
+      "tagline": "XML 和 JSON 在线互相转换，保留属性与结构",
+      "category": "dev",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "XML",
+        "JSON",
+        "开发",
+        "转换"
+      ]
+    },
+    {
+      "id": "yaml-json",
+      "name": "YAML 与 JSON 互转",
+      "tagline": "YAML 和 JSON 在线互相转换，支持嵌套与常用类型",
+      "category": "dev",
+      "status": "stable",
+      "priority": 7,
+      "createdAt": "2026-09-03",
+      "updatedAt": "2026-09-03",
+      "tags": [
+        "YAML",
+        "JSON",
+        "开发",
+        "转换"
+      ]
     }
   ],
   "categories": [
@@ -1975,7 +3436,7 @@
       "id": "convert",
       "slug": "convert",
       "name": "换算转换",
-      "count": 6
+      "count": 28
     },
     {
       "id": "text",
@@ -1993,13 +3454,13 @@
       "id": "calc",
       "slug": "calc",
       "name": "计算工具",
-      "count": 38
+      "count": 80
     },
     {
       "id": "dev",
       "slug": "dev",
       "name": "开发辅助",
-      "count": 23
+      "count": 43
     },
     {
       "id": "barcode",
@@ -2017,7 +3478,7 @@
       "id": "life",
       "slug": "life",
       "name": "生活实用",
-      "count": 5
+      "count": 15
     },
     {
       "id": "fun",
@@ -2033,20 +3494,20 @@
     }
   ],
   "stats": {
-    "total": 104,
+    "total": 198,
     "beta": 0,
     "cats": 10,
     "emptyCats": [],
-    "maxCat": 38,
-    "latestUpdate": "2026-08-14",
+    "maxCat": 80,
+    "latestUpdate": "2026-09-11",
     "earliestCreate": "2026-08-04",
-    "pages": 418,
+    "pages": 512,
     "subpages": 247,
     "mdxCoverage": 100
   },
   "assets": {
     "distExists": true,
-    "pagesTotal": 418,
+    "pagesTotal": 512,
     "subpagesTotal": 247,
     "subpagesByTool": [
       {
@@ -2062,86 +3523,167 @@
         "count": 6
       }
     ],
-    "sitemapUrls": 0,
-    "distBuiltAt": "2026/8/22 00:44:53",
+    "sitemapUrls": 507,
+    "distBuiltAt": "2026/9/4 15:45:28",
     "mdxTools": [
       "90-day",
+      "acceleration",
       "aes-encrypt",
       "after-tax-salary",
       "age-calculator",
       "ai-price-compare",
       "analog-clock",
+      "angular-velocity",
+      "annual-leave",
+      "annual-tax-settlement",
+      "annualized-return",
+      "api-key-gen",
+      "average-calculator",
+      "baking",
       "base-converter",
+      "base58",
       "base64",
       "bill-split",
       "bmi-calculator",
+      "bmr-calculator",
+      "body-fat",
       "bonus-tax-cn",
+      "bra-size",
       "build-your-own-x",
       "calendar-quarter",
+      "calorie-burn",
+      "capacitance",
+      "car-loan",
+      "card-installment",
       "case-converter",
       "changelog-gen",
+      "child-height",
+      "clothing-size",
       "color-converter",
+      "combo-loan-calc",
       "commit-gen",
+      "compound-interest",
       "countdown-timer",
       "cron-parser",
+      "csv-to-markdown",
       "currency-convert",
+      "current",
+      "data-binary",
       "date-calculator",
       "days-ago",
       "days-between",
       "decision-wheel",
       "deed-tax",
+      "density",
       "deposit-interest",
       "dev-roadmap",
       "dice-roller",
       "digital-clock",
+      "discount-calculator",
+      "due-date",
+      "electricity-cost",
       "emoji-search",
+      "env-parser",
+      "extract-links",
+      "factorial",
       "flip-clock",
+      "flow-rate",
       "fortnight-to-hours",
+      "fraction-calculator",
+      "fuel-cost",
+      "fuel-efficiency",
+      "fund-dca-calc",
       "fund-loan-calc",
+      "fund-yield-convert",
+      "gcd-lcm",
       "github-stars",
       "gitignore-gen",
+      "gold-weight-convert",
       "gov-shutdown-countdown",
+      "gpa-calculator",
       "hash-calculator",
+      "hash-identify",
+      "hat-size",
+      "hmac-gen",
       "hms-add",
       "hms-to-units",
+      "hourly-wage",
       "hours-from-now",
       "html-escape",
+      "html-to-markdown",
       "http-status",
+      "ideal-weight",
+      "illuminance",
       "income-tax-cn",
+      "inductance",
+      "inflation-calculator",
+      "installment-apr",
       "isbn-validator",
       "jian-fan-convert",
       "json-formatter",
       "json-to-csv",
+      "jsonpath",
       "jwt-decoder",
+      "jwt-generator",
       "license-gen",
       "line-sort",
       "loan-calculator",
+      "loc-counter",
+      "log-calculator",
       "lottery-draw",
+      "magnetic",
       "markdown-preview",
+      "maternity-benefit",
       "mcp-config-generator",
+      "medical-insurance",
+      "menstrual-cycle",
       "min-age-birth",
       "mortgage-early-repayment",
       "name-generator",
       "ode-solver",
       "overtime-pay",
+      "paper-size",
       "password-generator",
       "password-strength",
       "pension-estimate",
       "percentage-calculator",
+      "permutation-combination",
+      "port-lookup",
+      "power-root",
       "pressure-convert",
+      "prime-factor",
+      "profit-margin",
       "prompt-library",
       "prompt-template",
+      "provident-fund-calc",
       "public-apis",
+      "punycode",
       "qrcode-generator",
+      "query-params",
       "random-number",
+      "ratio-calculator",
       "regex-tester",
+      "rental-yield",
+      "resistance",
       "retirement-age",
+      "ring-size",
       "rock-paper-scissors",
+      "roman-numeral",
+      "rounding-calculator",
       "rsa-keygen",
+      "running-pace",
+      "scientific-notation",
       "seconds-to-time",
+      "semver-compare",
+      "severance-calc",
+      "shoe-size",
       "skill-generator",
+      "sleep-cycle",
+      "slug-generator",
       "social-security-cn",
       "sql-formatter",
+      "stamp-duty",
+      "stock-fee-calc",
       "system-design",
       "temperature-convert",
       "text-counter",
@@ -2154,21 +3696,34 @@
       "today-info",
       "token-counter",
       "totp-generator",
+      "trigonometry",
+      "typography",
       "udi-decoder",
       "udi-generator",
       "unit-convert",
       "url-encoder",
       "url-parser",
+      "user-agent-parse",
       "utc-to-cst",
       "utc-to-edt",
       "utc-to-est",
       "utc-to-pst",
       "uuid-generator",
+      "variance-std",
       "vat-calc",
       "video-speed",
+      "viscosity",
+      "voltage",
+      "volume-weight",
+      "water-intake",
+      "wcag-contrast",
+      "weather",
       "weekly-hours",
       "weeks-pregnant",
-      "world-clock"
+      "workdays-count",
+      "world-clock",
+      "xml-json",
+      "yaml-json"
     ],
     "units": {
       "categories": 16,
@@ -2193,9 +3748,6 @@
         "频率"
       ]
     },
-    "sites": {
-      "groups": 36,
-      "links": 624
-    }
+    "sites": null
   }
 }

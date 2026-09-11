@@ -1,0 +1,169 @@
+---
+import Icon from '@/components/Icon.astro';
+
+/** 已由页面从工具注册表解析过的工具条目 */
+export interface ResolvedTool {
+  id: string;
+  name: string;
+  role: string;
+  features: string[];
+  icon: string;
+  categoryName: string;
+  url: string;
+}
+
+export interface ResolvedGroup {
+  label: string;
+  note?: string;
+  tools: ResolvedTool[];
+}
+
+export interface ResolvedRelease {
+  version: string;
+  date: string;
+  dateText: string;
+  title: string;
+  summary: string;
+  anchor: string;
+  toolCount: number;
+  groups: ResolvedGroup[];
+  notes?: string[];
+}
+
+interface Props {
+  release: ResolvedRelease;
+  /** true 默认展开，false 折成一行 */
+  open: boolean;
+}
+
+const { release: r, open } = Astro.props;
+
+/** 写了核心功能点的当重点卡，其余走紧凑条目，形成"重点 + 完整清单"两层 */
+const groups = r.groups.map((g) => ({
+  ...g,
+  highlights: g.tools.filter((t) => t.features.length > 0),
+  rest: g.tools.filter((t) => t.features.length === 0),
+}));
+---
+
+<section id={r.anchor} class="relative pl-6 sm:pl-7 scroll-mt-20">
+  <span class="absolute left-0 top-2 w-3 h-3 rounded-full bg-primary ring-4 ring-primary/15"></span>
+  <span class="absolute left-[5px] top-6 bottom-0 w-px bg-base-300"></span>
+
+  <div class="text-xs font-mono opacity-55 flex items-center gap-2">
+    <time datetime={r.date}>{r.date}</time>
+    <span class="px-1.5 py-0.5 rounded bg-base-200 font-sans">{r.version}</span>
+  </div>
+  <h2 class="mt-1.5 text-lg sm:text-xl font-bold">{r.title}</h2>
+  <p class="mt-1.5 text-sm opacity-70 leading-relaxed max-w-3xl">{r.summary}</p>
+
+  <details class="group mt-3.5" open={open}>
+    <summary
+      class="cursor-pointer list-none inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-lg bg-base-200/70 hover:bg-base-200 text-primary transition-colors [&::-webkit-details-marker]:hidden"
+    >
+      <Icon name="arrowRight" size={13} class="chev transition-transform duration-200" />
+      本批次 {r.toolCount} 个工具
+    </summary>
+
+    <div>
+      {
+        groups.map((g) => (
+          <div class="mt-4 first:mt-4">
+            <h3 class="text-sm font-bold opacity-85">{g.label}</h3>
+            {g.note && <p class="text-xs opacity-60 mt-1 mb-2.5 leading-relaxed">{g.note}</p>}
+
+            {g.highlights.length > 0 && (
+              <div
+                class:list={[
+                  'grid gap-2.5',
+                  g.note ? 'mt-2' : 'mt-2.5',
+                  g.highlights.length > 1 ? 'sm:grid-cols-2' : 'sm:grid-cols-1',
+                ]}
+              >
+                {g.highlights.map((t) => (
+                  <a
+                    href={t.url}
+                    class="group/card flex flex-col gap-2 p-4 rounded-2xl border border-base-300 bg-base-100 hover:border-primary/50 hover:shadow-md transition-all duration-200"
+                  >
+                    <span class="flex items-center gap-2.5">
+                      <span class="grid place-items-center w-9 h-9 shrink-0 rounded-xl bg-primary/10 text-primary group-hover/card:bg-primary group-hover/card:text-primary-content transition-colors">
+                        <Icon name={t.icon} size={18} />
+                      </span>
+                      <span class="min-w-0 flex-1">
+                        <span class="block font-semibold text-sm truncate group-hover/card:text-primary transition-colors">
+                          {t.name}
+                        </span>
+                        <span class="block text-[11px] opacity-50 mt-0.5">{t.categoryName}</span>
+                      </span>
+                    </span>
+
+                    <span class="text-xs opacity-70 leading-relaxed">{t.role}</span>
+
+                    <span class="flex flex-col gap-1 border-t border-base-300/70 pt-2">
+                      {t.features.map((f) => (
+                        <span class="flex items-start gap-1.5 text-xs opacity-75 leading-snug">
+                          <Icon name="check" size={12} class="shrink-0 mt-0.5 text-primary" />
+                          <span>{f}</span>
+                        </span>
+                      ))}
+                    </span>
+                  </a>
+                ))}
+              </div>
+            )}
+
+            {g.rest.length > 0 && (
+              <div
+                class:list={[
+                  'grid gap-2 sm:grid-cols-2 lg:grid-cols-3',
+                  g.highlights.length > 0 ? 'mt-2.5' : g.note ? 'mt-2' : 'mt-2.5',
+                ]}
+              >
+                {g.rest.map((t) => (
+                  <a
+                    href={t.url}
+                    class="group/item flex items-start gap-2.5 px-3 py-2 rounded-xl border border-base-300 bg-base-100 hover:border-primary/50 hover:shadow-sm transition-all duration-200"
+                  >
+                    <span class="grid place-items-center w-7 h-7 shrink-0 rounded-lg bg-primary/10 text-primary mt-0.5">
+                      <Icon name={t.icon} size={14} />
+                    </span>
+                    <span class="min-w-0 flex-1">
+                      <span class="block text-sm font-medium group-hover/item:text-primary transition-colors">
+                        {t.name}
+                      </span>
+                      <span class="block text-xs opacity-60 mt-0.5 leading-snug">{t.role}</span>
+                    </span>
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+        ))
+      }
+
+      {
+        r.notes && r.notes.length > 0 && (
+          <div class="mt-4 rounded-2xl border border-dashed border-base-300 p-3.5">
+            <div class="text-xs font-semibold opacity-60 mb-2 flex items-center gap-1.5">
+              <Icon name="zap" size={13} /> 同批次其他改动
+            </div>
+            <ul class="flex flex-col gap-1.5">
+              {r.notes.map((n) => (
+                <li class="flex items-start gap-1.5 text-xs opacity-70 leading-relaxed">
+                  <span class="text-primary shrink-0">·</span>
+                  <span>{n}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
+    </div>
+  </details>
+</section>
+
+<style>
+  details[open] .chev {
+    transform: rotate(90deg);
+  }
+</style>

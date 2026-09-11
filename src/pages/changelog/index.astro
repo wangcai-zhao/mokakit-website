@@ -1,0 +1,167 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import Icon from '@/components/Icon.astro';
+import ChangelogRelease from '@/components/ChangelogRelease.astro';
+import { SITE } from '@/config/site';
+import { CATEGORY_MAP } from '@/config/categories';
+import { TOOL_MAP } from '@/tools/registry';
+import { RELEASES_DESC, getChangelogTotals } from '@/data/changelog';
+import { breadcrumbLd, itemListLd, type Crumb } from '@/utils/jsonld';
+
+const { releaseCount, toolCount } = getChangelogTotals();
+
+/** 默认展开的批次数量（最近的几批），更早的折起来，避免页面过长 */
+const OPEN_BY_DEFAULT = 2;
+
+/** 构建期校验：changelog.ts 里的 id 必须对得上工具注册表，写错就在构建日志里喊出来 */
+const missingIds: string[] = [];
+
+const releases = RELEASES_DESC.map((r) => {
+  const groups = r.groups
+    .map((g) => ({
+      label: g.label,
+      note: g.note,
+      tools: g.tools
+        .map((t) => {
+          const meta = TOOL_MAP.get(t.id);
+          if (!meta) {
+            missingIds.push(t.id);
+            return null;
+          }
+          return {
+            id: t.id,
+            name: meta.name,
+            role: t.role ?? meta.tagline,
+            features: t.features ?? [],
+            icon: meta.icon,
+            categoryName: CATEGORY_MAP.get(meta.category)?.name ?? meta.category,
+            url: `/tools/${t.id}/`,
+          };
+        })
+        .filter((x): x is NonNullable<typeof x> => Boolean(x)),
+    }))
+    .filter((g) => g.tools.length > 0);
+
+  return {
+    version: r.version,
+    date: r.date,
+    dateText: new Date(`${r.date}T00:00:00`).toLocaleDateString('zh-CN', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }),
+    title: r.title,
+    summary: r.summary,
+    notes: r.notes,
+    anchor: `v-${r.version.replace(/\./g, '-')}`,
+    toolCount: groups.reduce((s, g) => s + g.tools.length, 0),
+    groups,
+  };
+});
+
+if (missingIds.length > 0) {
+  console.warn(
+    `[changelog] 以下工具 id 在工具注册表中不存在，已跳过渲染：${[...new Set(missingIds)].join(', ')}`,
+  );
+}
+
+const listedTools = releases.flatMap((r) => r.groups.flatMap((g) => g.tools));
+
+const crumbs: Crumb[] = [
+  { name: '首页', url: '/' },
+  { name: '更新日志', url: '/changelog/' },
+];
+
+const jsonLd = [
+  breadcrumbLd(crumbs),
+  itemListLd(listedTools.map((t) => ({ name: t.name, url: t.url, description: t.role }))),
+];
+---
+
+<BaseLayout
+  title="更新日志 - 摩卡工具箱 MokaKit"
+  description={`${SITE.nameCn}更新日志：按批次记录新增的在线工具，写清每个工具的名称、用途与核心功能。累计 ${releaseCount} 个批次、${toolCount} 个新增工具，最近一次更新 ${releases[0]?.dateText}。`}
+  path="/changelog/"
+  jsonLd={jsonLd}
+>
+  <div class="mx-auto max-w-5xl px-4 py-5">
+    <Breadcrumb crumbs={crumbs} />
+
+    <header class="mt-4 mb-7">
+      <h1 class="text-2xl sm:text-3xl font-bold flex items-center gap-2.5">
+        <span class="grid place-items-center w-9 h-9 rounded-xl bg-primary/10 text-primary">
+          <Icon name="refresh" size={20} />
+        </span>
+        更新日志
+      </h1>
+      <p class="mt-3 text-sm opacity-70 leading-relaxed max-w-3xl">
+        MokaKit 每上线一批新工具都记在这里：写清楚它是干什么的、核心功能有哪几条。
+        想上手直接点卡片进工具页，想看全量清单去
+        <a href="/tools/" class="text-primary hover:underline">全部工具</a>。
+      </p>
+
+      <div class="mt-5 grid grid-cols-3 gap-2.5 sm:max-w-lg">
+        <div class="rounded-xl border border-base-300 bg-base-100 px-3 py-2.5">
+          <div class="text-xl font-bold tabular-nums">{releaseCount}</div>
+          <div class="text-xs opacity-60 mt-0.5">个更新批次</div>
+        </div>
+        <div class="rounded-xl border border-base-300 bg-base-100 px-3 py-2.5">
+          <div class="text-xl font-bold tabular-nums text-primary">{toolCount}</div>
+          <div class="text-xs opacity-60 mt-0.5">个新增工具</div>
+        </div>
+        <div class="rounded-xl border border-base-300 bg-base-100 px-3 py-2.5">
+          <div class="text-xl font-bold tabular-nums">{releases[0]?.date.slice(5)}</div>
+          <div class="text-xs opacity-60 mt-0.5">最近更新</div>
+        </div>
+      </div>
+    </header>
+
+    <nav class="mb-8 rounded-2xl border border-base-300 bg-base-100 p-4" aria-label="更新批次目录">
+      <div class="text-xs font-semibold opacity-60 mb-2.5 flex items-center gap-1.5">
+        <Icon name="table" size={13} /> 本页目录
+      </div>
+      <ol class="flex flex-col gap-1">
+        {
+          releases.map((r) => (
+            <li>
+              <a
+                href={`#${r.anchor}`}
+                class="group flex items-baseline gap-2.5 text-sm rounded-lg px-2 py-1 hover:bg-base-200 transition-colors"
+              >
+                <span class="font-mono text-xs opacity-55 shrink-0">{r.date}</span>
+                <span class="flex-1 min-w-0 truncate group-hover:text-primary transition-colors">
+                  {r.title}
+                </span>
+                <span class="text-xs opacity-45 shrink-0">{r.toolCount} 个</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
+
+    <div class="flex flex-col gap-7">
+      {
+        releases.map((r, i) => (
+          <ChangelogRelease release={r} open={i < OPEN_BY_DEFAULT} />
+        ))
+      }
+    </div>
+
+    <div
+      class="mt-10 rounded-2xl border border-base-300 bg-base-100 p-5 flex flex-col sm:flex-row sm:items-center gap-3"
+    >
+      <div class="flex-1">
+        <div class="font-semibold text-sm">想找某个具体工具？</div>
+        <p class="text-xs opacity-65 mt-1 leading-relaxed">
+          全部工具按分类整理、支持关键词搜索；开发者还能通过 MCP 让 AI 直接调用这些计算能力。
+        </p>
+      </div>
+      <div class="flex gap-2 shrink-0">
+        <a href="/tools/" class="btn btn-primary btn-sm">浏览全部工具</a>
+        <a href="/developers/" class="btn btn-ghost btn-sm">MCP 接入</a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

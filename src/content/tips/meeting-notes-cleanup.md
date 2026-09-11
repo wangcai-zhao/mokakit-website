@@ -3,7 +3,7 @@ title: "会议纪要自动整理：录音转文字再提炼"
 description: "录音转文字导出的纪要满是重复和大小写混乱？用文本去重 + 大小写转换先清洗再让 AI 提炼，附两个去重踩坑与规范化技巧。"
 publishDate: 2026-09-04
 tags: ["会议纪要", "文本去重", "效率"]
-draft: true
+draft: false
 series: "WorkBuddy 使用技巧"
 order: 8
 difficulty: 进阶

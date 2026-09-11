@@ -3,7 +3,7 @@ title: "个税社保算不明白，我让 AI 直接调计算器"
 description: "换工作算不清每月到手？我用 WorkBuddy 直接调 MokaKit 的个税、社保、年终奖计算器，30 秒出数，还顺手排了两个报税坑。"
 publishDate: 2026-09-01
 tags: ["个税计算", "社保公积金", "WorkBuddy MCP", "AI 调工具"]
-draft: true
+draft: false
 series: "WorkBuddy 使用技巧"
 order: 5
 difficulty: 入门

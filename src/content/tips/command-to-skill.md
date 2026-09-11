@@ -3,7 +3,7 @@ title: "把常用命令固化成 Skill，开机即用的小助手"
 description: "把重复的服务器检查、周报汇总固化成 WorkBuddy Skill：开机即喊即用的小助手怎么搭，含本机出网被拦与 cron 表达式两个真实踩坑。"
 publishDate: 2026-09-04
 tags: ["Skill", "自动化", "命令封装"]
-draft: true
+draft: false
 series: "WorkBuddy 使用技巧"
 order: 7
 difficulty: 入门

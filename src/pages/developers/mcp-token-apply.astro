@@ -1,0 +1,124 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Icon from '@/components/Icon.astro';
+
+const mailto = 'bo.zhao2026@outlook.com';
+const subject = '【MokaKit MCP 接入申请】';
+---
+
+<BaseLayout
+  title="申请 MokaKit MCP 接入 Token"
+  description="填写表单即可申请 MokaKit 摩卡工具箱 MCP Server 的试用接入 Token。纯前端表单，提交后为你预填申请邮件，不收集任何密码与敏感信息。"
+  path="/developers/mcp-token-apply/"
+>
+
+  <div class="mx-auto max-w-3xl px-4 py-12">
+    <!-- Hero -->
+    <div class="flex flex-wrap items-center gap-3">
+      <h1 class="text-3xl font-bold tracking-tight flex items-center gap-2">
+        <Icon name="key" size={28} /> 申请 MCP 接入 Token
+      </h1>
+      <span class="badge badge-warning badge-outline">受限开发者预览</span>
+    </div>
+    <p class="mt-4 text-base opacity-70 leading-relaxed">
+      填好下面的表单，点「生成申请邮件」会为你预填一封邮件（收件人、主题、正文都写好），
+      直接在你的邮件客户端里发送即可。我们收到后会回函发放你的专属 Token 与对接支持。
+      <strong class="opacity-80">本站不收集任何密码，也不会存储你填的内容。</strong>
+    </p>
+
+    <!-- 申请表单 -->
+    <form id="mcp-apply" class="mt-8 card bg-base-100 border border-base-300 p-6 space-y-5">
+      <div class="form-control">
+        <label class="label"><span class="label-text font-medium">称呼 / 昵称 <span class="text-error">*</span></span></label>
+        <input name="name" type="text" required placeholder="例如：旺财" class="input input-bordered w-full" />
+      </div>
+
+      <div class="form-control">
+        <label class="label"><span class="label-text font-medium">联系方式（邮箱 / IM）<span class="text-error">*</span></span></label>
+        <input name="contact" type="text" required placeholder="例如：you@example.com 或 微信号" class="input input-bordered w-full" />
+      </div>
+
+      <div class="form-control">
+        <label class="label"><span class="label-text font-medium">主要客户端</span></label>
+        <select name="client" class="select select-bordered w-full">
+          <option value="Claude Desktop">Claude Desktop</option>
+          <option value="Cursor">Cursor</option>
+          <option value="VS Code / Cline">VS Code / Cline</option>
+          <option value="自研 Agent">自研 Agent / 脚本</option>
+          <option value="其他">其他</option>
+        </select>
+      </div>
+
+      <div class="form-control">
+        <label class="label"><span class="label-text font-medium">使用场景 <span class="text-error">*</span></span></label>
+        <textarea name="scenario" required rows="4" placeholder="打算用 MokaKit 的哪些工具？例如：公司报销系统自动算个税/五险一金、Agent 帮用户查房贷月供…" class="textarea textarea-bordered w-full"></textarea>
+      </div>
+
+      <div class="form-control">
+        <label class="label"><span class="label-text font-medium">计划调用频次</span></label>
+        <select name="freq" class="select select-bordered w-full">
+          <option value="偶发（每天几次）">偶发（每天几次）</option>
+          <option value="常规（每天几十次）">常规（每天几十次）</option>
+          <option value="高频（每天数百次+）">高频（每天数百次+）</option>
+        </select>
+      </div>
+
+      <div class="alert alert-info text-sm leading-relaxed">
+        <Icon name="shield" size={16} />
+        <span>提交即代表你同意：仅将 Token 用于合法用途，不转售、不用于爬虫攻击；Token 泄露请第一时间邮件告知我们吊销。</span>
+      </div>
+
+      <div class="flex flex-wrap gap-3">
+        <button type="submit" class="btn btn-primary">生成申请邮件</button>
+        <button type="button" id="copy-btn" class="btn btn-outline">复制邮件模板</button>
+        <a href="/developers/" class="btn btn-ghost">返回文档</a>
+      </div>
+    </form>
+
+    <!-- 说明 -->
+    <div class="mt-8 card bg-primary/10 border border-primary/20 p-5 text-sm leading-relaxed">
+      <p class="font-semibold flex items-center gap-2"><Icon name="mail" size={16} /> 没自动打开邮件？</p>
+      <p class="mt-1 opacity-75">
+        点「复制邮件模板」手动发到 <span class="font-mono">bo.zhao2026@outlook.com</span>，主题填
+        <span class="font-mono">【MokaKit MCP 接入申请】</span> 即可。我们会回函发放试用 Token。
+      </p>
+    </div>
+  </div>
+
+  <script is:inline>
+    const form = document.getElementById('mcp-apply');
+    const copyBtn = document.getElementById('copy-btn');
+    const TO = 'bo.zhao2026@outlook.com';
+    const SUBJECT = '【MokaKit MCP 接入申请】';
+
+    function buildBody(d) {
+      return [
+        '称呼：' + d.name,
+        '联系方式：' + d.contact,
+        '主要客户端：' + d.client,
+        '使用场景：' + d.scenario,
+        '计划调用频次：' + d.freq,
+        '',
+        '（本邮件由 mokakit.com MCP Token 申请页自动生成）'
+      ].join('\n');
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const fd = new FormData(form);
+      const d = Object.fromEntries(fd.entries());
+      const body = encodeURIComponent(buildBody(d));
+      window.location.href = 'mailto:' + TO + '?subject=' + encodeURIComponent(SUBJECT) + '&body=' + body;
+    });
+
+    copyBtn.addEventListener('click', () => {
+      const fd = new FormData(form);
+      const d = Object.fromEntries(fd.entries());
+      const text = '收件人：' + TO + '\n主题：' + SUBJECT + '\n\n' + buildBody(d);
+      navigator.clipboard.writeText(text).then(() => {
+        copyBtn.textContent = '已复制 ✓';
+        setTimeout(() => (copyBtn.textContent = '复制邮件模板'), 2000);
+      });
+    });
+  </script>
+</BaseLayout>

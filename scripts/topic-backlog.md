@@ -16,10 +16,10 @@
 | 房贷月供到底多少，别再拿计算器瞎按 | workbuddy 房贷计算 / ai 算房贷 | mortgage-early-repayment, fund-loan-calc | AI 编排多步计算 | 进阶 | 写作中 |
 | 把常用命令固化成 Skill，开机即用的小助手 | workbuddy 常用命令 skill | skill-generator, cron-parser | Skill + 命令封装 | 入门 | 写作中 |
 | 会议纪要自动整理：录音转文字再提炼 | workbuddy 会议纪要 / ai 整理会议纪要 | text-dedup, case-converter | 文件读取 + 摘要 | 进阶 | 写作中 |
-| 用 WorkBuddy 批量重命名 + 格式转换 | workbuddy 批量重命名 / 批量转换 | case-converter, base64 | 批量文件操作 | 入门 | 待写 |
-| 让 AI 帮我写 SQL 并自查：接数据库的 MCP | workbuddy 连数据库 / mcp 数据库 | sql-formatter, json-formatter | 数据库 MCP | 高手 | 待写 |
-| 定时抓取竞品价格， weekly 汇总给我 | workbuddy 定时抓取 / 网页抓取 | json-formatter, unit-convert | 定时任务 + 网页抓取 | 进阶 | 待写 |
-| 把重复的客户回复做成模板技能 | workbuddy 自动回复 / 客服技能 | case-converter, base64 | 自定义回复技能 | 入门 | 待写 |
+| 用 WorkBuddy 批量重命名 + 格式转换 | workbuddy 批量重命名 / 批量转换 | case-converter, base64 | 批量文件操作 | 入门 | 写作中 |
+| 让 AI 帮我写 SQL 并自查：接数据库的 MCP | workbuddy 连数据库 / mcp 数据库 | sql-formatter, json-formatter | 数据库 MCP | 高手 | 写作中 |
+| 定时抓取竞品价格， weekly 汇总给我 | workbuddy 定时抓取 / 网页抓取 | json-formatter, unit-convert | 定时任务 + 网页抓取 | 进阶 | 写作中 |
+| 把重复的客户回复做成模板技能 | workbuddy 自动回复 / 客服技能 | case-converter, base64 | 自定义回复技能 | 入门 | 写作中 |
 | 接入企业微信，让 AI 远程帮我跑任务 | workbuddy 企业微信 / 远程操控 | mcp-config-generator | 企微通道 + MCP | 高手 | 待写 |
 | 用本地大模型跑敏感数据，不外传 | workbuddy 本地模型 / 隐私计算 | base64, json-formatter | 本地/隐私工具链 | 进阶 | 待写 |
 | 一篇搞定：WorkBuddy 全技巧合集（月度专题） | workbuddy 教程 / workbuddy 使用技巧 | 全站工具 | 综合 | 进阶 | 待写 |

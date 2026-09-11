@@ -6,9 +6,15 @@ import Icon from '@/components/Icon.astro';
 import { SITE } from '@/config/site';
 import { getToolsByCategory, INDEXABLE_TOOLS } from '@/tools/registry';
 import { breadcrumbLd, itemListLd, type Crumb } from '@/utils/jsonld';
+import { RELEASES_DESC, getChangelogTotals } from '@/data/changelog';
 
 const groups = getToolsByCategory();
 const total = INDEXABLE_TOOLS.length;
+
+/** 顶部"最近更新"入口用的数据 */
+const { toolCount: loggedToolCount } = getChangelogTotals();
+const latestRelease = RELEASES_DESC[0];
+const latestCount = latestRelease.groups.reduce((s, g) => s + g.tools.length, 0);
 
 const crumbs: Crumb[] = [
   { name: '首页', url: '/' },
@@ -42,6 +48,18 @@ const jsonLd = [
         共 {total} 个工具，全部免费、免注册，在浏览器本地运行。
       </p>
     </header>
+
+    <div
+      class="mb-7 flex flex-wrap items-center gap-x-2.5 gap-y-1.5 rounded-xl border border-dashed border-base-300 px-3.5 py-2.5"
+    >
+      <Icon name="refresh" size={15} class="text-primary shrink-0" />
+      <span class="text-sm opacity-75">
+        最近更新 {latestRelease.date}：新增 <strong class="text-primary">{latestCount}</strong> 个工具
+      </span>
+      <a href="/changelog/" class="text-sm text-primary hover:underline sm:ml-auto">
+        查看更新日志（累计 {loggedToolCount} 个）→
+      </a>
+    </div>
 
     {
       groups.length > 1 && (

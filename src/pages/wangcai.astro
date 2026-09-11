@@ -1,0 +1,218 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Icon from '@/components/Icon.astro';
+
+/**
+ * 旺财先生个人主页（MokaKit.com 内的作者页 / 自我介绍）。
+ *
+ * 站点定位：mokakit.com 本身就是旺财先生作品之一（user_memory 明示），
+ * 此页作为「人 > 站」的入口，集中陈列旺财先生做过的项目与 AI 工作流。
+ *
+ * 内容数据集中在本文件，未来想同步到 CloudBase 个人站 / 资料库 / GitHub README
+ * 可以把 WORKS 数组抽成 src/data/profile.ts。
+ */
+
+const PROFILE = {
+  name: '旺财先生',
+  role: '产品经理 / AI 自动化玩家',
+  city: '北京',
+  email: 'bo.zhao2026@outlook.com',
+  bio: '把「偶尔要用、搜半天、还怕被上传隐私」的小工具收拢到 MokaKit；把日常重复活儿交给 AI 工作流。常年折腾 WorkBuddy、Excel 自动化、副业计划、AI 写作工具。',
+  motto: '让工具把脏活做了，把判断和创造力留给自己。',
+};
+
+const WORKS = [
+  {
+    icon: 'wrench',
+    title: 'MokaKit 摩卡工具箱',
+    url: 'https://www.mokakit.com/',
+    desc: '「AI 时代的工具箱」。已上线 198 个本地优先工具，覆盖个税/房贷/A股费用/分期IRR 等中国本土计算场景，配 MCP Server 供 AI 直接调用。',
+    tag: '主打',
+  },
+  {
+    icon: 'key',
+    title: 'ldDecrypt 绿盾解密',
+    desc: '针对天锐绿盾透明加密的批量解密工具。受控机器产出明文 → 网络导出到无保护机落地，已封装为 greenshield-decrypt skill 复用。',
+    tag: '工作中',
+  },
+  {
+    icon: 'repeat',
+    title: 'side-hustle-plan 副业计划',
+    url: 'https://cf35af45e9dc4f4584bc40189789eff5.app.workbuddy.link',
+    desc: '每日 18:00 部署 3 小时任务，双引擎目标 ¥6000/月。四象限 + 四D法则管理，对账一下触发 AI 复盘。',
+    tag: '长线',
+  },
+  {
+    icon: 'calculator',
+    title: 'Excel 自动化三件套',
+    desc: '① 物料借收账本（强制 3 个月归还 + 当天快捷按钮）；② 回款统计表 + 发票使用记录月度合并；③ HBC-Excel 重构（VBA 嵌入单文件，弃网络同步）。',
+    tag: '工作',
+  },
+  {
+    icon: 'sparkles',
+    title: 'WorkBuddy 自动化生态',
+    desc: '每日签到 / 任务看板 / 工作日志 / 收藏 skill / 企微 E2E 助手（Claw）。统一走 automation + skill + work-journal 三件套。',
+    tag: '日常',
+  },
+  {
+    icon: 'search',
+    title: '闲鱼自动回复 xianyu-auto-reply-fix',
+    url: 'https://github.com/GuDong2003/xianyu-auto-reply-fix',
+    desc: '本地化闲鱼自动回复，本机 Python 3.13 跑，关注绿盾透明加密对运行环境的影响。',
+    tag: '探索',
+  },
+  {
+    icon: 'house',
+    title: 'family-menu 家庭菜单共享',
+    desc: '早期探索项目，方向 = 管理端 + 家庭群组菜单共享，含个人家庭使用场景，核心形态与技术选型待定。',
+    tag: '构想',
+  },
+];
+
+const CHANNELS = [
+  { icon: 'sparkles', label: 'WorkBuddy 资料库', url: 'https://www.workbuddy.cn/space' },
+  { icon: 'external-link', label: '副业计划工作台', url: 'https://cf35af45e9dc4f4584bc40189789eff5.app.workbuddy.link' },
+  { icon: 'code', label: 'MokaKit 使用技巧', url: '/tips/' },
+  { icon: 'shield', label: 'MokaKit MCP Server', url: '/developers/' },
+];
+
+const NAV_ENTRIES = [
+  { href: '/about/', label: '关于 MokaKit' },
+  { href: '/tips/', label: 'WorkBuddy 使用技巧' },
+  { href: '/developers/', label: '开发者 / MCP' },
+  { href: '/agents/', label: '智能体专栏' },
+];
+---
+
+<BaseLayout
+  title={`${PROFILE.name} · 个人主页`}
+  description={`${PROFILE.name}的个人主页与作品集：MokaKit 摩卡工具箱作者，专注本地优先工具、AI 自动化与 Excel 工作流。${PROFILE.motto}`}
+  path="/wangcai/"
+  keywords={[PROFILE.name, '个人主页', 'MokaKit 作者', 'AI 自动化', 'WorkBuddy', 'ldDecrypt', '副业计划']}
+  ogType="profile"
+  jsonLd={{
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: PROFILE.name,
+    jobTitle: PROFILE.role,
+    address: { '@type': 'PostalAddress', addressLocality: PROFILE.city, addressCountry: 'CN' },
+    email: `mailto:${PROFILE.email}`,
+    url: 'https://www.mokakit.com/wangcai/',
+    description: PROFILE.bio,
+    knowsAbout: ['Astro', 'WorkBuddy', 'MCP', 'AI Agent', 'Excel VBA', '透明加密解密', '副业运营'],
+    sameAs: [
+      'https://www.workbuddy.cn/space',
+      'https://cf35af45e9dc4f4584bc40189789eff5.app.workbuddy.link',
+    ],
+  }}
+>
+  <div class="mx-auto max-w-3xl px-4 py-12">
+    {/* ============ 顶部：头像 + 姓名 + 一句话定位 ============ */}
+    <section class="flex items-start gap-5">
+      <div
+        class="grid place-items-center w-20 h-20 sm:w-24 sm:h-24 shrink-0 rounded-2xl bg-gradient-to-br from-primary to-secondary text-primary-content shadow-md"
+        aria-hidden="true"
+      >
+        <span class="text-3xl sm:text-4xl font-black tracking-tight">旺</span>
+      </div>
+      <div class="min-w-0 flex-1">
+        <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">{PROFILE.name}</h1>
+        <p class="mt-1 text-sm sm:text-base opacity-70">{PROFILE.role} · {PROFILE.city}</p>
+        <p class="mt-3 text-sm sm:text-base opacity-80 leading-relaxed">{PROFILE.bio}</p>
+        <p class="mt-2 text-xs sm:text-sm italic opacity-60">「{PROFILE.motto}」</p>
+      </div>
+    </section>
+
+    {/* ============ 跳转内站入口 ============ */}
+    <nav class="mt-8 flex flex-wrap gap-2" aria-label="站内入口">
+      {
+        NAV_ENTRIES.map((e) => (
+          <a
+            href={e.href}
+            class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full border border-base-300 text-xs sm:text-sm hover:border-primary hover:text-primary transition-colors"
+          >
+            {e.label}
+            <Icon name="chevronRight" size={14} />
+          </a>
+        ))
+      }
+    </nav>
+
+    {/* ============ 我的作品 ============ */}
+    <section class="mt-10">
+      <h2 class="text-xl font-bold flex items-center gap-2">
+        <Icon name="sparkles" size={20} /> 我的作品
+      </h2>
+      <p class="mt-2 text-sm opacity-60">长线项目与日常小工具，挑了 7 个还在跑的。</p>
+
+      <div class="mt-5 grid gap-3 sm:grid-cols-2">
+        {
+          WORKS.map((w) => (
+            <a
+              href={w.url ?? '#'}
+              target={w.url?.startsWith('http') ? '_blank' : undefined}
+              rel={w.url?.startsWith('http') ? 'nofollow noopener' : undefined}
+              class="group relative flex flex-col gap-2 rounded-xl border border-base-300 bg-base-100 p-4 hover:border-primary hover:shadow-sm transition-all"
+            >
+              <div class="flex items-center gap-2">
+                <span class="grid place-items-center w-8 h-8 rounded-lg bg-primary/10 text-primary">
+                  <Icon name={w.icon} size={16} />
+                </span>
+                <span class="font-semibold truncate">{w.title}</span>
+                <span class="badge badge-outline badge-xs shrink-0 ml-auto">{w.tag}</span>
+              </div>
+              <p class="text-sm opacity-70 leading-relaxed">{w.desc}</p>
+              {
+                w.url && (
+                  <span class="absolute top-3 right-3 opacity-0 group-hover:opacity-60 transition">
+                    <Icon name="external-link" size={14} />
+                  </span>
+                )
+              }
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    {/* ============ 联系方式与入口 ============ */}
+    <section class="mt-10">
+      <h2 class="text-xl font-bold flex items-center gap-2">
+        <Icon name="megaphone" size={20} /> 联系 / 触达
+      </h2>
+      <ul class="mt-4 space-y-2">
+        {
+          CHANNELS.map((c) => (
+            <li>
+              <a
+                href={c.url}
+                target={c.url.startsWith('http') ? '_blank' : undefined}
+                rel={c.url.startsWith('http') ? 'nofollow noopener' : undefined}
+                class="flex items-center gap-2 text-sm hover:text-primary transition-colors"
+              >
+                <span class="grid place-items-center w-7 h-7 rounded-lg bg-base-200 text-base-content/70">
+                  <Icon name={c.icon} size={14} />
+                </span>
+                <span class="opacity-80">{c.label}</span>
+                <Icon name="external-link" size={12} class="opacity-40" />
+              </a>
+            </li>
+          ))
+        }
+        <li class="flex items-center gap-2 text-sm">
+          <span class="grid place-items-center w-7 h-7 rounded-lg bg-base-200 text-base-content/70">
+            <Icon name="coffee" size={14} />
+          </span>
+          <a href={`mailto:${PROFILE.email}`} class="opacity-80 hover:text-primary transition-colors">
+            {PROFILE.email}
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    {/* ============ 末尾一句话 ============ */}
+    <p class="mt-10 text-center text-xs opacity-50 italic">
+      大美丽在这里陪着我。东风卷钱袋，金库破闸开。
+    </p>
+  </div>
+</BaseLayout>

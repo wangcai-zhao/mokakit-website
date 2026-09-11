@@ -71,7 +71,9 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: '零一万物', url: 'https://www.lingyiwanwu.com/', desc: '李开复大模型' },
       { name: '腾讯元宝', url: 'https://yuanbao.tencent.com/', desc: '腾讯元宝' },
       { name: '商汤 SenseChat', url: 'https://chat.sensetime.com/', desc: '商汤大模型' },
-      { name: '京东言犀', url: 'https://yanxi.jd.com/', desc: '京东大模型' }
+      { name: '京东言犀', url: 'https://yanxi.jd.com/', desc: '京东大模型' },
+      { name: 'Qwen Chat', url: 'https://chat.qwen.ai/', desc: 'Qwen 官方网页版' },
+      { name: 'Open WebUI', url: 'https://openwebui.com/', desc: '本地模型界面' }
     ],
   },
   {
@@ -106,7 +108,9 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: 'Canva 可画', url: 'https://www.canva.cn/', desc: 'AI 设计' },
       { name: '创客贴', url: 'https://www.chuangkit.com/', desc: 'AI 设计' },
       { name: '笔魂 AI', url: 'https://www.bihun.ai/', desc: 'AI 绘画' },
-      { name: 'MUSA', url: 'https://musa.ai/', desc: 'AI 绘画' }
+      { name: 'MUSA', url: 'https://musa.ai/', desc: 'AI 绘画' },
+      { name: 'Bing 图像创作', url: 'https://www.bing.com/images/create', desc: '微软 AI 绘画' },
+      { name: 'Krea 实时画布', url: 'https://www.krea.ai/', desc: '实时 AI 出图' },
     ],
   },
   {
@@ -162,7 +166,8 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: 'Mureka', url: 'https://mureka.ai/', desc: 'AI 音乐' },
       { name: 'Sonauto', url: 'https://sonauto.ai/', desc: 'AI 音乐' },
       { name: 'MusicFX', url: 'https://aitestkitchen.withgoogle.com/', desc: '谷歌 AI 音乐' },
-      { name: '海绵音乐', url: 'https://music.mi.com/', desc: '小米 AI 音乐' }
+      { name: '海绵音乐', url: 'https://music.mi.com/', desc: '小米 AI 音乐' },
+      { name: '网易天音', url: 'https://tianyin.music.163.com/', desc: '网易 AI 创作' }
     ],
   },
   {
@@ -187,7 +192,9 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: 'AWS Q', url: 'https://aws.amazon.com/q/developer/', desc: '亚马逊 AI 编程' },
       { name: 'Sourcegraph Cody', url: 'https://sourcegraph.com/cody', desc: '代码助手' },
       { name: 'Sweep', url: 'https://sweep.dev/', desc: 'AI 修 Issue' },
-      { name: 'Claude Code', url: 'https://claude.ai/code', desc: '终端编程智能体' }
+      { name: 'Claude Code', url: 'https://claude.ai/code', desc: '终端编程智能体' },
+      { name: 'Trae', url: 'https://www.trae.cn/', desc: '字节 AI IDE' },
+      { name: 'JetBrains AI', url: 'https://www.jetbrains.com/ai/', desc: 'IDE 内 AI 助手' }
     ],
   },
   {
@@ -232,6 +239,7 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: 'Consensus', url: 'https://consensus.app/', desc: '学术 AI 搜索' },
       { name: 'Elicit', url: 'https://elicit.com/', desc: '学术文献搜索' },
       { name: 'Scite', url: 'https://scite.ai/', desc: '文献引用' },
+      { name: 'Lepton Search', url: 'https://lepton.search/', desc: '开源 AI 搜索' },
 
       
     ],
@@ -287,7 +295,8 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: '百川平台', url: 'https://platform.baichuan-ai.com/', desc: '百川 API' },
       { name: 'DeepSeek 平台', url: 'https://platform.deepseek.com/', desc: 'DeepSeek API' },
       { name: 'OpenAI 平台', url: 'https://platform.openai.com/', desc: 'OpenAI API' },
-      { name: 'Mistral 平台', url: 'https://mistral.ai/', desc: 'Mistral API' }
+      { name: 'Mistral 平台', url: 'https://mistral.ai/', desc: 'Mistral API' },
+      { name: 'Fal.ai', url: 'https://fal.ai/', desc: '推理与微调平台' },
     ],
   },
   {
@@ -382,7 +391,10 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: 'Grafana', url: 'https://grafana.com/', desc: '监控可视化' },
       { name: 'W3Schools', url: 'https://www.w3schools.com/', desc: '英文入门教程' },
       { name: '菜鸟教程', url: 'https://www.runoob.com/', desc: '中文基础教程' },
-      { name: 'ESLint', url: 'https://eslint.org/', desc: 'JS 代码规范' }
+      { name: 'ESLint', url: 'https://eslint.org/', desc: 'JS 代码规范' },
+      { name: 'Bundlephobia', url: 'https://bundlephobia.com/', desc: 'npm 包体积查询' },
+      { name: 'Learn Git Branching', url: 'https://learngitbranching.js.org/', desc: '可视化学 Git' },
+      { name: 'HTTPie', url: 'https://httpie.io/', desc: '现代化 API 调试' },
     ],
   },
   {
@@ -412,7 +424,10 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: 'Mockup World', url: 'https://www.mockupworld.co/', desc: '样机素材' },
       { name: 'Freepik', url: 'https://www.freepik.com/', desc: '矢量素材' },
       { name: 'Pinterest', url: 'https://www.pinterest.com/', desc: '灵感收集' },
-      { name: 'Awwwards', url: 'https://www.awwwards.com/', desc: '网页设计奖' }
+      { name: 'Awwwards', url: 'https://www.awwwards.com/', desc: '网页设计奖' },
+      { name: 'Photopea', url: 'https://www.photopea.com/', desc: '浏览器里的 PS' },
+      { name: '中国色', url: 'https://zhongguose.com/', desc: '中国传统色卡' },
+      { name: 'Ezgif', url: 'https://ezgif.com/', desc: '在线 GIF 编辑' },
     ],
   },
   {
@@ -442,7 +457,11 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: 'Base64', url: 'https://www.base64decode.org/', desc: 'Base64 转换' },
       { name: 'Pingdom', url: 'https://www.pingdom.com/', desc: '网站测速' },
       { name: 'WebPageTest', url: 'https://www.webpagetest.org/', desc: '性能测试' },
-      { name: 'Canva', url: 'https://www.canva.com/', desc: '在线设计' }
+      { name: 'Canva', url: 'https://www.canva.com/', desc: '在线设计' },
+      { name: 'uTools', url: 'https://u.tools/', desc: '桌面效率工具箱' },
+      { name: 'TinyWow', url: 'https://tinywow.com/', desc: '免费文档小工具' },
+      { name: 'PDF24 Tools', url: 'https://tools.pdf24.org/', desc: 'PDF 全家桶' },
+      { name: 'Docsmall', url: 'https://docsmall.com/', desc: '图片 PDF 压缩' },
     ],
   },
   {
@@ -468,7 +487,9 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: '36 氪', url: 'https://36kr.com/', desc: '创投与科技' },
       { name: 'MIT OpenCourse', url: 'https://ocw.mit.edu/', desc: 'MIT 公开课' },
       { name: 'edX', url: 'https://www.edx.org/', desc: '全球课程' },
-      { name: '可汗学院', url: 'https://zh.khanacademy.org/', desc: '免费科普' }
+      { name: '可汗学院', url: 'https://zh.khanacademy.org/', desc: '免费科普' },
+      { name: 'Hello 算法', url: 'https://www.hello-algo.com/', desc: '动画图解数据结构' },
+      { name: '慕课网', url: 'https://www.imooc.com/', desc: '编程实战视频' },
     ],
   },
   {
@@ -494,7 +515,9 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: 'Teambition', url: 'https://www.teambition.com/', desc: '项目协作' },
       { name: 'ProcessOn', url: 'https://www.processon.com/', desc: '在线思维导图' },
       { name: 'MindMeister', url: 'https://www.mindmeister.com/', desc: '思维导图' },
-      { name: 'Tower', url: 'https://tower.im/', desc: '团队协作' }
+      { name: 'Tower', url: 'https://tower.im/', desc: '团队协作' },
+      { name: '幕布', url: 'https://mubu.com/', desc: '大纲笔记' },
+      { name: '滴答清单', url: 'https://dida365.com/', desc: '待办与习惯' },
     ],
   },
   {
@@ -520,7 +543,9 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: 'Google Cloud', url: 'https://cloud.google.com/', desc: '谷歌云' },
       { name: 'UCloud', url: 'https://www.ucloud.cn/', desc: '中立云计算' },
       { name: '青云', url: 'https://www.qingcloud.com/', desc: '企业云' },
-      { name: 'DigitalOcean', url: 'https://www.digitalocean.com/', desc: '开发者云' }
+      { name: 'DigitalOcean', url: 'https://www.digitalocean.com/', desc: '开发者云' },
+      { name: 'Zeabur', url: 'https://zeabur.com/', desc: '一键部署应用' },
+      { name: 'Deno Deploy', url: 'https://deno.com/deploy', desc: '边缘 JS 运行' }
     ],
   },
   {
@@ -538,7 +563,8 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: '360 搜索', url: 'https://www.so.com/', desc: '中文搜索' },
       { name: '虫部落', url: 'https://search.chongbuluo.com/', desc: '聚合搜索' },
       { name: 'WolframAlpha', url: 'https://www.wolframalpha.com/', desc: '计算知识引擎' },
-      { name: 'Startpage', url: 'https://www.startpage.com/', desc: '隐私搜索' }
+      { name: 'Startpage', url: 'https://www.startpage.com/', desc: '隐私搜索' },
+      { name: 'Ecosia', url: 'https://www.ecosia.org/', desc: '种树搜索引擎' }
     ],
   },
   {
@@ -564,7 +590,10 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: '猫耳 FM', url: 'https://www.missevan.com/', desc: '有声电台' },
       { name: '微博', url: 'https://weibo.com/', desc: '社交媒体' },
       { name: '小红书', url: 'https://www.xiaohongshu.com/', desc: '种草社区' },
-      { name: 'AcFun', url: 'https://www.acfun.cn/', desc: '弹幕视频' }
+      { name: 'AcFun', url: 'https://www.acfun.cn/', desc: '弹幕视频' },
+      { name: '西瓜视频', url: 'https://www.ixigua.com/', desc: '中长视频平台' },
+      { name: '虎牙直播', url: 'https://www.huya.com/', desc: '游戏直播' },
+      { name: '斗鱼直播', url: 'https://www.douyu.com/', desc: '游戏直播' },
     ],
   },
   {
@@ -590,7 +619,11 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: '萝卜投研', url: 'https://www.ylzai.com/', desc: '研报平台' },
       { name: '市值风云', url: 'https://www.valar.com/', desc: '独立研报' },
       { name: '雪球基金', url: 'https://xueqiu.com/fund', desc: '基金社区' },
-      { name: '富途牛牛', url: 'https://www.futunn.com/', desc: '港美股交易' }
+      { name: '富途牛牛', url: 'https://www.futunn.com/', desc: '港美股交易' },
+      { name: '理杏仁', url: 'https://www.lixinger.com/', desc: '股票估值数据' },
+      { name: '且慢', url: 'https://qieman.com/', desc: '基金投顾' },
+      { name: '有知有行', url: 'https://youzhiyouxing.cn/', desc: '投资第一课' },
+      { name: '中证指数', url: 'https://www.csindex.com.cn/', desc: '指数官网' },
     ],
   },
   {
@@ -612,7 +645,9 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: 'Kaspersky', url: 'https://www.kaspersky.com/', desc: '卡巴斯基' },
       { name: 'Malwarebytes', url: 'https://www.malwarebytes.com/', desc: '反恶意软件' },
       { name: 'SHODAN', url: 'https://www.shodan.io/', desc: '设备搜索引擎' },
-      { name: 'CyberChef', url: 'https://gchq.github.io/CyberChef/', desc: '网络安全工具' }
+      { name: 'CyberChef', url: 'https://gchq.github.io/CyberChef/', desc: '网络安全工具' },
+      { name: '腾讯哈勃', url: 'https://habo.qq.com/', desc: '文件威胁分析' },
+      { name: '微步云沙箱', url: 'https://s.threatbook.com/', desc: '在线可疑文件检测' }
     ],
   },
   {
@@ -636,7 +671,9 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: '豆瓣小组', url: 'https://www.douban.com/group/', desc: '兴趣小组' },
       { name: 'NGA', url: 'https://nga.178.com/', desc: '游戏社区' },
       { name: '机核', url: 'https://www.gcores.com/', desc: '游戏文化' },
-      { name: '小黑盒', url: 'https://www.xiaoheihe.cn/', desc: '游戏社区' }
+      { name: '小黑盒', url: 'https://www.xiaoheihe.cn/', desc: '游戏社区' },
+      { name: 'LINUX DO', url: 'https://linux.do/', desc: '开发者社区' },
+      { name: 'NodeSeek', url: 'https://www.nodeseek.com/', desc: '主机与建站论坛' }
     ],
   },
 
@@ -661,7 +698,8 @@ export const SITE_GROUPS: SiteGroup[] = [
 
       { name: '小米商城', url: 'https://www.mi.com/', desc: '小米官方' },
       { name: 'Apple', url: 'https://www.apple.com/', desc: '苹果官网' },
-      { name: '网易严选', url: 'https://you.163.com/', desc: '精选电商' }
+      { name: '网易严选', url: 'https://you.163.com/', desc: '精选电商' },
+      { name: '得物', url: 'https://www.dewu.com/', desc: '潮流正品交易' },
     ],
   },
   {
@@ -680,7 +718,8 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: '高铁管家', url: 'https://www.gtgj.com/', desc: '出行服务' },
       { name: '途牛', url: 'https://www.tuniu.com/', desc: '旅游预订' },
       { name: '穷游', url: 'https://www.qyer.com/', desc: '自助游' },
-      { name: 'TripAdvisor', url: 'https://www.tripadvisor.cn/', desc: '猫途鹰' }
+      { name: 'TripAdvisor', url: 'https://www.tripadvisor.cn/', desc: '猫途鹰' },
+      { name: '航旅纵横', url: 'https://www.umetrip.com/', desc: '航班动态查询' },
     ],
   },
   {
@@ -719,7 +758,8 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: '国家药品', url: 'https://www.nmpa.gov.cn/', desc: '药监局' },
       { name: '默沙东手册', url: 'https://www.msdmanuals.cn/', desc: '医学百科' },
       { name: '腾讯健康', url: 'https://health.qq.com/', desc: '健康服务' },
-      { name: '阿里健康', url: 'https://www.alihealth.cn/', desc: '医药健康' }
+      { name: '阿里健康', url: 'https://www.alihealth.cn/', desc: '医药健康' },
+      { name: '春雨医生', url: 'https://www.chunyuyisheng.com/', desc: '在线问诊' },
     ],
   },
   {
@@ -736,7 +776,9 @@ export const SITE_GROUPS: SiteGroup[] = [
 
       { name: '中国裁判文书', url: 'https://wenshu.court.gov.cn/', desc: '文书查询' },
       { name: '知识产权局', url: 'https://www.cnipa.gov.cn/', desc: '专利查询' },
-      { name: '工信部备案', url: 'https://beian.miit.gov.cn/', desc: '网站备案' }
+      { name: '工信部备案', url: 'https://beian.miit.gov.cn/', desc: '网站备案' },
+      { name: '中国政府网', url: 'https://www.gov.cn/', desc: '国务院门户' },
+      { name: '国家医保局', url: 'https://www.nhsa.gov.cn/', desc: '医保政策查询' },
     ],
   },
   {
@@ -751,7 +793,8 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: '腾讯地图', url: 'https://map.qq.com/', desc: '地图服务' },
       { name: 'OpenStreetMap', url: 'https://www.openstreetmap.org/', desc: '开源地图' },
       { name: '北斗地图', url: 'https://www.bdmap.com/', desc: '北斗导航' },
-      { name: '壳牌地图', url: 'https://www.shell.com/', desc: '加油站点' }
+      { name: '壳牌地图', url: 'https://www.shell.com/', desc: '加油站点' },
+      { name: '天地图', url: 'https://www.tianditu.gov.cn/', desc: '国家地理信息平台' }
     ],
   },
   {
@@ -782,7 +825,8 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: '四六级', url: 'https://cet.neea.edu.cn/', desc: '四六级查询' },
       { name: '学堂在线', url: 'https://www.xuetangx.com/', desc: '慕课平台' },
       { name: '国家中小学', url: 'https://basic.smartedu.cn/', desc: '智慧教育' },
-      { name: '自考网', url: 'https://www.chinazikao.com/', desc: '自学考试' }
+      { name: '自考网', url: 'https://www.chinazikao.com/', desc: '自学考试' },
+      { name: '扇贝单词', url: 'https://www.shanbay.com/', desc: '英语背单词' },
     ],
   },
 
@@ -827,7 +871,8 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: 'Grabient - 在线CSS渐变生成器', url: 'https://www.grabient.com', desc: 'Grabient是一款免费的在线CSS渐' },
       { name: 'Picrew', url: 'https://picrew.me', desc: 'Picrew是一个在线头像制作平台' },
       { name: 'Gridzzly - 自定义网格纸生成工具', url: 'https://www.gridzzly.com', desc: 'Gridzzly是一个免费的在线网格纸生' },
-      { name: '护照指数 - 全球护照排名与免签查询工具', url: 'https://www.passportindex.org', desc: '护照指数是一个提供全球护照实时排名和免签' }
+      { name: '护照指数 - 全球护照排名与免签查询工具', url: 'https://www.passportindex.org', desc: '护照指数是一个提供全球护照实时排名和免签' },
+      { name: 'Neal.fun', url: 'https://neal.fun/', desc: '趣味互动小实验' },
     ],
   },
   {
@@ -855,7 +900,9 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: 'MK48.io', url: 'https://mk48.io', desc: 'MK48.io是一个免费的多人在线海战游' },
       { name: 'Neave互动网页实验室', url: 'https://neave.com/', desc: 'Neave.com是一个集合了多种创意互' },
       { name: '共和国之辉', url: 'https://www.gongheguozhihui.com/', desc: '一款基于WebGL技术的红色警戒2网页版' },
-      { name: '神庙逃亡在线版', url: 'https://tr.heheda.top/', desc: '一个无需下载的在线神庙逃亡游戏平台' }
+      { name: '神庙逃亡在线版', url: 'https://tr.heheda.top/', desc: '一个无需下载的在线神庙逃亡游戏平台' },
+      { name: '2048', url: 'https://play2048.co/', desc: '经典数字合并游戏' },
+      { name: 'TETR.IO', url: 'https://tetr.io/', desc: '多人在线俄罗斯方块' },
     ],
   },
   {
@@ -876,7 +923,9 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: 'Windy - 全球交互式气象预报平台', url: 'https://www.windy.com', desc: 'Windy是一款基于高精度气象数据的全球' },
       { name: 'Chrome星星实验：银河系3D可视化探索', url: 'http://stars.chromeexperiments.com', desc: 'Chrome Experiments推出' },
       { name: '指尖上', url: 'https://www.zhijianshang.com/', desc: '一个提供全球各地360度全景VR观光体验' },
-      { name: '地球时间线 | 可视化地球历史与生命演化', url: 'https://timelineofearth.com', desc: '该网站通过交互式时间轴可视化地球46亿年' }
+      { name: '地球时间线 | 可视化地球历史与生命演化', url: 'https://timelineofearth.com', desc: '该网站通过交互式时间轴可视化地球46亿年' },
+      { name: 'Flightradar24', url: 'https://www.flightradar24.com/', desc: '实时航班追踪' },
+      { name: 'Zoom Earth', url: 'https://zoom.earth/', desc: '实时卫星云图' },
     ],
   },
   {
@@ -904,7 +953,9 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: '故宫博物院全景导览', url: 'https://pano.dpm.org.cn', desc: '故宫博物院全景导览系统提供紫禁城线上虚拟' },
       { name: 'Generative.fm - 人工智能生成环境音乐平台', url: 'https://generative.fm/', desc: 'Generative.fm是一个基于人工' },
       { name: 'Ice Alaska Photos', url: 'https://www.icealaskaphotos.com/', desc: 'Ice Alaska Photos是一个' },
-      { name: 'XSList', url: 'https://xslist.org/', desc: 'XSList是一个专注于日本成人影片女演' }
+      { name: 'XSList', url: 'https://xslist.org/', desc: 'XSList是一个专注于日本成人影片女演' },
+      { name: '全历史', url: 'https://www.allhistory.com/', desc: '时空关系历史地图' },
+      { name: '书格', url: 'https://new.shuge.org/', desc: '古籍图书馆' }
     ],
   },
   {

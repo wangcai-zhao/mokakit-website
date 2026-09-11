@@ -3,7 +3,7 @@ title: "房贷月供到底多少，我让 AI 把账排了一遍"
 description: "中介说月供一万二，我自己按出来八千——都错。我用 WorkBuddy 调 MokaKit 组合贷和提前还款计算器，把账排清楚再拍板。"
 publishDate: 2026-09-01
 tags: ["房贷计算", "组合贷", "提前还款", "WorkBuddy MCP"]
-draft: true
+draft: false
 series: "WorkBuddy 使用技巧"
 order: 6
 difficulty: 进阶
