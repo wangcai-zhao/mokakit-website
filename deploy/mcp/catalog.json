@@ -696,6 +696,48 @@
       "url": "/tools/child-height/"
     },
     {
+      "id": "chinese-number",
+      "name": "中文数字转换",
+      "description": "免费在线中文数字转换工具，双向支持：阿拉伯数字转中文读法与人民币大写（壹贰叁），中文数字（含「万」「亿」「两」）转阿拉伯数字。大写按票据规范生成，整元才写「元整」。本地处理不上传。",
+      "keywords": [
+        "中文数字",
+        "人民币大写",
+        "数字转中文",
+        "金额大写",
+        "中文转数字"
+      ],
+      "tags": [
+        "文本",
+        "数字",
+        "金额"
+      ],
+      "category": "text",
+      "icon": "coins",
+      "tagline": "数字与人民币大写",
+      "url": "/tools/chinese-number/"
+    },
+    {
+      "id": "chmod-calculator",
+      "name": "chmod 权限计算器",
+      "description": "免费在线 chmod 权限计算器，勾选读写执行复选框即可实时得到八进制数字与 rwxr-xr-x 符号表示，支持 setuid、setgid、sticky 三个特殊权限位，内置 644、755、600、777 等八组常用预设，并给出可直接复制的命令。",
+      "keywords": [
+        "chmod 计算器",
+        "Linux 权限",
+        "文件权限计算",
+        "rwx 换算",
+        "755 644 含义"
+      ],
+      "tags": [
+        "Linux",
+        "权限",
+        "运维"
+      ],
+      "category": "dev",
+      "icon": "lock",
+      "tagline": "权限数字与符号互转",
+      "url": "/tools/chmod-calculator/"
+    },
+    {
       "id": "clothing-size",
       "name": "衣服尺码换算",
       "description": "免费衣服尺码换算器，选国际码（S/M/L/XL 等）一键对照中国身高标号（160/165/A）、欧码（EU）与美码（US），覆盖男女上装、裤装与鞋码。买衣服、海淘对照不求人，附身高体重推荐区间，差异大以具体品牌尺码表为准，全程本地运算。",
@@ -868,6 +910,27 @@
       "icon": "table",
       "tagline": "把 CSV 数据一键转成 Markdown 表格",
       "url": "/tools/csv-to-markdown/"
+    },
+    {
+      "id": "curl-converter",
+      "name": "curl 命令转换",
+      "description": "免费在线 curl 命令转换工具，把浏览器「复制为 cURL」得到的命令一键转成 JavaScript fetch、Axios、Python requests、Go、PHP cURL 五种代码，自动识别请求方法、请求头与请求体。本地解析不上传。",
+      "keywords": [
+        "curl 转代码",
+        "cURL 转换",
+        "curl to fetch",
+        "curl 转 Python",
+        "接口调试"
+      ],
+      "tags": [
+        "curl",
+        "HTTP",
+        "代码生成"
+      ],
+      "category": "dev",
+      "icon": "terminal",
+      "tagline": "curl 转各语言代码",
+      "url": "/tools/curl-converter/"
     },
     {
       "id": "currency-convert",
@@ -1165,6 +1228,48 @@
       "url": "/tools/discount-calculator/"
     },
     {
+      "id": "doc-desensitize",
+      "name": "文档脱敏",
+      "description": "免费在线文档脱敏工具，自动识别姓名、手机号、身份证、银行卡、邮箱、住址、IP、车牌、统一社会信用代码、护照等敏感信息并打码，支持保留首尾、全打码、换类型标签、换稳定代号四种方式，可配白名单与自定义正则。全部在浏览器本地完成，文档不上传服务器。",
+      "keywords": [
+        "文档脱敏",
+        "敏感信息打码",
+        "身份证脱敏",
+        "手机号打码",
+        "数据脱敏工具"
+      ],
+      "tags": [
+        "脱敏",
+        "隐私",
+        "安全"
+      ],
+      "category": "security",
+      "icon": "eyeOff",
+      "tagline": "自动识别并打码敏感信息",
+      "url": "/tools/doc-desensitize/"
+    },
+    {
+      "id": "dockerfile-gen",
+      "name": "Dockerfile 生成",
+      "description": "免费在线 Dockerfile 生成工具，支持 Node.js、Python、Go、Java、静态站点五种技术栈，可开关多阶段构建与非 root 用户运行，自动安排好依赖安装与代码复制的顺序以命中 Docker 层缓存，附赠 .dockerignore。本地生成不上传。",
+      "keywords": [
+        "Dockerfile 生成",
+        "Docker 镜像",
+        "多阶段构建",
+        "容器化配置",
+        "dockerignore"
+      ],
+      "tags": [
+        "Docker",
+        "运维",
+        "构建"
+      ],
+      "category": "dev",
+      "icon": "box",
+      "tagline": "多语言镜像构建文件",
+      "url": "/tools/dockerfile-gen/"
+    },
+    {
       "id": "due-date",
       "name": "预产期计算器",
       "description": "免费预产期计算器，输入末次月经第一天即可推算预产期与当前孕周、距离预产期的天数，支持按月经周期长短微调。结果仅供参考，请以产检医生诊断为准；可与孕早期 B 超数据交叉核对，是孕早期自查与孕期规划常用工具，结果附孕期提示。",
@@ -1291,6 +1396,27 @@
       "icon": "sigma",
       "tagline": "阶乘、排列数、组合数一键算",
       "url": "/tools/factorial/"
+    },
+    {
+      "id": "favicon-generator",
+      "name": "Favicon 生成",
+      "description": "免费在线 Favicon 生成工具，上传一张 logo 即可批量产出 16、32、48、64、128、180、192、512 共八种尺寸的 PNG 图标，可调节留白、圆形裁切与背景色，并附赠可直接复制的 HTML 引用代码。本地 canvas 生成，不上传。",
+      "keywords": [
+        "favicon 生成",
+        "网站图标制作",
+        "apple-touch-icon",
+        "PWA 图标",
+        "ico 生成"
+      ],
+      "tags": [
+        "图片",
+        "favicon",
+        "图标"
+      ],
+      "category": "image",
+      "icon": "star",
+      "tagline": "一次出全套图标尺寸",
+      "url": "/tools/favicon-generator/"
     },
     {
       "id": "flip-clock",
@@ -1501,6 +1627,27 @@
       "icon": "binary",
       "tagline": "GCD / LCM 一键求",
       "url": "/tools/gcd-lcm/"
+    },
+    {
+      "id": "git-command-gen",
+      "name": "Git 命令生成",
+      "description": "免费在线 Git 命令生成工具，覆盖撤回提交、暂存改动、同步上游、整理提交、挑拣提交、打标签、安全强推等十四个常见场景，填参数即生成完整命令序列，并按安全 / 需确认 / 有风险三档标注风险。本地生成不上传。",
+      "keywords": [
+        "Git 命令",
+        "git 撤回提交",
+        "git 强推",
+        "cherry-pick",
+        "git 常用命令"
+      ],
+      "tags": [
+        "Git",
+        "版本控制",
+        "命令"
+      ],
+      "category": "dev",
+      "icon": "git-branch",
+      "tagline": "常见场景命令速查",
+      "url": "/tools/git-command-gen/"
     },
     {
       "id": "github-stars",
@@ -1889,6 +2036,174 @@
       "url": "/tools/illuminance/"
     },
     {
+      "id": "image-base64",
+      "name": "图片 Base64 转换",
+      "description": "免费在线图片转 Base64 工具，支持双向转换：上传图片得到 Base64 字符串（可带或不带 data URL 前缀），粘贴 Base64 也能解析回图片并下载。可指定 PNG / JPEG / WebP 编码，全程本地处理不上传。",
+      "keywords": [
+        "图片转 Base64",
+        "Base64 转图片",
+        "图片编码",
+        "data URL",
+        "在线 Base64"
+      ],
+      "tags": [
+        "图片",
+        "Base64",
+        "编码"
+      ],
+      "category": "image",
+      "icon": "file-code",
+      "tagline": "图片与 Base64 互转",
+      "url": "/tools/image-base64/"
+    },
+    {
+      "id": "image-compress",
+      "name": "图片压缩",
+      "description": "免费在线图片压缩工具，拖动质量滑块即可实时看到压缩后的体积与节省比例，支持输出 JPEG、WebP、PNG 三种格式并限制最大宽度。全部在浏览器本地用 canvas 完成，图片不上传服务器，适合压缩公众号配图、电商主图与证件照。",
+      "keywords": [
+        "图片压缩",
+        "在线压缩图片",
+        "照片压缩",
+        "图片体积减小",
+        "WebP 压缩"
+      ],
+      "tags": [
+        "图片",
+        "压缩",
+        "体积"
+      ],
+      "category": "image",
+      "icon": "minimize",
+      "tagline": "压体积不降清晰度",
+      "url": "/tools/image-compress/"
+    },
+    {
+      "id": "image-convert",
+      "name": "图片格式转换",
+      "description": "免费在线图片格式转换工具，支持 PNG、JPEG、WebP 三种格式互转，可调节导出质量，转 JPEG 时还能指定透明区域的填充色避免变黑。全部在浏览器本地完成，不上传服务器，转换前后体积实时对比。",
+      "keywords": [
+        "图片格式转换",
+        "PNG 转 JPG",
+        "JPG 转 WebP",
+        "在线转图片格式",
+        "WebP 转换"
+      ],
+      "tags": [
+        "图片",
+        "格式",
+        "转换"
+      ],
+      "category": "image",
+      "icon": "arrowLeftRight",
+      "tagline": "PNG / JPEG / WebP 互转",
+      "url": "/tools/image-convert/"
+    },
+    {
+      "id": "image-crop",
+      "name": "图片裁剪",
+      "description": "免费在线图片裁剪工具，内置 1:1、4:3、3:2、16:9、9:16、3:4 六种常用比例，配合九宫格定位决定保留哪一部分，按目标比例在原图上取最大矩形，绝不拉伸变形。本地 canvas 处理，图片不上传。",
+      "keywords": [
+        "图片裁剪",
+        "在线裁图",
+        "一寸照片裁剪",
+        "图片按比例裁剪",
+        "方图裁剪"
+      ],
+      "tags": [
+        "图片",
+        "裁剪",
+        "比例"
+      ],
+      "category": "image",
+      "icon": "crop",
+      "tagline": "按比例取图不变形",
+      "url": "/tools/image-crop/"
+    },
+    {
+      "id": "image-filter",
+      "name": "图片滤镜",
+      "description": "免费在线图片滤镜工具，提供黑白、反色、复古、鲜艳、冷调五种预设，另配亮度、对比度、饱和度、模糊四个滑块自由调节。走浏览器原生 canvas filter，实时预览所见即所得，图片不上传服务器。",
+      "keywords": [
+        "图片滤镜",
+        "在线调色",
+        "图片黑白",
+        "高斯模糊",
+        "图片亮度调整"
+      ],
+      "tags": [
+        "图片",
+        "滤镜",
+        "调色"
+      ],
+      "category": "image",
+      "icon": "sliders-horizontal",
+      "tagline": "亮度对比度模糊调色",
+      "url": "/tools/image-filter/"
+    },
+    {
+      "id": "image-info",
+      "name": "图片信息查看",
+      "description": "免费在线图片信息查看工具，读取文件格式、大小、像素尺寸、精确宽高比、像素总量与修改时间，并能抽样统计画面主色。所有信息从浏览器本地读取，图片不上传服务器，是设计对稿与排查图片问题的常用手段。",
+      "keywords": [
+        "图片信息",
+        "查看图片尺寸",
+        "图片属性",
+        "图片主色",
+        "EXIF 查看"
+      ],
+      "tags": [
+        "图片",
+        "信息",
+        "主色"
+      ],
+      "category": "image",
+      "icon": "scan",
+      "tagline": "尺寸体积与主色提取",
+      "url": "/tools/image-info/"
+    },
+    {
+      "id": "image-resize",
+      "name": "图片尺寸调整",
+      "description": "免费在线图片改尺寸工具，输入宽高即可缩放，支持锁定原图比例只填一边、按百分比整图缩放，内置头像、小红书、公众号封面、手机壁纸等常用尺寸预设。全部本地处理，图片不上传，导出 PNG / JPEG / WebP 任选。",
+      "keywords": [
+        "图片改尺寸",
+        "在线修改图片大小",
+        "图片缩放",
+        "调整图片分辨率",
+        "图片尺寸"
+      ],
+      "tags": [
+        "图片",
+        "尺寸",
+        "缩放"
+      ],
+      "category": "image",
+      "icon": "maximize",
+      "tagline": "改宽高、按比例缩放",
+      "url": "/tools/image-resize/"
+    },
+    {
+      "id": "image-watermark",
+      "name": "图片水印",
+      "description": "免费在线图片加水印工具，可自定义水印文字、字号、颜色、透明度与九宫格位置，支持满屏斜向平铺防止截图外传。导出 PNG / JPEG / WebP，全部在浏览器本地用 canvas 绘制，原图不上传服务器。",
+      "keywords": [
+        "图片加水印",
+        "在线水印工具",
+        "批量水印",
+        "平铺水印",
+        "图片防盗"
+      ],
+      "tags": [
+        "图片",
+        "水印",
+        "版权"
+      ],
+      "category": "image",
+      "icon": "droplet",
+      "tagline": "文字水印、平铺防截图",
+      "url": "/tools/image-watermark/"
+    },
+    {
       "id": "income-tax-cn",
       "name": "个人所得税计算器",
       "description": "免费在线个人所得税计算器，输入每月税前工资、三险一金个人缴纳、专项附加扣除与其他扣除，按综合所得年度税率表自动算出全年应纳税所得额、适用税率、应纳税额与税后到手收入。覆盖子女教育、房贷利息、赡养老人等专项附加扣除，适用于工资薪金汇算清缴估算，全部在浏览器本地计算、不上传数据。",
@@ -2017,6 +2332,48 @@
       "url": "/tools/jian-fan-convert/"
     },
     {
+      "id": "json-diff",
+      "name": "JSON 对比",
+      "description": "免费在线 JSON 对比工具，粘贴两份 JSON 即可逐字段比对，用表格列出新增、删除、修改的字段与路径（a.b[0].c 形式），可只显示有变化的部分并导出差异清单。全部在浏览器本地比对，数据不上传。",
+      "keywords": [
+        "JSON 对比",
+        "JSON diff",
+        "接口差异比对",
+        "在线 diff",
+        "JSON 比较"
+      ],
+      "tags": [
+        "JSON",
+        "对比",
+        "开发"
+      ],
+      "category": "dev",
+      "icon": "diff",
+      "tagline": "找出两份 JSON 差异",
+      "url": "/tools/json-diff/"
+    },
+    {
+      "id": "json-flatten",
+      "name": "JSON 扁平化",
+      "description": "免费在线 JSON 扁平化与还原工具，把嵌套对象展平成 a.b.c 形式的一层键值，也能把扁平结构还原回嵌套对象，数字键自动拼回数组。分隔符可选点、下划线、斜杠、冒号。本地处理不上传。",
+      "keywords": [
+        "JSON 扁平化",
+        "flatten JSON",
+        "JSON 展平",
+        "嵌套转一层",
+        "unflatten"
+      ],
+      "tags": [
+        "JSON",
+        "扁平化",
+        "数据"
+      ],
+      "category": "dev",
+      "icon": "layers",
+      "tagline": "嵌套 JSON 展平成一层",
+      "url": "/tools/json-flatten/"
+    },
+    {
       "id": "json-formatter",
       "name": "JSON 格式化",
       "description": "免费在线 JSON 格式化工具，支持 JSON 美化（缩进排版 2/4 空格）、压缩去空白、语法校验与错误定位提示，可对 key 排序、转义。接口调试、配置文件整理、接口 mock 数据校验都能用，纯本地运行不上传任何数据，结果支持一键复制。",
@@ -2058,6 +2415,27 @@
       "icon": "table",
       "tagline": "数组对象转表格 CSV",
       "url": "/tools/json-to-csv/"
+    },
+    {
+      "id": "json-to-typescript",
+      "name": "JSON 转 TypeScript",
+      "description": "免费在线 JSON 转 TypeScript 类型工具，粘贴接口返回的 JSON 即可生成 interface 定义，嵌套对象自动拆成子接口并排好顺序，可设根类型名、全部字段可选、加 export。本地转换不上传。",
+      "keywords": [
+        "JSON 转 TypeScript",
+        "JSON 生成 interface",
+        "类型生成",
+        "ts 类型",
+        "接口类型定义"
+      ],
+      "tags": [
+        "JSON",
+        "TypeScript",
+        "类型"
+      ],
+      "category": "dev",
+      "icon": "file-code",
+      "tagline": "自动生成接口类型",
+      "url": "/tools/json-to-typescript/"
     },
     {
       "id": "jsonpath",
@@ -2228,6 +2606,27 @@
       "url": "/tools/log-calculator/"
     },
     {
+      "id": "lorem-ipsum",
+      "name": "占位文本生成",
+      "description": "免费在线占位文本生成工具，可生成中文或经典 Lorem ipsum 占位段落，段落数与段落长度可调，支持包裹成 p 或 li 标签。用随机种子保证同一份文案每次生成结果一致，方便设计稿固定排版。本地生成不联网。",
+      "keywords": [
+        "占位文本",
+        "lorem ipsum",
+        "假文生成",
+        "排版测试文字",
+        "中文占位"
+      ],
+      "tags": [
+        "文本",
+        "占位",
+        "排版"
+      ],
+      "category": "text",
+      "icon": "file-text",
+      "tagline": "中文与经典占位文",
+      "url": "/tools/lorem-ipsum/"
+    },
+    {
       "id": "lottery-draw",
       "name": "抽签抽奖",
       "description": "免费在线抽签抽奖工具，每行输入一个选项即可随机抽取一个或多个结果，抽取结果不重复并高亮显示，可设权重与排除项。适合年会抽奖、随机点名、决定今天吃什么、分组分配、活动抽签与公平选择，纯浏览器本地加密随机，公平透明，结果可一键复制。",
@@ -2289,6 +2688,48 @@
       "icon": "file-text",
       "tagline": "实时渲染 Markdown 为富文本",
       "url": "/tools/markdown-preview/"
+    },
+    {
+      "id": "markdown-table-gen",
+      "name": "Markdown 表格生成",
+      "description": "免费在线 Markdown 表格生成工具，把 CSV、逗号分隔文本或 JSON 数组一键转成带对齐的 Markdown 表格，可设表头、对齐方式与是否补空格对齐，同时给出 HTML 版本并实时预览渲染效果。本地转换不上传。",
+      "keywords": [
+        "Markdown 表格",
+        "CSV 转表格",
+        "JSON 转表格",
+        "md 表格生成",
+        "表格生成器"
+      ],
+      "tags": [
+        "Markdown",
+        "表格",
+        "文档"
+      ],
+      "category": "dev",
+      "icon": "table",
+      "tagline": "CSV 与 JSON 转表格",
+      "url": "/tools/markdown-table-gen/"
+    },
+    {
+      "id": "markdown-toc",
+      "name": "Markdown 目录生成",
+      "description": "免费在线 Markdown 目录生成工具，粘贴文档即可提取各级标题生成带锚点链接的目录，可限制到第几级标题、跳过一级大标题、自定义锚点风格与列表符号。代码块里的井号不会被误判。本地处理不上传。",
+      "keywords": [
+        "Markdown 目录",
+        "TOC 生成",
+        "md 目录",
+        "锚点生成",
+        "文章导航"
+      ],
+      "tags": [
+        "Markdown",
+        "目录",
+        "文档"
+      ],
+      "category": "text",
+      "icon": "list",
+      "tagline": "一键生成文章锚点目录",
+      "url": "/tools/markdown-toc/"
     },
     {
       "id": "maternity-benefit",
@@ -2443,6 +2884,27 @@
       "icon": "user-round",
       "tagline": "中英文随机姓名",
       "url": "/tools/name-generator/"
+    },
+    {
+      "id": "nginx-config-gen",
+      "name": "Nginx 配置生成",
+      "description": "免费在线 Nginx 配置生成工具，覆盖静态站点、单页应用、反向代理、PHP 站点、域名跳转五种场景，填域名与路径即可生成可直接落地的 server 配置：含 HTTP 跳 HTTPS、证书路径、gzip、静态资源缓存与代理头。本地生成不上传。",
+      "keywords": [
+        "Nginx 配置生成",
+        "nginx.conf",
+        "反向代理配置",
+        "HTTPS 配置",
+        "nginx 静态站点"
+      ],
+      "tags": [
+        "Nginx",
+        "运维",
+        "配置"
+      ],
+      "category": "dev",
+      "icon": "server",
+      "tagline": "五种场景一键出配置",
+      "url": "/tools/nginx-config-gen/"
     },
     {
       "id": "ode-solver",
@@ -2612,6 +3074,27 @@
       "icon": "shuffle",
       "tagline": "排列数 P(n,k) 与组合数 C(n,k)",
       "url": "/tools/permutation-combination/"
+    },
+    {
+      "id": "placeholder-image",
+      "name": "占位图生成",
+      "description": "免费在线占位图生成工具，输入宽高即可生成带渐变背景与对角叉的占位图，可自定义两种渐变色、图上文字与标注内容，支持 PNG / JPEG / WebP 导出。纯本地 canvas 绘制，不需要联网找素材，适合骨架屏与设计稿排版。",
+      "keywords": [
+        "占位图生成",
+        "placeholder 图片",
+        "占位图片在线生成",
+        "骨架屏图片",
+        "测试图片"
+      ],
+      "tags": [
+        "图片",
+        "占位图",
+        "设计"
+      ],
+      "category": "image",
+      "icon": "grid",
+      "tagline": "自定义尺寸的占位图片",
+      "url": "/tools/placeholder-image/"
     },
     {
       "id": "port-lookup",
@@ -3180,6 +3663,27 @@
       "url": "/tools/seconds-to-time/"
     },
     {
+      "id": "security-headers",
+      "name": "安全响应头生成",
+      "description": "免费在线 HTTP 安全响应头生成工具，按站点情况生成 HSTS、CSP、X-Frame-Options、Referrer-Policy 等八条响应头，可切换 Nginx、Apache、Express、Vercel、Netlify、HTML meta 六种输出格式。本地生成不上传。",
+      "keywords": [
+        "安全响应头",
+        "CSP 生成",
+        "HSTS 配置",
+        "X-Frame-Options",
+        "Web 安全"
+      ],
+      "tags": [
+        "安全",
+        "HTTP",
+        "运维"
+      ],
+      "category": "dev",
+      "icon": "shield-check",
+      "tagline": "HSTS 与 CSP 一键配置",
+      "url": "/tools/security-headers/"
+    },
+    {
       "id": "semver-compare",
       "name": "版本号比较",
       "description": "免费在线语义化版本比较工具，输入两个 SemVer 版本号（如 1.2.3、2.0.0-rc.1+build.4），判断大小、是否合法、预发版与构建元数据如何处理。写依赖约束（package.json / requirements.txt）、升级评估、发版前核对全部本地解析，结果支持批量粘贴。",
@@ -3502,6 +4006,69 @@
       "url": "/tools/text-diff/"
     },
     {
+      "id": "text-extract",
+      "name": "文本提取",
+      "description": "免费在线文本提取工具，从一段文字里批量揪出手机号、邮箱、网址、IP、身份证号、银行卡号、日期、金额、数字、中文与英文片段，也支持自己写正则。结果按类型分组并自动去重，一键复制。本地处理不上传。",
+      "keywords": [
+        "文本提取",
+        "提取手机号",
+        "提取邮箱",
+        "正则提取",
+        "批量提取号码"
+      ],
+      "tags": [
+        "文本",
+        "提取",
+        "正则"
+      ],
+      "category": "text",
+      "icon": "text-search",
+      "tagline": "批量提取手机号邮箱",
+      "url": "/tools/text-extract/"
+    },
+    {
+      "id": "text-pad",
+      "name": "文本补齐对齐",
+      "description": "免费在线文本补齐工具，把文本补到指定长度，可选左侧补、右侧补或两侧补并指定分配方式，填充字符任意。典型用途是订单号补零、编号对齐、日志按列排版，支持逐行处理。本地处理不上传。",
+      "keywords": [
+        "文本补齐",
+        "补零",
+        "字符串填充",
+        "对齐文本",
+        "定长编号"
+      ],
+      "tags": [
+        "文本",
+        "补齐",
+        "对齐"
+      ],
+      "category": "text",
+      "icon": "type",
+      "tagline": "补零对齐到固定长度",
+      "url": "/tools/text-pad/"
+    },
+    {
+      "id": "text-replace",
+      "name": "批量替换",
+      "description": "免费在线批量替换工具，可以同时配置多条查找替换规则按顺序依次执行，每条规则独立开关正则与大小写敏感，实时显示替换了多少处。支持正则捕获组引用，全部本地处理不上传。",
+      "keywords": [
+        "批量替换",
+        "文本替换",
+        "在线替换",
+        "批量查找替换",
+        "正则替换"
+      ],
+      "tags": [
+        "文本",
+        "替换",
+        "批处理"
+      ],
+      "category": "text",
+      "icon": "wand",
+      "tagline": "多条规则一次替换",
+      "url": "/tools/text-replace/"
+    },
+    {
       "id": "text-reverse",
       "name": "文本反转",
       "description": "免费在线文本反转工具，提供字符反转、单词顺序反转、行序反转三种模式：整串倒序、按空格颠倒词序、把多行内容首尾对调。正确处理中文与 emoji 等多字节字符，常用于文字游戏、密码学练习、数据整理与排版调试，结果一键复制，全程本地运算不上传。",
@@ -3520,6 +4087,69 @@
       "icon": "flip-horizontal",
       "tagline": "字符/单词/行反转",
       "url": "/tools/text-reverse/"
+    },
+    {
+      "id": "text-similarity",
+      "name": "文本相似度",
+      "description": "免费在线文本相似度对比工具，同时给出编辑距离相似度、余弦相似度与 Jaccard 重合度三个指标，可忽略大小写与空白。中文按字切分、英文按词切分，适合查重、洗稿判定与错别字比对。本地计算不上传。",
+      "keywords": [
+        "文本相似度",
+        "查重",
+        "余弦相似度",
+        "编辑距离",
+        "重复内容检测"
+      ],
+      "tags": [
+        "文本",
+        "相似度",
+        "查重"
+      ],
+      "category": "text",
+      "icon": "git-compare",
+      "tagline": "查重与洗稿检测",
+      "url": "/tools/text-similarity/"
+    },
+    {
+      "id": "text-split-join",
+      "name": "文本分割合并",
+      "description": "免费在线文本分割与合并工具，按换行、逗号、空格、Tab、分号、竖线或自定义分隔符（支持正则）把一长串文本拆成多项，再用任意连接符拼回去。可边拆边去重、去空白、加单引号，写 SQL IN 条件特别顺手。本地处理不上传。",
+      "keywords": [
+        "文本分割",
+        "字符串合并",
+        "分隔符转换",
+        "split join",
+        "SQL IN 生成"
+      ],
+      "tags": [
+        "文本",
+        "分割",
+        "合并"
+      ],
+      "category": "text",
+      "icon": "align-left",
+      "tagline": "分隔符互转、加引号",
+      "url": "/tools/text-split-join/"
+    },
+    {
+      "id": "text-whitespace",
+      "name": "空白清理",
+      "description": "免费在线文本空白清理工具，一键处理全角转半角、Tab 转空格、合并连续空格、去掉行首尾空白、合并或删除空行、去掉所有换行等七类常见问题，实时对比清理前后的字符数。本地处理不上传。",
+      "keywords": [
+        "空白清理",
+        "去除空格",
+        "全角转半角",
+        "删除空行",
+        "文本整理"
+      ],
+      "tags": [
+        "文本",
+        "清理",
+        "格式"
+      ],
+      "category": "text",
+      "icon": "eraser",
+      "tagline": "清全角空格与空行",
+      "url": "/tools/text-whitespace/"
     },
     {
       "id": "time-duration",
@@ -3746,6 +4376,27 @@
       "icon": "barcode",
       "tagline": "生成医疗器械唯一标识的二维码与条形码",
       "url": "/tools/udi-generator/"
+    },
+    {
+      "id": "unicode-escape",
+      "name": "Unicode 转义",
+      "description": "免费在线 Unicode 转义工具，支持 \\uXXXX、U+XXXX、\\xXX、%XX（URL 编码）、&#xXXXX;（HTML 实体）五种格式的转义，并能自动识别这六种写法混排的字符串一次还原。自带各格式对照表。本地处理不上传。",
+      "keywords": [
+        "Unicode 转义",
+        "中文转 Unicode",
+        "\\u 转中文",
+        "URL 编码",
+        "HTML 实体转换"
+      ],
+      "tags": [
+        "文本",
+        "Unicode",
+        "编码"
+      ],
+      "category": "text",
+      "icon": "braces",
+      "tagline": "中文与转义互转",
+      "url": "/tools/unicode-escape/"
     },
     {
       "id": "unit-convert",

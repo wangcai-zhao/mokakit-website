@@ -14,6 +14,10 @@ export interface SiteLink {
   url: string;
   /** 一句话简介，≤20 字 */
   desc: string;
+  /** 运营方标签，如「国内」「微软」「开源」。留空则不显示徽章 */
+  tag?: string;
+  /** 是否放进首页「编辑精选」。同一分组里标记 1-2 个即可 */
+  hot?: boolean;
 }
 
 export interface SiteGroup {
@@ -24,7 +28,122 @@ export interface SiteGroup {
   desc: string;
   /** 分组图标（Icon.astro 中的 Lucide 名） */
   icon: string;
+  /**
+   * 归属大类，用于首页按「AI / 开发 / 设计 / 生活 …」分区展示。
+   * 留空归入「更多」。
+   */
+  section?: 'ai' | 'dev' | 'design' | 'work' | 'life';
+  /** 该分组的关键词，参与首页即时搜索 */
+  tags?: string[];
   links: SiteLink[];
+}
+
+/** 首页分区的展示顺序与文案 */
+export const SITE_SECTIONS: { key: string; name: string; desc: string }[] = [
+  { key: 'ai', name: 'AI 与智能体', desc: '大模型、生成式工具与 AI 应用' },
+  { key: 'dev', name: '开发与设计', desc: '程序员、设计师每天要打开的站点' },
+  { key: 'work', name: '效率与办公', desc: '把重复劳动压下去的工具' },
+  { key: 'life', name: '生活与兴趣', desc: '资讯、出行、消费与消遣' },
+  { key: 'design', name: '资源与灵感', desc: '素材、配色与作品参考' },
+];
+
+/**
+ * 精选站点挂在这里而不是给每条 link 打标，
+ * 好处是 675 条数据不用动，增删精选只改一处。
+ */
+const HOT_URLS = new Set([
+  'https://chat.openai.com/',
+  'https://www.deepseek.com/',
+  'https://kimi.moonshot.cn/',
+  'https://yuanbao.tencent.com/',
+  'https://developer.mozilla.org/',
+  'https://github.com/',
+  'https://astro.build/',
+  'https://tailwindcss.com/',
+  'https://unsplash.com/',
+  'https://coolors.co/',
+  'https://excalidraw.com/',
+  'https://tinypng.com/',
+  'https://www.canva.com/',
+  'https://caniuse.com/',
+  'https://regex101.com/',
+]);
+
+export function isHot(link: SiteLink): boolean {
+  return Boolean(link.hot) || HOT_URLS.has(link.url);
+}
+
+/** 取某分组里的精选站点：优先带标记的，没有就退回前几条 */
+export function featuredOf(group: SiteGroup, limit = 3): SiteLink[] {
+  const hot = group.links.filter(isHot);
+  return (hot.length ? hot : group.links.slice(0, limit)).slice(0, limit);
+}
+
+/** 全站精选：跨分组挑出来的高人气站点，首页顶部展示 */
+export function allFeatured(limit = 12): SiteLink[] {
+  const out: SiteLink[] = [];
+  for (const g of SITE_GROUPS) {
+    for (const l of g.links) {
+      if (isHot(l)) out.push(l);
+      if (out.length >= limit) return out;
+    }
+  }
+  return out;
+}
+
+/**
+ * 分组归属的大类与搜索关键词。
+ * 抽出来集中维护，不必回头去改上面 675 条数据。
+ */
+const GROUP_META: Record<string, { section: NonNullable<SiteGroup['section']>; tags: string[] }> = {
+  'ai-chat': { section: 'ai', tags: ['对话', '大模型', '聊天'] },
+  'ai-image': { section: 'ai', tags: ['绘画', '图片生成', 'AI'] },
+  'ai-video': { section: 'ai', tags: ['视频生成', '剪辑', 'AI'] },
+  'ai-music': { section: 'ai', tags: ['音乐生成', '音频', 'AI'] },
+  'ai-coding': { section: 'ai', tags: ['代码助手', '编程', 'AI'] },
+  'ai-writing': { section: 'ai', tags: ['写作', '文案', 'AI'] },
+  'ai-search': { section: 'ai', tags: ['AI 搜索', '问答', '检索'] },
+  'ai-agent': { section: 'ai', tags: ['智能体', 'agent', '自动化'] },
+  'ai-model': { section: 'ai', tags: ['模型', '微调', '部署'] },
+  'ai-office': { section: 'ai', tags: ['办公', 'PPT', '效率'] },
+  'ai-digital': { section: 'ai', tags: ['数字人', '虚拟形象'] },
+  'ai-comfyui': { section: 'ai', tags: ['ComfyUI', '工作流', '绘图'] },
+  dev: { section: 'dev', tags: ['开发资源', '文档', '编程'] },
+  'frontend-dev': { section: 'dev', tags: ['前端', '框架', 'React', 'Vue'] },
+  'backend-dev': { section: 'dev', tags: ['后端', '数据库', '服务端'] },
+  devops: { section: 'dev', tags: ['运维', '部署', '容器', 'CI'] },
+  'api-tools': { section: 'dev', tags: ['API', '接口', '调试', '文档'] },
+  'open-source': { section: 'dev', tags: ['开源', '趋势', '发现'] },
+  'data-viz': { section: 'dev', tags: ['可视化', '图表', '数据'] },
+  'seo-tools': { section: 'work', tags: ['SEO', '站长', '收录', '关键词'] },
+  'pdf-doc': { section: 'work', tags: ['PDF', '文档', '转换'] },
+  design: { section: 'design', tags: ['设计', '灵感', '作品'] },
+  tools: { section: 'work', tags: ['效率', '在线工具', '提效'] },
+  productivity: { section: 'work', tags: ['办公', '协作', '效率'] },
+  cloud: { section: 'work', tags: ['云服务', '存储', '网盘'] },
+  security: { section: 'dev', tags: ['安全', '加密', '隐私'] },
+  learn: { section: 'design', tags: ['学习', '资讯', '知识'] },
+  education: { section: 'design', tags: ['教育', '课程', '学习'] },
+  community: { section: 'life', tags: ['社区', '论坛', '讨论'] },
+  search: { section: 'work', tags: ['搜索', '检索', '引擎'] },
+  media: { section: 'life', tags: ['影视', '媒体', '视频'] },
+  'web-game': { section: 'life', tags: ['游戏', '休闲'] },
+  'fun-web': { section: 'life', tags: ['有趣', '消遣'] },
+  finance: { section: 'life', tags: ['金融', '理财', '行情'] },
+  shopping: { section: 'life', tags: ['购物', '比价', '电商'] },
+  travel: { section: 'life', tags: ['出行', '旅游', '机票'] },
+  news: { section: 'life', tags: ['新闻', '资讯'] },
+  health: { section: 'life', tags: ['健康', '医疗'] },
+  gov: { section: 'life', tags: ['政务', '办事'] },
+  map: { section: 'life', tags: ['地图', '导航'] },
+  food: { section: 'life', tags: ['美食', '菜谱'] },
+  culture: { section: 'life', tags: ['人文', '艺术', '博物馆'] },
+  'explore-map': { section: 'life', tags: ['探索', '地图', '发现'] },
+  'curio-tool': { section: 'life', tags: ['冷门', '妙用'] },
+};
+
+export function metaOf(group: SiteGroup) {
+  return GROUP_META[group.id] ?? { section: 'life' as const, tags: [] as string[] };
 }
 
 export const SITE_GROUPS: SiteGroup[] = [
@@ -953,7 +1072,6 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: '故宫博物院全景导览', url: 'https://pano.dpm.org.cn', desc: '故宫博物院全景导览系统提供紫禁城线上虚拟' },
       { name: 'Generative.fm - 人工智能生成环境音乐平台', url: 'https://generative.fm/', desc: 'Generative.fm是一个基于人工' },
       { name: 'Ice Alaska Photos', url: 'https://www.icealaskaphotos.com/', desc: 'Ice Alaska Photos是一个' },
-      { name: 'XSList', url: 'https://xslist.org/', desc: 'XSList是一个专注于日本成人影片女演' },
       { name: '全历史', url: 'https://www.allhistory.com/', desc: '时空关系历史地图' },
       { name: '书格', url: 'https://new.shuge.org/', desc: '古籍图书馆' }
     ],
@@ -993,7 +1111,7 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: 'Zygote Body - 3D交互式人体解剖学探索平台', url: 'https://www.zygotebody.com', desc: 'Zygote Body提供基于WebGL' },
       { name: 'CosDNA化妆品成分查询分析平台', url: 'http://www.cosdna.com/', desc: 'CosDNA是一个专业的化妆品成分分析网' },
       { name: 'envisioningchemistry | 化学可视化科普平台', url: 'https://www.envisioningchemistry.cn', desc: 'envisioningchemistry' },
-      { name: 'Fold &#039;N Fly - 纸飞机折叠指南大全', url: 'https://www.foldnfly.com', desc: 'Fold &#039' },
+      { name: "Fold 'N Fly", url: 'https://www.foldnfly.com', desc: '纸飞机折叠指南大全' },
       { name: 'PhET互动模拟：免费物理化学在线科学和数学学习工具', url: 'https://phet.colorado.edu', desc: 'PhET是科罗拉多大学提供的免费互动模拟' },
       { name: '10分钟邮箱-临时邮箱地址生成工具', url: 'https://10minutEmail.com', desc: '10MinuteEmail提供免费的临时' },
       { name: '呼吸地球 - 全球实时人口与碳排放可视化', url: 'http://www.breathingearth.net', desc: 'Breathingearth是一个以动态' },
@@ -1010,4 +1128,197 @@ export const SITE_GROUPS: SiteGroup[] = [
       { name: '大型历史研究可视化', url: 'https://calculatingempires.net/', desc: 'Calculating Empires是' }
     ],
   },
+
+  // ===================== 2026-09-18 细分新增 =====================
+  {
+    id: 'frontend-dev',
+    name: '前端框架与生态',
+    desc: '主流框架、元框架与配套工具链',
+    icon: 'code',
+    links: [
+      { name: 'React', url: 'https://react.dev/', desc: 'Meta 出品的 UI 库', tag: '开源', hot: true },
+      { name: 'Vue 3', url: 'https://vuejs.org/', desc: '渐进式前端框架', tag: '开源' },
+      { name: 'Angular', url: 'https://angular.dev/', desc: 'Google 的企业级框架', tag: '开源' },
+      { name: 'Svelte', url: 'https://svelte.dev/', desc: '编译型框架，无虚拟 DOM', tag: '开源' },
+      { name: 'SolidJS', url: 'https://www.solidjs.com/', desc: '细粒度响应式框架', tag: '开源' },
+      { name: 'Preact', url: 'https://preactjs.com/', desc: '3KB 的 React 替代品', tag: '开源' },
+      { name: 'Next.js', url: 'https://nextjs.org/', desc: 'React 全栈元框架', tag: '开源' },
+      { name: 'Nuxt', url: 'https://nuxt.com/', desc: 'Vue 全栈元框架', tag: '开源' },
+      { name: 'TanStack', url: 'https://tanstack.com/', desc: 'Query / Table / Router 全家桶', tag: '开源' },
+      { name: 'VitePress', url: 'https://vitepress.dev/', desc: 'Vite 驱动的文档站', tag: '开源' },
+      { name: 'Storybook', url: 'https://storybook.js.org/', desc: '组件开发与文档环境', tag: '开源' },
+      { name: 'Vitest', url: 'https://vitest.dev/', desc: 'Vite 原生测试框架', tag: '开源' },
+      { name: 'Playwright', url: 'https://playwright.dev/', desc: '跨浏览器端到端测试', tag: '微软' },
+      { name: 'Alpine.js', url: 'https://alpinejs.dev/', desc: '轻量交互增强库', tag: '开源' },
+      { name: 'Lit', url: 'https://lit.dev/', desc: 'Web Components 开发库', tag: '谷歌' },
+      { name: 'Qwik', url: 'https://qwik.dev/', desc: '可恢复性渲染框架', tag: '开源' },
+    ],
+  },
+  {
+    id: 'backend-dev',
+    name: '后端与数据库',
+    desc: '服务端框架、ORM 与数据存储',
+    icon: 'database',
+    links: [
+      { name: 'Spring Boot', url: 'https://spring.io/projects/spring-boot', desc: 'Java 企业级首选', tag: '开源' },
+      { name: 'Django', url: 'https://www.djangoproject.com/', desc: 'Python 全能 Web 框架', tag: '开源', hot: true },
+      { name: 'FastAPI', url: 'https://fastapi.tiangolo.com/', desc: '高性能 Python API 框架', tag: '开源' },
+      { name: 'Express', url: 'https://expressjs.com/', desc: 'Node 最老牌的 Web 框架', tag: '开源' },
+      { name: 'NestJS', url: 'https://nestjs.com/', desc: 'Node 的企业级框架', tag: '开源' },
+      { name: 'Laravel', url: 'https://laravel.com/', desc: 'PHP 优雅框架', tag: '开源' },
+      { name: 'PostgreSQL', url: 'https://www.postgresql.org/', desc: '最强大的开源关系库', tag: '开源' },
+      { name: 'MySQL', url: 'https://www.mysql.com/', desc: '使用最广的关系数据库', tag: '甲骨文' },
+      { name: 'SQLite', url: 'https://www.sqlite.org/', desc: '嵌入式单机数据库', tag: '开源' },
+      { name: 'MongoDB', url: 'https://www.mongodb.com/', desc: '文档型数据库', tag: '开源' },
+      { name: 'ClickHouse', url: 'https://clickhouse.com/', desc: '列式分析数据库', tag: '开源' },
+      { name: 'DuckDB', url: 'https://duckdb.org/', desc: '进程内分析型数据库', tag: '开源' },
+      { name: 'Prisma', url: 'https://www.prisma.io/', desc: '现代化 ORM', tag: '开源' },
+      { name: 'Drizzle ORM', url: 'https://orm.drizzle.team/', desc: '轻量 TypeScript ORM', tag: '开源' },
+      { name: 'Supabase', url: 'https://supabase.com/', desc: '开源 Firebase 替代', tag: '开源' },
+      { name: 'Redis', url: 'https://redis.io/', desc: '内存键值数据库', tag: '开源' },
+    ],
+  },
+  {
+    id: 'devops',
+    name: '运维与部署',
+    desc: '容器、CI/CD、监控与托管平台',
+    icon: 'server',
+    links: [
+      { name: 'Docker Hub', url: 'https://hub.docker.com/', desc: '官方镜像仓库', tag: '开源' },
+      { name: 'Caddy', url: 'https://caddyserver.com/', desc: '自动 HTTPS 的 Web 服务器', tag: '开源' },
+      { name: 'Traefik', url: 'https://traefik.io/', desc: '云原生反向代理', tag: '开源' },
+      { name: 'GitHub Actions', url: 'https://github.com/features/actions', desc: '仓库内建 CI/CD', tag: '微软', hot: true },
+      { name: 'GitLab CI', url: 'https://docs.gitlab.com/ci/', desc: '一体化流水线', tag: '开源' },
+      { name: 'Jenkins', url: 'https://www.jenkins.io/', desc: '老牌自动化服务器', tag: '开源' },
+      { name: 'Terraform', url: 'https://developer.hashicorp.com/terraform', desc: '基础设施即代码', tag: 'HashiCorp' },
+      { name: 'Ansible', url: 'https://www.ansible.com/', desc: '自动化运维工具', tag: '红帽' },
+      { name: 'Prometheus', url: 'https://prometheus.io/', desc: '时序监控与告警', tag: '开源' },
+      { name: 'Grafana', url: 'https://grafana.com/', desc: '监控可视化面板', tag: '开源' },
+      { name: 'Cloudflare', url: 'https://www.cloudflare.com/', desc: 'CDN 与边缘安全', tag: '海外' },
+      { name: 'Vercel', url: 'https://vercel.com/', desc: '前端应用托管', tag: '海外' },
+      { name: 'Netlify', url: 'https://www.netlify.com/', desc: '静态站点托管', tag: '海外' },
+      { name: 'Railway', url: 'https://railway.app/', desc: '一站式部署平台', tag: '海外' },
+      { name: 'Fly.io', url: 'https://fly.io/', desc: '全球边缘容器部署', tag: '海外' },
+      { name: 'Nginx', url: 'https://nginx.org/', desc: '高性能 Web 服务器', tag: '开源' },
+    ],
+  },
+  {
+    id: 'api-tools',
+    name: 'API 与接口调试',
+    desc: '接口文档、Mock 与抓包调试',
+    icon: 'plug',
+    links: [
+      { name: 'Swagger Editor', url: 'https://editor.swagger.io/', desc: 'OpenAPI 在线编辑', tag: '开源', hot: true },
+      { name: 'Redoc', url: 'https://redocly.com/redoc/', desc: 'OpenAPI 文档渲染', tag: '开源' },
+      { name: 'Hoppscotch', url: 'https://hoppscotch.io/', desc: '轻量开源 API 调试', tag: '开源' },
+      { name: 'Insomnia', url: 'https://insomnia.rest/', desc: 'API 设计与调试客户端', tag: '海外' },
+      { name: 'Bruno', url: 'https://www.usebruno.com/', desc: '离线优先的 API 客户端', tag: '开源' },
+      { name: 'Apifox', url: 'https://www.apifox.cn/', desc: '接口管理一体化平台', tag: '国内' },
+      { name: 'Apipost', url: 'https://www.apipost.cn/', desc: '国产 API 调试协作', tag: '国内' },
+      { name: 'Eolink', url: 'https://www.eolink.com/', desc: 'API 研发管理', tag: '国内' },
+      { name: 'YApi', url: 'https://yapi.pro/', desc: '开源接口管理平台', tag: '开源' },
+      { name: 'ShowDoc', url: 'https://www.showdoc.com.cn/', desc: '在线接口文档', tag: '国内' },
+      { name: 'JSON Server', url: 'https://github.com/typicode/json-server', desc: '零代码假接口', tag: '开源' },
+      { name: 'Mockoon', url: 'https://mockoon.com/', desc: '本地 Mock 服务器', tag: '开源' },
+      { name: 'Stoplight', url: 'https://stoplight.io/', desc: 'API 设计与治理', tag: '海外' },
+      { name: 'Reqable', url: 'https://reqable.com/', desc: '跨平台抓包与调试', tag: '国内' },
+    ],
+  },
+  {
+    id: 'open-source',
+    name: '开源发现',
+    desc: '找项目、看趋势、挖宝藏',
+    icon: 'star',
+    links: [
+      { name: 'GitHub Trending', url: 'https://github.com/trending', desc: '每日热门仓库', tag: '微软', hot: true },
+      { name: 'Best of JS', url: 'https://bestofjs.org/', desc: '前端项目排行', tag: '开源' },
+      { name: 'OSS Insight', url: 'https://ossinsight.io/', desc: '开源数据洞察', tag: '开源' },
+      { name: 'LibHunt', url: 'https://www.libhunt.com/', desc: '类库横向对比', tag: '开源' },
+      { name: 'AlternativeTo', url: 'https://alternativeto.net/', desc: '找替代品', tag: '海外' },
+      { name: 'Product Hunt', url: 'https://www.producthunt.com/', desc: '新产品首发地', tag: '海外' },
+      { name: 'Awesome 清单', url: 'https://github.com/sindresorhus/awesome', desc: '各领域精选索引', tag: '开源' },
+      { name: 'Sourcegraph', url: 'https://sourcegraph.com/', desc: '跨仓库代码搜索', tag: '海外' },
+      { name: 'CNCF Landscape', url: 'https://landscape.cncf.io/', desc: '云原生全景图', tag: '开源' },
+      { name: 'Changelog', url: 'https://changelog.com/', desc: '开发者资讯与播客', tag: '海外' },
+      { name: 'Hacktoberfest', url: 'https://hacktoberfest.com/', desc: '十月开源贡献活动', tag: '开源' },
+      { name: 'Gitee 开源', url: 'https://gitee.com/explore', desc: '国产开源项目发现', tag: '国内' },
+    ],
+  },
+  {
+    id: 'data-viz',
+    name: '数据可视化',
+    desc: '图表库、看板与地理可视化',
+    icon: 'grid',
+    links: [
+      { name: 'Apache ECharts', url: 'https://echarts.apache.org/', desc: '国产图表库标杆', tag: '开源', hot: true },
+      { name: 'AntV', url: 'https://antv.antgroup.com/', desc: '蚂蚁数据可视化全家桶', tag: '国内' },
+      { name: 'D3.js', url: 'https://d3js.org/', desc: '数据驱动的可视化底层库', tag: '开源' },
+      { name: 'Chart.js', url: 'https://www.chartjs.org/', desc: '简洁易用的图表库', tag: '开源' },
+      { name: 'Vega-Lite', url: 'https://vega.github.io/vega-lite/', desc: '声明式图形语法', tag: '开源' },
+      { name: 'Observable Plot', url: 'https://observablehq.com/plot/', desc: '快速探索性图表', tag: '开源' },
+      { name: 'Apache Superset', url: 'https://superset.apache.org/', desc: '开源 BI 看板', tag: '开源' },
+      { name: 'Metabase', url: 'https://www.metabase.com/', desc: '人人可用的 BI', tag: '开源' },
+      { name: 'Datawrapper', url: 'https://www.datawrapper.de/', desc: '新闻级图表制作', tag: '海外' },
+      { name: 'RAWGraphs', url: 'https://www.rawgraphs.io/', desc: '拖拽式图表生成', tag: '开源' },
+      { name: 'Flourish', url: 'https://flourish.studio/', desc: '动态数据故事', tag: '海外' },
+      { name: 'Kepler.gl', url: 'https://kepler.gl/', desc: '大规模地理数据可视化', tag: '开源' },
+      { name: 'Three.js', url: 'https://threejs.org/', desc: 'WebGL 3D 渲染', tag: '开源' },
+      { name: 'Cesium', url: 'https://cesium.com/', desc: '三维地球与地图', tag: '开源' },
+    ],
+  },
+  {
+    id: 'seo-tools',
+    name: 'SEO 与站长工具',
+    desc: '收录、关键词、速度与结构化数据',
+    icon: 'search',
+    links: [
+      { name: 'Google Search Console', url: 'https://search.google.com/search-console', desc: '谷歌收录与索引管理', tag: '谷歌', hot: true },
+      { name: 'Bing Webmaster', url: 'https://www.bing.com/webmasters', desc: '必应站长平台', tag: '微软' },
+      { name: '百度搜索资源平台', url: 'https://ziyuan.baidu.com/', desc: '百度收录提交', tag: '国内' },
+      { name: 'PageSpeed Insights', url: 'https://pagespeed.web.dev/', desc: '网页性能评分', tag: '谷歌' },
+      { name: 'Lighthouse', url: 'https://developer.chrome.com/docs/lighthouse/', desc: '站点质量体检', tag: '谷歌' },
+      { name: 'Rich Results Test', url: 'https://search.google.com/test/rich-results', desc: '结构化数据校验', tag: '谷歌' },
+      { name: 'Schema.org', url: 'https://schema.org/', desc: '结构化数据标准', tag: '开源' },
+      { name: 'Ahrefs', url: 'https://ahrefs.com/', desc: '外链与关键词分析', tag: '海外' },
+      { name: 'SEMrush', url: 'https://www.semrush.com/', desc: '一站式营销分析', tag: '海外' },
+      { name: 'Moz', url: 'https://moz.com/', desc: '老牌 SEO 工具', tag: '海外' },
+      { name: 'Screaming Frog', url: 'https://www.screamingfrog.co.uk/seo-spider/', desc: '整站爬虫体检', tag: '海外' },
+      { name: '5118', url: 'https://www.5118.com/', desc: '中文关键词挖掘', tag: '国内' },
+      { name: '爱站网', url: 'https://www.aizhan.com/', desc: '站长综合查询', tag: '国内' },
+      { name: '站长工具', url: 'https://tool.chinaz.com/', desc: '常用站长查询集', tag: '国内' },
+      { name: 'IndexNow', url: 'https://www.indexnow.org/', desc: '主动推送收录', tag: '开源' },
+    ],
+  },
+  {
+    id: 'pdf-doc',
+    name: '文档与 PDF',
+    desc: 'PDF 处理、文档写作与知识库',
+    icon: 'file-text',
+    links: [
+      { name: 'Stirling PDF', url: 'https://www.stirlingpdf.com/', desc: '可自托管的 PDF 工具箱', tag: '开源', hot: true },
+      { name: 'PDFsam', url: 'https://pdfsam.org/', desc: '开源 PDF 拆分合并', tag: '开源' },
+      { name: 'Sejda', url: 'https://www.sejda.com/', desc: '在线 PDF 编辑', tag: '海外' },
+      { name: 'PDF Candy', url: 'https://pdfcandy.com/', desc: '格式互转小工具', tag: '海外' },
+      { name: 'CleverPDF', url: 'https://www.cleverpdf.com/', desc: 'PDF 全能处理', tag: '海外' },
+      { name: 'LightPDF', url: 'https://lightpdf.com/', desc: '在线 PDF 与 OCR', tag: '海外' },
+      { name: '福昕 PDF', url: 'https://www.foxitsoftware.cn/', desc: '国产 PDF 编辑器', tag: '国内' },
+      { name: 'MkDocs', url: 'https://www.mkdocs.org/', desc: 'Markdown 文档站', tag: '开源' },
+      { name: 'Sphinx', url: 'https://www.sphinx-doc.org/', desc: 'Python 文档生成器', tag: '开源' },
+      { name: 'Docusaurus', url: 'https://docusaurus.io/', desc: '开箱即用的文档站', tag: '开源' },
+      { name: 'Read the Docs', url: 'https://readthedocs.org/', desc: '文档托管平台', tag: '开源' },
+      { name: 'Pandoc', url: 'https://pandoc.org/', desc: '文档格式万能转换器', tag: '开源' },
+      { name: 'Typora', url: 'https://typoraio.cn/', desc: '所见即所得 Markdown 编辑器', tag: '国内' },
+      { name: '语雀', url: 'https://www.yuque.com/', desc: '团队协作知识库', tag: '国内' },
+    ],
+  },
 ];
+
+/**
+ * 按大类分好组的导航数据，首页直接消费。
+ * ⚠️ 必须放在 SITE_GROUPS 之后——它在模块初始化时就要读 SITE_GROUPS，
+ * 写在前面会拿到 undefined（打包后 TDZ 错误不显式，排查很费劲）。
+ */
+export const SITE_SECTION_GROUPS = SITE_SECTIONS.map((s) => ({
+  ...s,
+  groups: SITE_GROUPS.filter((g) => metaOf(g).section === s.key),
+}));

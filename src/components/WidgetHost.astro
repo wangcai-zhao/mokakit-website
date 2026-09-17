@@ -215,6 +215,39 @@ import FuelCost from '@/tools/fuel-cost/Tool.tsx';
 import GoldWeightConvert from '@/tools/gold-weight-convert/Tool.tsx';
 import VolumeWeight from '@/tools/volume-weight/Tool.tsx';
 
+// 2026-09-18 批次：图片处理 ×10 / 文本处理 ×10 / 开发辅助 ×10 / 文档脱敏 ×1
+import ImageCompress from '@/tools/image-compress/Tool.tsx';
+import ImageResize from '@/tools/image-resize/Tool.tsx';
+import ImageConvert from '@/tools/image-convert/Tool.tsx';
+import ImageBase64 from '@/tools/image-base64/Tool.tsx';
+import ImageWatermark from '@/tools/image-watermark/Tool.tsx';
+import ImageCrop from '@/tools/image-crop/Tool.tsx';
+import ImageFilter from '@/tools/image-filter/Tool.tsx';
+import ImageInfo from '@/tools/image-info/Tool.tsx';
+import FaviconGenerator from '@/tools/favicon-generator/Tool.tsx';
+import PlaceholderImage from '@/tools/placeholder-image/Tool.tsx';
+import TextExtract from '@/tools/text-extract/Tool.tsx';
+import TextReplace from '@/tools/text-replace/Tool.tsx';
+import TextWhitespace from '@/tools/text-whitespace/Tool.tsx';
+import TextSplitJoin from '@/tools/text-split-join/Tool.tsx';
+import TextPad from '@/tools/text-pad/Tool.tsx';
+import UnicodeEscape from '@/tools/unicode-escape/Tool.tsx';
+import ChineseNumber from '@/tools/chinese-number/Tool.tsx';
+import TextSimilarity from '@/tools/text-similarity/Tool.tsx';
+import MarkdownToc from '@/tools/markdown-toc/Tool.tsx';
+import LoremIpsum from '@/tools/lorem-ipsum/Tool.tsx';
+import JsonDiff from '@/tools/json-diff/Tool.tsx';
+import JsonToTypescript from '@/tools/json-to-typescript/Tool.tsx';
+import JsonFlatten from '@/tools/json-flatten/Tool.tsx';
+import CurlConverter from '@/tools/curl-converter/Tool.tsx';
+import ChmodCalculator from '@/tools/chmod-calculator/Tool.tsx';
+import NginxConfigGen from '@/tools/nginx-config-gen/Tool.tsx';
+import DockerfileGen from '@/tools/dockerfile-gen/Tool.tsx';
+import MarkdownTableGen from '@/tools/markdown-table-gen/Tool.tsx';
+import SecurityHeaders from '@/tools/security-headers/Tool.tsx';
+import GitCommandGen from '@/tools/git-command-gen/Tool.tsx';
+import DocDesensitize from '@/tools/doc-desensitize/Tool.tsx';
+
 interface Props {
   tool: ToolMeta;
   widgetProps?: Record<string, any>;
@@ -422,6 +455,37 @@ const isHtmlMd = tool.id === 'html-to-markdown';
 const isHmac = tool.id === 'hmac-gen';
 const isJwtGen = tool.id === 'jwt-generator';
 const isPuny = tool.id === 'punycode';
+const isImgCompress = tool.id === 'image-compress';
+const isImgResize = tool.id === 'image-resize';
+const isImgConvert = tool.id === 'image-convert';
+const isImgB64 = tool.id === 'image-base64';
+const isImgWM = tool.id === 'image-watermark';
+const isImgCrop = tool.id === 'image-crop';
+const isImgFilter = tool.id === 'image-filter';
+const isImgInfo = tool.id === 'image-info';
+const isFavGen = tool.id === 'favicon-generator';
+const isPlaceholder = tool.id === 'placeholder-image';
+const isTxtExtract = tool.id === 'text-extract';
+const isTxtReplace = tool.id === 'text-replace';
+const isTxtWS = tool.id === 'text-whitespace';
+const isTxtSplitJoin = tool.id === 'text-split-join';
+const isTxtPad = tool.id === 'text-pad';
+const isUniEsc = tool.id === 'unicode-escape';
+const isCnNum = tool.id === 'chinese-number';
+const isTxtSim = tool.id === 'text-similarity';
+const isMdToc = tool.id === 'markdown-toc';
+const isLorem = tool.id === 'lorem-ipsum';
+const isJsonDiff = tool.id === 'json-diff';
+const isJson2Ts = tool.id === 'json-to-typescript';
+const isJsonFlat = tool.id === 'json-flatten';
+const isCurlConv = tool.id === 'curl-converter';
+const isChmod = tool.id === 'chmod-calculator';
+const isNginxGen = tool.id === 'nginx-config-gen';
+const isDockerGen = tool.id === 'dockerfile-gen';
+const isMdTable = tool.id === 'markdown-table-gen';
+const isSecHeaders = tool.id === 'security-headers';
+const isGitCmd = tool.id === 'git-command-gen';
+const isDesens = tool.id === 'doc-desensitize';
 const known =
   isPG || isUC || isTS || isJF || isCC || isBC || isHC ||
   isUE || isB64 || isUUID || isTC || isColor ||
@@ -454,7 +518,8 @@ const known =
   isHmac || isJwtGen || isPuny ||
   isStockFee || isFundDca || isInstallApr || isFundYield ||
   isAnnualLeave || isSeverance || isRunPace || isSleepCycle ||
-  isElecCost || isFuelCost || isGoldW || isVolW;
+  isElecCost || isFuelCost || isGoldW || isVolW ||
+  isImgCompress || isImgResize || isImgConvert || isImgB64 || isImgWM || isImgCrop || isImgFilter || isImgInfo || isFavGen || isPlaceholder || isTxtExtract || isTxtReplace || isTxtWS || isTxtSplitJoin || isTxtPad || isUniEsc || isCnNum || isTxtSim || isMdToc || isLorem || isJsonDiff || isJson2Ts || isJsonFlat || isCurlConv || isChmod || isNginxGen || isDockerGen || isMdTable || isSecHeaders || isGitCmd || isDesens;
 ---
 
 <!-- 密码生成器 -->
@@ -1384,6 +1449,162 @@ const known =
 {isVolW && mode === 'load' && <VolumeWeight client:load {...widgetProps} />}
 {isVolW && mode === 'idle' && <VolumeWeight client:idle {...widgetProps} />}
 {isVolW && mode === 'visible' && <VolumeWeight client:visible {...widgetProps} />}
+
+<!-- 2026-09-18 批次：图片处理 / 文本处理 / 开发辅助 / 文档脱敏 -->
+<!-- 图片压缩 -->
+{isImgCompress && mode === 'load' && <ImageCompress client:load {...widgetProps} />}
+{isImgCompress && mode === 'idle' && <ImageCompress client:idle {...widgetProps} />}
+{isImgCompress && mode === 'visible' && <ImageCompress client:visible {...widgetProps} />}
+
+<!-- 图片尺寸调整 -->
+{isImgResize && mode === 'load' && <ImageResize client:load {...widgetProps} />}
+{isImgResize && mode === 'idle' && <ImageResize client:idle {...widgetProps} />}
+{isImgResize && mode === 'visible' && <ImageResize client:visible {...widgetProps} />}
+
+<!-- 图片格式转换 -->
+{isImgConvert && mode === 'load' && <ImageConvert client:load {...widgetProps} />}
+{isImgConvert && mode === 'idle' && <ImageConvert client:idle {...widgetProps} />}
+{isImgConvert && mode === 'visible' && <ImageConvert client:visible {...widgetProps} />}
+
+<!-- 图片 Base64 转换 -->
+{isImgB64 && mode === 'load' && <ImageBase64 client:load {...widgetProps} />}
+{isImgB64 && mode === 'idle' && <ImageBase64 client:idle {...widgetProps} />}
+{isImgB64 && mode === 'visible' && <ImageBase64 client:visible {...widgetProps} />}
+
+<!-- 图片水印 -->
+{isImgWM && mode === 'load' && <ImageWatermark client:load {...widgetProps} />}
+{isImgWM && mode === 'idle' && <ImageWatermark client:idle {...widgetProps} />}
+{isImgWM && mode === 'visible' && <ImageWatermark client:visible {...widgetProps} />}
+
+<!-- 图片裁剪 -->
+{isImgCrop && mode === 'load' && <ImageCrop client:load {...widgetProps} />}
+{isImgCrop && mode === 'idle' && <ImageCrop client:idle {...widgetProps} />}
+{isImgCrop && mode === 'visible' && <ImageCrop client:visible {...widgetProps} />}
+
+<!-- 图片滤镜 -->
+{isImgFilter && mode === 'load' && <ImageFilter client:load {...widgetProps} />}
+{isImgFilter && mode === 'idle' && <ImageFilter client:idle {...widgetProps} />}
+{isImgFilter && mode === 'visible' && <ImageFilter client:visible {...widgetProps} />}
+
+<!-- 图片信息查看 -->
+{isImgInfo && mode === 'load' && <ImageInfo client:load {...widgetProps} />}
+{isImgInfo && mode === 'idle' && <ImageInfo client:idle {...widgetProps} />}
+{isImgInfo && mode === 'visible' && <ImageInfo client:visible {...widgetProps} />}
+
+<!-- Favicon 生成 -->
+{isFavGen && mode === 'load' && <FaviconGenerator client:load {...widgetProps} />}
+{isFavGen && mode === 'idle' && <FaviconGenerator client:idle {...widgetProps} />}
+{isFavGen && mode === 'visible' && <FaviconGenerator client:visible {...widgetProps} />}
+
+<!-- 占位图生成 -->
+{isPlaceholder && mode === 'load' && <PlaceholderImage client:load {...widgetProps} />}
+{isPlaceholder && mode === 'idle' && <PlaceholderImage client:idle {...widgetProps} />}
+{isPlaceholder && mode === 'visible' && <PlaceholderImage client:visible {...widgetProps} />}
+
+<!-- 文本提取 -->
+{isTxtExtract && mode === 'load' && <TextExtract client:load {...widgetProps} />}
+{isTxtExtract && mode === 'idle' && <TextExtract client:idle {...widgetProps} />}
+{isTxtExtract && mode === 'visible' && <TextExtract client:visible {...widgetProps} />}
+
+<!-- 批量替换 -->
+{isTxtReplace && mode === 'load' && <TextReplace client:load {...widgetProps} />}
+{isTxtReplace && mode === 'idle' && <TextReplace client:idle {...widgetProps} />}
+{isTxtReplace && mode === 'visible' && <TextReplace client:visible {...widgetProps} />}
+
+<!-- 空白清理 -->
+{isTxtWS && mode === 'load' && <TextWhitespace client:load {...widgetProps} />}
+{isTxtWS && mode === 'idle' && <TextWhitespace client:idle {...widgetProps} />}
+{isTxtWS && mode === 'visible' && <TextWhitespace client:visible {...widgetProps} />}
+
+<!-- 文本分割合并 -->
+{isTxtSplitJoin && mode === 'load' && <TextSplitJoin client:load {...widgetProps} />}
+{isTxtSplitJoin && mode === 'idle' && <TextSplitJoin client:idle {...widgetProps} />}
+{isTxtSplitJoin && mode === 'visible' && <TextSplitJoin client:visible {...widgetProps} />}
+
+<!-- 文本补齐对齐 -->
+{isTxtPad && mode === 'load' && <TextPad client:load {...widgetProps} />}
+{isTxtPad && mode === 'idle' && <TextPad client:idle {...widgetProps} />}
+{isTxtPad && mode === 'visible' && <TextPad client:visible {...widgetProps} />}
+
+<!-- Unicode 转义 -->
+{isUniEsc && mode === 'load' && <UnicodeEscape client:load {...widgetProps} />}
+{isUniEsc && mode === 'idle' && <UnicodeEscape client:idle {...widgetProps} />}
+{isUniEsc && mode === 'visible' && <UnicodeEscape client:visible {...widgetProps} />}
+
+<!-- 中文数字转换 -->
+{isCnNum && mode === 'load' && <ChineseNumber client:load {...widgetProps} />}
+{isCnNum && mode === 'idle' && <ChineseNumber client:idle {...widgetProps} />}
+{isCnNum && mode === 'visible' && <ChineseNumber client:visible {...widgetProps} />}
+
+<!-- 文本相似度 -->
+{isTxtSim && mode === 'load' && <TextSimilarity client:load {...widgetProps} />}
+{isTxtSim && mode === 'idle' && <TextSimilarity client:idle {...widgetProps} />}
+{isTxtSim && mode === 'visible' && <TextSimilarity client:visible {...widgetProps} />}
+
+<!-- Markdown 目录生成 -->
+{isMdToc && mode === 'load' && <MarkdownToc client:load {...widgetProps} />}
+{isMdToc && mode === 'idle' && <MarkdownToc client:idle {...widgetProps} />}
+{isMdToc && mode === 'visible' && <MarkdownToc client:visible {...widgetProps} />}
+
+<!-- 占位文本生成 -->
+{isLorem && mode === 'load' && <LoremIpsum client:load {...widgetProps} />}
+{isLorem && mode === 'idle' && <LoremIpsum client:idle {...widgetProps} />}
+{isLorem && mode === 'visible' && <LoremIpsum client:visible {...widgetProps} />}
+
+<!-- JSON 对比 -->
+{isJsonDiff && mode === 'load' && <JsonDiff client:load {...widgetProps} />}
+{isJsonDiff && mode === 'idle' && <JsonDiff client:idle {...widgetProps} />}
+{isJsonDiff && mode === 'visible' && <JsonDiff client:visible {...widgetProps} />}
+
+<!-- JSON 转 TypeScript -->
+{isJson2Ts && mode === 'load' && <JsonToTypescript client:load {...widgetProps} />}
+{isJson2Ts && mode === 'idle' && <JsonToTypescript client:idle {...widgetProps} />}
+{isJson2Ts && mode === 'visible' && <JsonToTypescript client:visible {...widgetProps} />}
+
+<!-- JSON 扁平化 -->
+{isJsonFlat && mode === 'load' && <JsonFlatten client:load {...widgetProps} />}
+{isJsonFlat && mode === 'idle' && <JsonFlatten client:idle {...widgetProps} />}
+{isJsonFlat && mode === 'visible' && <JsonFlatten client:visible {...widgetProps} />}
+
+<!-- curl 命令转换 -->
+{isCurlConv && mode === 'load' && <CurlConverter client:load {...widgetProps} />}
+{isCurlConv && mode === 'idle' && <CurlConverter client:idle {...widgetProps} />}
+{isCurlConv && mode === 'visible' && <CurlConverter client:visible {...widgetProps} />}
+
+<!-- chmod 权限计算器 -->
+{isChmod && mode === 'load' && <ChmodCalculator client:load {...widgetProps} />}
+{isChmod && mode === 'idle' && <ChmodCalculator client:idle {...widgetProps} />}
+{isChmod && mode === 'visible' && <ChmodCalculator client:visible {...widgetProps} />}
+
+<!-- Nginx 配置生成 -->
+{isNginxGen && mode === 'load' && <NginxConfigGen client:load {...widgetProps} />}
+{isNginxGen && mode === 'idle' && <NginxConfigGen client:idle {...widgetProps} />}
+{isNginxGen && mode === 'visible' && <NginxConfigGen client:visible {...widgetProps} />}
+
+<!-- Dockerfile 生成 -->
+{isDockerGen && mode === 'load' && <DockerfileGen client:load {...widgetProps} />}
+{isDockerGen && mode === 'idle' && <DockerfileGen client:idle {...widgetProps} />}
+{isDockerGen && mode === 'visible' && <DockerfileGen client:visible {...widgetProps} />}
+
+<!-- Markdown 表格生成 -->
+{isMdTable && mode === 'load' && <MarkdownTableGen client:load {...widgetProps} />}
+{isMdTable && mode === 'idle' && <MarkdownTableGen client:idle {...widgetProps} />}
+{isMdTable && mode === 'visible' && <MarkdownTableGen client:visible {...widgetProps} />}
+
+<!-- 安全响应头生成 -->
+{isSecHeaders && mode === 'load' && <SecurityHeaders client:load {...widgetProps} />}
+{isSecHeaders && mode === 'idle' && <SecurityHeaders client:idle {...widgetProps} />}
+{isSecHeaders && mode === 'visible' && <SecurityHeaders client:visible {...widgetProps} />}
+
+<!-- Git 命令生成 -->
+{isGitCmd && mode === 'load' && <GitCommandGen client:load {...widgetProps} />}
+{isGitCmd && mode === 'idle' && <GitCommandGen client:idle {...widgetProps} />}
+{isGitCmd && mode === 'visible' && <GitCommandGen client:visible {...widgetProps} />}
+
+<!-- 文档脱敏 -->
+{isDesens && mode === 'load' && <DocDesensitize client:load {...widgetProps} />}
+{isDesens && mode === 'idle' && <DocDesensitize client:idle {...widgetProps} />}
+{isDesens && mode === 'visible' && <DocDesensitize client:visible {...widgetProps} />}
 
 <!-- 未接入水合岛屿的工具 -->
 {

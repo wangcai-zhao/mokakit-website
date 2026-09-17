@@ -20,9 +20,9 @@
 | 让 AI 帮我写 SQL 并自查：接数据库的 MCP | workbuddy 连数据库 / mcp 数据库 | sql-formatter, json-formatter | 数据库 MCP | 高手 | 写作中 |
 | 定时抓取竞品价格， weekly 汇总给我 | workbuddy 定时抓取 / 网页抓取 | json-formatter, unit-convert | 定时任务 + 网页抓取 | 进阶 | 写作中 |
 | 把重复的客户回复做成模板技能 | workbuddy 自动回复 / 客服技能 | case-converter, base64 | 自定义回复技能 | 入门 | 写作中 |
-| 接入企业微信，让 AI 远程帮我跑任务 | workbuddy 企业微信 / 远程操控 | mcp-config-generator | 企微通道 + MCP | 高手 | 待写 |
-| 用本地大模型跑敏感数据，不外传 | workbuddy 本地模型 / 隐私计算 | base64, json-formatter | 本地/隐私工具链 | 进阶 | 待写 |
-| 一篇搞定：WorkBuddy 全技巧合集（月度专题） | workbuddy 教程 / workbuddy 使用技巧 | 全站工具 | 综合 | 进阶 | 待写 |
+| 接入企业微信，让 AI 远程帮我跑任务 | workbuddy 企业微信 / 远程操控 | mcp-config-generator, cron-parser | 企微通道 + MCP | 高手 | 写作中 |
+| 用本地大模型跑敏感数据，不外传 | workbuddy 本地模型 / 隐私计算 | base64, json-formatter | 本地/隐私工具链 | 进阶 | 写作中 |
+| 一篇搞定：WorkBuddy 全技巧合集（月度专题） | workbuddy 教程 / workbuddy 使用技巧 | mcp-config-generator, skill-generator, json-formatter, unit-convert, cron-parser, sql-formatter, base64, case-converter, text-dedup, income-tax-cn, mortgage-early-repayment, commit-gen, weekly-hours | 综合 | 进阶 | 写作中 |
 
 ## 写作约束（每次生成草稿前自查）
 

@@ -47,6 +47,111 @@ export interface Release {
 
 export const RELEASES: Release[] = [
   {
+    version: '2026.09.18',
+    date: '2026-09-18',
+    title: '图片 / 文本 / 开发辅助 · 31 个新工具 + 文档脱敏',
+    summary:
+      '这一批把「图片处理」开成了独立栏目，文本与开发辅助各补十个，最后加了一个文档脱敏工具。共同点是：全部在浏览器本地算完，粘贴进去的数据一步都不离开设备——图片、合同、客户名单这类东西，本来就不该传给别人的服务器。',
+    groups: [
+      {
+        label: '图片处理 ×10（新栏目）',
+        note: '统一走 canvas 本地处理：选图 → 调参数 → 实时看体积对比 → 下载，不上传、不留痕。',
+        tools: [
+          {
+            id: 'image-compress',
+            role: '压体积不降清晰度，实时显示省了多少',
+            features: [
+              '拖动质量滑块即时算出压缩后体积与节省百分比',
+              '输出 JPEG / WebP / PNG，可同时限制最大宽度',
+            ],
+          },
+          { id: 'image-resize', role: '改宽高，内置头像、小红书、公众号封面等预设尺寸' },
+          { id: 'image-convert', role: 'PNG / JPEG / WebP 互转，转 JPEG 可垫白底避免透明变黑' },
+          { id: 'image-base64', role: '图片与 Base64 双向转换，可选是否带 data URL 前缀' },
+          {
+            id: 'image-watermark',
+            role: '文字水印，支持满屏斜向平铺防截图外传',
+            features: ['九宫格定位或斜向平铺', '字号、颜色、不透明度可调，自带阴影描边'],
+          },
+          { id: 'image-crop', role: '按六种常用比例裁剪，绝不拉伸变形' },
+          { id: 'image-filter', role: '黑白、反色、复古等预设 + 亮度对比度饱和度模糊四档滑块' },
+          { id: 'image-info', role: '查看尺寸、体积、宽高比，并可抽样提取画面主色' },
+          { id: 'favicon-generator', role: '一次产出 16 到 512 共八种尺寸的站点图标' },
+          { id: 'placeholder-image', role: '任意尺寸的渐变占位图，用于骨架屏与设计稿' },
+        ],
+      },
+      {
+        label: '文本处理 ×10',
+        tools: [
+          {
+            id: 'text-extract',
+            role: '从一段文字里批量捞出手机号、邮箱、网址等',
+            features: ['11 种内置类型，支持自定义正则', '按类型分组展示并自动去重，一键复制'],
+          },
+          {
+            id: 'text-replace',
+            role: '多条查找替换规则一次跑完',
+            features: ['每条规则独立开关正则与大小写敏感', '支持 $1、$2 捕获组引用'],
+          },
+          { id: 'text-whitespace', role: '清全角空格、Tab、行首尾空白与多余空行' },
+          { id: 'text-split-join', role: '按分隔符拆分与合并，可一键加单引号写 SQL' },
+          { id: 'text-pad', role: '订单号补零、按列对齐到固定长度' },
+          { id: 'unicode-escape', role: '中文与 \\uXXXX / U+ / %XX / HTML 实体互转' },
+          { id: 'chinese-number', role: '数字转中文读法与人民币大写，也能反向解析' },
+          { id: 'text-similarity', role: '编辑距离、余弦、Jaccard 三个查重指标一起给' },
+          { id: 'markdown-toc', role: '提取标题生成带锚点的 Markdown 目录' },
+          { id: 'lorem-ipsum', role: '中文与经典 Lorem 占位文本，随机种子可复现' },
+        ],
+      },
+      {
+        label: '开发辅助 ×10',
+        tools: [
+          { id: 'json-diff', role: '两份 JSON 逐字段比对，列出新增 / 删除 / 修改' },
+          { id: 'json-to-typescript', role: '接口响应反推 TypeScript interface' },
+          { id: 'json-flatten', role: '嵌套 JSON 展平成一层的键值，也能还原回去' },
+          {
+            id: 'curl-converter',
+            role: '浏览器复制的 cURL 转成 fetch / Axios / Python / Go / PHP',
+            features: ['自动识别请求方法、请求头与请求体', '按 Content-Type 区分 JSON 与表单'],
+          },
+          { id: 'chmod-calculator', role: '勾选读写执行得到权限数字与 chmod 命令' },
+          { id: 'nginx-config-gen', role: '静态站、单页应用、反代、PHP、跳转五种场景配置' },
+          { id: 'dockerfile-gen', role: '五种技术栈的 Dockerfile，支持多阶段与非 root' },
+          { id: 'markdown-table-gen', role: 'CSV / JSON 转成对齐的 Markdown 表格' },
+          { id: 'security-headers', role: 'HSTS、CSP 等八条安全响应头，六种输出格式' },
+          {
+            id: 'git-command-gen',
+            role: '十四个 Git 常见场景的命令，按风险等级标注',
+            features: ['覆盖撤销提交、同步上游、挑拣、发版等场景', '危险命令附带执行前的备份提醒'],
+          },
+        ],
+      },
+      {
+        label: '文档脱敏 ×1（重点）',
+        tools: [
+          {
+            id: 'doc-desensitize',
+            role: '自动识别并打码文档里的敏感信息',
+            features: [
+              '识别姓名、手机号、身份证、银行卡、邮箱、住址、IP、车牌、统一社会信用代码等 13 类',
+              '身份证校验位 + 银行卡 Luhn 双重校验，把误报压到最低',
+              '四种打码方式：保留首尾、全部打码、换类型标签、换稳定代号（可关联分析）',
+              '支持白名单、姓名识别增强与自定义正则，可导入 txt / csv / json 文件',
+              '全部在浏览器本地完成，文档不上传服务器',
+            ],
+          },
+        ],
+      },
+    ],
+    notes: [
+      '新增「图片处理」分类，工具分类数扩到 11 个',
+      '好站导航细化：新增前端框架、后端与数据库、运维部署、API 调试、开源发现、数据可视化、SEO 站长、文档 PDF 共 8 个分类，收录站点突破 800 个',
+      '好站导航首页改为按大类分区展示 + 关键词即时筛选，分类页增加站点搜索、精选标记、标签徽章与上下分类导航',
+      '博客新增 3 篇文章，并重排正文排版（代码块、表格、图片在移动端的显示）',
+      '新增 14 个 Lucide 图标，补齐图片与开发工具所需',
+    ],
+  },
+  {
     version: '2026.09.11',
     date: '2026-09-11',
     title: '金融账与日常开销 · 12 个计算器',

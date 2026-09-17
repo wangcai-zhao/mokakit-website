@@ -1,0 +1,41 @@
+## 安全响应头生成是什么
+
+几行响应头就能挡掉点击劫持、MIME 嗅探、XSS 的一大半。代价是配置错误会把正常功能也一起拦掉，所以要按站点实际情况生成。
+
+## 这个工具能做什么
+
+- 八条常用安全响应头，可逐条开关
+- CSP 按是否用 CDN、有无内联脚本自动调整
+- HSTS max-age 可调，含 preload
+- 六种输出格式：Nginx / Apache / Express / Vercel / Netlify / meta
+
+## 怎么使用（输入说明）
+
+1. **填域名，勾选站点实际情况**
+2. **选是否允许 iframe 嵌入**
+3. **按需开关各条响应头**
+4. **选输出格式并复制**
+
+## 使用时的几个注意点
+
+- CSP 上线前先用 Report-Only 观察
+- HSTS 加 preload 后短期内撤不回
+- 第三方脚本要加进 CSP 白名单
+
+## 实例
+
+一个用 jsDelivr 加载脚本的静态站，生成的 CSP 会自动放行 https://cdn.jsdelivr.net。
+
+## 常见问题 FAQ
+
+**Q：加了 CSP 会不会把站点搞挂？**
+
+A：很有可能。CSP 会拦掉所有不在白名单里的脚本、样式和接口，第三方统计、广告、内联脚本都会被挡。建议先用 Content-Security-Policy-Report-Only 观察一周，再切正式。
+
+**Q：HSTS 的 max-age 填多少合适？**
+
+A：先用短一点的值（比如 300 秒）确认站点在 HTTPS 下一切正常，再逐步加长到一年（31536000）。一旦加上 preload，短期内是撤不回来的。
+
+**Q：X-Frame-Options 和 CSP 的 frame-ancestors 冲突吗？**
+
+A：不冲突，但现代浏览器优先听 CSP 的 frame-ancestors。两者都配上是为了兼容老浏览器。

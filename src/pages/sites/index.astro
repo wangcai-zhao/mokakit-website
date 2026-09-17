@@ -1,55 +1,201 @@
 ---
-import { SITE } from '@/config/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Icon from '@/components/Icon.astro';
-import { SITE_GROUPS } from '@/data/sites';
+import {
+  SITE_GROUPS,
+  SITE_SECTION_GROUPS,
+  allFeatured,
+  featuredOf,
+  metaOf,
+  isHot,
+} from '@/data/sites';
+import { goUrl } from '@/utils/outbound';
+import { faviconOf } from '@/utils/favicon';
 
 const title = '好站导航';
 const description =
-  '摩卡工具箱精选的优质网站导航：开发文档、AI 工具、设计灵感、效率工具与学习资讯，按分类索引，一站直达。';
+  '摩卡工具箱精选的优质网站导航：AI 工具、前端后端开发、设计灵感、SEO 站长、效率工具与生活资讯，按大类分区索引，支持关键词即时筛选，一站直达。';
 
 const total = SITE_GROUPS.reduce((sum, g) => sum + g.links.length, 0);
+const featured = allFeatured(12);
 ---
 
 <BaseLayout title={title} description={description} path="/sites/">
   <div class="mx-auto max-w-6xl px-4 py-8">
-    <header class="mb-8">
+    <header class="mb-6">
       <h1 class="text-3xl font-bold flex items-center gap-2">
         <Icon name="compass" size={28} class="text-primary" />
         好站导航
       </h1>
       <p class="mt-2 opacity-65 max-w-2xl">
         共收录 <span class="font-semibold text-primary">{total}</span> 个优质站点，分
-        <span class="font-semibold text-primary">{SITE_GROUPS.length}</span> 个分类。点开任意分类查看该领域精选链接，全部在新标签页打开。
+        <span class="font-semibold text-primary">{SITE_GROUPS.length}</span>
+        个细分分类、<span class="font-semibold text-primary">{SITE_SECTION_GROUPS.length}</span>
+        个大类。外链一律在新标签页打开，与本站无隶属关系。
       </p>
     </header>
 
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {
-        SITE_GROUPS.map((group) => (
-          <a
-            href={`/sites/${group.id}/`}
-            class="group flex items-start gap-4 rounded-2xl border border-base-300 bg-base-100 p-5 hover:border-primary hover:shadow-md transition"
-          >
-            <span class="grid place-items-center w-12 h-12 shrink-0 rounded-xl bg-primary/10 text-primary">
-              <Icon name={group.icon} size={24} />
-            </span>
-            <span class="min-w-0 flex-1">
-              <span class="flex items-center justify-between gap-2">
-                <span class="font-semibold text-lg">{group.name}</span>
-                <span class="text-xs opacity-50 shrink-0">{group.links.length} 个</span>
-              </span>
-              <span class="block text-sm opacity-60 leading-snug mt-1">
-                {group.desc}
-              </span>
-            </span>
-          </a>
-        ))
-      }
+    <!-- 即时筛选：不换页、不发请求，纯前端按关键词隐藏卡片 -->
+    <div class="mb-8">
+      <label class="input input-bordered flex items-center gap-2 w-full max-w-xl">
+        <Icon name="search" size={18} class="opacity-50" />
+        <input
+          type="search"
+          id="site-search"
+          class="grow bg-transparent outline-none"
+          placeholder="搜站点名或分类，比如「设计」「SEO」「Figma」"
+          autocomplete="off"
+        />
+      </label>
+      <p class="mt-2 text-xs opacity-50">
+        输入即筛选，匹配范围包括分类名、简介、标签与该分类下的站点名。
+      </p>
     </div>
+
+    <!-- 编辑精选 -->
+    <section class="mb-10">
+      <h2 class="text-xl font-bold flex items-center gap-2 mb-3">
+        <span class="grid place-items-center w-7 h-7 rounded-lg bg-primary/10 text-primary">
+          <Icon name="star" size={16} />
+        </span>
+        编辑精选
+      </h2>
+      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          featured.map((link) => (
+            <a
+              href={goUrl(link.url)}
+              target="_blank"
+              rel="noopener noreferrer nofollow"
+              class="group flex items-center gap-3 rounded-xl border border-base-300 bg-base-100 p-3 hover:border-primary hover:shadow-sm transition"
+            >
+              <span class="relative grid place-items-center w-9 h-9 shrink-0 rounded-lg bg-primary/10 text-primary font-bold overflow-hidden">
+                {link.name.charAt(0)}
+                <img
+                  src={faviconOf(link.url)}
+                  alt=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer"
+                  class="absolute inset-0 w-full h-full object-contain p-1.5 bg-base-100"
+                  onerror="this.style.display='none'"
+                />
+              </span>
+              <span class="min-w-0 flex-1">
+                <span class="block font-medium truncate">{link.name}</span>
+                <span class="block text-xs opacity-60 truncate">{link.desc}</span>
+              </span>
+              <Icon
+                name="arrowRight"
+                size={16}
+                class="opacity-0 group-hover:opacity-60 transition shrink-0"
+              />
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- 按大类分区 -->
+    {
+      SITE_SECTION_GROUPS.map((section) => (
+        <section class="mb-10" data-section={section.key}>
+          <div class="flex items-baseline justify-between gap-2 mb-1">
+            <h2 class="text-xl font-bold">{section.name}</h2>
+            <span class="text-xs opacity-50">
+              {section.groups.reduce((n, g) => n + g.links.length, 0)} 个站点 ·{' '}
+              {section.groups.length} 个分类
+            </span>
+          </div>
+          <p class="text-sm opacity-55 mb-3">{section.desc}</p>
+
+          <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {section.groups.map((group) => {
+              const meta = metaOf(group);
+              const picks = featuredOf(group, 3);
+              const haystack = [group.name, group.desc, ...meta.tags, ...group.links.map((l) => l.name)]
+                .join(' ')
+                .toLowerCase();
+              return (
+                <a
+                  href={`/sites/${group.id}/`}
+                  data-search={haystack}
+                  class="site-group flex flex-col gap-3 rounded-2xl border border-base-300 bg-base-100 p-4 hover:border-primary hover:shadow-md transition"
+                >
+                  <span class="flex items-start gap-3">
+                    <span class="grid place-items-center w-11 h-11 shrink-0 rounded-xl bg-primary/10 text-primary">
+                      <Icon name={group.icon} size={22} />
+                    </span>
+                    <span class="min-w-0 flex-1">
+                      <span class="flex items-center justify-between gap-2">
+                        <span class="font-semibold">{group.name}</span>
+                        <span class="text-xs opacity-50 shrink-0">{group.links.length} 个</span>
+                      </span>
+                      <span class="block text-sm opacity-60 leading-snug mt-0.5">{group.desc}</span>
+                    </span>
+                  </span>
+
+                  {meta.tags.length > 0 && (
+                    <span class="flex flex-wrap gap-1.5">
+                      {meta.tags.slice(0, 3).map((t) => (
+                        <span class="badge badge-xs badge-ghost">{t}</span>
+                      ))}
+                    </span>
+                  )}
+
+                  <span class="flex flex-wrap gap-x-3 gap-y-1 text-xs opacity-50">
+                    {picks.map((p) => (
+                      <span class="inline-flex items-center gap-1">
+                        {isHot(p) && <Icon name="star" size={10} class="text-primary" />}
+                        {p.name}
+                      </span>
+                    ))}
+                  </span>
+                </a>
+              );
+            })}
+          </div>
+        </section>
+      ))
+    }
+
+    <p id="site-empty" class="hidden text-sm opacity-60 py-8 text-center">
+      没有匹配的分类，换个关键词试试。
+    </p>
 
     <p class="mt-10 text-sm opacity-50 leading-relaxed">
       所列站点均为外部资源，点击将以新标签页打开，与本站无隶属关系。如发现失效链接，欢迎在关于页反馈。
     </p>
   </div>
+
+  <script is:inline>
+    (function () {
+      var input = document.getElementById('site-search');
+      var empty = document.getElementById('site-empty');
+      if (!input) return;
+      var cards = Array.prototype.slice.call(document.querySelectorAll('.site-group'));
+      var sections = Array.prototype.slice.call(document.querySelectorAll('[data-section]'));
+
+      function apply() {
+        var q = (input.value || '').trim().toLowerCase();
+        var shown = 0;
+        cards.forEach(function (card) {
+          var hit = !q || (card.getAttribute('data-search') || '').indexOf(q) !== -1;
+          if (hit) shown++;
+          if (hit) card.classList.remove('hidden');
+          else card.classList.add('hidden');
+        });
+        sections.forEach(function (sec) {
+          var any = sec.querySelectorAll('.site-group:not(.hidden)').length > 0;
+          if (any) sec.classList.remove('hidden');
+          else sec.classList.add('hidden');
+        });
+        if (empty) {
+          if (shown === 0) empty.classList.remove('hidden');
+          else empty.classList.add('hidden');
+        }
+      }
+
+      input.addEventListener('input', apply);
+    })();
+  </script>
 </BaseLayout>

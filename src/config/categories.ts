@@ -67,13 +67,22 @@ export const CATEGORIES = [
     order: 5,
   },
   {
+    id: 'image',
+    slug: 'image',
+    name: '图片处理',
+    desc: '压缩、改尺寸、格式转换、水印、滤镜等图片工具，全部浏览器本地处理不上传',
+    seoTitle: '在线图片处理工具',
+    icon: 'image',
+    order: 6,
+  },
+  {
     id: 'barcode',
     slug: 'barcode',
     name: '条码与标识',
     desc: 'UDI 医疗器械唯一标识、二维码、条形码等编码与解码工具',
     seoTitle: '在线条码与标识工具',
     icon: 'barcode',
-    order: 6,
+    order: 7,
   },
   {
     id: 'ai',
@@ -82,7 +91,7 @@ export const CATEGORIES = [
     desc: 'WorkBuddy 技能生成、MCP 配置、提示词等 AI 提效工具',
     seoTitle: '在线 AI 与智能体工具',
     icon: 'bot',
-    order: 7,
+    order: 8,
   },
   {
     id: 'life',
@@ -91,7 +100,7 @@ export const CATEGORIES = [
     desc: '日常生活中用得上的各类小工具',
     seoTitle: '在线生活实用工具',
     icon: 'house',
-    order: 8,
+    order: 9,
   },
   {
     id: 'fun',
@@ -100,7 +109,7 @@ export const CATEGORIES = [
     desc: '轻松有趣的娱乐小工具，仅供消遣',
     seoTitle: '趣味在线小工具',
     icon: 'sparkles',
-    order: 9,
+    order: 10,
   },
   {
     id: 'clock',
@@ -109,7 +118,7 @@ export const CATEGORIES = [
     desc: '全屏数字/翻页/模拟时钟、世界时钟，毫秒级精准、可全屏沉浸',
     seoTitle: '在线时钟工具',
     icon: 'clock',
-    order: 10,
+    order: 11,
   },
 ] as const satisfies readonly Category[];
 

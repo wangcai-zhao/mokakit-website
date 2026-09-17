@@ -1,0 +1,41 @@
+## Nginx 配置生成是什么
+
+Nginx 配置写错一个符号就起不来服务。按场景生成模板再改参数，比从零手敲稳得多。
+
+## 这个工具能做什么
+
+- 五种场景：静态站点、单页应用、反向代理、PHP、域名跳转
+- HTTP 自动跳 HTTPS，含 TLS 协议与 cipher 建议
+- 静态资源缓存与 gzip 已配好
+- 反向代理含 WebSocket 升级头
+
+## 怎么使用（输入说明）
+
+1. **选场景**
+2. **填域名、根目录或端口**
+3. **按需开启 HTTPS 与证书路径**
+4. **复制配置**
+
+## 使用时的几个注意点
+
+- 改完记得 nginx -t 再 reload
+- 私钥路径不要放在 web 根目录
+- 证书建议用 Certbot 自动续期
+
+## 实例
+
+静态站点场景、开启 HTTPS，生成 80 跳 443 + 静态资源缓存 30 天的完整配置。
+
+## 常见问题 FAQ
+
+**Q：生成的配置怎么用？**
+
+A：存成 /etc/nginx/conf.d/&lt;域名&gt;.conf，先执行 nginx -t 校验语法，通过后 systemctl reload nginx 生效。
+
+**Q：证书路径怎么填？**
+
+A：用 Certbot 签发的话通常是 /etc/letsencrypt/live/&lt;域名&gt;/fullchain.pem 和 privkey.pem。私钥不要放在 web 根目录里。
+
+**Q：单页应用为什么要 try_files？**
+
+A：Vue、React 的前端路由在刷新子路径时，Nginx 会去找对应的文件，找不到就 404。用 try_files $uri $uri/ /index.html 把所有路径回退到 index.html 交给前端路由处理。
