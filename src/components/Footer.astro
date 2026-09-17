@@ -1,5 +1,6 @@
 ---
 import { SITE } from '@/config/site';
+import SocialLinks from './SocialLinks.astro';
 import { getToolsByCategory } from '@/tools/registry';
 
 const groups = getToolsByCategory();
@@ -21,6 +22,9 @@ const policeRecordCode = SITE.police ? SITE.police.replace(/\D/g, '') : '';
         <p class="text-xs opacity-60 mt-2 leading-relaxed">
           所有工具均在浏览器本地运行，不上传你的输入数据；仅统计匿名聚合访问量用于改进。
         </p>
+        <div class="mt-3 flex items-center gap-1">
+          <SocialLinks variant="inline" />
+        </div>
       </div>
 
       {
@@ -76,6 +80,7 @@ const policeRecordCode = SITE.police ? SITE.police.replace(/\D/g, '') : '';
         }
       </div>
       <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5">
+        <a href="/blog/" class="hover:text-primary">博客</a>
         <a href="/changelog/" class="hover:text-primary">更新日志</a>
         <a href="/tips/" class="hover:text-primary">使用技巧</a>
         <a href="/about/" class="hover:text-primary">关于</a>

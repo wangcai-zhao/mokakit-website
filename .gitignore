@@ -53,6 +53,8 @@ dist_partial_*
 dist_py_moved/
 dist_test_renamed/
 _astro_bak_*/
+_cprof/
+_eprof/
 build-run.log
 deploy-run.log
 _push.log

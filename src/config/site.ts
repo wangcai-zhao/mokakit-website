@@ -1,3 +1,5 @@
+import pkg from '../../package.json';
+
 /**
  * 全站配置中心。
  * 站名 / 域名 / 备案号 / 统计 ID 都只在这里改一次，全站跟着变。
@@ -41,8 +43,12 @@ export const SITE = {
   /** 站点上线年份，用于页脚版权 */
   since: 2026,
 
-  /** 当前版本号，显示在页脚版权行末尾。正式版上线后改填正式版本号 */
-  version: 'v0.9.0',
+  /**
+   * 当前版本号，显示在页脚版权行末尾。
+   * ⚠️ 唯一真源是 package.json 的 version —— 这里自动加 `v` 前缀派生出来，
+   * 页脚 / 进度工作台都读它。以后发版只改 package.json 一处，不要把版本号写死在页面里。
+   */
+  version: `v${pkg.version}`,
 
   /**
    * 是否已正式上线。
@@ -85,6 +91,12 @@ export const SITE = {
   },
 
   /**
+   * 对外联系邮箱（站点作者的公开邮箱）。
+   * 投稿页 / 开发者页 / 页脚邮箱按钮统一读这里，避免同一地址在多处硬编码。
+   */
+  email: 'bo.zhao2026@outlook.com',
+
+  /**
    * WorkBuddy 官方邀请（/tips/ 技巧专栏 + WorkBuddy 生态工具页内嵌）。
    * 全站唯一维护点：只改这里的 inviteCode / inviteActive，InviteCta 组件自动跟着变。
    */
@@ -114,6 +126,16 @@ export const SITE = {
   },
 } as const;
 
+/**
+ * 派生对象：社交 / 联系入口。
+ * GitHub 地址由 github.owner/repo 拼出，邮箱取自 SITE.email，
+ * 页脚与导航栏右侧的图标链接都只读这里 —— 改地址只需动 site.ts。
+ */
+export const SOCIAL = {
+  github: `https://github.com/${SITE.github.owner}/${SITE.github.repo}`,
+  mailto: `mailto:${SITE.email}`,
+  email: SITE.email,
+} as const;
 /**
  * 派生对象：邀请链接与开关统一从这里取，组件不要直接读 SITE.workbuddy。
  *

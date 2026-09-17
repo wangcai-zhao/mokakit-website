@@ -25,6 +25,7 @@ import path from 'node:path';
 const ROOT = path.resolve('.');
 const TOOLS_DIR = path.join(ROOT, 'src', 'tools');
 const CATS_FILE = path.join(ROOT, 'src', 'config', 'categories.ts');
+const PKG_FILE = path.join(ROOT, 'package.json');
 const SITE_FILE = path.join(ROOT, 'src', 'config', 'site.ts');
 const DIST_DIR = path.join(ROOT, 'dist');
 const STATUS_FILE = path.join(ROOT, 'workbench', 'status.json');
@@ -163,7 +164,10 @@ async function main() {
   const siteName = (ss.match(/^\s*name:\s*'([^']*)'/m) || [])[1] || '';
   const siteNameCn = (ss.match(/^\s*nameCn:\s*'([^']*)'/m) || [])[1] || '';
   const siteUrl = (ss.match(/^\s*url:\s*'([^']*)'/m) || [])[1] || '';
-  const siteVersion = (ss.match(/^\s*version:\s*'([^']*)'/m) || [])[1] || '';
+  // 版本号唯一真源是 package.json（site.ts 从这里派生 SITE.version），
+  // 别再用正则去 site.ts 里抠 —— 那里现在是 `v${pkg.version}` 模板串。
+  const pkgVersion = JSON.parse(fs.readFileSync(PKG_FILE, 'utf8')).version;
+  const siteVersion = pkgVersion ? `v${pkgVersion}` : '';
 
   // 4) 内容资产（长尾页 / 换算规模 / 导航规模 / mdx 覆盖）
   const assets = await scanAssets(tools.map((t) => t.id));

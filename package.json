@@ -1,7 +1,7 @@
 {
   "name": "toolbox-site",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.9.11",
   "private": true,
   "scripts": {
     "dev": "astro dev",

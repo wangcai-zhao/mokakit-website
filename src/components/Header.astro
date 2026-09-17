@@ -2,11 +2,35 @@
 import { SITE } from '@/config/site';
 import { CATEGORIES } from '@/config/categories';
 import Icon from './Icon.astro';
+import SocialLinks from './SocialLinks.astro';
 import { getToolsByCategory } from '@/tools/registry';
 
 const activeCategoryIds = new Set(getToolsByCategory().map((g) => g.category.id));
 const navCategories = CATEGORIES.filter((c) => activeCategoryIds.has(c.id));
 const pathname = Astro.url.pathname;
+
+/**
+ * 移出主导航的入口，统一收进右上角「更多」下拉。
+ * 主导航只留工具 / 导航 / 智能体这类高频去向，避免标签过多把 nav 挤到换行。
+ */
+const MORE_LINKS = [
+  { href: '/blog/', label: '博客' },
+  { href: '/changelog/', label: '更新日志' },
+  { href: '/tips/', label: '技巧' },
+  { href: '/developers/', label: '开发者' },
+  { href: '/about/', label: '关于' },
+] as const;
+
+const isMoreActive = MORE_LINKS.some((l) => pathname.startsWith(l.href));
+
+/**
+ * 导航项统一样式。
+ * ⚠️ `whitespace-nowrap` + `shrink-0` 是必需的：nav 是 flex 行，子项默认
+ * `flex-shrink: 1`，而中文文本的 min-content 宽度只有一个字符，空间不足时
+ * 浏览器会把每项压扁到 1~2 字宽并折行（2026-09-11 nav 换行事故根因）。
+ */
+const navLink =
+  'px-2 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap shrink-0 transition-colors hover:bg-base-200';
 ---
 
 <header
@@ -25,66 +49,36 @@ const pathname = Astro.url.pathname;
         </span>
         <span class="leading-none">
           <span>{SITE.name}</span>
-          <span class="hidden sm:inline text-xs font-normal opacity-55 ml-1.5"
+          <span class="hidden lg:inline text-xs font-normal opacity-55 ml-1.5"
             >{SITE.nameCn}</span
           >
         </span>
       </a>
 
-      <nav class="hidden md:flex items-center gap-1 ml-2" aria-label="主导航">
+      <nav
+        class="nav-scroll hidden md:flex items-center gap-0.5 ml-1 xl:ml-2 min-w-0 py-1"
+        aria-label="主导航"
+      >
         <a
           href="/tools/"
-          class:list={[
-            'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors hover:bg-base-200',
-            pathname.startsWith('/tools') && 'text-primary bg-base-200',
-          ]}>全部工具</a
+          class:list={[navLink, pathname.startsWith('/tools') && 'text-primary bg-base-200']}
+          >全部工具</a
         >
         <a
           href="/sites/"
-          class:list={[
-            'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors hover:bg-base-200',
-            pathname.startsWith('/sites') && 'text-primary bg-base-200',
-          ]}>好站导航</a
+          class:list={[navLink, pathname.startsWith('/sites') && 'text-primary bg-base-200']}
+          >好站导航</a
         >
         <a
           href="/agents/"
-          class:list={[
-            'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors hover:bg-base-200',
-            pathname.startsWith('/agents') && 'text-primary bg-base-200',
-          ]}>智能体</a
-        >
-        <a
-          href="/blog/"
-          class:list={[
-            'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors hover:bg-base-200',
-            pathname.startsWith('/blog') && 'text-primary bg-base-200',
-          ]}>博客</a
-        >
-        <a
-          href="/changelog/"
-          class:list={[
-            'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors hover:bg-base-200',
-            pathname.startsWith('/changelog') && 'text-primary bg-base-200',
-          ]}>更新日志</a
-        >
-        <a
-          href="/tips/"
-          class:list={[
-            'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors hover:bg-base-200',
-            pathname.startsWith('/tips') && 'text-primary bg-base-200',
-          ]}>技巧</a
-        >
-        <a
-          href="/developers/"
-          class:list={[
-            'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors hover:bg-base-200',
-            pathname.startsWith('/developers') && 'text-primary bg-base-200',
-          ]}>开发者</a
+          class:list={[navLink, pathname.startsWith('/agents') && 'text-primary bg-base-200']}
+          >智能体</a
         >
         <a
           href="/time/"
           class:list={[
-            'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors hover:bg-base-200',
+            navLink,
+            'hidden lg:inline-block',
             pathname.startsWith('/time') && 'text-primary bg-base-200',
           ]}>时间日期</a
         >
@@ -93,7 +87,8 @@ const pathname = Astro.url.pathname;
             <a
               href={`/tools/c/${c.slug}/`}
               class:list={[
-                'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors hover:bg-base-200',
+                navLink,
+                'hidden xl:inline-block',
                 pathname.startsWith(`/tools/c/${c.slug}`) && 'text-primary bg-base-200',
               ]}
             >
@@ -103,19 +98,56 @@ const pathname = Astro.url.pathname;
         }
       </nav>
 
-      <div class="flex-1"></div>
+      <div class="flex-1 min-w-0"></div>
 
       <a
         href="/search/"
-        class="btn btn-ghost btn-sm btn-square"
+        class="btn btn-ghost btn-sm btn-square shrink-0"
         aria-label="搜索工具"
       >
         <Icon name="search" size={18} />
       </a>
 
+      <!-- GitHub / 邮箱：sm 以下隐藏，改由移动端菜单承载，保证窄屏仍是单行 -->
+      <SocialLinks variant="square" class="hidden sm:inline-flex shrink-0" />
+
+      <!-- 「更多」下拉：承载博客 / 更新日志 / 技巧 / 开发者，桌面端常驻 -->
+      <details id="more-menu" class="relative shrink-0 hidden md:block">
+        <summary
+          class:list={[
+            'btn btn-ghost btn-sm gap-1 cursor-pointer select-none',
+            isMoreActive && 'text-primary bg-base-200',
+          ]}
+          aria-label="更多页面"
+          title="更多页面"
+        >
+          <span>更多</span>
+          <Icon name="chevronDown" size={16} />
+        </summary>
+        <ul
+          class="absolute right-0 z-50 mt-2 w-40 p-1.5 rounded-xl border border-base-300 bg-base-100 shadow-lg"
+        >
+          {
+            MORE_LINKS.map((l) => (
+              <li>
+                <a
+                  href={l.href}
+                  class:list={[
+                    'block px-3 py-2 rounded-lg text-sm whitespace-nowrap transition-colors hover:bg-base-200',
+                    pathname.startsWith(l.href) && 'text-primary bg-base-200',
+                  ]}
+                >
+                  {l.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </details>
+
       <button
         id="theme-toggle"
-        class="btn btn-ghost btn-sm btn-square"
+        class="btn btn-ghost btn-sm btn-square shrink-0"
         aria-label="切换深色/浅色主题"
         type="button"
       >
@@ -125,7 +157,7 @@ const pathname = Astro.url.pathname;
 
       <button
         id="mobile-menu-btn"
-        class="btn btn-ghost btn-sm btn-square md:hidden"
+        class="btn btn-ghost btn-sm btn-square md:hidden shrink-0"
         aria-label="打开菜单"
         aria-expanded="false"
         type="button"
@@ -136,7 +168,7 @@ const pathname = Astro.url.pathname;
 
     <nav
       id="mobile-menu"
-      class="hidden md:hidden pb-3 border-t border-base-300 pt-3"
+      class="hidden md:hidden pb-3 border-t border-base-300 pt-3 max-h-[calc(100vh-4.5rem)] overflow-y-auto"
       aria-label="移动端导航"
     >
       <div class="grid grid-cols-2 gap-1.5">
@@ -148,16 +180,6 @@ const pathname = Astro.url.pathname;
         >
         <a href="/agents/" class="px-3 py-2 rounded-lg text-sm hover:bg-base-200"
           >智能体</a
-        >
-        <a href="/blog/" class="px-3 py-2 rounded-lg text-sm hover:bg-base-200"
-          >博客</a
-        >
-        <a href="/changelog/" class="px-3 py-2 rounded-lg text-sm hover:bg-base-200"
-          >更新日志</a
-        >
-        <a href="/tips/" class="px-3 py-2 rounded-lg text-sm hover:bg-base-200">技巧</a>
-        <a href="/developers/" class="px-3 py-2 rounded-lg text-sm hover:bg-base-200"
-          >开发者</a
         >
         <a href="/time/" class="px-3 py-2 rounded-lg text-sm hover:bg-base-200"
           >时间日期</a
@@ -172,6 +194,28 @@ const pathname = Astro.url.pathname;
             </a>
           ))
         }
+      </div>
+
+      {/* 次高频入口：桌面端在「更多」下拉里，移动端收在这里 */}
+      <div class="mt-2 pt-2 border-t border-base-300 grid grid-cols-2 gap-1.5">
+        {
+          MORE_LINKS.map((l) => (
+            <a
+              href={l.href}
+              class:list={[
+                'px-3 py-2 rounded-lg text-sm hover:bg-base-200',
+                pathname.startsWith(l.href) && 'text-primary bg-base-200',
+              ]}
+            >
+              {l.label}
+            </a>
+          ))
+        }
+      </div>
+
+      {/* sm 以下才出现：窄屏导航区不放图标，改放这里保证单行 */}
+      <div class="mt-2 pt-2 border-t border-base-300 flex items-center gap-2 sm:hidden">
+        <SocialLinks variant="inline" />
       </div>
     </nav>
   </div>
@@ -190,6 +234,28 @@ const pathname = Astro.url.pathname;
   }
   :global([data-theme='toolboxdark']) .dark-hide {
     display: none !important;
+  }
+
+  /*
+   * 导航兜底：极端窄的桌面视口（md~xl 之间塞了额外入口）下宁可横向滚动，
+   * 也绝不折行。滚动条隐藏，视觉上仍是一条单行导航。
+   */
+  .nav-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* 旧 Edge/IE */
+  }
+  .nav-scroll::-webkit-scrollbar {
+    display: none; /* Chrome / Safari / 新 Edge */
+  }
+
+  /* 「更多」下拉：去掉 summary 默认三角标记，改用自己的 chevron 图标 */
+  #more-menu > summary {
+    list-style: none;
+  }
+  #more-menu > summary::-webkit-details-marker {
+    display: none;
   }
 </style>
 
@@ -213,6 +279,22 @@ const pathname = Astro.url.pathname;
       mBtn.addEventListener('click', function () {
         var open = mMenu.classList.toggle('hidden');
         mBtn.setAttribute('aria-expanded', String(!open));
+      });
+    }
+
+    // 「更多」下拉：点击面板外或按 Esc 时收起（details 默认不会自动收起）
+    var more = document.getElementById('more-menu');
+    if (more) {
+      document.addEventListener('click', function (e) {
+        if (more.open && !more.contains(e.target)) more.open = false;
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') more.open = false;
+      });
+      more.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('click', function () {
+          more.open = false;
+        });
       });
     }
   })();

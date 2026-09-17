@@ -8,7 +8,7 @@
     "siteName": "MokaKit",
     "siteNameCn": "摩卡工具箱",
     "siteUrl": "https://www.mokakit.com",
-    "siteVersion": "v0.9.0"
+    "siteVersion": "v0.9.11"
   },
   "deploy": {
     "serverIp": "58.87.68.151",
