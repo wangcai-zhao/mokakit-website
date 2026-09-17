@@ -15,8 +15,9 @@
 - 出站第三方链接一律 `goUrl()` → `/go/?url=`；站内 / mailto / tel / 政府备案不中转；gen-sitemap 排除 /go/。
 - icons.ts 是 Lucide path 字典（84+ 图标），键名即图标名（.camelCase 为主），缺图标回落默认方块。
 
-## 规模（截至 2026-09-11）
-- 198 工具 / 10 分类；dist 535 页；好站导航 36 组 / 675 条；单位换算 16 类 161 单位 / 649 FAQ。进度看板 `npm run workbench`。
+## 规模（截至 2026-09-18）
+- **229 工具 / 11 分类**（新增 image 图片处理）；dist **578 页 / 73M**；好站导航 **44 组 / 791 条**（分「工作/生活」两大区，含 hot + tag 字段）；单位换算 16 类 161 单位 / 649 FAQ。进度看板 `npm run workbench`。
+- 图片类工具共用 `src/tools/_shared/`：`image-utils.ts` / `use-image.ts` / `ImageDropzone.tsx`。
 - 更新日志频道 `src/data/changelog.ts`：工具条目只写 id，其余构建时从 registry 取；**新增工具后必须补 id**，否则 `npm run changelog:check` 红灯。
 
 ## MCP Server（战略核心）
@@ -41,6 +42,9 @@
 - SSH 部署必须**前台 + dangerouslyDisableSandbox**，后台任务读不到 ~/.ssh。
 - 百度统计注入：BaseLayout 只用 `set:html`，勿与 `define:vars` 混用（会吞脚本）。
 - ⚠️ tips 专栏 draft 默认 true（新文需显式 `draft: false` 才会进 dist）。
+- ⚠️ MDX 里裸 `<` `{` `}` 会被当 JSX/表达式 → 构建报 MDX 语法错。批量生成 content.mdx 后必查 `Array<string | number>`、`\d{4}`、`{}` 等写法，改中文描述或转义（2026-09-18 一次踩 5 处）。
+- ⚠️ 模块顶层常量有顺序依赖：`sites.ts` 的 `SITE_SECTION_GROUPS` 必须放在 `SITE_GROUPS` 之后，否则取到 undefined 且构建无明确报错。
+- ⚠️ `scripts/_nightly-verify-dist.mjs` 比对的是 `_nightly_audit_report.json` 快照基线，手工删/改好站条目后会报**假失败**，需重新生成基线再判读。
 - JSON-LD 工具 jsonld.ts 无 profileSchema，Person 页手写即可。
 
 ## 会话管理
