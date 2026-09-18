@@ -26,8 +26,13 @@
 - Token 申请页 /developers/mcp-token-apply 已上线，后端仍为人工 mailto 审批。
 
 ## Git 与推送
-- ✅ **Agent 侧 push 通路**：
-  `export GIT_TERMINAL_PROMPT=0 HTTPS_PROXY= HTTP_PROXY= ALL_PROXY= https_proxy= http_proxy= all_proxy=` 然后 `git push origin master`（需 `dangerouslyDisableSandbox:true`）。不清代理变量会报 github 502；credential.helper=manager 已有凭据，无需 PAT。
+- ✅ **Agent 侧 push 通路（2026-09-18 修订）**：
+  `export GIT_TERMINAL_PROMPT=0 HTTPS_PROXY= HTTP_PROXY= ALL_PROXY= https_proxy= http_proxy= all_proxy=`
+  然后 `timeout 240 git -c http.postBuffer=524288000 push origin master:master`（需 `dangerouslyDisableSandbox:true` + 前台）。
+  - **绝不能后台跑 push**：被 auto-background 后丢提权，挂在网络握手无输出无报错（实测卡 9 分钟）。发现就 TaskStop 前台重推。
+  - 用显式 refspec `master:master`；本地 `refs/remotes/origin/*` 可能为空，推完补 `git fetch origin master` + `git branch --set-upstream-to=origin/master master`。
+  - 验证：`git ls-remote --heads origin master` 的 SHA == 本地 HEAD。
+  - 不清代理变量会报 github 502；credential.helper=manager 已有凭据，无需 PAT。
 - ⚠️ 勿走 SSH 推送（本地配置会把 SSH 重写为 HTTPS，且 deploy key 只读）；GitHub MCP 连接器只读（push_files 403）。
 
 ## 待办
