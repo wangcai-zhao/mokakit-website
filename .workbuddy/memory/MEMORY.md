@@ -35,9 +35,13 @@
   - 不清代理变量会报 github 502；credential.helper=manager 已有凭据，无需 PAT。
 - ⚠️ 勿走 SSH 推送（本地配置会把 SSH 重写为 HTTPS，且 deploy key 只读）；GitHub MCP 连接器只读（push_files 403）。
 
-## 待办
-- GSC：DNS TXT `google-site-verification=Jdq425qhDTUKyXMl00HefI7AYGuyQX2Ce821cTkMtcg` 待加 DNSPod 记录，通过后提交 sitemap-index.xml（Bing 验证文件已在 public/）。
-- MCP Token 申请自动化审批；摩卡配色打磨（暂缓）。
+## 待办（2026-09-18 盘点更新）
+- ✅ GSC：DNS TXT `google-site-verification=Jdq425qhDTUKyXMl00HefI7AYGuyQX2Ce821cTkMtcg` **已于 09-18 生效**（nslookup 可查），BingSiteAuth.xml 也在 public/。**剩最后一步：去 GSC 后台提交 sitemap-index.xml**（需人工登录，agent 做不了）。
+- 好站数据质量：790 条里 **22 条描述被截断**（如 "Standard Guitar是一个专业"）、**8 组重复 URL**（redis.io/grafana.com/yuque 等）、**17 条明文 http://**、**43 条名称带 " - " 长尾**（SEO 噪音）。
+- 仓库卫生：根目录 16 个 `_astro_bak_*` / `dist_bak_*` 残留共 **282M**，55 个 `_*.log` + 14 个临时脚本。⚠️ 本机 safe-delete 拦截 `rm`，需旺财手动删或用 PowerShell 移到回收站。
+- MCP Token 申请仍是人工 mailto 审批，未自动化；摩卡配色打磨（暂缓）。
+- 分类失衡：`calc` 80 个、`dev` 53 个工具，而 `barcode` 仅 3 个。
+- tips 15 篇中 3 篇仍是 `draft: true`（默认 draft，需显式 false 才进 dist）。
 
 ## 环境与坑（可复用）
 - ⚠️ **同一文件的多条 Edit 必须顺序执行**：并行 Edit 会竞争写盘互相覆盖（每条都报成功），已多次踩坑，连注释行都被吞过。
