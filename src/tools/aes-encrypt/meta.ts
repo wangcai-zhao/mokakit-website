@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['aes', '加密', '对称', '安全'],
   icon: 'lock',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-05',
   updatedAt: '2026-08-05',
   priority: 7,

@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['正则', 'regex', '开发', '调试'],
   icon: 'regex',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-04',
   updatedAt: '2026-08-04',
   priority: 5,

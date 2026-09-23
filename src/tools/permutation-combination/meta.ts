@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['排列组合', '概率', '数学'],
   icon: 'shuffle',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-25',
   updatedAt: '2026-08-25',
   priority: 7,

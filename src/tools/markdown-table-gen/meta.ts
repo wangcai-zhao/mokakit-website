@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['Markdown', '表格', '文档'],
   icon: 'table',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-18',
   updatedAt: '2026-09-18',
   priority: 6,

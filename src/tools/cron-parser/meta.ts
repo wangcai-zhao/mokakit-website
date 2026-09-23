@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['cron', '定时', 'dev', '解析', '调度'],
   icon: 'clock',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-04',
   updatedAt: '2026-08-04',
   priority: 4,

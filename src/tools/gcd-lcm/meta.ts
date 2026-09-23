@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['数论', '数学', '计算'],
   icon: 'binary',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-25',
   updatedAt: '2026-08-25',
   priority: 7,
@@ -29,5 +29,7 @@ export default defineTool({
       a: '若一组数的最大公约数是 1，称它们「互质」（互素），例如 8 和 15。互质的数在分数化简、密码学里很常见。',
     },
   ],
-  related: ['fraction-calculator', 'prime-factorization', 'roman-numeral'],
+  // 注：此处曾写成 'prime-factorization'（并不存在），相关工具位会静默少一项；
+  // 正确的工具 id 是 'prime-factor'。
+  related: ['fraction-calculator', 'prime-factor', 'roman-numeral'],
 });

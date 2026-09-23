@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['ai', '价格', '比价', '大模型', '即梦'],
   icon: 'coins',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-04',
   updatedAt: '2026-08-04',
   priority: 8,

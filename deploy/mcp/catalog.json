@@ -302,6 +302,27 @@
       "url": "/tools/baking/"
     },
     {
+      "id": "bank-card-validator",
+      "name": "银行卡号校验",
+      "description": "免费在线银行卡号校验工具，采用 Luhn 算法验证卡号是否合法，自动识别银联、Visa、万事达、JCB、美国运通、大莱等卡组织，核对卡号长度是否符合该组织规范并按四位一组格式化显示。输入自动去掉空格与横线，本地计算不上传，立即检测。",
+      "keywords": [
+        "银行卡校验",
+        "Luhn算法",
+        "卡号验证",
+        "卡组织识别",
+        "银行卡BIN"
+      ],
+      "tags": [
+        "银行卡",
+        "校验",
+        "Luhn"
+      ],
+      "category": "security",
+      "icon": "fingerprint",
+      "tagline": "Luhn 校验与卡组织识别",
+      "url": "/tools/bank-card-validator/"
+    },
+    {
       "id": "base-converter",
       "name": "进制转换",
       "description": "免费在线进制转换工具，支持二进制、八进制、十进制、十六进制及 2 到 36 任意进制互转，基于 BigInt 任意精度，超长数字（>64 位）也不丢精度。程序员、学生做进制换算、颜色码解析、网络地址换算的好帮手，附 IEEE 754 浮点进制说明。",
@@ -494,6 +515,27 @@
       "url": "/tools/bra-size/"
     },
     {
+      "id": "break-even-calculator",
+      "name": "盈亏平衡计算器",
+      "description": "免费在线盈亏平衡计算器，输入固定成本总额、单位变动成本和产品单价，立刻算出保本销量与盈亏平衡销售额，并给出单位边际贡献、边际贡献率与 80%、100%、120% 三档销量的利润对照表。适合开店测算回本点、产品定价、判断是否值得投产，全部在浏览器本地计算，数据不上传。",
+      "keywords": [
+        "盈亏平衡计算器",
+        "保本销量计算",
+        "盈亏平衡点",
+        "边际贡献",
+        "保本销售额"
+      ],
+      "tags": [
+        "盈亏平衡",
+        "成本核算",
+        "定价"
+      ],
+      "category": "calc",
+      "icon": "calculator",
+      "tagline": "算保本销量与销售额定价",
+      "url": "/tools/break-even-calculator/"
+    },
+    {
       "id": "build-your-own-x",
       "name": "从零造 X 项目清单",
       "description": "免费在线「从零造 X」教程索引，精选 25 个手写实现经典系统的练手项目，覆盖编程语言与编译器、存储与数据库、网络与系统、编辑器与 CLI、Web 框架、算法与图形六大方向。每个主题附带简介与外链教程，支持搜索与分类筛选，是提升工程能力的进阶路线图。",
@@ -515,6 +557,27 @@
       "icon": "code",
       "tagline": "按主题索引「自己实现一个 X」的教程",
       "url": "/tools/build-your-own-x/"
+    },
+    {
+      "id": "bytes-size-converter",
+      "name": "字节单位换算",
+      "description": "免费在线字节单位换算器，支持 bit、Byte、KB、MB、GB、TB、PB 之间的任意互转，可自由切换 1024 二进制进制（KiB/MiB）与 1000 十进制进制。输入即出结果，同时给出全部单位的换算对照表，适合估算文件大小、网盘容量、带宽速度与实际下载时间，全部本地计算不上传。",
+      "keywords": [
+        "字节换算",
+        "MB转GB",
+        "文件大小换算",
+        "KB换算MB",
+        "存储单位转换"
+      ],
+      "tags": [
+        "单位换算",
+        "字节",
+        "存储容量"
+      ],
+      "category": "convert",
+      "icon": "database",
+      "tagline": "B/KB/MB/GB/TB 互转",
+      "url": "/tools/bytes-size-converter/"
     },
     {
       "id": "calendar-quarter",
@@ -736,6 +799,27 @@
       "icon": "lock",
       "tagline": "权限数字与符号互转",
       "url": "/tools/chmod-calculator/"
+    },
+    {
+      "id": "cidr-calculator",
+      "name": "CIDR 子网计算器",
+      "description": "免费在线 CIDR 子网计算器，输入 192.168.1.0/24 这类网段即刻算出网络地址、广播地址、子网掩码、可用主机范围、可用主机数、总地址数与通配符掩码，支持 /0 到 /32 全范围并正确说明 /31 与 /32 的特殊情况，也能用 IP 加子网掩码反算 CIDR，本地计算。",
+      "keywords": [
+        "CIDR计算",
+        "子网掩码换算",
+        "网段划分",
+        "可用主机数",
+        "广播地址"
+      ],
+      "tags": [
+        "网络",
+        "CIDR",
+        "子网"
+      ],
+      "category": "dev",
+      "icon": "globe",
+      "tagline": "子网划分与掩码换算",
+      "url": "/tools/cidr-calculator/"
     },
     {
       "id": "clothing-size",
@@ -1652,7 +1736,7 @@
     {
       "id": "github-stars",
       "name": "GitHub 高星项目榜",
-      "description": "免费在线 GitHub 高星开源项目榜单，收录 500+ 个 star 数领先的仓库，覆盖 AI 大模型、智能体 Agent、RAG 知识库、AI 绘画、机器学习、自托管服务、开发者工具、Awesome 清单、前端框架、命令行神器等 15 个方向，支持按 star 数、活跃度、编程语言筛选与关键词搜索，可收藏对比，数据本地渲染、打开即用。",
+      "description": "免费在线 GitHub 高星开源项目榜单，收录 500+ 个 star 数领先的仓库，覆盖 AI 大模型、智能体 Agent、RAG 知识库、自托管服务、开发者工具、前端框架等 15 个方向，支持按 star 数、活跃度与编程语言筛选，打开即用。",
       "keywords": [
         "GitHub高星项目",
         "GitHub排行榜",
@@ -1676,7 +1760,7 @@
     {
       "id": "gitignore-gen",
       "name": ".gitignore 生成器",
-      "description": "免费在线 .gitignore 生成器，覆盖 macOS / Windows / Linux、VS Code / IntelliJ / Vim 等编辑器、Node / Python / Java / Go / Rust 等 20+ 编程语言，以及 Django / Next.js / Flutter / Unity / Terraform 等框架平台。勾选技术栈即实时拼出标准 .gitignore，支持一键复制与下载，纯本地运行、不收集任何数据。",
+      "description": "免费在线 .gitignore 生成器：勾选操作系统、编辑器、编程语言与框架，实时拼出标准忽略规则。覆盖 Node / Python / Java / Go / Rust 等 20+ 语言与 VS Code、IntelliJ 等编辑器，支持一键复制与下载，纯本地运行不收集数据。",
       "keywords": [
         ".gitignore生成器",
         "gitignore模板",
@@ -1901,7 +1985,7 @@
         "计算"
       ],
       "category": "calc",
-      "icon": "cash",
+      "icon": "coins",
       "tagline": "时薪与月薪互转",
       "url": "/tools/hourly-wage/"
     },
@@ -1989,6 +2073,27 @@
       "icon": "server",
       "tagline": "常用 HTTP 状态码含义速查",
       "url": "/tools/http-status/"
+    },
+    {
+      "id": "id-card-check",
+      "name": "身份证号校验",
+      "description": "免费在线身份证号校验工具，支持 18 位二代身份证校验码验证与 15 位老身份证升位，自动解析发证地区、出生日期、当前周岁与性别，校验失败会明确指出位数不对、含非法字符、出生日期不合法或校验位错误，全程浏览器本地计算不上传，立即试试。",
+      "keywords": [
+        "身份证校验",
+        "身份证号验证",
+        "身份证解析",
+        "校验位计算",
+        "身份证升位"
+      ],
+      "tags": [
+        "身份证",
+        "校验",
+        "身份信息"
+      ],
+      "category": "security",
+      "icon": "shield-check",
+      "tagline": "18/15 位校验与信息解析",
+      "url": "/tools/id-card-check/"
     },
     {
       "id": "ideal-weight",
@@ -2601,7 +2706,7 @@
         "计算"
       ],
       "category": "calc",
-      "icon": "function",
+      "icon": "sigma",
       "tagline": "任意底数的对数",
       "url": "/tools/log-calculator/"
     },
@@ -2755,9 +2860,30 @@
       "url": "/tools/maternity-benefit/"
     },
     {
+      "id": "matrix-calculator",
+      "name": "矩阵计算器",
+      "description": "免费在线矩阵计算器，支持 2×2 与 3×3 矩阵的加减乘、转置、行列式、求逆与标量乘，网格化输入所见即所得。奇异矩阵会明确提示行列式为 0 无法求逆，结果自动消除浮点噪声并保留合理小数位，适合线性代数作业验算，全部浏览器本地计算。",
+      "keywords": [
+        "矩阵计算器",
+        "矩阵求逆",
+        "行列式计算",
+        "矩阵乘法",
+        "线性代数"
+      ],
+      "tags": [
+        "矩阵",
+        "线性代数",
+        "计算"
+      ],
+      "category": "calc",
+      "icon": "grid",
+      "tagline": "2×2 与 3×3 矩阵运算",
+      "url": "/tools/matrix-calculator/"
+    },
+    {
       "id": "mcp-config-generator",
       "name": "MCP 配置生成器",
-      "description": "免费在线 MCP 配置生成工具，支持同时添加多个 MCP 服务（文件系统、GitHub、Fetch、Puppeteer、Notion、PostgreSQL、Slack、Brave 搜索、Google Drive、Memory、Time 及自定义 stdio），逐个配置后自动组合成完整 mcp.json，可直接合并进 WorkBuddy 的 mcp.json 启用。",
+      "description": "免费在线 MCP 配置生成器，支持文件系统、GitHub、Fetch、Notion、PostgreSQL、Slack 等常见 MCP 服务与自定义 stdio，可同时添加多个并逐个配置，自动组合成完整 mcp.json，直接合并进 WorkBuddy 即可启用。",
       "keywords": [
         "MCP配置",
         "mcp.json生成",
@@ -2821,6 +2947,27 @@
       "icon": "calendar-heart",
       "tagline": "推算排卵日与易孕窗口",
       "url": "/tools/menstrual-cycle/"
+    },
+    {
+      "id": "meta-tags-generator",
+      "name": "SEO Meta 标签生成器",
+      "description": "免费在线 SEO Meta 标签生成器，填写标题、描述、关键词、规范链接与 OG 信息，一键生成可直接复制粘贴的 HTML 代码片段，含 title、canonical、og 与 twitter 系列标签及 JSON-LD 结构化数据，并实时体检标题长度、描述字数与是否缺少关键标签，立即生成，本地计算不上传。",
+      "keywords": [
+        "Meta标签生成",
+        "OG标签",
+        "SEO优化",
+        "JSON-LD",
+        "canonical链接"
+      ],
+      "tags": [
+        "SEO",
+        "Meta",
+        "结构化数据"
+      ],
+      "category": "dev",
+      "icon": "file-code",
+      "tagline": "一键生成 OG 与 Twitter 标签",
+      "url": "/tools/meta-tags-generator/"
     },
     {
       "id": "min-age-birth",
@@ -3097,6 +3244,27 @@
       "url": "/tools/placeholder-image/"
     },
     {
+      "id": "pomodoro-timer",
+      "name": "番茄钟",
+      "description": "免费在线番茄钟，按番茄工作法自动循环 25 分钟专注、5 分钟短休，每完成若干个番茄后进入 15 分钟长休，专注、短休、长休时长和长休间隔都可自行调整。内置 Web Audio 蜂鸣提醒，无需外放音乐文件即可提示阶段结束，还能实时统计今日完成的番茄数，适合学习、写作、写代码时使用，全部本地计时。",
+      "keywords": [
+        "番茄钟",
+        "番茄工作法",
+        "专注计时器",
+        "番茄钟在线",
+        "时间管理"
+      ],
+      "tags": [
+        "番茄钟",
+        "专注",
+        "时间管理"
+      ],
+      "category": "life",
+      "icon": "clock",
+      "tagline": "番茄工作法专注计时器",
+      "url": "/tools/pomodoro-timer/"
+    },
+    {
       "id": "port-lookup",
       "name": "端口号速查",
       "description": "免费在线端口号速查工具，收录 HTTP、HTTPS、SSH、FTP、MySQL、PostgreSQL、MongoDB、Redis、Docker、K8s、MQ 等 200+ 常见端口及用途，支持按端口号或关键词搜索、TCP/UDP 筛选。排查服务冲突、配置防火墙时随手查，全部本地数据离线可用。",
@@ -3134,7 +3302,7 @@
         "计算"
       ],
       "category": "calc",
-      "icon": "function",
+      "icon": "sigma",
       "tagline": "a^b 与 n 次根",
       "url": "/tools/power-root/"
     },
@@ -3180,7 +3348,7 @@
         "计算"
       ],
       "category": "calc",
-      "icon": "factor",
+      "icon": "divide",
       "tagline": "分解质因数并判定素数",
       "url": "/tools/prime-factor/"
     },
@@ -3535,6 +3703,27 @@
       "url": "/tools/rock-paper-scissors/"
     },
     {
+      "id": "roi-calculator",
+      "name": "投资回报率计算器",
+      "description": "免费在线投资回报率计算器，输入初始投资额、期末收回金额和持有天数，立刻算出净利润、ROI 百分比和按持有天数折算的年化收益率，并用通俗说法告诉你回本大概要多久。支持亏损场景，负 ROI 与亏损金额都会如实显示，适合基金、股票、房产、开店等项目复盘，全部在浏览器本地计算。",
+      "keywords": [
+        "投资回报率计算器",
+        "ROI计算",
+        "年化收益率",
+        "投资回报",
+        "盈亏计算"
+      ],
+      "tags": [
+        "ROI",
+        "投资收益",
+        "年化"
+      ],
+      "category": "calc",
+      "icon": "percent",
+      "tagline": "ROI与年化收益率速算",
+      "url": "/tools/roi-calculator/"
+    },
+    {
       "id": "roman-numeral",
       "name": "罗马数字转换",
       "description": "免费在线罗马数字转换器，支持阿拉伯数字（1–3999）与罗马数字（I、V、X、L、C、D、M）双向转换，并逐位拆解每位数字对应的罗马符号。适合阅读古典钟表、纪念碑年份、书籍章节编号、电影/游戏版本号（如 Super Bowl LV）与奥运会届数，本地即时换算。",
@@ -3619,6 +3808,27 @@
       "icon": "timer",
       "tagline": "配速时间完赛成绩互算",
       "url": "/tools/running-pace/"
+    },
+    {
+      "id": "savings-goal-calculator",
+      "name": "存钱计划计算器",
+      "description": "免费在线存钱计划计算器，输入目标金额、已有本金、每月存入金额和预期年化收益率，立即算出攒够需要多少个月、达成日期与累计收益；也支持反推「要在指定期限内达成每月得存多少」。内置 52 周存钱法与阶梯递增存钱法对照，适合攒首付、旅行基金和应急备用金，全部本地计算不上传数据。",
+      "keywords": [
+        "存钱计划",
+        "攒钱计算器",
+        "52周存钱法",
+        "存款目标",
+        "每月存多少"
+      ],
+      "tags": [
+        "储蓄",
+        "理财",
+        "复利"
+      ],
+      "category": "calc",
+      "icon": "landmark",
+      "tagline": "攒够目标要存多久",
+      "url": "/tools/savings-goal-calculator/"
     },
     {
       "id": "scientific-notation",
@@ -3896,6 +4106,27 @@
       "icon": "receipt",
       "tagline": "算清佣金印花税过户费成本",
       "url": "/tools/stock-fee-calc/"
+    },
+    {
+      "id": "stopwatch",
+      "name": "在线秒表",
+      "description": "免费在线毫秒秒表，支持开始、暂停、继续与复位，还能一键计次记录多段用时，自动标出最快、最慢一圈并算出每段差值。读数精确到 mm:ss.SSS 毫秒级，键盘空格开始暂停、L 计次、R 复位，跑步训练、考试做题、实验计时都用得上，页面打开即用，全部在浏览器本地计算。",
+      "keywords": [
+        "在线秒表",
+        "毫秒秒表",
+        "计次计时",
+        "跑步计时",
+        "秒表计时器"
+      ],
+      "tags": [
+        "秒表",
+        "计时",
+        "计次"
+      ],
+      "category": "life",
+      "icon": "timer",
+      "tagline": "毫秒计次的专业秒表",
+      "url": "/tools/stopwatch/"
     },
     {
       "id": "system-design",
@@ -4238,7 +4469,7 @@
     {
       "id": "token-counter",
       "name": "Token 计算器",
-      "description": "免费在线 Token 计算器，可切换 cl100k_base / o200k_base / p50k_base / r50k_base 编码，对应 GPT-4o、4o-mini、3.5-Instruct、GPT-3 等不同模型；实时统计 token 数、字符数、中文字符、英文词、标点与行数，并按单价估算调用花费，所有分词在浏览器本地完成，不上传文本。",
+      "description": "免费在线 Token 计算器，支持 cl100k_base / o200k_base / p50k_base 等编码，对应 GPT-4o、GPT-3.5 等不同模型；实时统计 token 数、字符数、标点与行数，并按单价估算调用花费，分词在浏览器本地完成不上传文本。",
       "keywords": [
         "Token计算器",
         "token估算",
@@ -4301,7 +4532,7 @@
         "数学"
       ],
       "category": "calc",
-      "icon": "function",
+      "icon": "sigma",
       "tagline": "角度一输，六函数全出",
       "url": "/tools/trigonometry/"
     },
@@ -4354,7 +4585,7 @@
     {
       "id": "udi-generator",
       "name": "UDI 码生成",
-      "description": "免费在线 UDI（医疗器械唯一标识）码生成工具，按 GS1 标准填写设备标识 DI 与生产标识 PI（批号、序列号、生产日期、失效日期等），一键生成 QR Code、GS1 QR、Data Matrix、GS1 Data Matrix、GS1-128、Code 128、Code 39 等多种格式的二维码与条形码，支持逐码下载 PNG。全部在浏览器本地生成，不上传数据。",
+      "description": "免费在线 UDI 医疗器械唯一标识生成工具，按 GS1 标准填写设备标识 DI 与生产标识 PI（批号、序列号、生产日期、失效日期等），一键生成 QR Code、GS1 QR、Data Matrix、GS1-128、Code 128 等条码，支持逐码下载 PNG，全部本地生成不上传。",
       "keywords": [
         "UDI生成",
         "医疗器械唯一标识",
@@ -4618,7 +4849,7 @@
     {
       "id": "vat-calc",
       "name": "增值税计算器",
-      "description": "免费在线增值税计算器，支持一般计税（销项税额 − 进项税额，可形成留抵税额）与简易计税（不含税销售额 × 征收率）两种模式。输入不含税销售额、税率（13%/9%/6%）与采购额，或小规模纳税人征收率（3%/5%），自动算出应纳税额、进项税额、留抵税额与税负。支持含税价一键还原为不含税价，全部在浏览器本地计算、不上传数据。",
+      "description": "免费在线增值税计算器，支持一般计税（销项减进项、可形成留抵）与简易计税两种模式。输入不含税销售额、税率（13%/9%/6%）与采购额，自动算出应纳税额、进项税额、留抵税额与税负，支持含税价一键还原，本地计算不上传数据。",
       "keywords": [
         "增值税计算器",
         "一般纳税人",

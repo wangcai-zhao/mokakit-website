@@ -31,7 +31,10 @@ const recentTips =
     : [];
 
 const title = `${group.name} · 智能体专栏`;
-const description = `${group.desc}：摩卡工具箱精选的 ${group.links.length} 个${group.name}站点，一键直达。`;
+// ⚠️ 旧文案是从 sites（好站导航）页复制来的，把 AI 智能体写成了「站点」，与实际内容不符 ——
+// 这种复制粘贴留下的口径错误比描述过短更伤：用户搜到的摘要和他点进去看到的不是一回事。
+// 顺带把描述补齐到 80-160 字的有效摘要长度。
+const description = `${group.name}智能体推荐：${group.desc}。摩卡工具箱收录 ${group.links.length} 个${group.name}方向的 AI 智能体与工具，每条含能力简介与官网直达链接，方便对比选型。`;
 ---
 
 <BaseLayout title={title} description={description} path={`/agents/${group.id}/`}>

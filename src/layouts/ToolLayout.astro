@@ -4,6 +4,7 @@ import Breadcrumb from '@/components/Breadcrumb.astro';
 import ToolCard from '@/components/ToolCard.astro';
 import AdSlot from '@/components/AdSlot.astro';
 import Icon from '@/components/Icon.astro';
+import CounterScript from '@/components/CounterScript.astro';
 import type { ToolMeta, FaqItem } from '@/tools/types';
 import { getCategory } from '@/config/categories';
 import { SITE, absUrl } from '@/config/site';
@@ -168,62 +169,6 @@ if (faqItems.length > 0) jsonLd.push(faqLd(faqItems));
   <script>
     // 纯内联实现，不用 import（避免 "Cannot use import statement outside a module" 致命错误）
     (function() {
-      const section = document.querySelector('[data-tool-id]');
-      const toolId = section?.dataset.toolId;
-      if (!toolId) return; // 不是工具页，静默退出
-
-      /* ---- 计数器（仅生产环境；dev 模式 /api/counter 不存在） ---- */
-      const useEl = document.getElementById('tool-use-count');
-      const isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-      const counterApi = '/api/counter';
-
-      function getCount(key) {
-        return fetch(counterApi + '?action=get&key=' + encodeURIComponent(key))
-          .then(r => r.json()).then(d => d?.count ?? null).catch(() => null);
-      }
-      function bumpCount(key) {
-        return fetch(counterApi, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'bump', key })
-        }).then(r => r.json()).catch(() => null);
-      }
-      function fmtCount(n) {
-        if (n == null) return '';
-        if (n >= 10000) return (n / 10000).toFixed(1) + '万';
-        return String(n);
-      }
-
-      if (useEl && !isDev) {
-        getCount('use:' + toolId).then((n) => {
-          if (n == null) return;
-          const span = useEl.querySelector('span');
-          if (span) span.textContent = fmtCount(n);
-          useEl.hidden = false;
-        });
-      }
-
-      let used = false;
-      const onFirstUse = () => {
-        if (used || isDev) return;
-        used = true;
-        const key = 'use:' + toolId;
-        bumpCount(key).then((b) => {
-          const n = b?.[key];
-          if (useEl && n != null) {
-            const span = useEl.querySelector('span');
-            if (span) span.textContent = fmtCount(n);
-            useEl.hidden = false;
-          }
-        });
-        document.removeEventListener('click', onFirstUse, true);
-        document.removeEventListener('input', onFirstUse, true);
-        document.removeEventListener('change', onFirstUse, true);
-      };
-      document.addEventListener('click', onFirstUse, true);
-      document.addEventListener('input', onFirstUse, true);
-      document.addEventListener('change', onFirstUse, true);
-
       /* ---- 分享按钮 ---- */
       const shareBtn = document.getElementById('tool-share-btn');
       if (shareBtn) {
@@ -254,4 +199,7 @@ if (faqItems.length > 0) jsonLd.push(faqLd(faqItems));
       }
     })();
   </script>
+
+  {/* 匿名使用计数：接 CORRECT 的 /api/count 协议，详见组件内注释 */}
+  <CounterScript toolId={tool.id} />
 </BaseLayout>

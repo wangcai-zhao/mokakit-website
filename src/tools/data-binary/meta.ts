@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['存储', '数据', '换算'],
   icon: 'memory-stick',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-03',
   updatedAt: '2026-09-03',
   priority: 8,

@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['进制', '转换', '计算', '数字'],
   icon: 'binary',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-04',
   updatedAt: '2026-08-04',
   priority: 6,

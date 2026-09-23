@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['diff', '对比', '文本', 'text', '改动'],
   icon: 'align-left',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-04',
   updatedAt: '2026-08-04',
   priority: 5,

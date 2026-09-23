@@ -40,7 +40,13 @@ const jsonLd = [
 
 <BaseLayout
   title={category.seoTitle ?? `${category.name}工具`}
-  description={`${category.desc}。共 ${tools.length} 个免费在线工具，无需下载安装，打开即用。`}
+  {/*
+    meta description 要落在 80-160 字符区间才有完整的搜索结果摘要位。
+    早期版本直接拿 category.desc 当描述 —— 那字段是页面里的「副标题」，只有 14-17 字，
+    远短于搜索引擎的有效摘要长度（实测 7 个分类页全部被判 desc_too_short）。
+    这里改成拼装长描述，既不改动副标题的 UI 观感，又能让每个分类页拿到合格摘要。
+  */}
+  description={`摩卡工具箱${category.name}合集：${category.desc}。共收录 ${tools.length} 个免费在线${category.name}，全部在浏览器本地计算、数据不出设备，无需下载安装也无需注册，打开即用。`}
   path={url}
   jsonLd={jsonLd}
 >

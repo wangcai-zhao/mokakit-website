@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['年终奖', '个税', '税后收入'],
   icon: 'coins',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-11',
   updatedAt: '2026-08-11',
   priority: 9,

@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['YAML', 'JSON', '开发', '转换'],
   icon: 'file-json',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-03',
   updatedAt: '2026-09-03',
   priority: 7,

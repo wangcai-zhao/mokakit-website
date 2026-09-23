@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['股票', '交易费用', '投资'],
   icon: 'receipt',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-11',
   updatedAt: '2026-09-11',
   priority: 7,

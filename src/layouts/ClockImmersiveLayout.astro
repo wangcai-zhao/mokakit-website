@@ -16,6 +16,7 @@ import Breadcrumb from '@/components/Breadcrumb.astro';
 import ToolCard from '@/components/ToolCard.astro';
 import AdSlot from '@/components/AdSlot.astro';
 import Icon from '@/components/Icon.astro';
+import CounterScript from '@/components/CounterScript.astro';
 import type { ToolMeta, FaqItem } from '@/tools/types';
 import { getCategory } from '@/config/categories';
 import { SITE, absUrl } from '@/config/site';
@@ -41,6 +42,12 @@ const {
   faq,
   noindex,
 } = Astro.props;
+
+// 沉浸式布局没有全局 Footer，备案信息需要在本布局内自行渲染
+const year = new Date().getFullYear();
+const copyrightYears = year > SITE.since ? `${SITE.since}-${year}` : `${SITE.since}`;
+// 公安备案号只取数字部分拼出全国互联网安全管理服务平台的核验链接
+const policeRecordCode = SITE.police ? SITE.police.replace(/\D/g, '') : '';
 
 const category = getCategory(tool.category);
 const url = path ?? `/tools/${tool.id}/`;
@@ -189,65 +196,61 @@ if (faqItems.length > 0) jsonLd.push(faqLd(faqItems));
     <div class="mt-10 text-center">
       <a href="/tools/" class="text-sm text-primary hover:underline">← 查看摩卡工具箱全部工具</a>
     </div>
+
+    {/*
+      沉浸式布局刻意隐藏了全局 Header/Footer 以保证全屏时钟体验，
+      但 ICP / 公安备案号必须出现在每一个可访问页面上，这里补一条精简页脚。
+    */}
+    <div class="mt-10 border-t border-base-300 pt-5 text-center text-xs opacity-70">
+      <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5">
+        <a href="/tools/" class="hover:text-primary">全部工具</a>
+        <a href="/about/" class="hover:text-primary">关于</a>
+        <a href="/privacy/" class="hover:text-primary">隐私政策</a>
+        {
+          SITE.icp && (
+            <a
+              href="https://beian.miit.gov.cn/"
+              target="_blank"
+              rel="nofollow noopener"
+              class="hover:text-primary"
+            >
+              {SITE.icp}
+            </a>
+          )
+        }
+        {
+          SITE.police && policeRecordCode && (
+            <a
+              href={`https://beian.mps.gov.cn/#/query/webSearch?code=${policeRecordCode}`}
+              target="_blank"
+              rel="noreferrer noopener"
+              class="hover:text-primary inline-flex items-center gap-1.5"
+            >
+              <img
+                src="/police-icon.png"
+                alt=""
+                width="16"
+                height="16"
+                class="inline-block"
+                loading="lazy"
+                decoding="async"
+              />
+              {SITE.police}
+            </a>
+          )
+        }
+      </div>
+      <p class="mt-2">
+        © {copyrightYears} {SITE.nameCn} {SITE.name}
+        {' '}
+        <span class="font-mono">{SITE.version}</span>
+      </p>
+    </div>
   </div>
 
   <script>
     // 纯内联实现，不用 import（避免 "Cannot use import statement outside a module" 致命错误）
     (function() {
-      const toolId = /* @json {toolId} */ '';
-
-      /* ---- 计数器（仅生产环境；dev 模式 /api/counter 不存在） ---- */
-      const useEl = document.getElementById('tool-use-count');
-      const isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-      const counterApi = '/api/counter';
-
-      function getCount(key) {
-        return fetch(counterApi + '?action=get&key=' + encodeURIComponent(key))
-          .then(r => r.json()).then(d => d?.count ?? null).catch(() => null);
-      }
-      function bumpCount(key) {
-        return fetch(counterApi, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'bump', key })
-        }).then(r => r.json()).catch(() => null);
-      }
-      function fmtCount(n) {
-        if (n == null) return '';
-        if (n >= 10000) return (n / 10000).toFixed(1) + '万';
-        return String(n);
-      }
-
-      if (useEl && !isDev) {
-        getCount('use:' + toolId).then((n) => {
-          if (n == null) return;
-          const span = useEl.querySelector('span');
-          if (span) span.textContent = fmtCount(n);
-          useEl.hidden = false;
-        });
-      }
-
-      let used = false;
-      const onFirstUse = () => {
-        if (used || isDev) return;
-        used = true;
-        const key = 'use:' + toolId;
-        bumpCount(key).then((b) => {
-          const n = b?.[key];
-          if (useEl && n != null) {
-            const span = useEl.querySelector('span');
-            if (span) span.textContent = fmtCount(n);
-            useEl.hidden = false;
-          }
-        });
-        document.removeEventListener('click', onFirstUse, true);
-        document.removeEventListener('input', onFirstUse, true);
-        document.removeEventListener('change', onFirstUse, true);
-      };
-      document.addEventListener('click', onFirstUse, true);
-      document.addEventListener('input', onFirstUse, true);
-      document.addEventListener('change', onFirstUse, true);
-
       /* ---- 分享按钮 ---- */
       const shareBtn = document.getElementById('tool-share-btn');
       if (shareBtn) {
@@ -278,4 +281,8 @@ if (faqItems.length > 0) jsonLd.push(faqLd(faqItems));
       }
     })();
   </script>
+
+  {/* 匿名使用计数：原先这里是个未被替换的占位注释 const toolId = '' ，
+       导致 4 个时钟页共用空 key 计数；现在统一走共享组件 */}
+  <CounterScript toolId={tool.id} />
 </BaseLayout>

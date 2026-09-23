@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['编码', 'Base58', '区块链'],
   icon: 'binary',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-03',
   updatedAt: '2026-09-03',
   priority: 7,

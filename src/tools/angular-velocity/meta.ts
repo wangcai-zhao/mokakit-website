@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['角速度', '转速', '换算'],
   icon: 'rotate-cw',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-03',
   updatedAt: '2026-09-03',
   priority: 7,

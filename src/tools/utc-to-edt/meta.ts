@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['时区', 'UTC', '换算'],
   icon: 'globe',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-09',
   updatedAt: '2026-08-09',
   priority: 6,

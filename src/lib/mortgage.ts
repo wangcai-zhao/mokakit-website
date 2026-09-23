@@ -21,6 +21,31 @@ function r2(n: Decimal): number {
   return n.toDecimalPlaces(2, ROUND).toNumber();
 }
 
+/**
+ * 入参校验。
+ *
+ * 背景：本库此前零校验，MCP / 程序化调用传进来的脏数据会被「算出一个数」而不是报错：
+ *   periods = 0   → Decimal 除零抛 uncaught error（线上白屏）
+ *   负本金         → 总利息变成 +146 万这种荒谬结果却照常返回
+ *   method 拼错    → 静默按等额本金算，并把错误的 method 原样回传，调用方无从察觉
+ * 金额工具类的事故都出在这类「算错却不吭声」，所以在入口统一拦掉。
+ *
+ * ⚠️ 调用方必须用 try/catch 包住（UI 层也要），见 Tool.tsx 里的用法。
+ */
+function assertValidInput(principal: number, annualRatePct: number, periods: number, method?: RepayMethod): void {
+  if (!Number.isFinite(principal)) throw new Error('贷款本金必须是有效数字');
+  if (principal <= 0) throw new Error('贷款本金必须大于 0');
+  if (!Number.isFinite(annualRatePct)) throw new Error('年利率必须是有效数字');
+  if (annualRatePct < 0) throw new Error('年利率不能为负数');
+  if (annualRatePct > 100) throw new Error('年利率超过 100%，请确认输入的是百分比数值（如 3.85 表示 3.85%）');
+  if (!Number.isInteger(periods)) throw new Error('还款期数必须是整数');
+  if (periods <= 0) throw new Error('还款期数必须大于 0');
+  if (periods > 1200) throw new Error('还款期数超过 1200 期（100 年），请检查是否误填月份以外的单位');
+  if (method !== undefined && method !== 'equal-payment' && method !== 'equal-principal') {
+    throw new Error(`未知的还款方式：${String(method)}（仅支持 equal-payment 或 equal-principal）`);
+  }
+}
+
 export type RepayMethod = 'equal-payment' | 'equal-principal';
 
 export interface ScheduleEntry {
@@ -51,6 +76,7 @@ export function equalPaymentMonthly(
   annualRatePct: number,
   periods: number
 ): number {
+  assertValidInput(principal, annualRatePct, periods);
   const P = new Decimal(principal);
   const m = new Decimal(annualRatePct).div(100).div(12);
   if (m.eq(0)) return r2(P.div(periods));
@@ -66,6 +92,8 @@ export function buildSchedule(
   periods: number,
   method: RepayMethod
 ): ScheduleResult {
+  // 兜底：非法 method 不再静默按等额本金算
+  assertValidInput(principal, annualRatePct, periods, method);
   const P = new Decimal(principal);
   const m = new Decimal(annualRatePct).div(100).div(12);
   const schedule: ScheduleEntry[] = [];
@@ -271,6 +299,16 @@ export interface EarlyRepaymentResult {
 
 /** 提前还款测算 */
 export function calcEarlyRepayment(i: EarlyRepaymentInput): EarlyRepaymentResult {
+  assertValidInput(i.principal, i.annualRatePct, i.periods, i.method);
+  if (!Number.isFinite(i.prepayAmount)) throw new Error('提前还款金额必须是有效数字');
+  if (i.prepayAmount <= 0) throw new Error('提前还款金额必须大于 0');
+  if (!Number.isInteger(i.paidPeriods)) throw new Error('已还期数必须是整数');
+  if (i.paidPeriods < 0) throw new Error('已还期数不能为负数');
+  if (i.paidPeriods >= i.periods) throw new Error('已还期数不能超过总期数（贷款已还清则无需提前还款测算）');
+  if (i.mode !== 'reduce' && i.mode !== 'shorten') {
+    throw new Error(`未知的提前还款方式：${String(i.mode)}（仅支持 reduce 或 shorten）`);
+  }
+
   const full = buildSchedule(i.principal, i.annualRatePct, i.periods, i.method);
   const k = Math.min(Math.max(0, Math.floor(i.paidPeriods)), i.periods);
 

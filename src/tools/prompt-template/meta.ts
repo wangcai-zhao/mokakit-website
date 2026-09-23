@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['prompt', '模板', 'ai', '提示词', '变量'],
   icon: 'braces',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-04',
   updatedAt: '2026-08-04',
   priority: 5,

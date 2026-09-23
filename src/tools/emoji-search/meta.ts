@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['emoji', '表情', '复制'],
   icon: 'smile',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-05',
   updatedAt: '2026-08-05',
   priority: 7,

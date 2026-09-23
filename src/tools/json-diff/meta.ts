@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['JSON', '对比', '开发'],
   icon: 'diff',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-18',
   updatedAt: '2026-09-18',
   priority: 8,

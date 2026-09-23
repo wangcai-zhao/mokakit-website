@@ -24,9 +24,14 @@ function buildSubpages(): SubPage[] {
     pages.push({
       slug,
       title: `${from.name}换算${to.name}`,
+      /**
+       * ⚠️ 描述长度要落在 80-160 字符：早期的短句只有 47 字左右，
+       * 在搜索结果里拿不满摘要位（seo-audit 报 desc_too_short 的就是这批长尾页）。
+       * 长尾子页是全站收录量的大头，摘要写满直接影响点击率。
+       */
       description: isTemp
-        ? `${from.name}和${to.name}怎么换算？在线${from.name}转${to.name}计算器，附换算公式与常见温度对照表，输入即得结果，免费无需下载。`
-        : `${from.name}和${to.name}怎么换算？1${from.name}=${one}${to.name}。提供在线${from.name}转${to.name}计算器和常用数值对照表，输入即得结果，免费无需下载。`,
+        ? `${from.name}和${to.name}怎么换算？在线${from.name}转${to.name}计算器，附换算公式与常见温度对照表，支持双向换算，输入即得结果。免费使用、无需下载安装，数据在本地浏览器计算不上传。`
+        : `${from.name}和${to.name}怎么换算？1${from.name}等于${one}${to.name}。在线${from.name}转${to.name}计算器，附换算公式与常用数值对照表，支持双向换算，输入即得结果。免费使用、无需下载安装，数据在本地浏览器计算不上传。`,
       data: {
         categoryId: cat.id,
         fromId: from.id,
@@ -130,7 +135,7 @@ export default defineTool({
   tags: ['换算', '单位', '计算', '转换'],
   icon: 'ruler',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-04',
   updatedAt: '2026-08-08',
   priority: 10,

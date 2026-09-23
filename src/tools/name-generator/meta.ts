@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['名字', '生成', '随机'],
   icon: 'user-round',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-05',
   updatedAt: '2026-08-05',
   priority: 6,

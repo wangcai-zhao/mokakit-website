@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['罗马数字', '进制', '数学'],
   icon: 'hash',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-25',
   updatedAt: '2026-08-25',
   priority: 7,

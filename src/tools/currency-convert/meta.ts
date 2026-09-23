@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['汇率', '货币', '换算', '金融'],
   icon: 'scale',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-04',
   updatedAt: '2026-08-04',
   priority: 5,

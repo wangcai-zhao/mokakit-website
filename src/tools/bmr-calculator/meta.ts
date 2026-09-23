@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['BMR', '健康', '计算'],
   icon: 'heart',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-25',
   updatedAt: '2026-08-25',
   priority: 7,

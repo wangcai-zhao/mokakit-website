@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['孕期', '日期', '计算'],
   icon: 'calendar',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-09',
   updatedAt: '2026-08-09',
   priority: 6,

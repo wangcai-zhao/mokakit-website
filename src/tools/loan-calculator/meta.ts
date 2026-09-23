@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['贷款', '月供', '利息'],
   icon: 'landmark',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-05',
   updatedAt: '2026-08-05',
   priority: 9,

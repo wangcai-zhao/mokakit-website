@@ -28,6 +28,20 @@ const SIZES = {
 } as const;
 
 const show = SITE.ads.enabled && SITE.ads.adsenseClient;
+
+/**
+ * ⚠️ AdSense 只认写在 <ins> 上的 data-ad-client / data-ad-slot，
+ * 之前这两个属性漏写（slot 只挂在外层 div 上），结果 adsbygoogle 拿不到配置、
+ * 广告位一个都填不出来，只留一块空白。
+ */
+const insAttrs = {
+  class: 'adsbygoogle block w-full',
+  style: 'display:block',
+  'data-ad-client': SITE.ads.adsenseClient,
+  'data-ad-slot': slot,
+  'data-ad-format': 'auto',
+  'data-full-width-responsive': 'true',
+};
 ---
 
 <div
@@ -35,15 +49,7 @@ const show = SITE.ads.enabled && SITE.ads.adsenseClient;
   data-ad-slot={slot}
   aria-hidden={!show}
 >
-  {
-    show ? (
-      <ins
-        class="adsbygoogle block w-full"
-        data-ad-format="auto"
-        data-full-width-responsive="true"
-      />
-    ) : null
-  }
+  {show ? <ins {...insAttrs} /> : null}
   {
     show && (
       <script is:inline>(adsbygoogle = window.adsbygoogle || []).push({});</script>

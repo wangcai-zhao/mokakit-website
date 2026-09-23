@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['日期', '计算', '天数'],
   icon: 'calendar',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-05',
   updatedAt: '2026-08-05',
   priority: 8,

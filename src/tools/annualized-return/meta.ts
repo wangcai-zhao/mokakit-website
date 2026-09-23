@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['年化', '收益率', '投资', '复利', '理财'],
   icon: 'trending-up',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-01',
   updatedAt: '2026-09-01',
   priority: 8,

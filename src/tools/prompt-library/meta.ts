@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['prompt', '收藏', 'ai', '提示词', '随机生成', '本地'],
   icon: 'bookmark',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-04',
   updatedAt: '2026-08-04',
   priority: 5,

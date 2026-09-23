@@ -185,6 +185,13 @@ export function calcDepositInterest(params: {
 
 export type DeedTaxTier = 'first' | 'second' | 'third';
 
+/**
+ * 契税优惠的面积分界线（㎡）。
+ * 2024-12-01 起为 140㎡（财政部/税务总局/住建部 2024 年第 16 号公告）；
+ * 老口径 90㎡ 已废止，勿改回。
+ */
+export const DEED_TAX_SMALL_AREA = 140;
+
 export function calcDeedTax(params: {
   priceWan: number;
   area: number;
@@ -198,7 +205,13 @@ export function calcDeedTax(params: {
 
   const totalPrice = priceWan * 10000;
   const base = inclusive ? totalPrice / 1.05 : totalPrice;
-  const small = area <= 90;
+  /**
+   * ⚠️ 面积分档线是 140㎡，不是老口径的 90㎡。
+   * 依据：财政部/税务总局/住房城乡建设部 2024 年第 16 号公告，2024-12-01 起执行 ——
+   * 个人购买家庭唯一住房或第二套改善性住房，面积 ≤140㎡ 的减按 1% 征收契税。
+   * 此前 90㎡ 的分界线已废止，沿用会按 1.5%/2% 多算税（实测 200 万/120㎡ 首套会多算 1 万元）。
+   */
+  const small = area <= DEED_TAX_SMALL_AREA;
   let rate: number;
   if (tier === 'first') rate = small ? 0.01 : 0.015;
   else if (tier === 'second') rate = small ? 0.01 : 0.02;

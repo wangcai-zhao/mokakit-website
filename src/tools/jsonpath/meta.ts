@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['JSON', '提取', '开发'],
   icon: 'braces',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-03',
   updatedAt: '2026-09-03',
   priority: 7,

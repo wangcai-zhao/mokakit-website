@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['GPA', '成绩', '计算'],
   icon: 'school',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-25',
   updatedAt: '2026-08-25',
   priority: 7,

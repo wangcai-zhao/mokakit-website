@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['排版', '字体', '换算'],
   icon: 'type',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-03',
   updatedAt: '2026-09-03',
   priority: 7,

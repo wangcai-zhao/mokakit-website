@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['退休', '延迟退休', '社保'],
   icon: 'calendar',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-13',
   updatedAt: '2026-08-13',
   priority: 8,

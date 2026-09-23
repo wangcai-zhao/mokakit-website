@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['时间', '换算', '小时'],
   icon: 'clock',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-09',
   updatedAt: '2026-08-09',
   priority: 6,

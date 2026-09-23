@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['工资', '加班', '劳动法'],
   icon: 'clock',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-14',
   updatedAt: '2026-08-14',
   priority: 7,

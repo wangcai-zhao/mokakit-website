@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['跑步', '配速', '运动'],
   icon: 'timer',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-11',
   updatedAt: '2026-09-11',
   priority: 6,

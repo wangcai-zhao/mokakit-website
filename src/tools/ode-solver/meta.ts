@@ -12,7 +12,7 @@ export default defineTool({
   tags: ['微分方程', '数值计算', '数学'],
   icon: 'activity',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-09',
   updatedAt: '2026-08-09',
   priority: 7,

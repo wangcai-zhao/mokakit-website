@@ -2450,7 +2450,21 @@ var ROUND3 = decimal_default.ROUND_HALF_UP;
 function r22(n) {
   return n.toDecimalPlaces(2, ROUND3).toNumber();
 }
+function assertValidInput(principal, annualRatePct, periods, method) {
+  if (!Number.isFinite(principal)) throw new Error("\u8D37\u6B3E\u672C\u91D1\u5FC5\u987B\u662F\u6709\u6548\u6570\u5B57");
+  if (principal <= 0) throw new Error("\u8D37\u6B3E\u672C\u91D1\u5FC5\u987B\u5927\u4E8E 0");
+  if (!Number.isFinite(annualRatePct)) throw new Error("\u5E74\u5229\u7387\u5FC5\u987B\u662F\u6709\u6548\u6570\u5B57");
+  if (annualRatePct < 0) throw new Error("\u5E74\u5229\u7387\u4E0D\u80FD\u4E3A\u8D1F\u6570");
+  if (annualRatePct > 100) throw new Error("\u5E74\u5229\u7387\u8D85\u8FC7 100%\uFF0C\u8BF7\u786E\u8BA4\u8F93\u5165\u7684\u662F\u767E\u5206\u6BD4\u6570\u503C\uFF08\u5982 3.85 \u8868\u793A 3.85%\uFF09");
+  if (!Number.isInteger(periods)) throw new Error("\u8FD8\u6B3E\u671F\u6570\u5FC5\u987B\u662F\u6574\u6570");
+  if (periods <= 0) throw new Error("\u8FD8\u6B3E\u671F\u6570\u5FC5\u987B\u5927\u4E8E 0");
+  if (periods > 1200) throw new Error("\u8FD8\u6B3E\u671F\u6570\u8D85\u8FC7 1200 \u671F\uFF08100 \u5E74\uFF09\uFF0C\u8BF7\u68C0\u67E5\u662F\u5426\u8BEF\u586B\u6708\u4EFD\u4EE5\u5916\u7684\u5355\u4F4D");
+  if (method !== void 0 && method !== "equal-payment" && method !== "equal-principal") {
+    throw new Error(`\u672A\u77E5\u7684\u8FD8\u6B3E\u65B9\u5F0F\uFF1A${String(method)}\uFF08\u4EC5\u652F\u6301 equal-payment \u6216 equal-principal\uFF09`);
+  }
+}
 function equalPaymentMonthly(principal, annualRatePct, periods) {
+  assertValidInput(principal, annualRatePct, periods);
   const P2 = new decimal_default(principal);
   const m = new decimal_default(annualRatePct).div(100).div(12);
   if (m.eq(0)) return r22(P2.div(periods));
@@ -2459,6 +2473,7 @@ function equalPaymentMonthly(principal, annualRatePct, periods) {
   return r22(M);
 }
 function buildSchedule(principal, annualRatePct, periods, method) {
+  assertValidInput(principal, annualRatePct, periods, method);
   const P2 = new decimal_default(principal);
   const m = new decimal_default(annualRatePct).div(100).div(12);
   const schedule = [];
@@ -2597,6 +2612,15 @@ function buildKeepPrincipal(principal, annualRatePct, perPrincipal) {
   };
 }
 function calcEarlyRepayment(i) {
+  assertValidInput(i.principal, i.annualRatePct, i.periods, i.method);
+  if (!Number.isFinite(i.prepayAmount)) throw new Error("\u63D0\u524D\u8FD8\u6B3E\u91D1\u989D\u5FC5\u987B\u662F\u6709\u6548\u6570\u5B57");
+  if (i.prepayAmount <= 0) throw new Error("\u63D0\u524D\u8FD8\u6B3E\u91D1\u989D\u5FC5\u987B\u5927\u4E8E 0");
+  if (!Number.isInteger(i.paidPeriods)) throw new Error("\u5DF2\u8FD8\u671F\u6570\u5FC5\u987B\u662F\u6574\u6570");
+  if (i.paidPeriods < 0) throw new Error("\u5DF2\u8FD8\u671F\u6570\u4E0D\u80FD\u4E3A\u8D1F\u6570");
+  if (i.paidPeriods >= i.periods) throw new Error("\u5DF2\u8FD8\u671F\u6570\u4E0D\u80FD\u8D85\u8FC7\u603B\u671F\u6570\uFF08\u8D37\u6B3E\u5DF2\u8FD8\u6E05\u5219\u65E0\u9700\u63D0\u524D\u8FD8\u6B3E\u6D4B\u7B97\uFF09");
+  if (i.mode !== "reduce" && i.mode !== "shorten") {
+    throw new Error(`\u672A\u77E5\u7684\u63D0\u524D\u8FD8\u6B3E\u65B9\u5F0F\uFF1A${String(i.mode)}\uFF08\u4EC5\u652F\u6301 reduce \u6216 shorten\uFF09`);
+  }
   const full = buildSchedule(i.principal, i.annualRatePct, i.periods, i.method);
   const k = Math.min(Math.max(0, Math.floor(i.paidPeriods)), i.periods);
   let paidPrincipal = new decimal_default(0);
@@ -2772,6 +2796,7 @@ function calcDepositInterest(params) {
   const total = p + interest;
   return { principal: p, annualRatePct: r, years: y, mode, interest, total, monthlyInterest: monthly };
 }
+var DEED_TAX_SMALL_AREA = 140;
 function calcDeedTax(params) {
   const { priceWan, area, tier } = params;
   const inclusive = params.vatInclusive ?? false;
@@ -2779,7 +2804,7 @@ function calcDeedTax(params) {
   if (area <= 0) return { error: "\u9762\u79EF\u9700\u5927\u4E8E 0" };
   const totalPrice = priceWan * 1e4;
   const base = inclusive ? totalPrice / 1.05 : totalPrice;
-  const small = area <= 90;
+  const small = area <= DEED_TAX_SMALL_AREA;
   let rate;
   if (tier === "first") rate = small ? 0.01 : 0.015;
   else if (tier === "second") rate = small ? 0.01 : 0.02;

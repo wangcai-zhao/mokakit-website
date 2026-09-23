@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['利润率', '毛利率', '定价', '成本', '生意'],
   icon: 'percent',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-01',
   updatedAt: '2026-09-01',
   priority: 8,

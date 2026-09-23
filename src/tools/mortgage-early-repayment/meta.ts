@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['房贷', '提前还款', '利息'],
   icon: 'building',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-11',
   updatedAt: '2026-08-11',
   priority: 9,

@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['json', '格式化', '校验', '开发'],
   icon: 'braces',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-04',
   updatedAt: '2026-08-04',
   priority: 7,

@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['http', '状态码', 'dev', '参考', '接口'],
   icon: 'server',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-04',
   updatedAt: '2026-08-04',
   priority: 4,

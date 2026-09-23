@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['代码', '统计', '开发'],
   icon: 'list-ordered',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-03',
   updatedAt: '2026-09-03',
   priority: 7,

@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['工作天数', '工作日', '排期', '工期', '日期'],
   icon: 'calendar',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-01',
   updatedAt: '2026-09-01',
   priority: 7,

@@ -13,10 +13,12 @@
 - `SITE`：品牌 / 域名 / 备案 / 开关全在此。**版本号由 `package.json` 的 version 派生（加 v 前缀）**，页脚与 `scripts/build-workbench.mjs` 都读它 —— 页面里不要再硬编码版本。
 - `SOCIAL`：GitHub 由 github.owner/repo 拼出、邮箱取 `SITE.email`（bo.zhao2026@outlook.com），供 `src/components/SocialLinks.astro`（Header 右侧 + 页脚 + 移动菜单）共用。
 - 出站第三方链接一律 `goUrl()` → `/go/?url=`；站内 / mailto / tel / 政府备案不中转；gen-sitemap 排除 /go/。
-- icons.ts 是 Lucide path 字典（84+ 图标），键名即图标名（.camelCase 为主），缺图标回落默认方块。
+- ⚠️ `SITE.description` 里的**工具总数是硬编码的**（site.ts 会被客户端打包，没法动态 import registry 数数）。每批新工具上线要同步改这里，2026-09-23 为 240。
+- icons.ts 是 Lucide path 字典（106 个真实图标 + 43 条语义别名），键名即图标名（camelCase 为主，部分带引号如 'shield-check'）。`resolveIcon()` 先查真图标再查别名，都没有才回落 grid。⚠️ 新增工具后跑 `npm run check:icons` 验证图标可解析（缺图标不报错、只静默退化成方块）。
 
-## 规模（截至 2026-09-18）
-- **229 工具 / 11 分类**（新增 image 图片处理）；dist **578 页 / 73M**；好站导航 **44 组 / 791 条**（分「工作/生活」两大区，含 hot + tag 字段）；单位换算 16 类 161 单位 / 649 FAQ。进度看板 `npm run workbench`。
+## 规模（截至 2026-09-23）
+- **240 工具 / 11 分类**（09-23 新增 11 个：秒表、番茄钟、盈亏平衡、ROI、身份证校验、银行卡校验、CIDR、矩阵、SEO 标签生成、字节换算、存钱计划）；dist **588 页**。好站导航 44 组 / 791 条；单位换算 16 类 161 单位。进度看板 `npm run workbench`。
+- 构建链路：`npm run build` = astro build → `scripts/optimize-sprite.mjs`（产物级雪碧图瘦身，省 16.6MB）→ `scripts/gen-sitemap.mjs`。另有 `npm run seo:audit`（问题页面已清零）。
 - 图片类工具共用 `src/tools/_shared/`：`image-utils.ts` / `use-image.ts` / `ImageDropzone.tsx`。
 - 更新日志频道 `src/data/changelog.ts`：工具条目只写 id，其余构建时从 registry 取；**新增工具后必须补 id**，否则 `npm run changelog:check` 红灯。
 
@@ -50,6 +52,17 @@
 - MCP Token 申请仍是人工 mailto 审批，未自动化；摩卡配色打磨（暂缓）。
 - 分类失衡：`calc` 80 个、`dev` 53 个工具，而 `barcode` 仅 3 个。
 - tips 15 篇中 3 篇仍是 `draft: true`（默认 draft，需显式 false 才进 dist）。
+
+- ⚠️ **契税面积分档是 140㎡**（2024-12-01 起，财政部/税务总局/住建部 2024 年第 16 号公告），老口径 90㎡ 已废止。
+  算法**在 `src/lib/china-calc-extra.ts` 和 `src/tools/deed-tax/Tool.tsx` 各硬编码了一份**，改一处不算修完。
+- ⚠️ **后台跑长命令禁止用 `| tail` / `| head`**：head 读完提前关闭管道会让后台任务永久挂起
+  （实测 build 早已完成、任务卡 14 分钟无输出，误判成卡死）。一律改成 `> _xxx.log 2>&1` 再读文件。
+- ⚠️ **正则灾难性回溯**：`(?:"[^"]*"|'[^']*'|[^>])*?` 这类嵌套量词在 5KB 文本上能跑 60 秒+。
+  收紧成 `[^>"']` 让分支互斥即退化成线性（seo-audit 因此从 300s 超时 → 1.35s）。
+- ⚠️ `gen-sitemap.mjs` 里**别对每个文件单独 execSync git**（500+ 子进程会超时）；改成一次性
+  `git log --pretty=format:__TS__%cs --name-only` 建表。
+- ⚠️ 同一份业务逻辑散在两处会同时翻车：计数脚本曾在两个布局逐字复制（各错各的），
+  已抽成 `src/components/CounterScript.astro` 共用；新增类似逻辑先想复用。
 
 ## 环境与坑（可复用）
 - ⚠️ **同一文件的多条 Edit 必须顺序执行**：并行 Edit 会竞争写盘互相覆盖（每条都报成功），已多次踩坑，连注释行都被吞过。

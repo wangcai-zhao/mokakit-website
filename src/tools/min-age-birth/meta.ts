@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['年龄', '日期', '计算'],
   icon: 'cake',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-09',
   updatedAt: '2026-08-09',
   priority: 6,

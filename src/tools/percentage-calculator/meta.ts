@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['百分比', '计算'],
   icon: 'percent',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-05',
   updatedAt: '2026-08-05',
   priority: 8,

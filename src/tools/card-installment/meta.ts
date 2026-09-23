@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['信用卡', '分期', '真实利率', 'APR', '手续费'],
   icon: 'coins',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-01',
   updatedAt: '2026-09-01',
   priority: 8,

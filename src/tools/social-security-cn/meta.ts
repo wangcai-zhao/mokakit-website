@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['五险一金', '社保', '公积金'],
   icon: 'shield',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-11',
   updatedAt: '2026-08-11',
   priority: 9,

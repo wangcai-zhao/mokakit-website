@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['黄金', '重量', '换算'],
   icon: 'coins',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-11',
   updatedAt: '2026-09-11',
   priority: 6,

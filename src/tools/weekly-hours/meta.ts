@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['工时', '计算', '排班'],
   icon: 'clock',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-09',
   updatedAt: '2026-08-09',
   priority: 6,

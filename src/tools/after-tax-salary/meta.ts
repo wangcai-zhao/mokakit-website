@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['工资', '税后收入', '个税'],
   icon: 'receipt',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-13',
   updatedAt: '2026-08-13',
   priority: 8,

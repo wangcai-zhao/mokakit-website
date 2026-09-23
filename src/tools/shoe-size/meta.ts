@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['鞋码', '换码', '生活'],
   icon: 'footprints',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-25',
   updatedAt: '2026-08-25',
   priority: 7,

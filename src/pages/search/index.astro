@@ -21,7 +21,18 @@ const description =
   '在摩卡工具箱搜索你需要的在线工具：密码生成、单位换算、个税计算、JSON 格式化等。';
 ---
 
-<BaseLayout title={title} description={description} path="/search/">
+{/*
+  ⚠️ 必须 noindex：站内搜索页是典型的「无收录价值」页面，
+  内容随查询参数变化但 URL 不变，会被判定为 thin content（低质内容）拉低整站权重。
+  robots.txt 里已不再 Disallow 本页（Disallow 会让爬虫读不到 noindex，
+  反而出现「已索引但无描述」的尴尬结果），去索引完全交给这个 meta。
+*/}
+<BaseLayout
+  title={title}
+  description={description}
+  path="/search/"
+  noindex={true}
+>
   <section class="mx-auto max-w-4xl px-4 py-10">
     <h1 class="text-2xl font-bold mb-1">搜索工具</h1>
     <p class="text-base-content/60 text-sm mb-4">全站共 {index.length} 个工具</p>

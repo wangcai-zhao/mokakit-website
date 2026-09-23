@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['转盘', '决定', '随机'],
   icon: 'loader',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-05',
   updatedAt: '2026-08-05',
   priority: 7,

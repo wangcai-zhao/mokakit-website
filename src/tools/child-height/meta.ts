@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['身高预测', '遗传', '儿童', '父母身高', '成长'],
   icon: 'users',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-01',
   updatedAt: '2026-09-01',
   priority: 6,

@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['大小写', '命名', '文本', '转换'],
   icon: 'type',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-04',
   updatedAt: '2026-08-04',
   priority: 5,

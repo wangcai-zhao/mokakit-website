@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['阶乘', '排列', '组合', '数学', '概率'],
   icon: 'sigma',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-01',
   updatedAt: '2026-09-01',
   priority: 6,

@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['折扣', '购物', '计算'],
   icon: 'tag',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-25',
   updatedAt: '2026-08-25',
   priority: 7,

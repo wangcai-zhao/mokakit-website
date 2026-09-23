@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['月经', '排卵期', '健康'],
   icon: 'calendar-heart',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-25',
   updatedAt: '2026-08-25',
   priority: 7,

@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['密码', '安全', '随机', '生成器'],
   icon: 'key',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-04',
   updatedAt: '2026-08-04',
   priority: 9,

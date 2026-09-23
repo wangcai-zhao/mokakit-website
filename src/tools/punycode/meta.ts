@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['域名', '编码', '开发'],
   icon: 'globe',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-03',
   updatedAt: '2026-09-03',
   priority: 7,

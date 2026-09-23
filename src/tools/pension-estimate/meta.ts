@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['养老', '社保', '退休'],
   icon: 'coins',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-14',
   updatedAt: '2026-08-14',
   priority: 7,

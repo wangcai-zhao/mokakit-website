@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['存款', '利息', '理财'],
   icon: 'landmark',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-13',
   updatedAt: '2026-08-13',
   priority: 7,

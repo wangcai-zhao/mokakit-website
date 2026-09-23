@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['货币基金', '收益', '理财'],
   icon: 'landmark',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-11',
   updatedAt: '2026-09-11',
   priority: 6,

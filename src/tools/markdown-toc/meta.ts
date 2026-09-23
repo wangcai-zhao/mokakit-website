@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['Markdown', '目录', '文档'],
   icon: 'list',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-18',
   updatedAt: '2026-09-18',
   priority: 6,

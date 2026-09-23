@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['车贷', '月供', '等额本息', '买车', '利息'],
   icon: 'coins',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-01',
   updatedAt: '2026-09-01',
   priority: 7,

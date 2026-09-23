@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['网络', '端口', '开发'],
   icon: 'network',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-03',
   updatedAt: '2026-09-03',
   priority: 7,

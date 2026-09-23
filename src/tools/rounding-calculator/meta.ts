@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['四舍五入', '数学', '计算'],
   icon: 'target',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-25',
   updatedAt: '2026-08-25',
   priority: 7,

@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['电费', '家电', '生活成本'],
   icon: 'zap',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-11',
   updatedAt: '2026-09-11',
   priority: 6,

@@ -19,7 +19,9 @@ export const getStaticPaths = (() => {
 
 const { group, prev, next } = Astro.props;
 const title = `${group.name} · 好站导航`;
-const description = `${group.desc}：摩卡工具箱精选的 ${group.links.length} 个${group.name}站点，含简介与直达链接，支持关键词即时筛选。`;
+// group.desc 本身只有十几个字（它是页面内的分组副标题），直接拿来当 meta description
+// 会短到拿不满搜索结果的摘要位。这里拼装成 80-160 字的完整描述，副标题观感不受影响。
+const description = `${group.name}好站导航：${group.desc}。摩卡工具箱精选 ${group.links.length} 个${group.name}站点，每条含一句话简介与直达链接，支持关键词即时筛选、一键跳转，人工筛选不含广告无关内容。`;
 
 /** 精选排前面，其余按名称稳定排序，浏览时不会每次刷新都变位置 */
 const links = [...group.links].sort((a, b) => {

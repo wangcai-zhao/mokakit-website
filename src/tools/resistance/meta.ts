@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['电阻', '电子', '换算'],
   icon: 'zap',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-03',
   updatedAt: '2026-09-03',
   priority: 7,

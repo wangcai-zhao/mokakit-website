@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['烘焙', '用量', '换算'],
   icon: 'utensils',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-03',
   updatedAt: '2026-09-03',
   priority: 7,

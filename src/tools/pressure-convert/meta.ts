@@ -21,7 +21,7 @@ export default defineTool({
   tags: ['压力', '压强', '换算'],
   icon: 'gauge',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-08',
   updatedAt: '2026-08-08',
   priority: 8,

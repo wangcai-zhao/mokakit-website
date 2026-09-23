@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['Docker', '运维', '构建'],
   icon: 'box',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-18',
   updatedAt: '2026-09-18',
   priority: 7,

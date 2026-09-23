@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['通胀', '理财', '计算'],
   icon: 'trending-down',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-25',
   updatedAt: '2026-08-25',
   priority: 7,

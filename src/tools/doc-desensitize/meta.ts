@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['脱敏', '隐私', '安全'],
   icon: 'eyeOff',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-18',
   updatedAt: '2026-09-18',
   priority: 9,

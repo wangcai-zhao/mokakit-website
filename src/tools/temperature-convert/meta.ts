@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['温度', '换算'],
   icon: 'thermometer',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-05',
   updatedAt: '2026-08-05',
   priority: 7,

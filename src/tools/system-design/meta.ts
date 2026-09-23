@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['架构', '设计', '面试', '高并发', '分布式'],
   icon: 'server',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-05',
   updatedAt: '2026-08-05',
   priority: 7,

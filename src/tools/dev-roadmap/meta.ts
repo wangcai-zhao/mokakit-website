@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['学习', '路线', '成长', '前端', '后端'],
   icon: 'mapPin',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-05',
   updatedAt: '2026-08-05',
   priority: 7,

@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['Linux', '权限', '运维'],
   icon: 'lock',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-18',
   updatedAt: '2026-09-18',
   priority: 7,

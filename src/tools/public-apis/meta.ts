@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['api', '开发', '数据', '导航', '开源'],
   icon: 'database',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-05',
   updatedAt: '2026-08-05',
   priority: 8,

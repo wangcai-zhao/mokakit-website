@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['睡眠', '作息', '健康'],
   icon: 'moon',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-11',
   updatedAt: '2026-09-11',
   priority: 6,

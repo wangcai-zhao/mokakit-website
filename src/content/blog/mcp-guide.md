@@ -2,6 +2,7 @@
 title: 让 AI 助手直接调工具：MokaKit MCP 接入指南
 description: 用最直白的话讲清 MCP 是什么、MokaKit 的 MCP Server 怎么接入 Claude Desktop / Cursor，以及它支持哪些中国本土计算工具。
 publishDate: 2026-08-19
+updatedDate: 2026-09-23
 tags: [MCP, 教程, AI]
 ---
 
@@ -23,8 +24,9 @@ MokaKit 的 MCP Server 目前开放 15 个 tool，重点是**中国本土计算*
 - 五险一金（[social_security_cn](/tools/social-security-cn/)）：个人/单位各项缴费一键算
 - 年终奖单独计税（[bonus_tax_cn](/tools/bonus-tax-cn/)）：含税率跳档盲区提示
 - 房贷月供与提前还款（[mortgage_schedule_cn](/tools/mortgage-early-repayment/)）
-- 增值税、退休年龄、税后工资、存款利息、契税、加班工资、养老金……
-- 以及一个 `mokakit_search` 检索入口，按关键词搜全站 104 个工具
+- 契税（[deed_tax_cn](/tools/deed-tax/)）：已同步 2024-12-01 起执行的面积新政，**优惠分界线是 140㎡**
+- 增值税、退休年龄、税后工资、存款利息、加班工资、养老金……
+- 以及一个 `mokakit_search` 检索入口，按关键词搜全站 240 个工具
 
 ## 三步接入
 

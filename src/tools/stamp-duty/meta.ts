@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['印花税', '合同', '税率', '财税', '报税'],
   icon: 'receipt',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-01',
   updatedAt: '2026-09-01',
   priority: 7,

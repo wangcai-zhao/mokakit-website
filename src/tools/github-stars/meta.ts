@@ -7,13 +7,13 @@ export default defineTool({
   name: 'GitHub 高星项目榜',
   tagline: '按 star 排行的开源项目速查',
   description:
-    '免费在线 GitHub 高星开源项目榜单，收录 500+ 个 star 数领先的仓库，覆盖 AI 大模型、智能体 Agent、RAG 知识库、AI 绘画、机器学习、自托管服务、开发者工具、Awesome 清单、前端框架、命令行神器等 15 个方向，支持按 star 数、活跃度、编程语言筛选与关键词搜索，可收藏对比，数据本地渲染、打开即用。',
+    '免费在线 GitHub 高星开源项目榜单，收录 500+ 个 star 数领先的仓库，覆盖 AI 大模型、智能体 Agent、RAG 知识库、自托管服务、开发者工具、前端框架等 15 个方向，支持按 star 数、活跃度与编程语言筛选，打开即用。',
   keywords: ['GitHub高星项目', 'GitHub排行榜', '开源项目推荐', 'star排行', 'AI开源项目'],
   category: 'dev',
   tags: ['github', '开源', '排行榜', 'ai', '开发', '导航'],
   icon: 'star',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-05',
   updatedAt: '2026-08-05',
   priority: 9,
@@ -50,7 +50,9 @@ export default defineTool({
       return {
         slug: d.id,
         title: `${d.name}开源项目排行`,
-        description: `${d.name}方向 star 数最高的 ${count} 个 GitHub 开源项目排行榜，包含 ${top} 等热门仓库。${d.intro}，支持按 star 数、活跃度与编程语言筛选，数据采集于 ${CAPTURED_AT}。`,
+        // 描述控制在 160 字符内：早期版本堆了Intro+仓库名+豁免，多个语言页实测到 191 字，
+        // 超出部分会被搜索引擎直接截断，等于白写，还容易让摘要语义不完整。
+        description: `${d.name}方向 star 数最高的 ${count} 个 GitHub 开源项目排行榜，含 ${top} 等热门仓库。支持按 star 数、活跃度与编程语言筛选，数据快照于 ${CAPTURED_AT}。`,
         data: { dimId: d.id, dimName: d.name, dimIntro: d.intro },
         faq: [
           {
@@ -86,7 +88,7 @@ export default defineTool({
       const langs = LANG_DIMS.map((ld) => ({
         slug: langSlug(ld.lang),
         title: `${ld.name} 开源项目排行`,
-        description: `GitHub 上 ${ld.name} 语言 star 数最高的开源项目排行榜，共收录 ${ld.count} 个 ${ld.name} 仓库，按 star 从高到低排列。无论是想学 ${ld.name}、找 ${ld.name} 轮子，还是评估 ${ld.name} 生态，这份榜单都能快速定位头部项目，数据采集于 ${CAPTURED_AT}。`,
+        description: `GitHub 上 ${ld.name} 语言 star 数最高的开源项目排行榜，收录 ${ld.count} 个 ${ld.name} 仓库，按 star 从高到低排列，数据快照于 ${CAPTURED_AT}。`,
         data: { kind: 'lang', lang: ld.lang, dimName: ld.name, dimIntro: `按主语言筛选出的 ${ld.name} 开源项目` },
         faq: [
           {

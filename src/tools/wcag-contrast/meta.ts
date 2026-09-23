@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['WCAG', '颜色', '无障碍'],
   icon: 'contrast',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-03',
   updatedAt: '2026-09-03',
   priority: 7,

@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['租售比', '租金', '房产', '回报', '投资'],
   icon: 'building',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-01',
   updatedAt: '2026-09-01',
   priority: 7,

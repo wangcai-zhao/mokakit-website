@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['纸张', '尺寸', '换算'],
   icon: 'printer',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-03',
   updatedAt: '2026-09-03',
   priority: 7,

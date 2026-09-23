@@ -45,7 +45,12 @@ export default function FundLoanCalc() {
     if (annual < 0) return { error: '利率不能为负数' };
     const periods = Math.round(ty * 12);
     if (periods <= 0 || periods > 360) return { error: '公积金贷款期限通常 ≤ 30 年（360 期）' };
-    return buildSchedule(p, annual, periods, method);
+    // mortgage 库在入口做严格校验（负本金、非法还款方式等），这里兜住异常不让它冒泡到页面
+    try {
+      return buildSchedule(p, annual, periods, method);
+    } catch (e) {
+      return { error: e instanceof Error ? e.message : '计算失败，请检查输入' };
+    }
   }, [principal, rate, termYears, method]);
 
   const isPrincipal = method === 'equal-principal';

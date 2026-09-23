@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['骰子', '随机', '游戏'],
   icon: 'dice',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-05',
   updatedAt: '2026-08-05',
   priority: 7,

@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['文本', '清理', '格式'],
   icon: 'eraser',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-18',
   updatedAt: '2026-09-18',
   priority: 7,

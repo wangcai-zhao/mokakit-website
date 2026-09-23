@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['图片', 'Base64', '编码'],
   icon: 'file-code',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-18',
   updatedAt: '2026-09-18',
   priority: 7,

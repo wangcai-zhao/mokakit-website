@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['Git', '版本控制', '命令'],
   icon: 'git-branch',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-18',
   updatedAt: '2026-09-18',
   priority: 7,

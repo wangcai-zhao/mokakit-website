@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['分期', '利率', '信用卡'],
   icon: 'percent',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-11',
   updatedAt: '2026-09-11',
   priority: 7,

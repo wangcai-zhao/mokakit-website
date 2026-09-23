@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="K5x1hkM1BsqmH3bIbUlDRt">
+<head data-page-node-id="OC1X1tJz9CzbQIy1SlTrE1">
+<meta charset="UTF-8" data-page-node-id="MCANk3jpHGgzMGHgHM5tct">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="laAonKrQXF0eFDHz2S6yc1">
+<title>MokaKit 站点提交 Checklist</title>
+<style>
+  :root{
+    --bg:#14100e;
+    --card:#1e1815;
+    --card-hover:#251e19;
+    --border:#33291f;
+    --accent:#d4a574;
+    --accent-dim:#8a6d4f;
+    --text:#f0e6dc;
+    --muted:#a89888;
+    --green:#4ade80;
+    --yellow:#fbbf24;
+    --blue:#60a5fa;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    line-height:1.6;
+    padding:32px 20px 80px;
+  }
+  .wrap{max-width:820px;margin:0 auto}
+
+  header{margin-bottom:28px}
+  h1{font-size:26px;font-weight:700;letter-spacing:.5px;margin-bottom:8px}
+  h1 .brand{color:var(--accent)}
+  .sub{color:var(--muted);font-size:14px}
+
+  /* 进度条 */
+  .progress-box{
+    background:var(--card);border:1px solid var(--border);border-radius:12px;
+    padding:16px 18px;margin:20px 0 28px;
+  }
+  .progress-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .progress-label{font-size:13px;color:var(--muted)}
+  .progress-count{font-size:18px;font-weight:700;color:var(--accent)}
+  .bar{height:8px;background:#2a221c;border-radius:99px;overflow:hidden}
+  .bar-fill{
+    height:100%;width:0;background:linear-gradient(90deg,var(--accent-dim),var(--accent));
+    border-radius:99px;transition:width .4s ease;
+  }
+  .done-msg{margin-top:12px;font-size:13px;color:var(--green);display:none}
+
+  /* 卡片 */
+  .card{
+    background:var(--card);border:1px solid var(--border);border-radius:12px;
+    padding:20px;margin-bottom:16px;transition:border-color .2s,background .2s;
+  }
+  .card:hover{background:var(--card-hover);border-color:var(--accent-dim)}
+  .card.checked{opacity:.55}
+  .card.checked .card-title{text-decoration:line-through}
+
+  .card-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:6px}
+  .chk{
+    appearance:none;-webkit-appearance:none;
+    width:22px;height:22px;min-width:22px;margin-top:2px;
+    border:2px solid var(--accent-dim);border-radius:6px;
+    cursor:pointer;position:relative;transition:all .2s;
+  }
+  .chk:hover{border-color:var(--accent)}
+  .chk:checked{background:var(--accent);border-color:var(--accent)}
+  .chk:checked::after{
+    content:"";position:absolute;left:6px;top:2px;width:5px;height:10px;
+    border:solid var(--bg);border-width:0 2.5px 2.5px 0;transform:rotate(45deg);
+  }
+  .card-title{font-size:18px;font-weight:600;flex:1}
+  .card-desc{font-size:13px;color:var(--muted);margin:0 0 14px 34px}
+
+  /* 徽章 */
+  .badges{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px 34px}
+  .badge{
+    font-size:12px;padding:3px 10px;border-radius:99px;
+    border:1px solid transparent;white-space:nowrap;
+  }
+  .badge.ok{background:rgba(74,222,128,.1);color:var(--green);border-color:rgba(74,222,128,.3)}
+  .badge.wait{background:rgba(251,191,36,.1);color:var(--yellow);border-color:rgba(251,191,36,.3)}
+  .badge.info{background:rgba(96,165,250,.1);color:var(--blue);border-color:rgba(96,165,250,.3)}
+
+  /* 步骤 */
+  .steps{margin:0 0 16px 34px;padding-left:20px}
+  .steps li{font-size:14px;margin-bottom:7px;color:#ddd2c6}
+  .steps li::marker{color:var(--accent)}
+  .steps code{
+    background:#0f0c0a;color:var(--accent);padding:2px 7px;border-radius:4px;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px;
+    border:1px solid var(--border);
+  }
+
+  /* 链接按钮 */
+  .links{display:flex;flex-wrap:wrap;gap:10px;margin-left:34px}
+  .btn{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:9px 16px;border-radius:8px;font-size:13.5px;font-weight:500;
+    text-decoration:none;transition:all .2s;border:1px solid var(--border);
+    background:#251e19;color:var(--text);
+  }
+  .btn:hover{background:var(--accent);color:#14100e;border-color:var(--accent);transform:translateY(-1px)}
+  .btn.primary{background:var(--accent);color:#14100e;border-color:var(--accent);font-weight:600}
+  .btn.primary:hover{background:#e5b989;border-color:#e5b989}
+  .btn::after{content:"↗";font-size:12px;opacity:.7}
+
+  /* 提示条 */
+  .tip{
+    margin:14px 0 0 34px;padding:10px 14px;border-radius:8px;font-size:13px;
+    background:rgba(96,165,250,.07);border-left:3px solid var(--blue);color:#c5d5e8;
+  }
+  .tip.warn{background:rgba(251,191,36,.07);border-left-color:var(--yellow);color:#e5d3ab}
+
+  /* 底部 */
+  .footer{
+    margin-top:36px;padding:18px;background:var(--card);
+    border:1px solid var(--border);border-radius:12px;
+  }
+  .footer h3{font-size:15px;margin-bottom:10px;color:var(--accent)}
+  .footer ul{margin-left:20px;font-size:13.5px;color:var(--muted)}
+  .footer li{margin-bottom:5px}
+  .reset{
+    margin-top:18px;background:none;border:1px solid var(--border);color:var(--muted);
+    padding:7px 14px;border-radius:7px;cursor:pointer;font-size:12.5px;font-family:inherit;
+  }
+  .reset:hover{border-color:var(--accent-dim);color:var(--text)}
+</style>
+</head>
+<body data-page-node-id="PPDOxnFzoXrE7JnPv5SMGg">
+<div class="wrap" data-page-node-id="mjr8PWK5LrPgN0izy7TeKz">
+
+  <header data-page-node-id="gcehix5q4jP3IGsKxAuvA8">
+    <h1 data-page-node-id="v4yrHZTGhU6JtzqQ4zMlNG"><span class="brand" data-page-node-id="qksuAYWo31ek7LHWaMsw2O">MokaKit</span> 站点提交 Checklist</h1>
+    <p class="sub" data-page-node-id="FcrcnWlqEJAXjYhzllp7H9">技术侧已全部就绪 · 以下 4 项需你本人登录操作 · 预计 10 分钟</p>
+  </header>
+
+  <div class="progress-box" data-page-node-id="CHk4JhPki89tOSyPUH1Mq1">
+    <div class="progress-top" data-page-node-id="19D16ISkbnq3uiJvrP76pn">
+      <span class="progress-label" data-page-node-id="w6ruQAEJMSAnQcB5wWd3zE">完成进度</span>
+      <span class="progress-count" data-page-node-id="196aGKLz3S9jcfr9G9D4WG"><span id="done" data-page-node-id="iaOhaSS9Sornwb884mBdDJ">0</span> / 4</span>
+    </div>
+    <div class="bar" data-page-node-id="ao74Ja66NF8lawOHMA8J29"><div class="bar-fill" id="barFill" data-page-node-id="9rFp7YeQF5gEOX3D8Ll2dY"></div></div>
+    <div class="done-msg" id="doneMsg" data-page-node-id="DetJKzdzawh1QJiEqzB65e">🎉 全部搞定！接下来 1-2 周等收录数据，别急。</div>
+  </div>
+
+  <!-- 1. Google Search Console -->
+  <div class="card" data-id="gsc" data-page-node-id="OQmlTSFfavIO34oAYKEhf7">
+    <div class="card-head" data-page-node-id="SnzYpKfEHYsbwGUcM1vj2a">
+      <input type="checkbox" class="chk" id="c1" data-page-node-id="xNsALAjBuW002R3Jkv2GOR">
+      <label class="card-title" for="c1" data-page-node-id="ki8JrzQJks49cEtGpJEK4G">① Google Search Console</label>
+    </div>
+    <p class="card-desc" data-page-node-id="FMO1XIyMgXv32WxfgPZy6A">全球最大的搜索入口，优先做。DNS 验证记录已生效，进去就是点确认。</p>
+    <div class="badges" data-page-node-id="xV8kAoBnO22mTu35hiG6qY">
+      <span class="badge ok" data-page-node-id="FF8rdcFsgHxCKeW1KKymo1">✓ DNS TXT 已生效</span>
+      <span class="badge info" data-page-node-id="PWQUR2SJusJb0Jf4tZVIlG">建议用「网域」方式添加</span>
+    </div>
+    <ol class="steps" data-page-node-id="oeI9Aqbrtb73K2zLpBgGG0">
+      <li data-page-node-id="fG52fU2AfJG9e1PMJxthjX">打开 GSC → 左上角「添加资源」→ 选 <strong data-page-node-id="jYYcICStxBA304EvkOiGLC">网域</strong>（不是网址前缀）</li>
+      <li data-page-node-id="4HyeMpFVDCgOop0AapkxNd">输入 <code data-page-node-id="h6QooCEJGL6pXZ62Vp8eX6">mokakit.com</code> → 验证。TXT 记录已生效，<strong data-page-node-id="OTZB4BwO0FoBIzzXCWoP4v">会直接通过</strong></li>
+      <li data-page-node-id="8KHjTxxS0RBFPvTmrJlBZ7">左侧「站点地图」→ 提交 <code data-page-node-id="GzxhE8CpyopGiYn4Q0rfNI">sitemap-index.xml</code></li>
+    </ol>
+    <div class="tip" data-page-node-id="lxmQTumHcMZHke0HiLVAGv">
+      选「网域」而非「网址前缀」：因为你的 TXT 加在根域，网域资源会一次性覆盖 www / 非 www / http / https 全部变体。
+    </div>
+    <div class="links" data-page-node-id="TS9XKjCW85tqw4CtbcYDls">
+      <a class="btn primary" href="https://search.google.com/search-console/welcome" target="_blank" rel="noopener" data-page-node-id="38Z4JU9rRCXfcv4lRqQBii">打开 Search Console</a>
+      <a class="btn" href="https://www.mokakit.com/sitemap-index.xml" target="_blank" rel="noopener" data-page-node-id="24WzrPjBU92XcjXCIvoHAE">查看 sitemap 文件</a>
+    </div>
+  </div>
+
+  <!-- 2. Bing Webmaster -->
+  <div class="card" data-id="bing" data-page-node-id="2fnQDVNu3pZHFnD4e2UzyT">
+    <div class="card-head" data-page-node-id="VsKSvfCbpkepVW1ofFaFSp">
+      <input type="checkbox" class="chk" id="c2" data-page-node-id="oafPVHJsW0VfDkibRGPcT8">
+      <label class="card-title" for="c2" data-page-node-id="pEexXbHQ6WdYvDqAd8P6iX">② Bing Webmaster Tools</label>
+    </div>
+    <p class="card-desc" data-page-node-id="6oZUIFMKPHMet9F6UfQmrN">IndexNow 的亲爹，也喂着 ChatGPT / Copilot 的搜索结果，性价比极高。</p>
+    <div class="badges" data-page-node-id="4vzDmj5ZRrzzjoRljSRgzH">
+      <span class="badge ok" data-page-node-id="Yx9SPFQ1zdvFqQvzdT9uFU">✓ 验证文件已 200</span>
+      <span class="badge ok" data-page-node-id="tLCI4cwKfB8gY0QEsIp7qp">✓ BingSiteAuth.xml 已 200</span>
+      <span class="badge wait" data-page-node-id="zl5AJ9GcWESzjlvh067kwp">建议等 GSC 完成后做</span>
+    </div>
+    <ol class="steps" data-page-node-id="JbwLRXfhyHfsRFIGAvofhu">
+      <li data-page-node-id="NCdCo5UudAU3ND774zuVEk">打开 Bing Webmaster → 登录（支持 Google / Microsoft 账号）</li>
+      <li data-page-node-id="x78Z9hZXmBzhAZrlbbQ2oc">添加站点 → 输入 <code data-page-node-id="cixVz5zwJoKwoliGc2S1f8">https://www.mokakit.com</code></li>
+      <li data-page-node-id="Us44jRa88OhqR6gQ9VfY1W">验证：<strong data-page-node-id="FuxZBpXG54AxtYLFrW1EVS">优先选「从 Google Search Console 导入」</strong>，一键省事；否则选 XML 文件验证</li>
+      <li data-page-node-id="taJDLYw74aSHZne2fpPNjZ">左侧「Sitemaps」→ 提交 <code data-page-node-id="m25vpEd6zTAW8ixRZl0RDr">https://www.mokakit.com/sitemap-index.xml</code></li>
+    </ol>
+    <div class="tip" data-page-node-id="BomBb5KmHDuSSajAmDmJUw">
+      先把 GSC 做完，Bing 就能一键导入，连验证文件都不用再走一遍。顺序别反。
+    </div>
+    <div class="links" data-page-node-id="RQb09VojaGvUYingitQzrS">
+      <a class="btn primary" href="https://www.bing.com/webmasters" target="_blank" rel="noopener" data-page-node-id="VEP3CVAcpCZhdUwkXvY0JN">打开 Bing Webmaster</a>
+      <a class="btn" href="https://www.bing.com/indexnow" target="_blank" rel="noopener" data-page-node-id="M0cAHx469D7FPrnBRRUF0j">IndexNow 说明</a>
+    </div>
+  </div>
+
+  <!-- 3. 百度站长 -->
+  <div class="card" data-id="baidu" data-page-node-id="HJdJmKvdk0oGY9cZ5MdVYM">
+    <div class="card-head" data-page-node-id="vc6oQsAPrPqpCCAUCmx2hH">
+      <input type="checkbox" class="chk" id="c3" data-page-node-id="NmkSSg3gaaq2GoO1qGVvyN">
+      <label class="card-title" for="c3" data-page-node-id="ElRuFwIz2AHx9Y7CwtpmG1">③ 百度站长平台</label>
+    </div>
+    <p class="card-desc" data-page-node-id="JXiqBuaHXXVMbYsHumrZTD">国内主战场，已备案站必备。验证文件已就位，但百度收录节奏慢，要有耐心。</p>
+    <div class="badges" data-page-node-id="5yrf9JrMlUuvVDzSNBKp0t">
+      <span class="badge ok" data-page-node-id="4OmYJuI6PR5VjhnDdGYGjj">✓ 验证文件已 200</span>
+      <span class="badge wait" data-page-node-id="qeE0XZ3WY2NQH20B36hFCh">收录慢，别催</span>
+    </div>
+    <ol class="steps" data-page-node-id="OdUd7zXFyA22z8yMycqHqs">
+      <li data-page-node-id="eJdBs2ytcAOp4i8JzCNcoB">打开百度站长 → 百度账号登录 → 「添加网站」</li>
+      <li data-page-node-id="EznVgTaGnJohlNG6qI0LVm">输入 <code data-page-node-id="C38Gf5en5yluzbRjuxmuli">https://www.mokakit.com</code> → 验证选「文件验证」（文件已就位）</li>
+      <li data-page-node-id="5e6eP0f4FgIWHEA4CmYeMg">左侧「资源提交」→「普通收录」→「Sitemap」→ 提交 <code data-page-node-id="AlUHhoc1oV6AlLEJWHiQr7">sitemap-index.xml</code></li>
+      <li data-page-node-id="jcByrAPakYnVicWA9MGkPC">（可选）同页开启「API 提交 / 快速收录」，能加快新页面被发现</li>
+    </ol>
+    <div class="tip warn" data-page-node-id="ZisL5QfrQq3EMWbMC2tWU3">
+      百度对新站有观察期，提交后几周才开始放量属正常。已备案 + 已接百度统计是加分项，这两样你都有。
+    </div>
+    <div class="links" data-page-node-id="9G3DpZmQCF1sR1aqnbY4xu">
+      <a class="btn primary" href="https://ziyuan.baidu.com" target="_blank" rel="noopener" data-page-node-id="VODqAMju5M501e1D1fRa7m">打开百度站长平台</a>
+      <a class="btn" href="https://ziyuan.baidu.com/linksubmit/index" target="_blank" rel="noopener" data-page-node-id="iVEMdviuqr5bBfCPDqFfGm">资源提交页</a>
+    </div>
+  </div>
+
+  <!-- 4. AdSense -->
+  <div class="card" data-id="adsense" data-page-node-id="tQJTP7n9XHYJoeaadeIZxW">
+    <div class="card-head" data-page-node-id="3dDWDeNaEbtuMzJtcopQCL">
+      <input type="checkbox" class="chk" id="c4" data-page-node-id="QGxkDUjWZxy0LNzeO2HuMV">
+      <label class="card-title" for="c4" data-page-node-id="krCna1lfXXXcLWrLGVc0Pn">④ Google AdSense 开自动广告</label>
+    </div>
+    <p class="card-desc" data-page-node-id="uGHjJYgpACUCOzCsxpG8wf">站点已通过验证，代码也上线了，只差后台把开关拨开。</p>
+    <div class="badges" data-page-node-id="WPlAjUjkUNxmBY8TmyFKzR">
+      <span class="badge ok" data-page-node-id="R4sTlIcXsnnrI1KsXbH22E">✓ 站点已验证</span>
+      <span class="badge ok" data-page-node-id="E7N4VNHhnOIXk5YdbkQeA7">✓ ads.txt 已 200</span>
+      <span class="badge wait" data-page-node-id="7VHLmsZCwOEAXLnFSjLjtD">审核 1-2 周</span>
+    </div>
+    <ol class="steps" data-page-node-id="o8Y79udQRlFvakpOAFdwOA">
+      <li data-page-node-id="OzGrZ8QLXYMtnigG5Z45hw">登录 AdSense → 左侧「广告」→ 进入「自动广告」</li>
+      <li data-page-node-id="7bcKryDjkufNDWfkbz6QeI">开启自动广告 → 保存，代码会自动接管展示位</li>
+      <li data-page-node-id="JucOQTLSmObGwnr1q6e6vG">等审核（通常 1-2 周，期间不影响网站正常访问）</li>
+    </ol>
+    <div class="tip" data-page-node-id="JCXqg4yXHIAGbCt1VukUDa">
+      审核未过前广告不展示，网站照常跑，不用盯着。等邮件通知就行。
+    </div>
+    <div class="links" data-page-node-id="TLUr1yLWL0J0P7XdjYP8uZ">
+      <a class="btn primary" href="https://www.google.com/adsense" target="_blank" rel="noopener" data-page-node-id="7QV1bILenY8AWqqk2dpLMC">打开 AdSense 后台</a>
+    </div>
+  </div>
+
+  <div class="footer" data-page-node-id="5uugwPVp0FOHYaOCoBitXq">
+    <h3 data-page-node-id="aI9s5vk1ndxIbY3CHtdkb9">✓ 已经做好的（不用你操心）</h3>
+    <ul data-page-node-id="2T6XHJRHtq4rHXfMCpW6hB">
+      <li data-page-node-id="hGrpTCDkVYMSf1iwHADd0e">IndexNow 接入 — 507 个 URL 已主动推送</li>
+      <li data-page-node-id="98kPQNhz8JuPX0xCpMAgOi">Meta description — 98 个已扩写，全站平均 121 字符</li>
+      <li data-page-node-id="nZWS3dEPZTewqtxKOJul2F">结构化数据 — 每个工具页都有 WebApplication + 面包屑 + FAQ 富摘要</li>
+      <li data-page-node-id="WWmC5gPQToQvkBOWbHauEU">robots.txt + sitemap-index.xml（507 URL）已上线</li>
+      <li data-page-node-id="ZodHIso8eFqCkPqC1rZLKd">生产核验 — 首页 200 / 512 个页面，全部正常</li>
+    </ul>
+    <h3 style="margin-top:18px" data-page-node-id="00O4IRQrQFkYv3gj6nqHBo">📅 1-2 周后要做的</h3>
+    <ul data-page-node-id="Tsref0XYm9dkRwXYjZCuaD">
+      <li data-page-node-id="8F8EqsxxvIKiRwrOISy22U">GSC「效果」报告 — 看展现量和点击量</li>
+      <li data-page-node-id="cUjRKSLVeF9eKkoD2ClQPx">Bing「Site Explorer」— 看已收录页数</li>
+      <li data-page-node-id="hRDS9dJyiTpQIA2gsp4tYu">百度「流量与关键词」— 看索引量</li>
+      <li data-page-node-id="jcquK2XQ3FB9nAweEqTUdE">拿这三组数据判断 IndexNow 和 description 扩写到底起没起效</li>
+    </ul>
+    <button class="reset" id="reset" data-page-node-id="ye4sLgdn35DPTgRY3ovAEB">清空勾选记录</button>
+  </div>
+
+</div>
+
+<script>
+  const KEY = 'mokakit-seo-checklist';
+  const boxes = [...document.querySelectorAll('.chk')];
+  const barFill = document.getElementById('barFill');
+  const doneEl = document.getElementById('done');
+  const doneMsg = document.getElementById('doneMsg');
+
+  function load(){
+    let saved = {};
+    try { saved = JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){}
+    boxes.forEach((b,i) => { b.checked = !!saved[i]; });
+    render();
+  }
+
+  function save(){
+    const s = {};
+    boxes.forEach((b,i) => { s[i] = b.checked; });
+    try { localStorage.setItem(KEY, JSON.stringify(s)); } catch(e){}
+  }
+
+  function render(){
+    const n = boxes.filter(b => b.checked).length;
+    doneEl.textContent = n;
+    barFill.style.width = (n / boxes.length * 100) + '%';
+    doneMsg.style.display = n === boxes.length ? 'block' : 'none';
+    document.querySelectorAll('.card').forEach(c => {
+      const cb = c.querySelector('.chk');
+      c.classList.toggle('checked', cb.checked);
+    });
+  }
+
+  boxes.forEach(b => b.addEventListener('change', () => { save(); render(); }));
+  document.getElementById('reset').addEventListener('click', () => {
+    try { localStorage.removeItem(KEY); } catch(e){}
+    boxes.forEach(b => b.checked = false);
+    render();
+  });
+
+  load();
+</script>
+</body>
+</html>

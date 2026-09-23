@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['小费', '分摊', '餐厅'],
   icon: 'receipt',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-05',
   updatedAt: '2026-08-05',
   priority: 6,

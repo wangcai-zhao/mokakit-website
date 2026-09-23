@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['预产期', '孕周', '末次月经', '怀孕', '母婴'],
   icon: 'baby',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-01',
   updatedAt: '2026-09-01',
   priority: 8,

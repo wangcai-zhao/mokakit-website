@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['平均数', '统计', '数学'],
   icon: 'sigma',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-25',
   updatedAt: '2026-08-25',
   priority: 7,

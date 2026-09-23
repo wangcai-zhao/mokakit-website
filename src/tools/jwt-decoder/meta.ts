@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['jwt', 'token', 'dev', '解析', '鉴权'],
   icon: 'key',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-04',
   updatedAt: '2026-08-04',
   priority: 5,

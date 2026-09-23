@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['饮水', '水量', '体重', '健康', '补水'],
   icon: 'activity',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-01',
   updatedAt: '2026-09-01',
   priority: 6,

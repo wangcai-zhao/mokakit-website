@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['哈希', '识别', '安全'],
   icon: 'fingerprint',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-03',
   updatedAt: '2026-09-03',
   priority: 7,

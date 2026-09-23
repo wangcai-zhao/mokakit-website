@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['公积金', '理财', '计算'],
   icon: 'wallet',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-25',
   updatedAt: '2026-08-25',
   priority: 7,

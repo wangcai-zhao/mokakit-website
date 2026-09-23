@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['排序', '文本'],
   icon: 'arrow-down-narrow-wide',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-05',
   updatedAt: '2026-08-05',
   priority: 6,

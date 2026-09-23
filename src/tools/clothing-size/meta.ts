@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['尺码', '衣服', 'SML', '对照', '海淘'],
   icon: 'tag',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-01',
   updatedAt: '2026-09-01',
   priority: 5,

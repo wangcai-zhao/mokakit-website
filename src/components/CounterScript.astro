@@ -1,0 +1,105 @@
+---
+/**
+ * 匿名使用计数脚本（工具页共用）。
+ *
+ * 为何抽成组件：ToolLayout 与 ClockImmersiveLayout 各复制了一份内联计数实现，
+ * 两边同时改歪还不自知 —— 都用 '/api/counter' 这个压根不存在的路径
+ * （服务端只认 /api/count，见 deploy/counter/server.mjs），GET 传 action/get&key、
+ * POST 发 {action,key}，与服务端 {keys:[],delta} / {counts:{}} 协议完全对不上，
+ * 结果全站工具使用次数恒为 0 且从无报错。抽成一处后两边不可能再漂移。
+ *
+ * 协议（务必与 deploy/counter/server.mjs 保持一致）：
+ *   GET  /api/count?keys=a,b        → { counts: { a: 1, b: 2 } }
+ *   POST /api/count {keys, delta}   → { counts: { a: 2, b: 3 } }
+ */
+import { SITE } from '@/config/site';
+
+interface Props {
+  /** 工具 id，计数 key 形如 use:<id> */
+  toolId: string;
+}
+
+const { toolId } = Astro.props;
+
+// SITE 是 as const，这里显式放宽成 boolean，服务端改配置后运行时判断才生效
+const enabled: boolean = SITE.counter.enabled;
+const countKey = `use:${toolId}`;
+---
+
+<script define:vars={{ apiBase: SITE.counter.apiBase, enabled, countKey }}>
+  (function () {
+    if (!enabled) return;
+    // dev 预览环境没有反代，直接静默跳过，不在控制台制造噪音
+    var isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+    if (isDev) return;
+
+    var useEl = document.getElementById('tool-use-count');
+
+    function fmtCount(n) {
+      if (n == null || !isFinite(n)) return '';
+      if (n >= 100000000) return (n / 100000000).toFixed(1).replace(/\.0$/, '') + '亿';
+      if (n >= 10000) return (n / 10000).toFixed(1).replace(/\.0$/, '') + '万';
+      return String(n);
+    }
+
+    function render(n) {
+      if (!useEl || n == null) return;
+      var span = useEl.querySelector('span');
+      if (span) span.textContent = fmtCount(n);
+      useEl.hidden = false;
+    }
+
+    /** 读取当前计数：GET /api/count?keys=<key> → { counts: { key: n } } */
+    function fetchCount(keys) {
+      return fetch(apiBase + '?keys=' + encodeURIComponent(keys.join(',')))
+        .then(function (r) {
+          return r.ok ? r.json() : null;
+        })
+        .then(function (d) {
+          return (d && d.counts) || null;
+        })
+        .catch(function () {
+          return null;
+        });
+    }
+
+    /** 累加计数：POST /api/count body { keys, delta } → { counts: {...} } */
+    function bumpCount(keys, delta) {
+      return fetch(apiBase, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ keys: keys, delta: delta || 1 }),
+      })
+        .then(function (r) {
+          return r.ok ? r.json() : null;
+        })
+        .then(function (d) {
+          return (d && d.counts) || null;
+        })
+        .catch(function () {
+          return null;
+        });
+    }
+
+    // 首次进入即展示已有数值
+    fetchCount([countKey]).then(function (counts) {
+      if (counts) render(counts[countKey]);
+    });
+
+    // 真正「用过」才算一次：首次交互（点击/输入/选项变更）时才 +1
+    var counted = false;
+    function onFirstUse() {
+      if (counted) return;
+      counted = true;
+      bumpCount([countKey], 1).then(function (counts) {
+        if (counts) render(counts[countKey]);
+      });
+      document.removeEventListener('click', onFirstUse, true);
+      document.removeEventListener('input', onFirstUse, true);
+      document.removeEventListener('change', onFirstUse, true);
+    }
+    document.addEventListener('click', onFirstUse, true);
+    document.addEventListener('input', onFirstUse, true);
+    document.addEventListener('change', onFirstUse, true);
+  })();
+</script>

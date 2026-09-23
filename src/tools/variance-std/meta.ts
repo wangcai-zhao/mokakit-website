@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['方差', '标准差', '统计', '均值', '数据分析'],
   icon: 'sigma',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-01',
   updatedAt: '2026-09-01',
   priority: 7,

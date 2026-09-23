@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['UUID', '随机', '生成', '开发'],
   icon: 'fingerprint',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-04',
   updatedAt: '2026-08-04',
   priority: 5,

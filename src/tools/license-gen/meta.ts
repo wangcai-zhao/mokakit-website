@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['license', '开源', '法律', '协议'],
   icon: 'scale',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-05',
   updatedAt: '2026-08-05',
   priority: 7,

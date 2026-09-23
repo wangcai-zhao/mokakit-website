@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['XML', 'JSON', '开发', '转换'],
   icon: 'file-code',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-03',
   updatedAt: '2026-09-03',
   priority: 7,

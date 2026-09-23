@@ -12,8 +12,14 @@ function money(n: number): string {
 
 type Tier = 'first' | 'second' | 'third';
 
+/**
+ * 契税优惠面积分界线：2024-12-01 起为 140㎡（财政部/税务总局/住建部 2024 年第 16 号公告）。
+ * ⚠️ 与 src/lib/china-calc-extra.ts 的 DEED_TAX_SMALL_AREA 是同一条政策口径，改一处必须同步另一处。
+ */
+const SMALL_AREA = 140;
+
 function rateFor(tier: Tier, area: number): number {
-  const small = area <= 90;
+  const small = area <= SMALL_AREA;
   if (tier === 'first') return small ? 0.01 : 0.015;
   if (tier === 'second') return small ? 0.01 : 0.02;
   return 0.03;
@@ -164,8 +170,8 @@ export default function DeedTax() {
       </div>
 
       <p class="text-xs opacity-55 leading-relaxed">
-        契税计税依据为不含增值税的成交价格；家庭唯一住房 ≤90㎡ 按 1%、&gt;90㎡ 按 1.5%，第二套改善性住房 ≤90㎡ 按 1%、&gt;90㎡ 按
-        2%，第三套及以上通常按 3%（部分城市可上浮至 4%，以当地为准）。个人购买住宅暂免印花税。本工具为买方契税估算，具体以税务与不动产登记窗口核定为准；计算在本地完成，不上传数据。
+        契税计税依据为不含增值税的成交价格；家庭唯一住房 ≤140㎡ 按 1%、&gt;140㎡ 按 1.5%，第二套改善性住房 ≤140㎡ 按 1%、&gt;140㎡ 按
+        2%（面积分界线自 2024-12-01 起由 90㎡ 上调为 140㎡），第三套及以上通常按 3%（部分城市可上浮至 4%，以当地为准）。个人购买住宅暂免印花税。本工具为买方契税估算，具体以税务与不动产登记窗口核定为准；计算在本地完成，不上传数据。
       </p>
     </div>
   );

@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['游戏', '剪刀', '对战'],
   icon: 'hand',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-05',
   updatedAt: '2026-08-05',
   priority: 6,

@@ -90,7 +90,12 @@ const NAME_CN = SITE.nameCn;
       } else {
         card.innerHTML = `
           <div class="mx-auto mb-5 grid h-14 w-14 place-items-center rounded-full bg-error/15 text-error text-2xl">✕</div>
-          <h1 class="text-xl font-bold">链接不可用</h1>
+          {/*
+            注意这里是 h2 而不是 h1：虽然「链接不可用」与上面的 h1 是 JS 二选一渲染、
+            用户同一时刻只看到一个，但静态 HTML 里两个标签都在 DOM 中，
+            会被爬虫/辅助技术读成「一页两个一级标题」。错误态降级为 h2 更稳妥。
+          */}
+          <h2 class="text-xl font-bold">链接不可用</h2>
           <p class="mt-3 text-sm opacity-70">
             您访问的跳转链接为空或格式不正确，无法前往。
           </p>

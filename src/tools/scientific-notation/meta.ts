@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['科学计数法', '数学', '换算'],
   icon: 'function-square',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-25',
   updatedAt: '2026-08-25',
   priority: 7,

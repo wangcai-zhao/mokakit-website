@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['HTML', 'Markdown', '转换'],
   icon: 'file-code-2',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-03',
   updatedAt: '2026-09-03',
   priority: 7,

@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['git', '提交', '规范', '协作'],
   icon: 'git-compare',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-05',
   updatedAt: '2026-08-05',
   priority: 7,

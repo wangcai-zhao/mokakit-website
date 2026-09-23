@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['理想体重', '标准体重', 'BMI', '健康', '身高'],
   icon: 'scale',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-01',
   updatedAt: '2026-09-01',
   priority: 6,

@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['git', 'changelog', '模板', '开源'],
   icon: 'file-text',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-05',
   updatedAt: '2026-08-05',
   priority: 7,

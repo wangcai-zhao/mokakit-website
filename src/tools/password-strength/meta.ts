@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['密码', '安全', 'security', '强度', '检测'],
   icon: 'shield',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-04',
   updatedAt: '2026-08-04',
   priority: 5,

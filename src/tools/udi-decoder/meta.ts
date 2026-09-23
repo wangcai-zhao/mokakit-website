@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['udi', 'gs1', '解码', '解析', '追溯'],
   icon: 'scan',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-04',
   updatedAt: '2026-08-04',
   priority: 7,

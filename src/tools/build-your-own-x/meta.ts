@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['编程', '练手', '教程', '系统', '进阶'],
   icon: 'code',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-05',
   updatedAt: '2026-08-05',
   priority: 7,

@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['二维码', 'QR', '开发', '生成'],
   icon: 'qr',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-04',
   updatedAt: '2026-08-04',
   priority: 4,

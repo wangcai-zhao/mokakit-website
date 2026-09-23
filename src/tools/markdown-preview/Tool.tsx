@@ -1,7 +1,12 @@
 import { useState, useMemo } from 'preact/hooks';
 import { marked } from 'marked';
 
-const DEMO = `# 摩卡工具箱
+/**
+ * 默认示例刻意用二级标题起头：
+ * 一级标题会在预览区渲染成 <h1>，与工具页本身的「Markdown 预览」h1 撞车，
+ * 一个页面出现两个 h1 会干扰搜索引擎对页面主题的判定。
+ */
+const DEMO = `## 摩卡工具箱
 
 一个**顺手好用**的在线工具集合。
 

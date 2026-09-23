@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['天气', '预报', '城市', '温度', '生活'],
   icon: 'cloud-sun',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-02',
   updatedAt: '2026-09-02',
   priority: 7,

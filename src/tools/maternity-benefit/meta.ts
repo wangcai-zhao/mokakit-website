@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['生育津贴', '产假', '社保', '工资', '母婴'],
   icon: 'users',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-01',
   updatedAt: '2026-09-01',
   priority: 7,

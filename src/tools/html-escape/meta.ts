@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['html', '转义', 'web'],
   icon: 'code',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-05',
   updatedAt: '2026-08-05',
   priority: 6,

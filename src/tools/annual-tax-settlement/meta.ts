@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['个税', '汇算清缴', '退税', '补税', '综合所得'],
   icon: 'receipt',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-01',
   updatedAt: '2026-09-01',
   priority: 9,

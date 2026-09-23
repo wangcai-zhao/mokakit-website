@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['复利', '理财', '金融'],
   icon: 'trending-up',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-25',
   updatedAt: '2026-08-25',
   priority: 7,

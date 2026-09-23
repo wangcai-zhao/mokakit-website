@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['医保', '报销', '起付线', '封顶线', '看病'],
   icon: 'activity',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-01',
   updatedAt: '2026-09-01',
   priority: 8,

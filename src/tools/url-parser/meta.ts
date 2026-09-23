@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['url', '解析', '开发'],
   icon: 'link',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-05',
   updatedAt: '2026-08-05',
   priority: 7,

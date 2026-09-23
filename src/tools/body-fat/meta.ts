@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['体脂率', '海军法', '健身', '减肥', '身材'],
   icon: 'activity',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-01',
   updatedAt: '2026-09-01',
   priority: 7,

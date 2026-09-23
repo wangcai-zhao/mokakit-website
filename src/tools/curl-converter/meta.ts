@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['curl', 'HTTP', '代码生成'],
   icon: 'terminal',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-18',
   updatedAt: '2026-09-18',
   priority: 8,

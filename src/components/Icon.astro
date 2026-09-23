@@ -3,7 +3,7 @@
  * 轻量图标组件：引用 BaseLayout 注入的 <symbol> 雪碧图，零重复内联、零网络请求。
  * 图标数据来自 src/components/icons.ts（Lucide，ISC 协议）。
  */
-import { ICONS } from './icons';
+import { resolveIcon } from './icons';
 
 interface Props {
   name: string;
@@ -14,7 +14,9 @@ interface Props {
 }
 
 const { name, size = 20, class: className = '', label } = Astro.props;
-const safeName = name in ICONS ? name : 'grid';
+// 真实图标优先；查不到的走 icons.ts 的别名表（trending-up → activity 之类），
+// 都没有才回落到 grid，避免几十个工具页顶着同一个九宫格。
+const safeName = resolveIcon(name);
 const a11y = label
   ? { role: 'img', 'aria-label': label }
   : { 'aria-hidden': 'true', focusable: 'false' };

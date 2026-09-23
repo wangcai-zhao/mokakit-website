@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['Nginx', '运维', '配置'],
   icon: 'server',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-09-18',
   updatedAt: '2026-09-18',
   priority: 7,

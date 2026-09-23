@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['抽签', '随机'],
   icon: 'ticket',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-05',
   updatedAt: '2026-08-05',
   priority: 7,

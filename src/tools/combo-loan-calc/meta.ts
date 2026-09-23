@@ -11,7 +11,7 @@ export default defineTool({
   tags: ['组合贷', '月供', '公积金', '商贷'],
   icon: 'landmark',
   status: 'stable',
-  hydrate: 'load',
+  hydrate: 'idle',
   createdAt: '2026-08-25',
   updatedAt: '2026-08-25',
   priority: 9,

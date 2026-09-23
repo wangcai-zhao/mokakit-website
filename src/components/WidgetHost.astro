@@ -247,6 +247,17 @@ import MarkdownTableGen from '@/tools/markdown-table-gen/Tool.tsx';
 import SecurityHeaders from '@/tools/security-headers/Tool.tsx';
 import GitCommandGen from '@/tools/git-command-gen/Tool.tsx';
 import DocDesensitize from '@/tools/doc-desensitize/Tool.tsx';
+import Stopwatch from '@/tools/stopwatch/Tool.tsx';
+import PomodoroTimer from '@/tools/pomodoro-timer/Tool.tsx';
+import BreakEvenCalculator from '@/tools/break-even-calculator/Tool.tsx';
+import RoiCalculator from '@/tools/roi-calculator/Tool.tsx';
+import IdCardCheck from '@/tools/id-card-check/Tool.tsx';
+import BankCardValidator from '@/tools/bank-card-validator/Tool.tsx';
+import CidrCalculator from '@/tools/cidr-calculator/Tool.tsx';
+import MatrixCalculator from '@/tools/matrix-calculator/Tool.tsx';
+import MetaTagsGenerator from '@/tools/meta-tags-generator/Tool.tsx';
+import BytesSizeConverter from '@/tools/bytes-size-converter/Tool.tsx';
+import SavingsGoalCalculator from '@/tools/savings-goal-calculator/Tool.tsx';
 
 interface Props {
   tool: ToolMeta;
@@ -486,6 +497,17 @@ const isMdTable = tool.id === 'markdown-table-gen';
 const isSecHeaders = tool.id === 'security-headers';
 const isGitCmd = tool.id === 'git-command-gen';
 const isDesens = tool.id === 'doc-desensitize';
+const isStopwatch = tool.id === 'stopwatch';
+const isPomodoro = tool.id === 'pomodoro-timer';
+const isBreakEven = tool.id === 'break-even-calculator';
+const isRoi = tool.id === 'roi-calculator';
+const isIdCard = tool.id === 'id-card-check';
+const isBankCard = tool.id === 'bank-card-validator';
+const isCidr = tool.id === 'cidr-calculator';
+const isMatrix = tool.id === 'matrix-calculator';
+const isMetaTags = tool.id === 'meta-tags-generator';
+const isBytesConv = tool.id === 'bytes-size-converter';
+const isSaveGoal = tool.id === 'savings-goal-calculator';
 const known =
   isPG || isUC || isTS || isJF || isCC || isBC || isHC ||
   isUE || isB64 || isUUID || isTC || isColor ||
@@ -519,7 +541,9 @@ const known =
   isStockFee || isFundDca || isInstallApr || isFundYield ||
   isAnnualLeave || isSeverance || isRunPace || isSleepCycle ||
   isElecCost || isFuelCost || isGoldW || isVolW ||
-  isImgCompress || isImgResize || isImgConvert || isImgB64 || isImgWM || isImgCrop || isImgFilter || isImgInfo || isFavGen || isPlaceholder || isTxtExtract || isTxtReplace || isTxtWS || isTxtSplitJoin || isTxtPad || isUniEsc || isCnNum || isTxtSim || isMdToc || isLorem || isJsonDiff || isJson2Ts || isJsonFlat || isCurlConv || isChmod || isNginxGen || isDockerGen || isMdTable || isSecHeaders || isGitCmd || isDesens;
+  isImgCompress || isImgResize || isImgConvert || isImgB64 || isImgWM || isImgCrop || isImgFilter || isImgInfo || isFavGen || isPlaceholder || isTxtExtract || isTxtReplace || isTxtWS || isTxtSplitJoin || isTxtPad || isUniEsc || isCnNum || isTxtSim || isMdToc || isLorem || isJsonDiff || isJson2Ts || isJsonFlat || isCurlConv || isChmod || isNginxGen || isDockerGen || isMdTable || isSecHeaders || isGitCmd || isDesens ||
+  isStopwatch || isPomodoro || isBreakEven || isRoi || isIdCard || isBankCard ||
+  isCidr || isMatrix || isMetaTags || isBytesConv || isSaveGoal;
 ---
 
 <!-- 密码生成器 -->
@@ -1605,6 +1629,61 @@ const known =
 {isDesens && mode === 'load' && <DocDesensitize client:load {...widgetProps} />}
 {isDesens && mode === 'idle' && <DocDesensitize client:idle {...widgetProps} />}
 {isDesens && mode === 'visible' && <DocDesensitize client:visible {...widgetProps} />}
+
+<!-- 秒表 -->
+{isStopwatch && mode === 'load' && <Stopwatch client:load {...widgetProps} />}
+{isStopwatch && mode === 'idle' && <Stopwatch client:idle {...widgetProps} />}
+{isStopwatch && mode === 'visible' && <Stopwatch client:visible {...widgetProps} />}
+
+<!-- 番茄钟 -->
+{isPomodoro && mode === 'load' && <PomodoroTimer client:load {...widgetProps} />}
+{isPomodoro && mode === 'idle' && <PomodoroTimer client:idle {...widgetProps} />}
+{isPomodoro && mode === 'visible' && <PomodoroTimer client:visible {...widgetProps} />}
+
+<!-- 盈亏平衡计算器 -->
+{isBreakEven && mode === 'load' && <BreakEvenCalculator client:load {...widgetProps} />}
+{isBreakEven && mode === 'idle' && <BreakEvenCalculator client:idle {...widgetProps} />}
+{isBreakEven && mode === 'visible' && <BreakEvenCalculator client:visible {...widgetProps} />}
+
+<!-- 投资回报率 ROI -->
+{isRoi && mode === 'load' && <RoiCalculator client:load {...widgetProps} />}
+{isRoi && mode === 'idle' && <RoiCalculator client:idle {...widgetProps} />}
+{isRoi && mode === 'visible' && <RoiCalculator client:visible {...widgetProps} />}
+
+<!-- 身份证号校验 -->
+{isIdCard && mode === 'load' && <IdCardCheck client:load {...widgetProps} />}
+{isIdCard && mode === 'idle' && <IdCardCheck client:idle {...widgetProps} />}
+{isIdCard && mode === 'visible' && <IdCardCheck client:visible {...widgetProps} />}
+
+<!-- 银行卡号校验 -->
+{isBankCard && mode === 'load' && <BankCardValidator client:load {...widgetProps} />}
+{isBankCard && mode === 'idle' && <BankCardValidator client:idle {...widgetProps} />}
+{isBankCard && mode === 'visible' && <BankCardValidator client:visible {...widgetProps} />}
+
+<!-- CIDR 子网计算器 -->
+{isCidr && mode === 'load' && <CidrCalculator client:load {...widgetProps} />}
+{isCidr && mode === 'idle' && <CidrCalculator client:idle {...widgetProps} />}
+{isCidr && mode === 'visible' && <CidrCalculator client:visible {...widgetProps} />}
+
+<!-- 矩阵计算器 -->
+{isMatrix && mode === 'load' && <MatrixCalculator client:load {...widgetProps} />}
+{isMatrix && mode === 'idle' && <MatrixCalculator client:idle {...widgetProps} />}
+{isMatrix && mode === 'visible' && <MatrixCalculator client:visible {...widgetProps} />}
+
+<!-- SEO Meta 标签生成器 -->
+{isMetaTags && mode === 'load' && <MetaTagsGenerator client:load {...widgetProps} />}
+{isMetaTags && mode === 'idle' && <MetaTagsGenerator client:idle {...widgetProps} />}
+{isMetaTags && mode === 'visible' && <MetaTagsGenerator client:visible {...widgetProps} />}
+
+<!-- 字节单位换算 -->
+{isBytesConv && mode === 'load' && <BytesSizeConverter client:load {...widgetProps} />}
+{isBytesConv && mode === 'idle' && <BytesSizeConverter client:idle {...widgetProps} />}
+{isBytesConv && mode === 'visible' && <BytesSizeConverter client:visible {...widgetProps} />}
+
+<!-- 存钱计划计算器 -->
+{isSaveGoal && mode === 'load' && <SavingsGoalCalculator client:load {...widgetProps} />}
+{isSaveGoal && mode === 'idle' && <SavingsGoalCalculator client:idle {...widgetProps} />}
+{isSaveGoal && mode === 'visible' && <SavingsGoalCalculator client:visible {...widgetProps} />}
 
 <!-- 未接入水合岛屿的工具 -->
 {
