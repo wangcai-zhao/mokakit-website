@@ -3,7 +3,8 @@
 > 工作目录 = `D:\WorkBuddy\website`；git master，远端 https://github.com/wangcai-zhao/mokakit-website.git
 
 ## 架构与部署
-- Astro 7 + Preact + daisyUI 5 + Tailwind v4，纯静态无后端。工具由 `src/tools/registry.ts` 的 import.meta.glob 自动发现，新工具四件套：meta.ts / Tool.tsx / content.mdx / WidgetHost.astro（含 known 表达式）。
+- Astro 7 + Preact + daisyUI 5 + Tailwind v4，纯静态无后端。工具由 `src/tools/registry.ts` 的 import.meta.glob 自动发现，**新工具是四件套**：meta.ts / Tool.tsx / content.mdx / **WidgetHost.astro 注册**。
+- 🔴 **第四件套千万别漏（2026-09-23 真实事故）**：只在 `src/components/WidgetHost.astro` 补四处才算完——① `import Xxx from '@/tools/<id>/Tool.tsx'`；② `const isXxx = tool.id === '<id>';`；③ 加进 `known` 布尔表达式；④ 渲染区加 load/idle/visible 三行分支。漏了只做前三件的话，**页面照样生成、build 照样成功、但一个 `astro-island` 都没有，工具是点不动的死壳**（曾整批 11 个工具中招）。静态 import 是 Astro 硬约束，没法自动化，靠 `npm run check:widgets` 兜住。
 - 规范域 www.mokakit.com（HTTPS + HSTS），裸 mokakit.com / mokakit.cn 仅 301。nginx 根 /var/www/mokakit；80 配置 `/etc/nginx/conf.d/mokakit.conf`，SSL 在体外 `/etc/nginx/mokakit-ssl.conf`（放 conf.d 内会 443 冲突吞 www 块）。⚠️ `server-setup.sh --live` 会拆 HTTPS，之后需补 `--enable-ssl`。
 - 腾讯云轻量 58.87.68.151（Ubuntu 24.04）：`deploy/deploy.sh`（build+上传）、`deploy/nightly-2026-09-11-deploy.sh`（站点+MCP 一键）。匿名计数服务 mokakit-counter（systemd 127.0.0.1:18800），nginx /api/ 反代。
 - DNS 在腾讯云 DNSPod 控制台管理（不是域名注册台）。
@@ -14,11 +15,14 @@
 - `SOCIAL`：GitHub 由 github.owner/repo 拼出、邮箱取 `SITE.email`（bo.zhao2026@outlook.com），供 `src/components/SocialLinks.astro`（Header 右侧 + 页脚 + 移动菜单）共用。
 - 出站第三方链接一律 `goUrl()` → `/go/?url=`；站内 / mailto / tel / 政府备案不中转；gen-sitemap 排除 /go/。
 - ⚠️ `SITE.description` 里的**工具总数是硬编码的**（site.ts 会被客户端打包，没法动态 import registry 数数）。每批新工具上线要同步改这里，2026-09-23 为 240。
-- icons.ts 是 Lucide path 字典（106 个真实图标 + 43 条语义别名），键名即图标名（camelCase 为主，部分带引号如 'shield-check'）。`resolveIcon()` 先查真图标再查别名，都没有才回落 grid。⚠️ 新增工具后跑 `npm run check:icons` 验证图标可解析（缺图标不报错、只静默退化成方块）。
+- icons.ts 是 Lucide path 字典（**141 个真实图标**，camelCase 为主，部分带引号如 'shield-check'）。`resolveIcon()` 先查真图标、再查 `ICON_ALIASES`、都没有才回落 grid。⚠️ 新增工具后跑 `npm run check:icons`。
+  - `ICON_ALIASES` 现在**刻意留空**：历史上 43 条别名已于 2026-09-23 全部消化（35 个补真实 path，5 个改引用方，3 个是 Lucide 根本不存在的名字 `function`/`factor`/`cash`）。**正确做法永远是给 ICONS 补真实 path 或改引用方**，不是让工具长期显示「差不多意思」的另一个图形。补 path 的权威数据源：`https://unpkg.com/lucide-static@1.47.0/icons/<name>.svg`（本地 node_modules 没有 lucide 包）。
+- 🔴 **判定新工具是否真上线，不能只看页面文件在不在**：必须 `grep -c astro-island dist/tools/<id>/index.html`（≥1 才行）。页面存在 ≠ 功能可用。
 
 ## 规模（截至 2026-09-23）
 - **240 工具 / 11 分类**（09-23 新增 11 个：秒表、番茄钟、盈亏平衡、ROI、身份证校验、银行卡校验、CIDR、矩阵、SEO 标签生成、字节换算、存钱计划）；dist **588 页**。好站导航 44 组 / 791 条；单位换算 16 类 161 单位。进度看板 `npm run workbench`。
 - 构建链路：`npm run build` = astro build → `scripts/optimize-sprite.mjs`（产物级雪碧图瘦身，省 16.6MB）→ `scripts/gen-sitemap.mjs`。另有 `npm run seo:audit`（问题页面已清零）。
+- **上线前三件套校验**：`npm run check:all` = check:widgets（水合注册）+ check:icons（图标可解析）+ changelog:check（新工具已登记）。批量加工具后必跑。
 - 图片类工具共用 `src/tools/_shared/`：`image-utils.ts` / `use-image.ts` / `ImageDropzone.tsx`。
 - 更新日志频道 `src/data/changelog.ts`：工具条目只写 id，其余构建时从 registry 取；**新增工具后必须补 id**，否则 `npm run changelog:check` 红灯。
 
@@ -48,7 +52,9 @@
 ## 待办（2026-09-18 盘点更新）
 - ✅ GSC：DNS TXT `google-site-verification=Jdq425qhDTUKyXMl00HefI7AYGuyQX2Ce821cTkMtcg` **已于 09-18 生效**（nslookup 可查），BingSiteAuth.xml 也在 public/。**剩最后一步：去 GSC 后台提交 sitemap-index.xml**（需人工登录，agent 做不了）。
 - 好站数据质量：790 条里 **22 条描述被截断**（如 "Standard Guitar是一个专业"）、**8 组重复 URL**（redis.io/grafana.com/yuque 等）、**17 条明文 http://**、**43 条名称带 " - " 长尾**（SEO 噪音）。
-- 仓库卫生：根目录 16 个 `_astro_bak_*` / `dist_bak_*` 残留共 **282M**，55 个 `_*.log` + 14 个临时脚本。⚠️ 本机 safe-delete 拦截 `rm`，需旺财手动删或用 PowerShell 移到回收站。
+- ✅ 仓库卫生已于 2026-09-23 清理完毕（296M：8 个 `dist_bak_*` + 9 个 `_astro_bak_*` + 76 个 `_*.log` 全删），并补 .gitignore 规则防再生。
+  - 🔴 **重要认知修正**："`rm` 被 safe-delete 拦截"**只在个人目录**（Desktop/Downloads/Documents）成立；**工作区 `D:\WorkBuddy\website` 里 `rm` / `rm -rf` 完全可用**，删项目自己的临时产物不用麻烦旺财。
+  - 但 `git add -A` 会卷进垃圾：曾误把 `_chrome_prof/`（177 个 Chrome 缓存文件）和 `tmp/` 加进版本库，靠 `git rm -r --cached` 补救。**批量提交前先扫一眼非源码目录**。
 - MCP Token 申请仍是人工 mailto 审批，未自动化；摩卡配色打磨（暂缓）。
 - 分类失衡：`calc` 80 个、`dev` 53 个工具，而 `barcode` 仅 3 个。
 - tips 15 篇中 3 篇仍是 `draft: true`（默认 draft，需显式 false 才进 dist）。
