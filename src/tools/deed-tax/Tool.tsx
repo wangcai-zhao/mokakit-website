@@ -1,5 +1,6 @@
 import { useState, useMemo, useRef } from 'preact/hooks';
 import { copyText } from '@/tools/_shared/copy';
+import { calcDeedTax, type DeedTaxTier } from '@/lib/china-calc-extra';
 
 /** 千分位金额，保留两位小数 */
 function money(n: number): string {
@@ -10,22 +11,17 @@ function money(n: number): string {
   return `${sign}${digits.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}.${dec}`;
 }
 
-type Tier = 'first' | 'second' | 'third';
-
 /**
- * 契税优惠面积分界线：2024-12-01 起为 140㎡（财政部/税务总局/住建部 2024 年第 16 号公告）。
- * ⚠️ 与 src/lib/china-calc-extra.ts 的 DEED_TAX_SMALL_AREA 是同一条政策口径，改一处必须同步另一处。
+ * 契税税率与计税依据统一复用 src/lib/china-calc-extra.ts 的 calcDeedTax，
+ * 与 MCP Server 共用同一份实现 —— 不再在组件里另写一份。
+ *
+ * 背景（2026-09-23 真实事故）：面积分界线曾同时在库与组件各硬编码一份 90㎡，
+ * 而 2024-12-01 起政策口径已改为 140㎡（财政部/税务总局/住建部 2024 年第 16 号公告），
+ * 只改库等于没改，线上按 2% 多算了税（200 万房子差 2 万元）。
+ * 从此只有库里一个数字，前端与 MCP 不可能再漂移。
  */
-const SMALL_AREA = 140;
 
-function rateFor(tier: Tier, area: number): number {
-  const small = area <= SMALL_AREA;
-  if (tier === 'first') return small ? 0.01 : 0.015;
-  if (tier === 'second') return small ? 0.01 : 0.02;
-  return 0.03;
-}
-
-const TIER_LABEL: Record<Tier, string> = {
+const TIER_LABEL: Record<DeedTaxTier, string> = {
   first: '家庭唯一住房（首套）',
   second: '家庭第二套改善性住房',
   third: '第三套及以上',
@@ -34,7 +30,7 @@ const TIER_LABEL: Record<Tier, string> = {
 export default function DeedTax() {
   const [priceWan, setPriceWan] = useState('300');
   const [area, setArea] = useState('89');
-  const [tier, setTier] = useState<Tier>('first');
+  const [tier, setTier] = useState<DeedTaxTier>('first');
   const [inclusive, setInclusive] = useState(false);
   const [copied, setCopied] = useState<string | null>(null);
   const timer = useRef<number | undefined>(undefined);
@@ -53,11 +49,17 @@ export default function DeedTax() {
     if (!Number.isFinite(wan) || !Number.isFinite(a)) return { error: '请输入有效的价格与面积' };
     if (wan <= 0) return { error: '成交价格需大于 0' };
     if (a <= 0) return { error: '面积需大于 0' };
-    const totalPrice = wan * 10000;
-    const base = inclusive ? totalPrice / 1.05 : totalPrice;
-    const rate = rateFor(tier, a);
-    const tax = base * rate;
-    return { totalPrice, base, rate, tax, a, tier };
+    const r = calcDeedTax({ priceWan: wan, area: a, tier, vatInclusive: inclusive });
+    if ('error' in r) return { error: r.error };
+    // 库里叫 taxableBase，组件内部沿用 base，这里做一次字段名对齐
+    return {
+      totalPrice: r.totalPrice,
+      base: r.taxableBase,
+      rate: r.rate,
+      tax: r.tax,
+      a: r.area,
+      tier: r.tier,
+    };
   }, [priceWan, area, tier, inclusive]);
 
   const summary =
@@ -100,7 +102,7 @@ export default function DeedTax() {
             <select
               class="select select-bordered select-sm mt-1.5 w-full"
               value={tier}
-              onChange={(e) => setTier((e.target as HTMLSelectElement).value as Tier)}
+              onChange={(e) => setTier((e.target as HTMLSelectElement).value as DeedTaxTier)}
             >
               <option value="first">家庭唯一住房（首套）</option>
               <option value="second">家庭第二套改善性住房</option>

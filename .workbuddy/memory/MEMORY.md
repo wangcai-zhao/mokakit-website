@@ -18,6 +18,14 @@
 - icons.ts 是 Lucide path 字典（**141 个真实图标**，camelCase 为主，部分带引号如 'shield-check'）。`resolveIcon()` 先查真图标、再查 `ICON_ALIASES`、都没有才回落 grid。⚠️ 新增工具后跑 `npm run check:icons`。
   - `ICON_ALIASES` 现在**刻意留空**：历史上 43 条别名已于 2026-09-23 全部消化（35 个补真实 path，5 个改引用方，3 个是 Lucide 根本不存在的名字 `function`/`factor`/`cash`）。**正确做法永远是给 ICONS 补真实 path 或改引用方**，不是让工具长期显示「差不多意思」的另一个图形。补 path 的权威数据源：`https://unpkg.com/lucide-static@1.47.0/icons/<name>.svg`（本地 node_modules 没有 lucide 包）。
 - 🔴 **判定新工具是否真上线，不能只看页面文件在不在**：必须 `grep -c astro-island dist/tools/<id>/index.html`（≥1 才行）。页面存在 ≠ 功能可用。
+- 🔴 **财金算法禁止在工具组件里另写一份（2026-09-23 契税事故根因，2026-09-28 开始治理）**：
+  `src/lib/`（china-tax / china-social-security / china-vat / china-calc-extra / mortgage）是纯函数层，**MCP 与前端必须共用同一份**。
+  历史上 6 个工具各自内联了算法（deed-tax、after-tax-salary、overtime-pay、deposit-interest、retirement-age、pension-estimate），
+  MCP 用库、前端用组件 → 改一处漏一处，曾长期按已废止的 90㎡ 计税（二套 200 万差 2 万元）。
+  ✅ deed-tax 已于 2026-09-28 改为 `import { calcDeedTax, type DeedTaxTier } from '@/lib/china-calc-extra'`，并配
+  `scripts/test-deed-tax.mjs` 回归（跑法：`node --experimental-strip-types --no-warnings --import ./scripts/ts-resolve.mjs scripts/test-deed-tax.mjs`）。
+  ⏳ 其余 5 个同类待治理，改前先逐个数学校验。
+- ⚠️ **隐私页文案必须与 `site.ts` 的实际配置对齐**：广告/统计开关一旦开启，`src/pages/privacy.astro` 里「不加载第三方广告或统计」这类文案就失真（2026-09-28 修正）。同理，新增会联网的工具（如 weather 请求 Open-Meteo）要同步写进隐私页的「需要联网的少数工具」段。
 
 ## 规模（截至 2026-09-23）
 - **240 工具 / 11 分类**（09-23 新增 11 个：秒表、番茄钟、盈亏平衡、ROI、身份证校验、银行卡校验、CIDR、矩阵、SEO 标签生成、字节换算、存钱计划）；dist **588 页**。好站导航 44 组 / 791 条；单位换算 16 类 161 单位。进度看板 `npm run workbench`。
@@ -58,9 +66,15 @@
 - MCP Token 申请仍是人工 mailto 审批，未自动化；摩卡配色打磨（暂缓）。
 - 分类失衡：`calc` 80 个、`dev` 53 个工具，而 `barcode` 仅 3 个。
 - tips 15 篇中 3 篇仍是 `draft: true`（默认 draft，需显式 false 才进 dist）。
+- ⏳ **2026-09-28 系统性检查遗留（等旺财决策，勿擅自改）**：
+  ① 上述 5 个工具算法去重；② `markdown-preview/Tool.tsx:55` `dangerouslySetInnerHTML` 无消毒（粘贴第三方 markdown 可执行 onerror，方案 A 引 dompurify / B 自研过滤 / C 接受）；
+  ③ changelog 页 465KB、tools 索引页 412KB 全量渲染（折叠 vs 分页）；
+  ④ **286M 临时产物又被 git 跟踪**（26 个文件：`_cprof`/`_eprof`/`dist_partial_*`/`dist_py_moved`/`_reports`/`outputs`/`generated-images`），待确认清理范围；
+  ⑤ `site.ts` 教师普惠活动开关注释标 09-30 到期，需确认是否延期。
 
-- ⚠️ **契税面积分档是 140㎡**（2024-12-01 起，财政部/税务总局/住建部 2024 年第 16 号公告），老口径 90㎡ 已废止。
-  算法**在 `src/lib/china-calc-extra.ts` 和 `src/tools/deed-tax/Tool.tsx` 各硬编码了一份**，改一处不算修完。
+- ✅ **契税面积分档是 140㎡**（2024-12-01 起，财政部/税务总局/住建部 2024 年第 16 号公告），老口径 90㎡ 已废止。
+  2026-09-28 已消除双份：前端改为复用 `calcDeedTax`，全站只剩库里一个数字，并配 `scripts/test-deed-tax.mjs` 守着。
+  ⏳ 同类未治理：after-tax-salary / overtime-pay / deposit-interest / retirement-age / pension-estimate 仍各自内联算法。
 - ⚠️ **后台跑长命令禁止用 `| tail` / `| head`**：head 读完提前关闭管道会让后台任务永久挂起
   （实测 build 早已完成、任务卡 14 分钟无输出，误判成卡死）。一律改成 `> _xxx.log 2>&1` 再读文件。
 - ⚠️ **正则灾难性回溯**：`(?:"[^"]*"|'[^']*'|[^>])*?` 这类嵌套量词在 5KB 文本上能跑 60 秒+。
@@ -69,6 +83,9 @@
   `git log --pretty=format:__TS__%cs --name-only` 建表。
 - ⚠️ 同一份业务逻辑散在两处会同时翻车：计数脚本曾在两个布局逐字复制（各错各的），
   已抽成 `src/components/CounterScript.astro` 共用；新增类似逻辑先想复用。
+- ⚠️ **静态扫描别急着下 P0 结论**：写 meta/mdx 校验脚本时，行内代码反引号里的 `` `1.0.0-rc.1` < `1.0.0` ``、
+  以及 MDX 里合法的 Astro 组件 `<InviteCta />`，都会被「裸 `<`」正则误判成 JSX 红线。
+  **构建通过才是最权威的判据**，报出告警后必须人工抽查上下文再定性（2026-09-28 一次误报 11 条）。
 
 ## 环境与坑（可复用）
 - ⚠️ **同一文件的多条 Edit 必须顺序执行**：并行 Edit 会竞争写盘互相覆盖（每条都报成功），已多次踩坑，连注释行都被吞过。
