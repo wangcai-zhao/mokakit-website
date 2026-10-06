@@ -243,3 +243,164 @@ export const CHINA_TAX_META = {
   basicDeductionAnnual: BASIC_DEDUCTION_ANNUAL,
   note: '口径截至 2026 年：综合所得基本减除 6 万/年；全年一次性奖金单独计税政策延续至 2027-12-31。本工具为估算参考，实际以税务机关汇算为准。',
 };
+
+// ═══════════════════════════════════════════════════════════════════════════
+// 劳务报酬 / 稿酬 / 特许权使用费：支付方「预扣预缴」个税
+// ═══════════════════════════════════════════════════════════════════════════
+
+/** 非工资薪金所得的三种类型（与综合所得年度汇算的四项一一对应除工资薪金外） */
+export type NonWageIncomeKind =
+  /** 劳务报酬：兼职、咨询、设计、讲学等 */
+  | 'labor'
+  /** 稿酬：图书/报刊出版、发表作品取得的所得 */
+  | 'royalty'
+  /** 特许权使用费：提供专利权、商标权、著作权等使用权取得的所得 */
+  | 'franchise';
+
+/** 劳务报酬预扣率表（按「应纳税所得额」定档） */
+export const LABOR_WITHHOLD_BRACKETS: TaxBracket[] = [
+  { threshold: 0, rate: 0.2, quickDeduction: 0 },
+  { threshold: 20000, rate: 0.3, quickDeduction: 2000 },
+  { threshold: 50000, rate: 0.4, quickDeduction: 7000 },
+];
+
+/** 收入 ≤ 此数时按定额 800 元减除费用，超过则按 20% 比例减除（个人所得税法实施条例） */
+export const NON_WAGE_EXPENSE_THRESHOLD = 4000;
+
+/** 收入 ≤ 4000 元时的定额减除费用（元） */
+export const NON_WAGE_FLAT_EXPENSE = 800;
+
+/** 收入 > 4000 元时的比例减除费用（小数） */
+export const NON_WAGE_RATIO_EXPENSE = 0.2;
+
+/** 稿酬所得减征比例：收入额按 70% 计算（即减征 30%） */
+export const ROYALTY_INCOME_RATIO = 0.7;
+
+export interface NonWageIncomeTaxResult {
+  kind: NonWageIncomeKind;
+  /** 原始收入（元） */
+  income: number;
+  /** 减除费用（元） */
+  expense: number;
+  /** 收入额：劳务/特许权 = 收入 − 费用；稿酬 =(收入 − 费用)×70% */
+  incomeAmount: number;
+  /** 应纳税所得额（元） */
+  taxable: number;
+  /** 预扣率（小数） */
+  rate: number;
+  /** 速算扣除数（元） */
+  quickDeduction: number;
+  /** 预扣预缴税额（元） */
+  tax: number;
+  /** 扣税后到手（元） */
+  net: number;
+  /** 实际税负（小数） */
+  effectiveRate: number;
+  /** 口径说明 */
+  note: string;
+}
+
+/**
+ * 劳务报酬 / 稿酬 / 特许权使用费的**预扣预缴**个人所得税。
+ *
+ * 算法（国家税务总局公告 2018 年第 61 号《个人所得税扣缴申报管理办法》）：
+ *   1. 减除费用：收入 ≤ 4000 元减除 800 元；> 4000 元减除 20%
+ *   2. 稿酬特殊优惠：收入额 =(收入 − 费用)× 70%（减征 30%）
+ *   3. 劳务报酬按三级预扣率（20% / 30% / 40%，速算扣除 0 / 2000 / 7000）计税；
+ *      稿酬与特许权使用费一律按 20% 计税
+ *
+ * ⚠️ 这是**支付方代扣代缴**环节的税额，不是最终税负：次年 3–6 月年度汇算时，
+ * 这三项会与工资薪金合并为综合所得重新计税，多退少补。
+ *
+ * @param params.income 单笔收入（元）。劳务报酬以「一次」为单位，属同一项目连续性收入的以一个月内取得的收入为一次
+ * @param params.kind   所得类型，默认 'labor'
+ * @returns 成功返回 NonWageIncomeTaxResult；入参非法时返回 `{ error: 中文提示 }`
+ * @throws 不抛异常，与本站 calc* 系列一致，失败统一走 `{ error }`
+ *
+ * 边界输入行为：
+ *   - income 缺失 / null / undefined / NaN / 非有限数 → `{ error: '收入需为有效数字' }`
+ *   - income ≤ 0 → `{ error: '收入需大于 0' }`
+ *   - income 为字符串数字（MCP 常见）→ 内部用 Number() 转型，转不出来则按上面报错
+ *   - kind 不传 → 按 'labor'；传了未知值 → 同样按 'labor' 处理，不静默套用稿酬优惠
+ *   - 收入极低（如 100 元）→ 减除 800 后应纳税所得额为负，税额取 0、到手等于收入
+ *
+ * @example
+ * // 接私活收到 1 万元劳务费：减除 20%（2000）→ 8000 × 20% = 1600
+ * calcLaborIncomeTax({ income: 10000 })
+ * // → { expense: 2000, taxable: 8000, rate: 0.2, tax: 1600, net: 8400 }
+ *
+ * @example
+ * // 稿费 5000 元：(5000 − 1000) × 70% = 2800 → 2800 × 20% = 560
+ * calcLaborIncomeTax({ income: 5000, kind: 'royalty' })
+ * // → { expense: 1000, incomeAmount: 2800, tax: 560, net: 4440 }
+ *
+ * @example
+ * // 大额劳务 60000 元：减除 20% → 48000，适用 30% 速算 2000 → 12400
+ * calcLaborIncomeTax({ income: 60000 })
+ * // → { taxable: 48000, rate: 0.3, quickDeduction: 2000, tax: 12400, net: 47600 }
+ */
+export function calcLaborIncomeTax(params: {
+  income: number;
+  kind?: NonWageIncomeKind;
+}): NonWageIncomeTaxResult | { error: string } {
+  const raw = params?.income as unknown;
+  const income = typeof raw === 'number' ? raw : Number(raw);
+  if (!Number.isFinite(income)) return { error: '收入需为有效数字' };
+  if (income <= 0) return { error: '收入需大于 0' };
+
+  const kind: NonWageIncomeKind =
+    params.kind === 'royalty' || params.kind === 'franchise' ? params.kind : 'labor';
+
+  // 1. 减除费用：≤4000 定额 800，>4000 按 20%
+  const expense = money2(
+    income <= NON_WAGE_EXPENSE_THRESHOLD
+      ? new Decimal(Math.min(NON_WAGE_FLAT_EXPENSE, income))
+      : new Decimal(income).times(NON_WAGE_RATIO_EXPENSE)
+  );
+
+  // 2. 收入额：稿酬再减按 70% 计算
+  const incomeAmount = money2(
+    kind === 'royalty'
+      ? new Decimal(income).minus(expense).times(ROYALTY_INCOME_RATIO)
+      : new Decimal(income).minus(expense)
+  );
+
+  // 3. 预扣：劳务报酬走三级预扣率表，稿酬与特许权使用费一律 20%
+  const taxable = Math.max(0, incomeAmount);
+  const rate = kind === 'labor' ? bracketFor(taxable, LABOR_WITHHOLD_BRACKETS).rate : 0.2;
+  const quickDeduction = kind === 'labor' ? bracketFor(taxable, LABOR_WITHHOLD_BRACKETS).quickDeduction : 0;
+  const tax = Math.max(
+    0,
+    money2(new Decimal(taxable).times(rate).minus(quickDeduction))
+  );
+  const net = money2(new Decimal(income).minus(tax));
+  const effectiveRate = income > 0 ? new Decimal(tax).div(income).toNumber() : 0;
+
+  const kindLabel =
+    kind === 'labor' ? '劳务报酬' : kind === 'royalty' ? '稿酬' : '特许权使用费';
+  const note =
+    `${kindLabel}预扣预缴：${income <= NON_WAGE_EXPENSE_THRESHOLD ? '收入 ≤ 4000 元，定额减除 800 元' : '收入 > 4000 元，按 20% 减除费用'}` +
+    (kind === 'royalty' ? '；稿酬收入额再减按 70% 计算（减征 30%）' : '') +
+    `；适用预扣率 ${(rate * 100).toFixed(0)}%` +
+    (quickDeduction ? `（速算扣除 ${quickDeduction} 元）` : '') +
+    '。年度汇算时并入综合所得重新计税，多退少补。';
+
+  return {
+    kind,
+    income: money2(income),
+    expense,
+    incomeAmount,
+    taxable,
+    rate,
+    quickDeduction,
+    tax,
+    net,
+    effectiveRate,
+    note,
+  };
+}
+
+/** 金额四舍五入到分，供本节函数内部使用 */
+function money2(n: Decimal.Value): number {
+  return new Decimal(n).toDecimalPlaces(2, Decimal.ROUND_HALF_UP).toNumber();
+}

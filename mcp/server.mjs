@@ -26,7 +26,12 @@ import { loadAllMeta } from './meta-loader.mjs';
 // deploy/mcp/server.mjs（target=node18），服务器无需 TS 运行时、无需 src/ 源码。
 // 6 个中国本土计算器（退休年龄/税后工资/存款利息/契税/加班工资/养老金）的纯函数
 // 统一在 china-calc-extra.ts，与 Tool.tsx 同源、零浏览器 API。
-import { calcIncomeTaxAnnual, calcBonusTaxSeparate, compareBonus } from '../src/lib/china-tax.ts';
+import {
+  calcIncomeTaxAnnual,
+  calcBonusTaxSeparate,
+  compareBonus,
+  calcLaborIncomeTax,
+} from '../src/lib/china-tax.ts';
 import { calcSocialSecurity } from '../src/lib/china-social-security.ts';
 import { calcGeneralVat, calcSimpleVat } from '../src/lib/china-vat.ts';
 import { buildSchedule, calcEarlyRepayment } from '../src/lib/mortgage.ts';
@@ -37,7 +42,10 @@ import {
   calcDeedTax,
   calcOvertimePay,
   calcPensionEstimate,
+  calcVehiclePurchaseTax,
+  calcSecondHandHouseTax,
 } from '../src/lib/china-calc-extra.ts';
+import { calcShippingFee, calcTransferTime } from '../src/lib/misc-calc.ts';
 
 const PORT = Number(process.env.MCP_PORT || 18700);
 const SERVER_NAME = 'mokakit-mcp';
@@ -77,6 +85,11 @@ const CONCRETE_BY_ID = {
   'deed-tax': 'deed_tax_cn',
   'overtime-pay': 'overtime_pay_cn',
   'pension-estimate': 'pension_estimate_cn',
+  'vehicle-purchase-tax': 'vehicle_purchase_tax_cn',
+  'labor-income-tax': 'labor_income_tax_cn',
+  'second-hand-house-tax': 'second_hand_house_tax_cn',
+  'shipping-fee-calculator': 'shipping_fee_calc',
+  'download-time-calculator': 'transfer_time_calc',
 };
 
 function desc(id, fallback) {
@@ -442,6 +455,143 @@ const COMPUTE_TOOLS = [
         index: num(a.index),
         years: num(a.years),
         personalBalance: num(a.personalBalance),
+      }),
+  },
+  {
+    name: 'vehicle_purchase_tax_cn',
+    description: desc(
+      'vehicle-purchase-tax',
+      '车辆购置税计算器。输入机动车销售统一发票的价税合计（或不含税价）、动力类型与购置日期，按 10% 税率测算应缴购置税，并自动适用新能源汽车减免窗口（2024–2025 免征上限 3 万，2026–2027 减半上限 1.5 万）。'
+    ),
+    inputSchema: {
+      type: 'object',
+      properties: {
+        invoiceTotal: { type: 'number', description: '发票价税合计（元），与 taxExclusivePrice 二选一' },
+        taxExclusivePrice: { type: 'number', description: '不含增值税的购车款（元），给了就不再做 ÷1.13 还原' },
+        powerType: { type: 'string', enum: ['fuel', 'nev'], description: 'fuel=燃油车，nev=新能源汽车（可享减免）', default: 'fuel' },
+        purchaseDate: { type: 'string', description: '购置日期 YYYY-MM-DD（以发票开具日期为准），省略时按现行窗口处理' },
+      },
+    },
+    handler: (a) =>
+      calcVehiclePurchaseTax({
+        invoiceTotal: a.invoiceTotal != null ? num(a.invoiceTotal) : undefined,
+        taxExclusivePrice: a.taxExclusivePrice != null ? num(a.taxExclusivePrice) : undefined,
+        powerType: a.powerType === 'nev' ? 'nev' : 'fuel',
+        purchaseDate: typeof a.purchaseDate === 'string' ? a.purchaseDate : undefined,
+      }),
+  },
+  {
+    name: 'labor_income_tax_cn',
+    description: desc(
+      'labor-income-tax',
+      '劳务报酬/稿酬/特许权使用费单笔个税预扣计算器。输入单笔收入与所得类型，按 800 元或 20% 减除费用后适用 20%/30%/40% 三级预扣率（稿酬再减征 30%）计算应预扣税额与到手金额。'
+    ),
+    inputSchema: {
+      type: 'object',
+      properties: {
+        income: { type: 'number', description: '单笔收入金额（元）' },
+        kind: { type: 'string', enum: ['labor', 'royalty', 'franchise'], description: 'labor=劳务报酬，royalty=稿酬，franchise=特许权使用费', default: 'labor' },
+      },
+      required: ['income'],
+    },
+    handler: (a) =>
+      calcLaborIncomeTax({
+        income: num(a.income),
+        kind: ['royalty', 'franchise'].includes(a.kind) ? a.kind : 'labor',
+      }),
+  },
+  {
+    name: 'second_hand_house_tax_cn',
+    description: desc(
+      'second-hand-house-tax',
+      '二手房交易卖方税费计算器。输入含税成交价、是否满两年、是否满五唯一及能否提供房屋原值凭证，测算增值税及附加（满 2 年免征，未满 2 年按 3% 征收率）、个人所得税（满五唯一免征，否则 20% 差额或 1% 核定）与卖方税后到手金额。'
+    ),
+    inputSchema: {
+      type: 'object',
+      properties: {
+        salePriceInclusive: { type: 'number', description: '含税成交价（元）' },
+        originalPrice: { type: 'number', description: '原购房发票金额（元），仅 hasOriginalProof=true 时参与计算', default: 0 },
+        reasonableCosts: { type: 'number', description: '合理费用合计（元）：原契税、装修费、中介费等', default: 0 },
+        heldOver2Years: { type: 'boolean', description: '是否持有满 2 年（含），满 2 年免征增值税', default: false },
+        onlyHomeOver5Years: { type: 'boolean', description: '是否满五唯一（家庭唯一住房且满 5 年），免征个人所得税', default: false },
+        hasOriginalProof: { type: 'boolean', description: '能否提供房屋原值凭证，true 按 20% 差额、false 按 1% 核定', default: false },
+        cityTaxRatePct: { type: 'number', description: '城建税税率档：市区 7 / 县城与镇 5 / 其他 1', default: 7 },
+      },
+      required: ['salePriceInclusive'],
+    },
+    handler: (a) =>
+      calcSecondHandHouseTax({
+        salePriceInclusive: num(a.salePriceInclusive),
+        originalPrice: num(a.originalPrice, 0),
+        reasonableCosts: num(a.reasonableCosts, 0),
+        heldOver2Years: a.heldOver2Years === true,
+        onlyHomeOver5Years: a.onlyHomeOver5Years === true,
+        hasOriginalProof: a.hasOriginalProof === true,
+        cityTaxRatePct: num(a.cityTaxRatePct, 7),
+      }),
+  },
+  {
+    name: 'shipping_fee_calc',
+    description: desc(
+      'shipping-fee-calculator',
+      '快递运费估算。输入实际重量与首重/续重单价，按进位规则折算计费重量，叠加偏远地区附加费、保价费与优惠折扣，输出运费明细。'
+    ),
+    inputSchema: {
+      type: 'object',
+      properties: {
+        weightKg: { type: 'number', description: '实际重量（kg）' },
+        firstWeightKg: { type: 'number', description: '首重重量（kg）', default: 1 },
+        firstPrice: { type: 'number', description: '首重价格（元）', default: 0 },
+        additionalPricePerKg: { type: 'number', description: '续重单价（元/kg）', default: 0 },
+        rounding: { type: 'string', enum: ['up-0.5', 'up-1', 'actual'], description: '计费重量进位规则', default: 'up-1' },
+        remoteSurcharge: { type: 'number', description: '偏远地区附加费（元）', default: 0 },
+        insuredValue: { type: 'number', description: '保价声明价值（元）', default: 0 },
+        insuredRatePct: { type: 'number', description: '保价费率（%）', default: 0 },
+        discount: { type: 'number', description: '优惠减免金额（元）', default: 0 },
+      },
+      required: ['weightKg'],
+    },
+    handler: (a) =>
+      calcShippingFee({
+        weightKg: num(a.weightKg),
+        firstWeightKg: num(a.firstWeightKg, 1),
+        firstPrice: num(a.firstPrice, 0),
+        additionalPricePerKg: num(a.additionalPricePerKg, 0),
+        rounding: ['up-0.5', 'actual'].includes(a.rounding) ? a.rounding : 'up-1',
+        remoteSurcharge: num(a.remoteSurcharge, 0),
+        insuredValue: num(a.insuredValue, 0),
+        insuredRatePct: num(a.insuredRatePct, 0),
+        discount: num(a.discount, 0),
+      }),
+  },
+  {
+    name: 'transfer_time_calc',
+    description: desc(
+      'download-time-calculator',
+      '下载/上传时间估算。输入文件大小与带宽，可选协议开销百分比与带宽利用率，折算有效带宽后输出耗时（人类可读）与平均传输速率。'
+    ),
+    inputSchema: {
+      type: 'object',
+      properties: {
+        size: { type: 'number', description: '文件大小数值' },
+        unit: { type: 'string', enum: ['B', 'KB', 'MB', 'GB', 'TB', 'KiB', 'MiB', 'GiB', 'TiB'], description: '文件大小单位', default: 'MB' },
+        bandwidthMbps: { type: 'number', description: '标称带宽（Mbps）' },
+        overheadPct: { type: 'number', description: '协议开销百分比（0–99），以太网约 5、Wi-Fi 约 8', default: 0 },
+        utilizationPct: { type: 'number', description: '带宽利用率百分比（1–100），实测达不到满速时填', default: 100 },
+      },
+      required: ['size', 'bandwidthMbps'],
+    },
+    handler: (a) =>
+      calcTransferTime({
+        size: num(a.size),
+        unit: [
+          'B', 'KB', 'MB', 'GB', 'TB', 'KiB', 'MiB', 'GiB', 'TiB',
+        ].includes(a.unit)
+          ? a.unit
+          : 'MB',
+        bandwidthMbps: num(a.bandwidthMbps),
+        overheadPct: num(a.overheadPct, 0),
+        utilizationPct: num(a.utilizationPct, 100),
       }),
   },
 ];

@@ -2343,6 +2343,55 @@ var CHINA_TAX_META = {
   basicDeductionAnnual: BASIC_DEDUCTION_ANNUAL,
   note: "\u53E3\u5F84\u622A\u81F3 2026 \u5E74\uFF1A\u7EFC\u5408\u6240\u5F97\u57FA\u672C\u51CF\u9664 6 \u4E07/\u5E74\uFF1B\u5168\u5E74\u4E00\u6B21\u6027\u5956\u91D1\u5355\u72EC\u8BA1\u7A0E\u653F\u7B56\u5EF6\u7EED\u81F3 2027-12-31\u3002\u672C\u5DE5\u5177\u4E3A\u4F30\u7B97\u53C2\u8003\uFF0C\u5B9E\u9645\u4EE5\u7A0E\u52A1\u673A\u5173\u6C47\u7B97\u4E3A\u51C6\u3002"
 };
+var LABOR_WITHHOLD_BRACKETS = [
+  { threshold: 0, rate: 0.2, quickDeduction: 0 },
+  { threshold: 2e4, rate: 0.3, quickDeduction: 2e3 },
+  { threshold: 5e4, rate: 0.4, quickDeduction: 7e3 }
+];
+var NON_WAGE_EXPENSE_THRESHOLD = 4e3;
+var NON_WAGE_FLAT_EXPENSE = 800;
+var NON_WAGE_RATIO_EXPENSE = 0.2;
+var ROYALTY_INCOME_RATIO = 0.7;
+function calcLaborIncomeTax(params) {
+  const raw = params?.income;
+  const income = typeof raw === "number" ? raw : Number(raw);
+  if (!Number.isFinite(income)) return { error: "\u6536\u5165\u9700\u4E3A\u6709\u6548\u6570\u5B57" };
+  if (income <= 0) return { error: "\u6536\u5165\u9700\u5927\u4E8E 0" };
+  const kind = params.kind === "royalty" || params.kind === "franchise" ? params.kind : "labor";
+  const expense = money2(
+    income <= NON_WAGE_EXPENSE_THRESHOLD ? new decimal_default(Math.min(NON_WAGE_FLAT_EXPENSE, income)) : new decimal_default(income).times(NON_WAGE_RATIO_EXPENSE)
+  );
+  const incomeAmount = money2(
+    kind === "royalty" ? new decimal_default(income).minus(expense).times(ROYALTY_INCOME_RATIO) : new decimal_default(income).minus(expense)
+  );
+  const taxable = Math.max(0, incomeAmount);
+  const rate = kind === "labor" ? bracketFor(taxable, LABOR_WITHHOLD_BRACKETS).rate : 0.2;
+  const quickDeduction = kind === "labor" ? bracketFor(taxable, LABOR_WITHHOLD_BRACKETS).quickDeduction : 0;
+  const tax = Math.max(
+    0,
+    money2(new decimal_default(taxable).times(rate).minus(quickDeduction))
+  );
+  const net = money2(new decimal_default(income).minus(tax));
+  const effectiveRate = income > 0 ? new decimal_default(tax).div(income).toNumber() : 0;
+  const kindLabel = kind === "labor" ? "\u52B3\u52A1\u62A5\u916C" : kind === "royalty" ? "\u7A3F\u916C" : "\u7279\u8BB8\u6743\u4F7F\u7528\u8D39";
+  const note = `${kindLabel}\u9884\u6263\u9884\u7F34\uFF1A${income <= NON_WAGE_EXPENSE_THRESHOLD ? "\u6536\u5165 \u2264 4000 \u5143\uFF0C\u5B9A\u989D\u51CF\u9664 800 \u5143" : "\u6536\u5165 > 4000 \u5143\uFF0C\u6309 20% \u51CF\u9664\u8D39\u7528"}` + (kind === "royalty" ? "\uFF1B\u7A3F\u916C\u6536\u5165\u989D\u518D\u51CF\u6309 70% \u8BA1\u7B97\uFF08\u51CF\u5F81 30%\uFF09" : "") + `\uFF1B\u9002\u7528\u9884\u6263\u7387 ${(rate * 100).toFixed(0)}%` + (quickDeduction ? `\uFF08\u901F\u7B97\u6263\u9664 ${quickDeduction} \u5143\uFF09` : "") + "\u3002\u5E74\u5EA6\u6C47\u7B97\u65F6\u5E76\u5165\u7EFC\u5408\u6240\u5F97\u91CD\u65B0\u8BA1\u7A0E\uFF0C\u591A\u9000\u5C11\u8865\u3002";
+  return {
+    kind,
+    income: money2(income),
+    expense,
+    incomeAmount,
+    taxable,
+    rate,
+    quickDeduction,
+    tax,
+    net,
+    effectiveRate,
+    note
+  };
+}
+function money2(n) {
+  return new decimal_default(n).toDecimalPlaces(2, decimal_default.ROUND_HALF_UP).toNumber();
+}
 
 // src/lib/china-social-security.ts
 var DEFAULT_SS_RATES = {
@@ -2674,6 +2723,9 @@ function calcEarlyRepayment(i) {
 }
 
 // src/lib/china-calc-extra.ts
+function money22(n) {
+  return new decimal_default(n).toDecimalPlaces(2, decimal_default.ROUND_HALF_UP).toNumber();
+}
 var RETIREMENT_RULES = {
   male: { baseAge: 60, targetAge: 63, baselineY: 1965, baselineM: 1, stepMonths: 4 },
   "female-cadre": { baseAge: 55, targetAge: 58, baselineY: 1970, baselineM: 1, stepMonths: 4 },
@@ -2870,6 +2922,245 @@ function calcPensionEstimate(params) {
     replacementRate: replacement
   };
 }
+var VEHICLE_TAX_RATE = 0.1;
+var VEHICLE_VAT_RATE = 13;
+var NEV_RELIEF_WINDOWS = [
+  { from: "2024-01-01", to: "2025-12-31", mode: "full", cap: 3e4 },
+  { from: "2026-01-01", to: "2027-12-31", mode: "half", cap: 15e3 }
+];
+function calcVehiclePurchaseTax(params) {
+  const powerType = params.powerType === "nev" ? "nev" : "fuel";
+  const rawExclusive = params.taxExclusivePrice;
+  const rawTotal = params.invoiceTotal;
+  const hasExclusive = typeof rawExclusive === "number" && Number.isFinite(rawExclusive);
+  const hasTotal = typeof rawTotal === "number" && Number.isFinite(rawTotal);
+  if (!hasExclusive && !hasTotal) return { error: "\u8BF7\u586B\u5199\u8D2D\u8F66\u53D1\u7968\u4EF7\u7A0E\u5408\u8BA1\u6216\u4E0D\u542B\u7A0E\u4EF7" };
+  const vatIncluded = !hasExclusive;
+  const taxablePrice = money22(
+    hasExclusive ? new decimal_default(rawExclusive) : new decimal_default(rawTotal).div(new decimal_default(VEHICLE_VAT_RATE).div(100).plus(1))
+  );
+  if (!(taxablePrice > 0)) return { error: "\u8D2D\u8F66\u4EF7\u683C\u9700\u4E3A\u5927\u4E8E 0 \u7684\u6570\u5B57" };
+  const fullTax = money22(new decimal_default(taxablePrice).times(VEHICLE_TAX_RATE));
+  let reliefMode = "none";
+  let reliefCap = 0;
+  let relief = 0;
+  let note = "\u8F66\u8F86\u8D2D\u7F6E\u7A0E = \u4E0D\u542B\u589E\u503C\u7A0E\u7684\u8BA1\u7A0E\u4EF7\u683C \xD7 10%\uFF0C\u4F9D\u636E\u300A\u8F66\u8F86\u8D2D\u7F6E\u7A0E\u6CD5\u300B\u3002";
+  if (powerType === "nev") {
+    const date = typeof params.purchaseDate === "string" ? params.purchaseDate.trim() : "";
+    const dateOk = /^\d{4}-\d{2}-\d{2}$/.test(date);
+    let window;
+    if (dateOk) {
+      window = NEV_RELIEF_WINDOWS.find((w) => date >= w.from && date <= w.to);
+      if (!window) {
+        reliefMode = "unknown";
+        note = "\u8D2D\u7F6E\u65E5\u671F\u4E0D\u5728\u73B0\u884C\u65B0\u80FD\u6E90\u6C7D\u8F66\u51CF\u514D\u7A97\u53E3\u5185\uFF08\u73B0\u884C\u7A97\u53E3\u4E3A 2024-01-01 \u81F3 2027-12-31\uFF09\u3002\u6B64\u5904\u6309**\u5168\u989D 10%** \u4F30\u7B97\uFF0C\u5B9E\u9645\u662F\u5426\u4EAB\u53D7\u51CF\u514D\u8BF7\u4EE5\u8D2D\u8F66\u65F6\u4E3B\u7BA1\u7A0E\u52A1\u673A\u5173\u6838\u5B9A\u4E3A\u51C6\u3002";
+      }
+    } else {
+      window = NEV_RELIEF_WINDOWS[NEV_RELIEF_WINDOWS.length - 1];
+      note = "\u672A\u63D0\u4F9B\u6709\u6548\u8D2D\u7F6E\u65E5\u671F\uFF08\u9700 YYYY-MM-DD\uFF09\uFF0C\u5DF2\u6309**\u73B0\u884C\u51CF\u514D\u7A97\u53E3**\uFF082026-01-01 \u81F3 2027-12-31\uFF0C\u51CF\u534A\u3001\u6BCF\u8F86\u4E58\u7528\u8F66\u51CF\u7A0E\u4E0A\u9650 1.5 \u4E07\u5143\uFF09\u8BA1\u7B97\uFF1B\u8865\u4E0A\u53D1\u7968\u5F00\u5177\u65E5\u671F\u53EF\u5F97\u66F4\u51C6\u786E\u7ED3\u679C\u3002";
+    }
+    if (window) {
+      reliefMode = window.mode;
+      reliefCap = window.cap;
+      const raw = window.mode === "full" ? fullTax : new decimal_default(fullTax).div(2).toNumber();
+      relief = money22(decimal_default.min(new decimal_default(raw), new decimal_default(window.cap)));
+      note = window.mode === "full" ? `\u65B0\u80FD\u6E90\u514D\u5F81\u7A97\u53E3\uFF08${window.from} \u81F3 ${window.to}\uFF09\uFF1A\u514D\u5F81\u8F66\u8F86\u8D2D\u7F6E\u7A0E\uFF0C\u6BCF\u8F86\u65B0\u80FD\u6E90\u4E58\u7528\u8F66\u514D\u7A0E\u989D\u4E0D\u8D85\u8FC7 ${window.cap.toLocaleString("zh-CN")} \u5143\u3002` : `\u65B0\u80FD\u6E90\u51CF\u534A\u7A97\u53E3\uFF08${window.from} \u81F3 ${window.to}\uFF09\uFF1A\u51CF\u534A\u5F81\u6536\u8F66\u8F86\u8D2D\u7F6E\u7A0E\uFF0C\u6BCF\u8F86\u65B0\u80FD\u6E90\u4E58\u7528\u8F66\u51CF\u7A0E\u989D\u4E0D\u8D85\u8FC7 ${window.cap.toLocaleString("zh-CN")} \u5143\u3002`;
+    }
+  } else {
+    note = "\u71C3\u6CB9\u8F66\u65E0\u8F66\u8F86\u8D2D\u7F6E\u7A0E\u51CF\u514D\uFF0C\u6309\u8BA1\u7A0E\u4EF7\u683C \xD7 10% \u5F81\u6536\u3002\u8BA1\u7A0E\u4EF7\u683C\u5DF2\u5254\u9664 13% \u589E\u503C\u7A0E\uFF0C\u6545\u5B9E\u7F34\u4F4E\u4E8E\u8F66\u4EF7\u7684 10%\u3002";
+  }
+  const payable = money22(new decimal_default(fullTax).minus(relief));
+  return {
+    powerType,
+    purchaseDate: params.purchaseDate,
+    vatIncluded,
+    taxablePrice,
+    taxRate: VEHICLE_TAX_RATE,
+    fullTax,
+    reliefMode,
+    reliefCap,
+    relief,
+    payable: Math.max(0, payable),
+    note
+  };
+}
+var HOUSE_VAT_LEVY_RATE = 3;
+var HOUSE_SURCHARGE_EDU_RATE = 5;
+var HOUSE_PERSONAL_TAX_ASSESS_RATE = 1;
+var HOUSE_PERSONAL_TAX_DIFF_RATE = 20;
+function calcSecondHandHouseTax(params) {
+  const price = params?.salePriceInclusive;
+  if (typeof price !== "number" || !Number.isFinite(price) || price <= 0)
+    return { error: "\u6210\u4EA4\u4EF7\u9700\u4E3A\u5927\u4E8E 0 \u7684\u6570\u5B57" };
+  const original = params.originalPrice ?? 0;
+  const costs = params.reasonableCosts ?? 0;
+  if (original < 0 || costs < 0) return { error: "\u623F\u5C4B\u539F\u503C\u4E0E\u5408\u7406\u8D39\u7528\u4E0D\u80FD\u4E3A\u8D1F" };
+  const held2 = params.heldOver2Years === true;
+  const only5 = params.onlyHomeOver5Years === true;
+  const hasProof = params.hasOriginalProof === true;
+  const cityRate = params.cityTaxRatePct ?? 7;
+  const notes = [];
+  const vatRatePct = held2 ? 0 : HOUSE_VAT_LEVY_RATE;
+  const vatExclusivePrice = held2 ? money22(price) : money22(new decimal_default(price).div(new decimal_default(HOUSE_VAT_LEVY_RATE).div(100).plus(1)));
+  const vat = held2 ? 0 : money22(new decimal_default(vatExclusivePrice).times(HOUSE_VAT_LEVY_RATE).div(100));
+  notes.push(
+    held2 ? "\u6301\u6709\u6EE1 2 \u5E74\uFF08\u542B\uFF09\uFF1A\u514D\u5F81\u589E\u503C\u7A0E\uFF08\u8D22\u653F\u90E8 \u7A0E\u52A1\u603B\u5C40\u516C\u544A 2025 \u5E74\u7B2C 17 \u53F7\uFF0C2026-01-01 \u8D77\u4E0D\u5206\u666E\u901A/\u975E\u666E\u901A\u4F4F\u5B85\u3001\u65E0\u5730\u57DF\u5DEE\u5F02\uFF09\u3002" : `\u6301\u6709\u672A\u6EE1 2 \u5E74\uFF1A\u6309 ${HOUSE_VAT_LEVY_RATE}% \u5F81\u6536\u7387\u5168\u989D\u7B80\u6613\u8BA1\u7A0E\uFF082026-01-01 \u8D77\u7531 5% \u964D\u4E3A 3%\uFF09\uFF0C\u65E0\u8BBA\u623F\u5C4B\u662F\u5426\u589E\u503C\u5747\u9700\u7F34\u7EB3\u3002`
+  );
+  const surchargeFullRate = new decimal_default(cityRate).plus(HOUSE_SURCHARGE_EDU_RATE);
+  const surchargeRatePct = surchargeFullRate.div(2).toNumber();
+  const surcharge = vat > 0 ? money22(new decimal_default(vat).times(surchargeRatePct).div(100)) : 0;
+  notes.push(
+    vat > 0 ? `\u9644\u52A0\u7A0E\u8D39 = \u589E\u503C\u7A0E \xD7 ${surchargeRatePct}%\uFF08\u57CE\u5EFA\u7A0E ${cityRate}% + \u6559\u80B2\u8D39\u9644\u52A0 3% + \u5730\u65B9\u6559\u80B2\u9644\u52A0 2%\uFF0C\u5C0F\u89C4\u6A21\u7EB3\u7A0E\u4EBA\u51CF\u534A\u5F81\u6536\uFF09\u3002` : "\u589E\u503C\u7A0E\u514D\u5F81\u65F6\uFF0C\u4EE5\u5176\u4E3A\u8BA1\u7A0E\u4F9D\u636E\u7684\u9644\u52A0\u7A0E\u8D39\u540C\u65F6\u4E3A 0\u3002"
+  );
+  let personalTaxBase = 0;
+  let personalTaxRatePct = 0;
+  let personalTax = 0;
+  if (only5) {
+    notes.push("\u6EE1\u4E94\u552F\u4E00\uFF08\u5BB6\u5EAD\u552F\u4E00\u751F\u6D3B\u7528\u623F\u4E14\u6301\u6709\u6EE1 5 \u5E74\uFF09\uFF1A\u514D\u5F81\u4E2A\u4EBA\u6240\u5F97\u7A0E\u3002");
+  } else if (hasProof) {
+    personalTaxRatePct = HOUSE_PERSONAL_TAX_DIFF_RATE;
+    personalTaxBase = Math.max(
+      0,
+      money22(new decimal_default(vatExclusivePrice).minus(original).minus(costs))
+    );
+    personalTax = money22(new decimal_default(personalTaxBase).times(HOUSE_PERSONAL_TAX_DIFF_RATE).div(100));
+    if (personalTaxBase === 0) {
+      notes.push(
+        "\u6309\u5DEE\u989D\u8BA1\u7A0E\uFF1A\u4E0D\u542B\u7A0E\u6536\u5165\u51CF\u53BB\u539F\u503C\u4E0E\u5408\u7406\u8D39\u7528\u540E \u22640\uFF0C\u4E2A\u4EBA\u6240\u5F97\u7A0E\u4E3A 0\uFF08\u4E8F\u635F\u4E0D\u4EA7\u751F\u9000\u7A0E\uFF09\u3002"
+      );
+    } else {
+      notes.push(
+        `\u80FD\u63D0\u4F9B\u623F\u5C4B\u539F\u503C\u51ED\u8BC1\uFF1A\u6309\u8F6C\u8BA9\u5DEE\u989D\uFF08\u4E0D\u542B\u7A0E\u6536\u5165 \u2212 \u539F\u503C \u2212 \u5408\u7406\u8D39\u7528\uFF09\xD7 ${HOUSE_PERSONAL_TAX_DIFF_RATE}% \u8BA1\u5F81\u3002`
+      );
+    }
+  } else {
+    personalTaxRatePct = HOUSE_PERSONAL_TAX_ASSESS_RATE;
+    personalTaxBase = vatExclusivePrice;
+    personalTax = money22(new decimal_default(personalTaxBase).times(HOUSE_PERSONAL_TAX_ASSESS_RATE).div(100));
+    notes.push(
+      `\u4E0D\u80FD\u63D0\u4F9B\u623F\u5C4B\u539F\u503C\u51ED\u8BC1\uFF1A\u6309\u4E0D\u542B\u7A0E\u8F6C\u8BA9\u6536\u5165\u5168\u989D \xD7 ${HOUSE_PERSONAL_TAX_ASSESS_RATE}% \u6838\u5B9A\u5F81\u6536\uFF08\u5404\u5730\u6838\u5B9A\u7387\u591A\u5728 1%\u20132%\uFF0C\u672C\u5DE5\u5177\u53D6 1%\uFF09\u3002`
+    );
+  }
+  const stampDuty = 0;
+  notes.push("\u5370\u82B1\u7A0E\uFF1A\u4E2A\u4EBA\u9500\u552E\u4F4F\u623F\u6682\u514D\u5F81\u6536\uFF0C\u6545\u4E3A 0\u3002\u4E70\u65B9\u5951\u7A0E\u8BF7\u53E6\u884C\u4F7F\u7528\u300C\u5951\u7A0E\u8BA1\u7B97\u5668\u300D\u4F30\u7B97\u3002");
+  const totalTax = money22(new decimal_default(vat).plus(surcharge).plus(personalTax).plus(stampDuty));
+  const netProceeds = money22(new decimal_default(price).minus(totalTax));
+  return {
+    salePriceInclusive: money22(price),
+    vatExclusivePrice,
+    vatRatePct,
+    vat,
+    surchargeRatePct,
+    surcharge,
+    personalTaxBase,
+    personalTaxRatePct,
+    personalTax,
+    stampDuty,
+    totalTax,
+    netProceeds,
+    notes
+  };
+}
+
+// src/lib/misc-calc.ts
+function money23(n) {
+  return new decimal_default(n).toDecimalPlaces(2, decimal_default.ROUND_HALF_UP).toNumber();
+}
+var DEFAULT_FIRST_WEIGHT_KG = 1;
+function calcShippingFee(params) {
+  const weight = params?.weightKg;
+  const w = typeof weight === "number" ? weight : Number(weight);
+  if (!Number.isFinite(w) || w <= 0) return { error: "\u91CD\u91CF\u9700\u4E3A\u5927\u4E8E 0 \u7684\u6570\u5B57" };
+  const firstWeightKg = params.firstWeightKg ?? DEFAULT_FIRST_WEIGHT_KG;
+  const firstPrice = params.firstPrice ?? 0;
+  const additionalPricePerKg = params.additionalPricePerKg ?? 0;
+  const remoteSurcharge = params.remoteSurcharge ?? 0;
+  const insuredValue = params.insuredValue ?? 0;
+  const insuredRatePct = params.insuredRatePct ?? 0;
+  const discount = params.discount ?? 0;
+  const rounding = params.rounding === "up-1" || params.rounding === "actual" ? params.rounding : "up-0.5";
+  if (firstWeightKg <= 0) return { error: "\u9996\u91CD\u9700\u5927\u4E8E 0" };
+  if (firstPrice < 0 || additionalPricePerKg < 0 || remoteSurcharge < 0 || discount < 0)
+    return { error: "\u4EF7\u683C\u4E0E\u8D39\u7528\u4E0D\u80FD\u4E3A\u8D1F" };
+  if (insuredValue < 0 || insuredRatePct < 0) return { error: "\u4FDD\u4EF7\u4EF7\u503C\u4E0E\u8D39\u7387\u4E0D\u80FD\u4E3A\u8D1F" };
+  let billable = w;
+  if (rounding === "up-1") billable = Math.ceil(w);
+  else if (rounding === "up-0.5") billable = Math.ceil(w / 0.5) * 0.5;
+  const billableWeightKg = new decimal_default(billable).toDecimalPlaces(2, decimal_default.ROUND_HALF_UP).toNumber();
+  const extraWeightKg = Math.max(0, money23(new decimal_default(billableWeightKg).minus(firstWeightKg)));
+  const additionalFee = money23(new decimal_default(extraWeightKg).times(additionalPricePerKg));
+  const insuranceFee = money23(new decimal_default(insuredValue).times(insuredRatePct).div(100));
+  const rawTotal = new decimal_default(firstPrice).plus(additionalFee).plus(remoteSurcharge).plus(insuranceFee).minus(discount);
+  const total = Math.max(0, money23(rawTotal));
+  const perKg = billableWeightKg > 0 ? money23(new decimal_default(total).div(billableWeightKg)) : 0;
+  return {
+    weightKg: money23(w),
+    billableWeightKg,
+    firstWeightKg,
+    firstPrice: money23(firstPrice),
+    extraWeightKg,
+    additionalPricePerKg,
+    additionalFee,
+    remoteSurcharge: money23(remoteSurcharge),
+    insuredValue: money23(insuredValue),
+    insuranceFee,
+    discount: money23(discount),
+    total,
+    perKg
+  };
+}
+var SIZE_UNIT_BYTES = {
+  B: 1,
+  KB: 1e3,
+  MB: 1e6,
+  GB: 1e9,
+  TB: 1e12,
+  KiB: 1024,
+  MiB: 1024 ** 2,
+  GiB: 1024 ** 3,
+  TiB: 1024 ** 4
+};
+function calcTransferTime(params) {
+  const rawSize = params?.size;
+  const size = typeof rawSize === "number" ? rawSize : Number(rawSize);
+  const rawBw = params?.bandwidthMbps;
+  const bandwidth = typeof rawBw === "number" ? rawBw : Number(rawBw);
+  if (!Number.isFinite(size) || !Number.isFinite(bandwidth) || size <= 0 || bandwidth <= 0)
+    return { error: "\u6587\u4EF6\u5927\u5C0F\u4E0E\u5E26\u5BBD\u90FD\u9700\u4E3A\u5927\u4E8E 0 \u7684\u6570\u5B57" };
+  const unit = params.unit && params.unit in SIZE_UNIT_BYTES ? params.unit : "MB";
+  const overheadPct = params.overheadPct ?? 0;
+  const utilizationPct = params.utilizationPct ?? 100;
+  if (overheadPct < 0 || overheadPct >= 100) return { error: "\u534F\u8BAE\u5F00\u9500\u9700\u5728 0\u201399 \u4E4B\u95F4" };
+  if (utilizationPct <= 0 || utilizationPct > 100) return { error: "\u5E26\u5BBD\u5229\u7528\u7387\u9700\u5728 1\u2013100 \u4E4B\u95F4" };
+  const bytes = new decimal_default(size).times(SIZE_UNIT_BYTES[unit]);
+  const bits = bytes.times(8);
+  const effectiveMbps = new decimal_default(bandwidth).times(new decimal_default(1).minus(new decimal_default(overheadPct).div(100))).times(new decimal_default(utilizationPct).div(100));
+  const seconds = bits.div(effectiveMbps.times(1e6)).toNumber();
+  return {
+    bytes: bytes.toNumber(),
+    bits: bits.toNumber(),
+    bandwidthMbps: bandwidth,
+    effectiveMbps: effectiveMbps.toDecimalPlaces(2, decimal_default.ROUND_HALF_UP).toNumber(),
+    seconds,
+    human: formatDuration(seconds),
+    megabytesPerSecond: new decimal_default(effectiveMbps).div(8).toDecimalPlaces(2, decimal_default.ROUND_HALF_UP).toNumber()
+  };
+}
+function formatDuration(seconds) {
+  if (!Number.isFinite(seconds) || seconds < 0) return "\u2014";
+  if (seconds < 1) return `${seconds.toFixed(2)} \u79D2`;
+  const total = Math.round(seconds);
+  const d = Math.floor(total / 86400);
+  const h = Math.floor(total % 86400 / 3600);
+  const m = Math.floor(total % 3600 / 60);
+  const s = total % 60;
+  const parts = [];
+  if (d) parts.push(`${d} \u5929`);
+  if (h) parts.push(`${h} \u5C0F\u65F6`);
+  if (m) parts.push(`${m} \u5206`);
+  if (s || parts.length === 0) parts.push(`${s} \u79D2`);
+  return parts.join(" ");
+}
 
 // mcp/server.mjs
 var PORT = Number(process.env.MCP_PORT || 18700);
@@ -2900,7 +3191,12 @@ var CONCRETE_BY_ID = {
   "deposit-interest": "deposit_interest_cn",
   "deed-tax": "deed_tax_cn",
   "overtime-pay": "overtime_pay_cn",
-  "pension-estimate": "pension_estimate_cn"
+  "pension-estimate": "pension_estimate_cn",
+  "vehicle-purchase-tax": "vehicle_purchase_tax_cn",
+  "labor-income-tax": "labor_income_tax_cn",
+  "second-hand-house-tax": "second_hand_house_tax_cn",
+  "shipping-fee-calculator": "shipping_fee_calc",
+  "download-time-calculator": "transfer_time_calc"
 };
 function desc(id, fallback) {
   const m = META_BY_ID.get(id);
@@ -3244,6 +3540,144 @@ var COMPUTE_TOOLS = [
       index: num(a.index),
       years: num(a.years),
       personalBalance: num(a.personalBalance)
+    })
+  },
+  {
+    name: "vehicle_purchase_tax_cn",
+    description: desc(
+      "vehicle-purchase-tax",
+      "\u8F66\u8F86\u8D2D\u7F6E\u7A0E\u8BA1\u7B97\u5668\u3002\u8F93\u5165\u673A\u52A8\u8F66\u9500\u552E\u7EDF\u4E00\u53D1\u7968\u7684\u4EF7\u7A0E\u5408\u8BA1\uFF08\u6216\u4E0D\u542B\u7A0E\u4EF7\uFF09\u3001\u52A8\u529B\u7C7B\u578B\u4E0E\u8D2D\u7F6E\u65E5\u671F\uFF0C\u6309 10% \u7A0E\u7387\u6D4B\u7B97\u5E94\u7F34\u8D2D\u7F6E\u7A0E\uFF0C\u5E76\u81EA\u52A8\u9002\u7528\u65B0\u80FD\u6E90\u6C7D\u8F66\u51CF\u514D\u7A97\u53E3\uFF082024\u20132025 \u514D\u5F81\u4E0A\u9650 3 \u4E07\uFF0C2026\u20132027 \u51CF\u534A\u4E0A\u9650 1.5 \u4E07\uFF09\u3002"
+    ),
+    inputSchema: {
+      type: "object",
+      properties: {
+        invoiceTotal: { type: "number", description: "\u53D1\u7968\u4EF7\u7A0E\u5408\u8BA1\uFF08\u5143\uFF09\uFF0C\u4E0E taxExclusivePrice \u4E8C\u9009\u4E00" },
+        taxExclusivePrice: { type: "number", description: "\u4E0D\u542B\u589E\u503C\u7A0E\u7684\u8D2D\u8F66\u6B3E\uFF08\u5143\uFF09\uFF0C\u7ED9\u4E86\u5C31\u4E0D\u518D\u505A \xF71.13 \u8FD8\u539F" },
+        powerType: { type: "string", enum: ["fuel", "nev"], description: "fuel=\u71C3\u6CB9\u8F66\uFF0Cnev=\u65B0\u80FD\u6E90\u6C7D\u8F66\uFF08\u53EF\u4EAB\u51CF\u514D\uFF09", default: "fuel" },
+        purchaseDate: { type: "string", description: "\u8D2D\u7F6E\u65E5\u671F YYYY-MM-DD\uFF08\u4EE5\u53D1\u7968\u5F00\u5177\u65E5\u671F\u4E3A\u51C6\uFF09\uFF0C\u7701\u7565\u65F6\u6309\u73B0\u884C\u7A97\u53E3\u5904\u7406" }
+      }
+    },
+    handler: (a) => calcVehiclePurchaseTax({
+      invoiceTotal: a.invoiceTotal != null ? num(a.invoiceTotal) : void 0,
+      taxExclusivePrice: a.taxExclusivePrice != null ? num(a.taxExclusivePrice) : void 0,
+      powerType: a.powerType === "nev" ? "nev" : "fuel",
+      purchaseDate: typeof a.purchaseDate === "string" ? a.purchaseDate : void 0
+    })
+  },
+  {
+    name: "labor_income_tax_cn",
+    description: desc(
+      "labor-income-tax",
+      "\u52B3\u52A1\u62A5\u916C/\u7A3F\u916C/\u7279\u8BB8\u6743\u4F7F\u7528\u8D39\u5355\u7B14\u4E2A\u7A0E\u9884\u6263\u8BA1\u7B97\u5668\u3002\u8F93\u5165\u5355\u7B14\u6536\u5165\u4E0E\u6240\u5F97\u7C7B\u578B\uFF0C\u6309 800 \u5143\u6216 20% \u51CF\u9664\u8D39\u7528\u540E\u9002\u7528 20%/30%/40% \u4E09\u7EA7\u9884\u6263\u7387\uFF08\u7A3F\u916C\u518D\u51CF\u5F81 30%\uFF09\u8BA1\u7B97\u5E94\u9884\u6263\u7A0E\u989D\u4E0E\u5230\u624B\u91D1\u989D\u3002"
+    ),
+    inputSchema: {
+      type: "object",
+      properties: {
+        income: { type: "number", description: "\u5355\u7B14\u6536\u5165\u91D1\u989D\uFF08\u5143\uFF09" },
+        kind: { type: "string", enum: ["labor", "royalty", "franchise"], description: "labor=\u52B3\u52A1\u62A5\u916C\uFF0Croyalty=\u7A3F\u916C\uFF0Cfranchise=\u7279\u8BB8\u6743\u4F7F\u7528\u8D39", default: "labor" }
+      },
+      required: ["income"]
+    },
+    handler: (a) => calcLaborIncomeTax({
+      income: num(a.income),
+      kind: ["royalty", "franchise"].includes(a.kind) ? a.kind : "labor"
+    })
+  },
+  {
+    name: "second_hand_house_tax_cn",
+    description: desc(
+      "second-hand-house-tax",
+      "\u4E8C\u624B\u623F\u4EA4\u6613\u5356\u65B9\u7A0E\u8D39\u8BA1\u7B97\u5668\u3002\u8F93\u5165\u542B\u7A0E\u6210\u4EA4\u4EF7\u3001\u662F\u5426\u6EE1\u4E24\u5E74\u3001\u662F\u5426\u6EE1\u4E94\u552F\u4E00\u53CA\u80FD\u5426\u63D0\u4F9B\u623F\u5C4B\u539F\u503C\u51ED\u8BC1\uFF0C\u6D4B\u7B97\u589E\u503C\u7A0E\u53CA\u9644\u52A0\uFF08\u6EE1 2 \u5E74\u514D\u5F81\uFF0C\u672A\u6EE1 2 \u5E74\u6309 3% \u5F81\u6536\u7387\uFF09\u3001\u4E2A\u4EBA\u6240\u5F97\u7A0E\uFF08\u6EE1\u4E94\u552F\u4E00\u514D\u5F81\uFF0C\u5426\u5219 20% \u5DEE\u989D\u6216 1% \u6838\u5B9A\uFF09\u4E0E\u5356\u65B9\u7A0E\u540E\u5230\u624B\u91D1\u989D\u3002"
+    ),
+    inputSchema: {
+      type: "object",
+      properties: {
+        salePriceInclusive: { type: "number", description: "\u542B\u7A0E\u6210\u4EA4\u4EF7\uFF08\u5143\uFF09" },
+        originalPrice: { type: "number", description: "\u539F\u8D2D\u623F\u53D1\u7968\u91D1\u989D\uFF08\u5143\uFF09\uFF0C\u4EC5 hasOriginalProof=true \u65F6\u53C2\u4E0E\u8BA1\u7B97", default: 0 },
+        reasonableCosts: { type: "number", description: "\u5408\u7406\u8D39\u7528\u5408\u8BA1\uFF08\u5143\uFF09\uFF1A\u539F\u5951\u7A0E\u3001\u88C5\u4FEE\u8D39\u3001\u4E2D\u4ECB\u8D39\u7B49", default: 0 },
+        heldOver2Years: { type: "boolean", description: "\u662F\u5426\u6301\u6709\u6EE1 2 \u5E74\uFF08\u542B\uFF09\uFF0C\u6EE1 2 \u5E74\u514D\u5F81\u589E\u503C\u7A0E", default: false },
+        onlyHomeOver5Years: { type: "boolean", description: "\u662F\u5426\u6EE1\u4E94\u552F\u4E00\uFF08\u5BB6\u5EAD\u552F\u4E00\u4F4F\u623F\u4E14\u6EE1 5 \u5E74\uFF09\uFF0C\u514D\u5F81\u4E2A\u4EBA\u6240\u5F97\u7A0E", default: false },
+        hasOriginalProof: { type: "boolean", description: "\u80FD\u5426\u63D0\u4F9B\u623F\u5C4B\u539F\u503C\u51ED\u8BC1\uFF0Ctrue \u6309 20% \u5DEE\u989D\u3001false \u6309 1% \u6838\u5B9A", default: false },
+        cityTaxRatePct: { type: "number", description: "\u57CE\u5EFA\u7A0E\u7A0E\u7387\u6863\uFF1A\u5E02\u533A 7 / \u53BF\u57CE\u4E0E\u9547 5 / \u5176\u4ED6 1", default: 7 }
+      },
+      required: ["salePriceInclusive"]
+    },
+    handler: (a) => calcSecondHandHouseTax({
+      salePriceInclusive: num(a.salePriceInclusive),
+      originalPrice: num(a.originalPrice, 0),
+      reasonableCosts: num(a.reasonableCosts, 0),
+      heldOver2Years: a.heldOver2Years === true,
+      onlyHomeOver5Years: a.onlyHomeOver5Years === true,
+      hasOriginalProof: a.hasOriginalProof === true,
+      cityTaxRatePct: num(a.cityTaxRatePct, 7)
+    })
+  },
+  {
+    name: "shipping_fee_calc",
+    description: desc(
+      "shipping-fee-calculator",
+      "\u5FEB\u9012\u8FD0\u8D39\u4F30\u7B97\u3002\u8F93\u5165\u5B9E\u9645\u91CD\u91CF\u4E0E\u9996\u91CD/\u7EED\u91CD\u5355\u4EF7\uFF0C\u6309\u8FDB\u4F4D\u89C4\u5219\u6298\u7B97\u8BA1\u8D39\u91CD\u91CF\uFF0C\u53E0\u52A0\u504F\u8FDC\u5730\u533A\u9644\u52A0\u8D39\u3001\u4FDD\u4EF7\u8D39\u4E0E\u4F18\u60E0\u6298\u6263\uFF0C\u8F93\u51FA\u8FD0\u8D39\u660E\u7EC6\u3002"
+    ),
+    inputSchema: {
+      type: "object",
+      properties: {
+        weightKg: { type: "number", description: "\u5B9E\u9645\u91CD\u91CF\uFF08kg\uFF09" },
+        firstWeightKg: { type: "number", description: "\u9996\u91CD\u91CD\u91CF\uFF08kg\uFF09", default: 1 },
+        firstPrice: { type: "number", description: "\u9996\u91CD\u4EF7\u683C\uFF08\u5143\uFF09", default: 0 },
+        additionalPricePerKg: { type: "number", description: "\u7EED\u91CD\u5355\u4EF7\uFF08\u5143/kg\uFF09", default: 0 },
+        rounding: { type: "string", enum: ["up-0.5", "up-1", "actual"], description: "\u8BA1\u8D39\u91CD\u91CF\u8FDB\u4F4D\u89C4\u5219", default: "up-1" },
+        remoteSurcharge: { type: "number", description: "\u504F\u8FDC\u5730\u533A\u9644\u52A0\u8D39\uFF08\u5143\uFF09", default: 0 },
+        insuredValue: { type: "number", description: "\u4FDD\u4EF7\u58F0\u660E\u4EF7\u503C\uFF08\u5143\uFF09", default: 0 },
+        insuredRatePct: { type: "number", description: "\u4FDD\u4EF7\u8D39\u7387\uFF08%\uFF09", default: 0 },
+        discount: { type: "number", description: "\u4F18\u60E0\u51CF\u514D\u91D1\u989D\uFF08\u5143\uFF09", default: 0 }
+      },
+      required: ["weightKg"]
+    },
+    handler: (a) => calcShippingFee({
+      weightKg: num(a.weightKg),
+      firstWeightKg: num(a.firstWeightKg, 1),
+      firstPrice: num(a.firstPrice, 0),
+      additionalPricePerKg: num(a.additionalPricePerKg, 0),
+      rounding: ["up-0.5", "actual"].includes(a.rounding) ? a.rounding : "up-1",
+      remoteSurcharge: num(a.remoteSurcharge, 0),
+      insuredValue: num(a.insuredValue, 0),
+      insuredRatePct: num(a.insuredRatePct, 0),
+      discount: num(a.discount, 0)
+    })
+  },
+  {
+    name: "transfer_time_calc",
+    description: desc(
+      "download-time-calculator",
+      "\u4E0B\u8F7D/\u4E0A\u4F20\u65F6\u95F4\u4F30\u7B97\u3002\u8F93\u5165\u6587\u4EF6\u5927\u5C0F\u4E0E\u5E26\u5BBD\uFF0C\u53EF\u9009\u534F\u8BAE\u5F00\u9500\u767E\u5206\u6BD4\u4E0E\u5E26\u5BBD\u5229\u7528\u7387\uFF0C\u6298\u7B97\u6709\u6548\u5E26\u5BBD\u540E\u8F93\u51FA\u8017\u65F6\uFF08\u4EBA\u7C7B\u53EF\u8BFB\uFF09\u4E0E\u5E73\u5747\u4F20\u8F93\u901F\u7387\u3002"
+    ),
+    inputSchema: {
+      type: "object",
+      properties: {
+        size: { type: "number", description: "\u6587\u4EF6\u5927\u5C0F\u6570\u503C" },
+        unit: { type: "string", enum: ["B", "KB", "MB", "GB", "TB", "KiB", "MiB", "GiB", "TiB"], description: "\u6587\u4EF6\u5927\u5C0F\u5355\u4F4D", default: "MB" },
+        bandwidthMbps: { type: "number", description: "\u6807\u79F0\u5E26\u5BBD\uFF08Mbps\uFF09" },
+        overheadPct: { type: "number", description: "\u534F\u8BAE\u5F00\u9500\u767E\u5206\u6BD4\uFF080\u201399\uFF09\uFF0C\u4EE5\u592A\u7F51\u7EA6 5\u3001Wi-Fi \u7EA6 8", default: 0 },
+        utilizationPct: { type: "number", description: "\u5E26\u5BBD\u5229\u7528\u7387\u767E\u5206\u6BD4\uFF081\u2013100\uFF09\uFF0C\u5B9E\u6D4B\u8FBE\u4E0D\u5230\u6EE1\u901F\u65F6\u586B", default: 100 }
+      },
+      required: ["size", "bandwidthMbps"]
+    },
+    handler: (a) => calcTransferTime({
+      size: num(a.size),
+      unit: [
+        "B",
+        "KB",
+        "MB",
+        "GB",
+        "TB",
+        "KiB",
+        "MiB",
+        "GiB",
+        "TiB"
+      ].includes(a.unit) ? a.unit : "MB",
+      bandwidthMbps: num(a.bandwidthMbps),
+      overheadPct: num(a.overheadPct, 0),
+      utilizationPct: num(a.utilizationPct, 100)
     })
   }
 ];

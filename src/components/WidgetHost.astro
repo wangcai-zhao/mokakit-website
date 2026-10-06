@@ -258,6 +258,11 @@ import MatrixCalculator from '@/tools/matrix-calculator/Tool.tsx';
 import MetaTagsGenerator from '@/tools/meta-tags-generator/Tool.tsx';
 import BytesSizeConverter from '@/tools/bytes-size-converter/Tool.tsx';
 import SavingsGoalCalculator from '@/tools/savings-goal-calculator/Tool.tsx';
+import VehiclePurchaseTax from '@/tools/vehicle-purchase-tax/Tool.tsx';
+import LaborIncomeTax from '@/tools/labor-income-tax/Tool.tsx';
+import SecondHandHouseTax from '@/tools/second-hand-house-tax/Tool.tsx';
+import ShippingFeeCalculator from '@/tools/shipping-fee-calculator/Tool.tsx';
+import DownloadTimeCalculator from '@/tools/download-time-calculator/Tool.tsx';
 
 interface Props {
   tool: ToolMeta;
@@ -508,6 +513,11 @@ const isMatrix = tool.id === 'matrix-calculator';
 const isMetaTags = tool.id === 'meta-tags-generator';
 const isBytesConv = tool.id === 'bytes-size-converter';
 const isSaveGoal = tool.id === 'savings-goal-calculator';
+const isVehPurchaseTax = tool.id === 'vehicle-purchase-tax';
+const isLaborTax = tool.id === 'labor-income-tax';
+const isSecondHandTax = tool.id === 'second-hand-house-tax';
+const isShipFee = tool.id === 'shipping-fee-calculator';
+const isDownloadTime = tool.id === 'download-time-calculator';
 const known =
   isPG || isUC || isTS || isJF || isCC || isBC || isHC ||
   isUE || isB64 || isUUID || isTC || isColor ||
@@ -543,7 +553,8 @@ const known =
   isElecCost || isFuelCost || isGoldW || isVolW ||
   isImgCompress || isImgResize || isImgConvert || isImgB64 || isImgWM || isImgCrop || isImgFilter || isImgInfo || isFavGen || isPlaceholder || isTxtExtract || isTxtReplace || isTxtWS || isTxtSplitJoin || isTxtPad || isUniEsc || isCnNum || isTxtSim || isMdToc || isLorem || isJsonDiff || isJson2Ts || isJsonFlat || isCurlConv || isChmod || isNginxGen || isDockerGen || isMdTable || isSecHeaders || isGitCmd || isDesens ||
   isStopwatch || isPomodoro || isBreakEven || isRoi || isIdCard || isBankCard ||
-  isCidr || isMatrix || isMetaTags || isBytesConv || isSaveGoal;
+  isCidr || isMatrix || isMetaTags || isBytesConv || isSaveGoal ||
+  isVehPurchaseTax || isLaborTax || isSecondHandTax || isShipFee || isDownloadTime;
 ---
 
 <!-- 密码生成器 -->
@@ -1684,6 +1695,31 @@ const known =
 {isSaveGoal && mode === 'load' && <SavingsGoalCalculator client:load {...widgetProps} />}
 {isSaveGoal && mode === 'idle' && <SavingsGoalCalculator client:idle {...widgetProps} />}
 {isSaveGoal && mode === 'visible' && <SavingsGoalCalculator client:visible {...widgetProps} />}
+
+<!-- 车辆购置税计算器 -->
+{isVehPurchaseTax && mode === 'load' && <VehiclePurchaseTax client:load {...widgetProps} />}
+{isVehPurchaseTax && mode === 'idle' && <VehiclePurchaseTax client:idle {...widgetProps} />}
+{isVehPurchaseTax && mode === 'visible' && <VehiclePurchaseTax client:visible {...widgetProps} />}
+
+<!-- 劳务报酬个税计算器 -->
+{isLaborTax && mode === 'load' && <LaborIncomeTax client:load {...widgetProps} />}
+{isLaborTax && mode === 'idle' && <LaborIncomeTax client:idle {...widgetProps} />}
+{isLaborTax && mode === 'visible' && <LaborIncomeTax client:visible {...widgetProps} />}
+
+<!-- 二手房交易税费计算器 -->
+{isSecondHandTax && mode === 'load' && <SecondHandHouseTax client:load {...widgetProps} />}
+{isSecondHandTax && mode === 'idle' && <SecondHandHouseTax client:idle {...widgetProps} />}
+{isSecondHandTax && mode === 'visible' && <SecondHandHouseTax client:visible {...widgetProps} />}
+
+<!-- 快递运费计算器 -->
+{isShipFee && mode === 'load' && <ShippingFeeCalculator client:load {...widgetProps} />}
+{isShipFee && mode === 'idle' && <ShippingFeeCalculator client:idle {...widgetProps} />}
+{isShipFee && mode === 'visible' && <ShippingFeeCalculator client:visible {...widgetProps} />}
+
+<!-- 下载时间计算器 -->
+{isDownloadTime && mode === 'load' && <DownloadTimeCalculator client:load {...widgetProps} />}
+{isDownloadTime && mode === 'idle' && <DownloadTimeCalculator client:idle {...widgetProps} />}
+{isDownloadTime && mode === 'visible' && <DownloadTimeCalculator client:visible {...widgetProps} />}
 
 <!-- 未接入水合岛屿的工具 -->
 {
