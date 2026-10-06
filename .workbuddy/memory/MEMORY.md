@@ -31,6 +31,11 @@
 - **240 工具 / 11 分类**（09-23 新增 11 个：秒表、番茄钟、盈亏平衡、ROI、身份证校验、银行卡校验、CIDR、矩阵、SEO 标签生成、字节换算、存钱计划）；dist **588 页**。好站导航 44 组 / 791 条；单位换算 16 类 161 单位。进度看板 `npm run workbench`。
 - 构建链路：`npm run build` = astro build → `scripts/optimize-sprite.mjs`（产物级雪碧图瘦身，省 16.6MB）→ `scripts/gen-sitemap.mjs`。另有 `npm run seo:audit`（问题页面已清零）。
 - **上线前三件套校验**：`npm run check:all` = check:widgets（水合注册）+ check:icons（图标可解析）+ changelog:check（新工具已登记）。批量加工具后必跑。
+- 🔴 **版本基线（2026-10-06 升级后）**：astro 7.3.5 / @astrojs/mdx 8.0.2 / @astrojs/preact 6.0.5 / daisyui 5.7.47 / typescript 6.0.3 / gpt-tokenizer 4.0.0 / @astrojs/check 0.9.10。
+  ⚠️ **preact 必须锁 10.x** —— `@astrojs/preact` 的 peer 写死 `preact: ^10.6.5`，升 11 会 peer 冲突。TS 7（Go 重写版 tsgo）也别升，astro check 生态未跟进。
+- 🔴 **`npm run check` 长期是坏的**（2026-10-06 才修）：此前 package.json 有该脚本但从未装 `@astrojs/check`，运行会弹交互确认框然后被 SIGTERM 杀掉。现已补装，**终于能跑类型检查了**。
+  ⚠️但**存量 64 个类型错误**（33 个文件）随之暴露，已用对照实验（TS5.9.3 回退）证明**与 TS6 无关、是长期积累**（因 check 从未跑通而被掩盖）。别误判成升级引入。分布：vat-calc 17 / bonus-tax-cn 11 / ratio-calculator 5 / timestamp-converter 4，其余分散 → 待独立立项治理。
+- 4 个测试脚本（改算法后必跑）：`test-china-tax` / `test-deed-tax` / `test-new-libs` / `check:units`，跑法 `node --experimental-strip-types --no-warnings --import ./scripts/ts-resolve.mjs scripts/<x>.mjs`。
 - 图片类工具共用 `src/tools/_shared/`：`image-utils.ts` / `use-image.ts` / `ImageDropzone.tsx`。
 - 更新日志频道 `src/data/changelog.ts`：工具条目只写 id，其余构建时从 registry 取；**新增工具后必须补 id**，否则 `npm run changelog:check` 红灯。
 
@@ -88,6 +93,8 @@
   **构建通过才是最权威的判据**，报出告警后必须人工抽查上下文再定性（2026-09-28 一次误报 11 条）。
 
 ## 环境与坑（可复用）
+- 🔴 **astro check / astro build 输出带 ANSI 颜色码**：`grep " - error "` 永远匹配不到（`-` 与 `error` 之间夹着 `\x1b[0m` 转义序列），会**误判成「0 错误」**。统计前必须 `.replace(/\x1b\[[0-9;]*m/g,'')` 剥除。且 check 日志约 40MB（含 dist 产物），读前先落盘再解析。
+- ⚠️ **`.mjs` 文件不能写 TS 注解**（如 `(n: string) =>`）：astro/rolldown 直接解析失败报 `ssrTransformScript`。补类型用 JSDoc `/** @param {string} n */`。
 - ⚠️ **同一文件的多条 Edit 必须顺序执行**：并行 Edit 会竞争写盘互相覆盖（每条都报成功），已多次踩坑，连注释行都被吞过。
 - Bash PATH 偶发损坏：命令前加 `export PATH="/c/Users/zhao-/.workbuddy/binaries/PortableGit/versions/1.2.0/usr/bin:/c/Users/zhao-/.workbuddy/binaries/PortableGit/versions/1.2.0/bin:$PATH"`。
 - 构建：`export NODE_OPTIONS="--require=D:/WorkBuddy/website/noop-shim.cjs"`，再用 `<...>\binaries\node\versions\22.22.2-3\node.exe node_modules/astro/bin/astro.mjs build`（注意版本目录是 22.22.2-3）。sitemap 解耦单跑 `node scripts/gen-sitemap.mjs`。
