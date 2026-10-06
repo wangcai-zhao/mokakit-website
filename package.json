@@ -22,21 +22,22 @@
     "indexnow": "node scripts/indexnow.mjs"
   },
   "dependencies": {
-    "@astrojs/mdx": "^7.0.5",
-    "@astrojs/preact": "^6.0.2",
-    "@astrojs/sitemap": "^3.7.3",
-    "astro": "^7.1.6",
-    "bwip-js": "^4.11.2",
+    "@astrojs/mdx": "^8.0.2",
+    "@astrojs/preact": "^6.0.5",
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.3.5",
+    "bwip-js": "^4.11.4",
     "decimal.js": "^10.6.0",
-    "gpt-tokenizer": "^3.4.0",
-    "marked": "^18.0.9",
+    "gpt-tokenizer": "^4.0.0",
+    "marked": "^18.1.0",
     "preact": "^10.29.8",
     "qrcode": "^1.5.4"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.10",
     "@tailwindcss/vite": "^4.3.3",
-    "daisyui": "^5.7.14",
+    "daisyui": "^5.7.47",
     "tailwindcss": "^4.3.3",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   }
 }
