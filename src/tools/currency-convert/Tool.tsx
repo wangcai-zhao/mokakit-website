@@ -56,7 +56,7 @@ export default function CurrencyConvert() {
 
   const copy = async () => {
     if (result == null) return;
-      await copyText(text);
+      await copyText(result);
     setCopied(true);
     window.clearTimeout(timer.current);
     timer.current = window.setTimeout(() => setCopied(false), 1800);

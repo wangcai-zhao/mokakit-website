@@ -1,4 +1,5 @@
-import { useState, useRef, type ComponentChildren } from 'preact/hooks';
+import { useState, useRef } from 'preact/hooks';
+import type { ComponentChildren } from 'preact';
 import { copyText } from '@/tools/_shared/copy';
 
 /**

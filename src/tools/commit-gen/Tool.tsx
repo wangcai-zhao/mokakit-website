@@ -21,7 +21,7 @@ export default function CommitGen() {
 
   const copy = async () => {
     if (!subject.trim()) return;
-      await copyText(text);
+      await copyText(output);
     setCopied(true);
     window.clearTimeout(timer.current);
     timer.current = window.setTimeout(() => setCopied(false), 1800);

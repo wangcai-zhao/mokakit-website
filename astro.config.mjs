@@ -11,6 +11,7 @@ import { SITE } from './src/config/site.ts';
 // 不匹配 "/"，导致 "gpt-tokenizer/encoding/cl100k_base" 这类子路径在 ESM bundler
 // 下无法解析（Node 的 require 能回退到物理目录，但 Rolldown 严格按 exports）。
 // 这里用精确 alias 绕过，直接指向真实的 ESM 物理文件。
+/** @param {string} n */
 const gptEnc = (n) =>
   fileURLToPath(new URL(`./node_modules/gpt-tokenizer/esm/encoding/${n}.js`, import.meta.url));
 

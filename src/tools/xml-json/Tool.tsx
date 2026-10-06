@@ -33,7 +33,7 @@ function xmlToObj(node: Element): unknown {
 
 function jsonToXml(value: unknown, root: string): string {
   const esc = (s: string) =>
-    s.replace(/&/g, '&amp;').replace(/<//g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   const walk = (v: unknown, tag: string): string => {
     if (v === null || v === undefined) return `<${tag}/>`;
     if (typeof v === 'object') {

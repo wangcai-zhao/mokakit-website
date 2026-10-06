@@ -241,7 +241,7 @@ export default function McpConfigGenerator() {
     );
 
   const copy = async () => {
-      await copyText(text);
+      await copyText(output);
     setCopied(true);
     window.clearTimeout(timer.current);
     timer.current = window.setTimeout(() => setCopied(false), 1800);

@@ -36,7 +36,7 @@ export default function LicenseGen() {
   }, [selected, year, owner]);
 
   const copy = async () => {
-      await copyText(text);
+      await copyText(output);
     setCopied(true);
     window.clearTimeout(timer.current);
     timer.current = window.setTimeout(() => setCopied(false), 1800);

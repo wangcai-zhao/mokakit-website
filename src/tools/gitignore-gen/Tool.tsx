@@ -56,7 +56,7 @@ export default function GitignoreGen() {
 
   const copy = async () => {
     if (!output) return;
-      await copyText(text);
+      await copyText(output);
     setCopied(true);
     window.clearTimeout(timer.current);
     timer.current = window.setTimeout(() => setCopied(false), 1800);
