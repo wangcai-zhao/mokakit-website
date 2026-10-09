@@ -3,6 +3,7 @@ import { defineTool } from '../types';
 export default defineTool({
   id: 'clothing-size',
   name: '衣服尺码换算',
+  seoTitle: '衣服尺码换算 - 国际码、中国码、欧码、美码对照',
   tagline: '国际 / 中国 / 美码 对照',
   description:
     '免费衣服尺码换算器，选国际码（S/M/L/XL 等）一键对照中国身高标号（160/165/A）、欧码（EU）与美码（US），覆盖男女上装、裤装与鞋码。买衣服、海淘对照不求人，附身高体重推荐区间，差异大以具体品牌尺码表为准，全程本地运算。',

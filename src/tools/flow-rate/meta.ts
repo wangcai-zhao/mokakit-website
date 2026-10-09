@@ -3,6 +3,7 @@ import { defineTool } from '@/tools/types';
 export default defineTool({
   id: 'flow-rate',
   name: '体积流量换算',
+  seoTitle: '流量单位换算器 - L/min、m³/h、CFM 在线互转',
   tagline: 'L/s、L/min、m³/h、gpm、cfm 等流量单位在线互转',
   description:
     '免费在线体积流量换算工具，覆盖升每秒（L/s）、升每分（L/min）、立方米每小时（m³/h）、美制加仑每分（gpm US）、立方英尺每分（cfm）等常用单位。适合水泵、鱼缸、水管、空调与燃气表场景，全部本地计算。',

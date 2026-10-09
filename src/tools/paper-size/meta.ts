@@ -3,6 +3,7 @@ import { defineTool } from '@/tools/types';
 export default defineTool({
   id: 'paper-size',
   name: '纸张尺寸换算',
+  seoTitle: '纸张尺寸对照 - A4/A5/B5 与像素尺寸在线换算',
   tagline: 'A/B/C 系列、Letter、Legal 等纸张尺寸在线互转',
   description:
     '免费在线纸张尺寸换算工具，覆盖 ISO A 系列（A0–A8）、B 系列（B0–B8）、C 系列（C4/C5/C6 信封）以及北美 Letter、Legal、Tabloid 等规格，支持毫米/厘米/英寸互显。打印、设计、论文排版一站搞定，全部本地计算。',

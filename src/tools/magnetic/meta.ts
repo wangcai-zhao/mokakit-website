@@ -3,6 +3,7 @@ import { defineTool } from '@/tools/types';
 export default defineTool({
   id: 'magnetic',
   name: '磁感应强度换算',
+  seoTitle: '磁感应强度换算 - 特斯拉、高斯、毫特斯拉在线互转',
   tagline: 'T、mT、μT、nT、G 等磁感应强度在线互转',
   description:
     '免费在线磁感应强度（磁通密度）单位换算工具，覆盖特斯拉（T）、毫特（mT）、微特（μT）、纳特（nT）、高斯（G）与毫高斯（mG）等常用单位。适合磁场测量、电子罗盘、地磁分析、MRI 设备与无磁实验室场景，输入即时换算，全部本地计算。',

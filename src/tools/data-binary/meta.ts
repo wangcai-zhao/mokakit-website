@@ -3,6 +3,7 @@ import { defineTool } from '@/tools/types';
 export default defineTool({
   id: 'data-binary',
   name: '存储单位换算',
+  seoTitle: '存储单位换算 - 十进制 SI 与二进制 IEC 两种体系互转',
   tagline: 'bit/B/KB/KiB/MB/MiB/GB/GiB 等存储容量在线互转',
   description:
     '免费在线数据存储单位换算工具，同时支持十进制（SI：KB=1000B）与二进制（IEC：KiB=1024B）两套体系，覆盖 bit、Byte、KB、KiB、MB、MiB、GB、GiB、TB、TiB、PB、PiB。一眼看清硬盘标称容量与系统显示差异，全部本地计算。',

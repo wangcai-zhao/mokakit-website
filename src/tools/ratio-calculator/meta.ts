@@ -3,6 +3,7 @@ import { defineTool } from '@/tools/types';
 export default defineTool({
   id: 'ratio-calculator',
   name: '比例计算器',
+  seoTitle: '比例计算器在线 - a:b=c:d 求解与连比分配',
   tagline: '比例换算与按比例分配',
   description:
     '免费在线比例计算器，支持解比例式 a:b = c:x 求未知项、把比值化简为最简整数比（最大公比）、按给定比例把总量拆分到多份（连比分配）。适合配方调配（鸡尾酒/混凝土）、地图比例尺、投资占股、图纸缩放、缩分模型与数据归一化，全部本地计算。',

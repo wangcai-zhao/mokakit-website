@@ -3,6 +3,7 @@ import { defineTool } from '@/tools/types';
 export default defineTool({
   id: 'average-calculator',
   name: '平均数计算器',
+  seoTitle: '平均数计算器 - 均值、中位数、众数在线计算',
   tagline: '均值、中位数与众数',
   description:
     '免费在线平均数计算器，一次性输入多个数字，自动算出算术平均值（均值）、中位数、众数，并给出数据个数、总和、极差、方差与标准差。适合成绩统计、工资核算、实验数据整理、绩效平均与销售均值分析，支持用空格、逗号或换行分隔，本地即时计算。',

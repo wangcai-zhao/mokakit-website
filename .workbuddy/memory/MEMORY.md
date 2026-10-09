@@ -35,6 +35,8 @@ AUTH=$(printf 'wangcai-zhao:%s' "$TOKEN" | base64 | tr -d '\n')
 timeout 150 git -c credential.helper= -c "http.extraheader=Authorization: Basic $AUTH" -c http.postBuffer=524288000 push origin master:master
 ```
 必须**前台 + dangerouslyDisableSandbox**（后台会丢提权挂死）；`credential.helper=` 置空否则卡 GUI selector。验证：`git ls-remote --heads origin master` == HEAD。勿走 SSH；GitHub MCP 只读。
+- **personal-site 例外**：远端是 SSH（`ssh://git@github.com/wangcai-zhao/wangcai-personal-site.git`，分支 **main**，不是 master），**SSH 在本机通**，直接 `git push origin main` 即可，别套上面的 HTTPS token 方案。
+- 🔴 **提交前必有避雷：用显式路径 `git add`，绝不 `git add -A`**——personal-site 仓库里长期堆着十几个早期会话的未提交内容，website 里有 `_cprof`/`dist_partial_*`，一锅端会把别人的活卷进来。
 
 ## 环境坑
 - 🔴 astro check/build 输出带 ANSI 码，`grep " - error "` 永远匹配不到 → 先 `.replace(/\x1b\[[0-9;]*m/g,'')`。日志 ~40MB，落盘再解析。

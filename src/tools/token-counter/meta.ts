@@ -3,6 +3,7 @@ import { defineTool } from '../types';
 export default defineTool({
   id: 'token-counter',
   name: 'Token 计算器',
+  seoTitle: 'Token 计算器 - 在线统计 GPT/Claude token 数与调用费用',
   tagline: '估算 GPT/Claude 等模型的 token 数量',
   description:
     '免费在线 Token 计算器，支持 cl100k_base / o200k_base / p50k_base 等编码，对应 GPT-4o、GPT-3.5 等不同模型；实时统计 token 数、字符数、标点与行数，并按单价估算调用花费，分词在浏览器本地完成不上传文本。',

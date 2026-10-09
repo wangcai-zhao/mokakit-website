@@ -3,6 +3,7 @@ import { defineTool } from '@/tools/types';
 export default defineTool({
   id: 'time-duration',
   name: '时间间隔计算器',
+  seoTitle: '时间间隔计算器在线 - 两个日期相差多少天时分秒',
   tagline: '算两时刻之间时长',
   description:
     '免费在线时间间隔计算器，选择开始与结束的日期时间（精确到秒），即可精确算出两个时间点之间的时长，给出总天数、总小时、总分钟、总秒数与时分秒格式。适用于工时统计、行程时长、设备运行时间、项目周期核算，自动处理跨天跨月跨年与闰秒。',

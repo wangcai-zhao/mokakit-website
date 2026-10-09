@@ -13,8 +13,10 @@ import { breadcrumbLd, faqLd, toolLd, type Crumb } from '@/utils/jsonld';
 
 interface Props {
   tool: ToolMeta;
-  /** 子页会覆盖标题与描述 */
+  /** 子页会覆盖 h1（默认用 tool.name） */
   title?: string;
+  /** 专供 <title> 的 SEO 标题，优先级最高，不传则按 title → tool.seoTitle → 默认式 依次回退 */
+  seoTitle?: string;
   description?: string;
   path?: string;
   /** 子页的额外面包屑层级 */
@@ -27,6 +29,7 @@ interface Props {
 const {
   tool,
   title,
+  seoTitle,
   description,
   path,
   extraCrumbs = [],
@@ -36,7 +39,8 @@ const {
 
 const category = getCategory(tool.category);
 const url = path ?? `/tools/${tool.id}/`;
-const pageTitle = title ?? `${tool.name} - 在线免费工具`;
+// seoTitle 只作用于 <title>，不影响 h1 / 卡片 / 面包屑里显示的 name
+const pageTitle = seoTitle ?? title ?? tool.seoTitle ?? `${tool.name} - 在线免费工具`;
 const pageDesc = description ?? tool.description;
 const faqItems = faq ?? tool.faq ?? [];
 const related = getRelatedTools(tool, 4);

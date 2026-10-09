@@ -3,6 +3,7 @@ import { defineTool } from '@/tools/types';
 export default defineTool({
   id: 'days-ago',
   name: '几天前日期计算器',
+  seoTitle: '天数倒推计算器 - N 天前/后是几月几日',
   tagline: '算 N 天前是几月几号',
   description:
     '免费在线几天前日期计算器，输入天数立即得出准确的过去日期、星期几与 ISO 标准格式，跨月、跨年、闰年都算得对。适用于复盘、追溯、历史节点核对、保质期倒推与合同回顾期计算，支持工作日模式（排除周末），全部本地计算不上传数据。',

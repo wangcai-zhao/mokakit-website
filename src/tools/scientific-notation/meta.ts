@@ -3,6 +3,7 @@ import { defineTool } from '@/tools/types';
 export default defineTool({
   id: 'scientific-notation',
   name: '科学计数法转换',
+  seoTitle: '科学计数法转换器 - 数字与 a×10ⁿ 在线互转',
   tagline: '普通数字与科学计数法互转',
   description:
     '免费在线科学计数法转换器，支持普通十进制数字与科学计数法（a×10ⁿ）双向转换，自动格式化系数（保留有效数字）与指数，并给出工程计数法（指数为 3 的倍数：k/M/G）。适合物理、化学、天文的大数与小数表达，以及计算机存储容量（KB/MB/GB）换算，本地即时换算。',

@@ -3,6 +3,7 @@ import { defineTool } from '@/tools/types';
 export default defineTool({
   id: 'id-card-check',
   name: '身份证号校验',
+  seoTitle: '身份证校验 - 身份证号真伪与校验码在线验证',
   tagline: '18/15 位校验与信息解析',
   description:
     '免费在线身份证号校验工具，支持 18 位二代身份证校验码验证与 15 位老身份证升位，自动解析发证地区、出生日期、当前周岁与性别，校验失败会明确指出位数不对、含非法字符、出生日期不合法或校验位错误，全程浏览器本地计算不上传，立即试试。',

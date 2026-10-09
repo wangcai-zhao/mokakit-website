@@ -3,6 +3,7 @@ import { defineTool } from '@/tools/types';
 export default defineTool({
   id: 'matrix-calculator',
   name: '矩阵计算器',
+  seoTitle: '矩阵计算器 - 2×2/3×3 加减乘、行列式与求逆在线算',
   tagline: '2×2 与 3×3 矩阵运算',
   description:
     '免费在线矩阵计算器，支持 2×2 与 3×3 矩阵的加减乘、转置、行列式、求逆与标量乘，网格化输入所见即所得。奇异矩阵会明确提示行列式为 0 无法求逆，结果自动消除浮点噪声并保留合理小数位，适合线性代数作业验算，全部浏览器本地计算。',

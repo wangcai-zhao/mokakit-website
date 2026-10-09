@@ -3,6 +3,7 @@ import { defineTool } from '@/tools/types';
 export default defineTool({
   id: 'inductance',
   name: '电感单位换算',
+  seoTitle: '电感单位换算器 - H/mH/μH 在线互转',
   tagline: 'nH、μH、mH、H 等电感单位在线互转',
   description:
     '免费在线电感单位换算工具，覆盖纳亨（nH）、微亨（μH）、毫亨（mH）、亨利（H）等常用单位，输入数值即时显示全部单位结果。适合电源设计、射频电路、滤波电感与 EMI 抑制场景，附电感量程参考与常见电感选型提示，全部本地计算。',

@@ -3,6 +3,7 @@ import { defineTool } from '@/tools/types';
 export default defineTool({
   id: 'bank-card-validator',
   name: '银行卡号校验',
+  seoTitle: '银行卡号校验 - Luhn 算法在线验证卡号是否有效',
   tagline: 'Luhn 校验与卡组织识别',
   description:
     '免费在线银行卡号校验工具，采用 Luhn 算法验证卡号是否合法，自动识别银联、Visa、万事达、JCB、美国运通、大莱等卡组织，核对卡号长度是否符合该组织规范并按四位一组格式化显示。输入自动去掉空格与横线，本地计算不上传，立即检测。',

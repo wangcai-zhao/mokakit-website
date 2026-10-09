@@ -3,6 +3,7 @@ import { defineTool } from '@/tools/types';
 export default defineTool({
   id: 'digital-clock',
   name: '数字时钟',
+  seoTitle: '在线时钟 - 数字时钟大屏显示（精确到秒/毫秒）',
   tagline: '全屏大字时间显示',
   description:
     '免费在线数字时钟，大字号清晰显示当前时间（精确到秒），支持多时区切换、12/24 小时制、多种主题（含暗黑/极简/赛博）与一键全屏，毫秒级实时同步。适合会议室、教室、家居大屏、直播间、电脑副屏，纯浏览器本地运行，打开即用，不上传任何数据。',
@@ -29,5 +30,5 @@ export default defineTool({
       a: '按键盘 Esc 键，或再次点击「全屏 / 退出全屏」按钮即可退出全屏模式。',
     },
   ],
-  related: ['world-clock', 'flip-clock', 'analog-clock'],
+  related: ['fullscreen-clock', 'world-clock', 'flip-clock', 'analog-clock'],
 });

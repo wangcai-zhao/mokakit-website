@@ -102,6 +102,7 @@ import DigitalClock from '@/tools/digital-clock/Tool.tsx';
 import FlipClock from '@/tools/flip-clock/Tool.tsx';
 import AnalogClock from '@/tools/analog-clock/Tool.tsx';
 import WorldClock from '@/tools/world-clock/Tool.tsx';
+import FullscreenClock from '@/tools/fullscreen-clock/Tool.tsx';
 import NinetyDay from '@/tools/90-day/Tool.tsx';
 import CalendarQuarter from '@/tools/calendar-quarter/Tool.tsx';
 import DaysAgo from '@/tools/days-ago/Tool.tsx';
@@ -371,6 +372,7 @@ const isDigital = tool.id === 'digital-clock';
 const isFlip = tool.id === 'flip-clock';
 const isAnalog = tool.id === 'analog-clock';
 const isWorld = tool.id === 'world-clock';
+const isFullscreenClock = tool.id === 'fullscreen-clock';
 const is90Day = tool.id === '90-day';
 const isCalQ = tool.id === 'calendar-quarter';
 const isDaysAgo = tool.id === 'days-ago';
@@ -531,7 +533,7 @@ const known =
   isIncomeTaxCn || isBonusTaxCn ||
   isSocialSecurityCn || isMortgageEarly || isFundLoanCalc || isVatCalc ||
   isRetireAge || isAfterTax || isDeposit || isDeedTax || isOvertime || isPension ||
-  isDigital || isFlip || isAnalog || isWorld ||
+  isDigital || isFlip || isAnalog || isWorld || isFullscreenClock ||
   is90Day || isCalQ || isDaysAgo || isDaysBetween || isF2H || isGovSD ||
   isHmsAdd || isHmsToUnits || isHoursFromNow || isMinAge || isSec2Time || isTimeDur ||
   isUtcCst || isUtcEdt || isUtcEst || isUtcPst || isVideoSpeed || isWeeklyHours ||
@@ -986,6 +988,11 @@ const known =
 {isWorld && mode === 'load' && <WorldClock client:load {...widgetProps} />}
 {isWorld && mode === 'idle' && <WorldClock client:idle {...widgetProps} />}
 {isWorld && mode === 'visible' && <WorldClock client:visible {...widgetProps} />}
+
+<!-- 全屏大屏时钟（铺满整屏，含毫秒开关） -->
+{isFullscreenClock && mode === 'load' && <FullscreenClock client:load {...widgetProps} />}
+{isFullscreenClock && mode === 'idle' && <FullscreenClock client:idle {...widgetProps} />}
+{isFullscreenClock && mode === 'visible' && <FullscreenClock client:visible {...widgetProps} />}
 
 <!-- 90 天后是哪天 -->
 {is90Day && mode === 'load' && <NinetyDay client:load {...widgetProps} />}

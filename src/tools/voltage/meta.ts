@@ -3,6 +3,7 @@ import { defineTool } from '@/tools/types';
 export default defineTool({
   id: 'voltage',
   name: '电压单位换算',
+  seoTitle: '电压单位换算器 - mV/V/kV/MV 在线互转',
   tagline: 'μV、mV、V、kV、MV 等电压单位在线互转',
   description:
     '免费在线电压单位换算工具，覆盖微伏（μV）、毫伏（mV）、伏特（V）、千伏（kV）、兆伏（MV）等常用单位，输入数值即时显示全部单位结果。适合电子电路设计、电工配线、电池电压估算、太阳能板与高压输电场景，附常见电压等级参考，全部本地计算。',

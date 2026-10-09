@@ -3,6 +3,7 @@ import { defineTool } from '@/tools/types';
 export default defineTool({
   id: 'current',
   name: '电流单位换算',
+  seoTitle: '电流单位换算器 - μA/mA/A/kA 在线互转',
   tagline: 'μA、mA、A、kA 等电流单位在线互转',
   description:
     '免费在线电流单位换算工具，覆盖微安（μA）、毫安（mA）、安培（A）、千安（kA）等常用单位，输入数值即时显示全部单位结果。适合电子电路设计、电池容量估算、电工配线与供电系统设计，附安培小时与库仑换算，全部本地计算。',

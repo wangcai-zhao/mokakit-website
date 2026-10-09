@@ -3,6 +3,7 @@ import { defineTool } from '@/tools/types';
 export default defineTool({
   id: 'acceleration',
   name: '加速度换算',
+  seoTitle: '加速度单位换算器 - m/s²、g、Gal 在线互转',
   tagline: 'm/s²、g、ft/s²、Gal 等加速度单位在线互转',
   description:
     '免费在线加速度单位换算工具，覆盖米每二次方秒（m/s²）、标准重力加速度（g）、英尺每二次方秒（ft/s²）、伽（Gal）等常用单位。适合物理学习、汽车加速测试（0-100km/h）、地震学测量与航空工程，输入即时换算，全部本地计算。',

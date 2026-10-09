@@ -3,6 +3,7 @@ import { defineTool } from '../types';
 export default defineTool({
   id: 'trigonometry',
   name: '三角函数计算器',
+  seoTitle: '三角函数计算器 - sin/cos/tan 在线计算（度与弧度）',
   tagline: '角度一输，六函数全出',
   description:
     '免费三角函数计算器，输入角度（度/弧度可切换），一键算出正弦 sin、余弦 cos、正切 tan，以及余切 cot、正割 sec、余割 csc 六种三角函数值，附反三角函数（arcsin/arccos/arctan）求角度。学三角函数、解三角形、验证手算结果都好用，结果支持弧度与角度切换，全程本地运算。',

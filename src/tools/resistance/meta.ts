@@ -3,6 +3,7 @@ import { defineTool } from '@/tools/types';
 export default defineTool({
   id: 'resistance',
   name: '电阻单位换算',
+  seoTitle: '电阻单位换算器 - Ω/kΩ/MΩ 在线互转',
   tagline: 'Ω、mΩ、kΩ、MΩ、GΩ 等电阻单位在线互转',
   description:
     '免费在线电阻单位换算工具，覆盖毫欧（mΩ）、欧姆（Ω）、千欧（kΩ）、兆欧（MΩ）、吉欧（GΩ）等常用单位。输入数值即时显示全部单位结果，附换算关系与电子元件识别技巧，适合电路设计、维修与学习，全部本地计算。',

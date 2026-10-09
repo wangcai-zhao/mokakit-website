@@ -4,6 +4,19 @@ import { CATEGORY_BY_ID, FEATURED_PAIRS, convert, findUnit, type Unit } from './
 import { formatNumber } from './format';
 
 /**
+ * 需要 noindex 的低价值换算对。key 是子页 slug（`<cat>/<from>-to-<to>`）。
+ *
+ * ⚠️ 目前为空是有意为之，别顺手填。2026-10-09 的 Bing 数据显示 214 个
+ * 换算子页里有 198 个在 43 天内零展现，看着该砍；但 Bing 在国内搜索里份额很小，
+ * 百度才是大头，而百度数据还没拿到。只凭 Bing 就删页面属于赌博 —— 万一百度
+ * 那边这些长尾页正在出量，砍了就是白丢流量。
+ *
+ * 所以先把机制搭好：往这个 Set 里加 slug，对应子页就不再生成文件、
+ * 也不进 sitemap，抓取预算让给主力页。等拿到百度搜索词再决策。
+ */
+const NOINDEX_PAIRS = new Set<string>([]);
+
+/**
  * 生成长尾子页。
  * 每个精选换算对生成一个独立页面，承接"厘米换算英寸"这类具体搜索词。
  */
@@ -24,6 +37,13 @@ function buildSubpages(): SubPage[] {
     pages.push({
       slug,
       title: `${from.name}换算${to.name}`,
+      /**
+       * h1 保持短句（好读），<title> 单独写长 —— 之前直接拿 h1 当 title，
+       * 只有 12 个字符，Bing 的 SEO 体检把全站「38 页标题过短」全记在这批长尾页头上。
+       * 首词仍然是「X换算Y」，保证对准用户真实搜索词。
+       */
+      seoTitle: `${from.name}换算${to.name} - 在线${from.name}转${to.name}换算器（附公式与对照表）`,
+      noindex: NOINDEX_PAIRS.has(slug),
       /**
        * ⚠️ 描述长度要落在 80-160 字符：早期的短句只有 47 字左右，
        * 在搜索结果里拿不满摘要位（seo-audit 报 desc_too_short 的就是这批长尾页）。

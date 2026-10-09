@@ -3,6 +3,7 @@ import { defineTool } from '@/tools/types';
 export default defineTool({
   id: 'name-generator',
   name: '随机名字生成',
+  seoTitle: '随机名字生成器 - 中文英文姓名批量在线生成',
   tagline: '中英文随机姓名',
   description:
     '免费在线随机名字生成器，一键批量生成中文姓名（百家姓+常用名）与英文姓名（first/middle/last），可选单字名或双字名、自定义生成数量，支持性别倾向与多音字标注。适合小说角色取名、游戏 ID、测试数据填充与脱敏 demo，纯本地生成不联网。',

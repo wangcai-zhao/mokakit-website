@@ -51,7 +51,8 @@ const policeRecordCode = SITE.police ? SITE.police.replace(/\D/g, '') : '';
 
 const category = getCategory(tool.category);
 const url = path ?? `/tools/${tool.id}/`;
-const pageTitle = title ?? `${tool.name} - 在线免费全屏时钟`;
+// 与 ToolLayout 同一套回退顺序：seoTitle 只作用于 <title>，不影响 h1 与面包屑
+const pageTitle = title ?? tool.seoTitle ?? `${tool.name} - 在线免费全屏时钟`;
 const pageDesc = description ?? tool.description;
 const faqItems = faq ?? tool.faq ?? [];
 const related = getRelatedTools(tool, 4);

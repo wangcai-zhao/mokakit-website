@@ -3,6 +3,7 @@ import { defineTool } from '@/tools/types';
 export default defineTool({
   id: 'video-speed',
   name: '视频倍速观看时间计算器',
+  seoTitle: '倍速计算器 - 视频 1.5/2 倍速观看时间换算',
   tagline: '算倍速下看完要多久',
   description:
     '免费在线视频倍速观看时间计算器，输入视频原始时长与倍速（1.25/1.5/2/2.5/3 或任意小数），立即算出以该倍速看完所需的观看时间与节省时间。适用于网课加速、剧集追番、长视频与会议录像规划，附推荐倍速参考（学习/娱乐/复习），全部本地计算。',

@@ -3,6 +3,7 @@ import { defineTool } from '@/tools/types';
 export default defineTool({
   id: 'volume-weight',
   name: '快递体积重量计算器',
+  seoTitle: '体积重量换算 - 快递计费重量在线计算',
   tagline: '抛重计费重一算便知',
   description:
     '免费在线快递体积重量（抛重）计算器，输入包裹长宽高（厘米）与实际重量，自动按国内主流除数 8000、国际件 5000（DHL/FedEx/UPS 常用）计算体积重量，并与实重比较得出计费重量。适用于寄件前费用估算与轻抛货物打包优化，全部在浏览器本地计算、不上传数据。',

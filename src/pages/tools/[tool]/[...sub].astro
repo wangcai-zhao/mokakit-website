@@ -22,6 +22,9 @@ export async function getStaticPaths() {
     if (!tool.subpages) continue;
     const subs = await tool.subpages();
     for (const sub of subs) {
+      // noindex 的子页直接不生成文件：既不出现在 dist，
+      // 也不会被 gen-sitemap.mjs 扫进 sitemap，抓取预算彻底让给主力页
+      if (sub.noindex) continue;
       paths.push({
         params: { tool: tool.id, sub: sub.slug },
         props: { toolId: tool.id, sub },
@@ -130,10 +133,12 @@ if (d.equation && d.x0 && d.y0 && d.xEnd && d.h) {
 <ToolLayout
   tool={meta}
   title={sub.title}
+  seoTitle={sub.seoTitle}
   description={sub.description}
   path={url}
   extraCrumbs={[{ name: sub.title, url }]}
   faq={sub.faq}
+  noindex={sub.noindex}
 >
   <WidgetHost tool={meta} widgetProps={widgetProps} />
 

@@ -321,6 +321,7 @@ const ALL_FEATURES: Required<ClockBarFeatures> = {
 /** 时钟类型选项（用于控制栏左侧切换） */
 export const CLOCK_TYPES = [
   { id: 'digital', label: '数字时钟', url: '/tools/digital-clock/' },
+  { id: 'fullscreen', label: '全屏时钟', url: '/tools/fullscreen-clock/' },
   { id: 'flip', label: '翻页时钟', url: '/tools/flip-clock/' },
   { id: 'analog', label: '模拟时钟', url: '/tools/analog-clock/' },
   { id: 'world', label: '世界时钟', url: '/tools/world-clock/' },

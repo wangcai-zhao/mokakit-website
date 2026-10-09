@@ -3,6 +3,7 @@ import { defineTool } from '@/tools/types';
 export default defineTool({
   id: 'analog-clock',
   name: '模拟时钟',
+  seoTitle: '模拟时钟 - 指针表盘在线时钟（8 种主题）',
   tagline: '经典指针表盘',
   description:
     '免费在线模拟时钟，传统指针表盘平滑走动，提供 8 种精美主题（含暗黑/复古/极简等风格），可自定义时区。时针、分针、秒针实时同步设备时间，适合喜欢经典钟表设计、追求视觉美感的你，也可一键全屏当装饰钟、直播间背景或桌面常驻，纯浏览器本地运行。',
@@ -29,5 +30,5 @@ export default defineTool({
       a: '可以，内置经典黑、极简白、蓝调、玫瑰金、森林绿、紫罗兰、青瓷、摩卡共 8 种主题，点击下拉框即可更换表盘配色。',
     },
   ],
-  related: ['digital-clock', 'flip-clock', 'world-clock'],
+  related: ['fullscreen-clock', 'digital-clock', 'flip-clock', 'world-clock'],
 });

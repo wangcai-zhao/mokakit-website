@@ -3,6 +3,7 @@ import { defineTool } from '@/tools/types';
 export default defineTool({
   id: 'bytes-size-converter',
   name: '字节单位换算',
+  seoTitle: '字节单位换算器 - KB/MB/GB/TB 与 KiB 两种进制互转',
   tagline: 'B/KB/MB/GB/TB 互转',
   description:
     '免费在线字节单位换算器，支持 bit、Byte、KB、MB、GB、TB、PB 之间的任意互转，可自由切换 1024 二进制进制（KiB/MiB）与 1000 十进制进制。输入即出结果，同时给出全部单位的换算对照表，适合估算文件大小、网盘容量、带宽速度与实际下载时间，全部本地计算不上传。',

@@ -3,6 +3,7 @@ import { defineTool } from '@/tools/types';
 export default defineTool({
   id: 'flip-clock',
   name: '翻页时钟',
+  seoTitle: '翻页时钟在线 - 机械翻牌动画全屏时钟',
   tagline: '经典翻牌动画时钟',
   description:
     '免费在线翻页时钟，还原经典机械翻牌动画（带滴答声可选），每秒翻动数字，怀旧又吸睛。支持 12/24 小时制、多套主题（极简/复古/霓虹）与一键全屏，适合直播背景、大屏展示、桌面常驻或会议倒计时。纯浏览器本地运行，打开即用，不上传任何数据。',
@@ -29,5 +30,5 @@ export default defineTool({
       a: '可以。点击「全屏」后它就是一个纯净的翻页时钟，适合直播背景、会议室或卧室大屏；按 Esc 退出全屏。',
     },
   ],
-  related: ['digital-clock', 'analog-clock', 'world-clock'],
+  related: ['fullscreen-clock', 'digital-clock', 'analog-clock', 'world-clock'],
 });

@@ -3,6 +3,7 @@ import { defineTool } from '@/tools/types';
 export default defineTool({
   id: 'permutation-combination',
   name: '排列组合计算器',
+  seoTitle: '排列组合计算器 - 排列数 P(n,k) 与组合数 C(n,k) 在线算',
   tagline: '排列数 P(n,k) 与组合数 C(n,k)',
   description:
     '免费在线排列组合计算器，输入总数 n 与选取数 k，自动计算排列数 P(n,k)、组合数 C(n,k) 以及阶乘 n!，并解释「是否考虑顺序」的差异。适合概率论、彩票组合数、抽签分组、算法复杂度估算，本地即时计算。',

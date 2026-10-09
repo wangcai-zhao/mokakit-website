@@ -13,10 +13,24 @@ import type { CategoryId } from '@/config/categories';
 export interface SubPage {
   /** URL 片段，可含斜杠，如 'length/cm-to-inch' → /tools/unit-convert/length/cm-to-inch/ */
   slug: string;
-  /** 页面 h1 与 title */
+  /** 页面 h1 */
   title: string;
   /** meta description，80-120 汉字 */
   description: string;
+  /**
+   * 专供 <title> 的 SEO 标题，不传则回退用 title。
+   *
+   * 拆开的原因：h1 要短（"厘米换算英寸"好读），但 <title> 得写满 25 字左右
+   * 才能在搜索结果里拿满展示位。2026-10-09 Bing 报「38 页标题过短」，
+   * 根因就是长尾子页拿 h1 直接当 title 用，只有 12 个字符。
+   */
+  seoTitle?: string;
+  /**
+   * 设为 true 则该子页不进 sitemap 且加 noindex。
+   * 用于砍掉长期零流量的长尾页、把抓取预算让给主力页。
+   * ⚠️ 决策前先看百度数据 —— Bing 只占国内搜索很小份额，单看它会误判。
+   */
+  noindex?: boolean;
   /** 传给渲染组件的任意数据 */
   data?: Record<string, unknown>;
   /** 该子页独有的 FAQ，会并入 FAQPage 结构化数据 */
@@ -43,6 +57,17 @@ export interface ToolMeta {
 
   /** 工具名称，用于 h1、卡片标题、面包屑 */
   name: string;
+
+  /**
+   * 专供 <title> 的 SEO 标题，不传则回退 `${name} - 在线免费工具`。
+   *
+   * 拆开的原因：name 会显示在首页卡片、导航和面包屑里，改它影响面太大；
+   * 而 <title> 要能自由对准搜索词。用法是把用户真正搜的那个词放到最前面。
+   *
+   * 2026-10-09 Bing 数据（43 天）实测：同一排名区间下，标题首词命中查询词时
+   * 点击率是未命中时的约 2.5 倍（"数字时钟"2.58% vs "全屏时钟"0.98%）。
+   */
+  seoTitle?: string;
 
   /** 卡片副标题，≤20 字，说清"这玩意儿干嘛的" */
   tagline: string;

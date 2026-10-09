@@ -3,6 +3,7 @@ import { defineTool } from '@/tools/types';
 export default defineTool({
   id: 'density',
   name: '密度单位换算',
+  seoTitle: '密度单位换算器 - kg/m³、g/cm³、lb/gal 在线互转',
   tagline: 'kg/m³、g/cm³、lb/ft³ 等密度单位在线互转',
   description:
     '免费在线密度单位换算工具，覆盖千克每立方米（kg/m³）、克每立方厘米（g/cm³）、克每毫升（g/mL）、磅每立方英尺（lb/ft³）、磅每加仑（lb/gal）等常用单位。适合材料、化工与日常比重查询，全部本地计算。',

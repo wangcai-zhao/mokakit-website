@@ -3,6 +3,7 @@ import { defineTool } from '@/tools/types';
 export default defineTool({
   id: 'viscosity',
   name: '粘度换算',
+  seoTitle: '粘度单位换算器 - mPa·s、cP、P 在线互转',
   tagline: 'Pa·s、mPa·s、cP 等动力粘度单位在线互转',
   description:
     '免费在线动力粘度（绝对粘度）单位换算工具，覆盖帕斯卡秒（Pa·s）、毫帕秒（mPa·s）、厘泊（cP）、泊（P）、千克每米秒（kg/(m·s)）等常用单位。适合润滑油选型、涂料调配、食品工业（蜂蜜/糖浆）、化工流体工程与液压油粘度等级对照，全部本地计算。',
