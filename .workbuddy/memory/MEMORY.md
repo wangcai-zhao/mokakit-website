@@ -37,6 +37,7 @@ AUTH=$(printf 'wangcai-zhao:%s' "$TOKEN" | base64 | tr -d '\n')
 timeout 150 git -c credential.helper= -c "http.extraheader=Authorization: Basic $AUTH" -c http.postBuffer=524288000 push origin master:master
 ```
 必须**前台 + dangerouslyDisableSandbox**（后台会丢提权挂死）；`credential.helper=` 置空否则卡 GUI selector。验证：`git ls-remote --heads origin master` == HEAD。勿走 SSH；GitHub MCP 只读。
+- ⚠️ **本机到 GitHub 链路瞬时抖动**（2026-10-12 实测）：小请求（ls-remote）偶尔通、持续大包上传会 `Connection was reset` / 超时连不上。首次 push 失败别慌，**间隔几秒重试即成功**（同 token 通道）。别因此改用别的远端或镜像。
 - **personal-site 例外**：远端是 SSH（`ssh://git@github.com/wangcai-zhao/wangcai-personal-site.git`，分支 **main**，不是 master），**SSH 在本机通**，直接 `git push origin main` 即可，别套上面的 HTTPS token 方案。
 - 🔴 **提交前必有避雷：用显式路径 `git add`，绝不 `git add -A`**——personal-site 仓库里长期堆着十几个早期会话的未提交内容，website 里有 `_cprof`/`dist_partial_*`，一锅端会把别人的活卷进来。
 
@@ -48,6 +49,7 @@ timeout 150 git -c credential.helper= -c "http.extraheader=Authorization: Basic 
 - 工作区内 `rm -rf` 可用（safe-delete 只在个人目录生效），但 `git add -A` 会卷进 `_cprof`/`dist_partial_*` 等垃圾，批量提交前先扫。
 - MDX 里裸 `<` `{` `}` 会报语法错，批量生成后必查。tips 默认 draft:true，需显式 false。
 - ⚠️ `gen-sitemap.mjs` 在 `npm run build` 中偶发静默不产出 sitemap（沙箱），上线前 `ls dist/sitemap-0.xml` 确认；缺失则手动 `node scripts/gen-sitemap.mjs` 重跑并补传远端 `/var/www/mokakit/`。2026-10-11 实测踩过，deploy 流程无该护栏。
+- ⚠️ **IMA 文件上传在当前环境走不通**（2026-10-12 实测）：`create_media` 拿到腾讯云 COS 临时凭证后，对标准端点 `ima-media-prod-1258344701.cos.ap-shanghai.myqcloud.com` 与 custom_domain 均返回 `InvalidAccessKeyId`（AK 不被 COS 认，非签名错）；且本机连不上 npm registry，装不了官方 `cos-nodejs-sdk-v5`。→ IMA 同步知识库只能由旺财在 IMA App 手动建「MokaKit 项目专属知识库」粘贴 `KNOWLEDGE_BASE.md` 内容，或等网络/COS 恢复后重试。IMA 可写库仅「旺财先生的知识库」。
 
 ## 待办（勿擅自改，等旺财决策）
 ① 5 个工具算法去重（见上）；② markdown-preview 的 dangerouslySetInnerHTML 无消毒（A 引 dompurify / B 自研 / C 接受）；③ changelog 页 465KB、tools 索引 412KB 全量渲染；④ 286M 临时产物被 git 跟踪待清理；⑤ site.ts 教师普惠开关注释标 09-30 到期。
