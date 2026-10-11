@@ -1,0 +1,31 @@
+## MCP 工具定义生成器的原理
+
+MCP 让 AI 客户端以统一方式调用外部工具。一个 MCP tool 需要 name、description 和带 JSON Schema 的 inputSchema。手写易错，生成器把这套结构表单化，输出直接可用的 tool 定义，降低写 MCP Server 的门槛。
+
+## 这个工具能做什么
+
+- 表单化生成 MCP tool 定义
+- 自动产出合规 inputSchema
+- 校验参数类型与必填
+- 复制进你的 MCP Server
+
+## 怎么使用（输入说明）
+
+1. **填工具元信息**：name 与 description。
+2. **加参数**：逐行填参数名、类型、必填。
+3. **生成**：得到 tool 定义 JSON。
+4. **接入**：放进 MCP Server 的 tools 列表。
+
+## 常见问题 FAQ
+
+**Q：和函数调用生成器区别？**
+
+A：语义接近，但本工具输出严格遵循 MCP 的 tool / inputSchema 结构，可直接被支持 MCP 的客户端识别。
+
+**Q：支持嵌套对象吗？**
+
+A：支持 object / array 类型，可描述较复杂的入参。
+
+**Q：会上传吗？**
+
+A：不会，本地生成。

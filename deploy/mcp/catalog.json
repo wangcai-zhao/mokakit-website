@@ -106,6 +106,121 @@
       "url": "/tools/age-calculator/"
     },
     {
+      "id": "agent-eval-generator",
+      "name": "智能体评测用例生成器",
+      "description": "免费在线智能体评测用例生成器：填被测能力、边界场景与预期行为，批量生成结构化测试用例（输入 / 预期输出 / 评判点），用于回归评测你的智能体是否稳定，减少上线后「突然变傻」的发现成本，本地生成不上传。",
+      "keywords": [
+        "智能体评测",
+        "Agent Eval",
+        "测试用例",
+        "回归测试",
+        "AI质检"
+      ],
+      "tags": [
+        "agent",
+        "评测",
+        "测试",
+        "质量",
+        "智能体"
+      ],
+      "category": "ai",
+      "icon": "check",
+      "tagline": "给智能体出一套考题",
+      "url": "/tools/agent-eval-generator/"
+    },
+    {
+      "id": "agent-name-generator",
+      "name": "智能体命名生成器",
+      "description": "免费在线智能体命名生成器：填关键词与风格（科技感 / 可爱 / 专业 / 极简），从词库随机组合出一批候选名，并标注可注册性提示，帮你给新搭的智能体、Bot、技能快速定名，本地生成不上传。",
+      "keywords": [
+        "智能体命名",
+        "AI起名",
+        "Bot名字",
+        "产品起名",
+        "名称生成"
+      ],
+      "tags": [
+        "agent",
+        "命名",
+        "起名",
+        "智能体",
+        "创意"
+      ],
+      "category": "ai",
+      "icon": "tag",
+      "tagline": "给智能体起个好名字",
+      "url": "/tools/agent-name-generator/"
+    },
+    {
+      "id": "agent-role-designer",
+      "name": "智能体角色设定生成器",
+      "description": "免费在线智能体角色设定生成器：填名称、领域、性格、目标、边界与可用工具，一键产出结构化的智能体角色卡（Persona），可直接用作系统提示词或产品文档，让多智能体协作时每个成员「人设」清晰、不串戏，本地生成不上传。",
+      "keywords": [
+        "智能体角色",
+        "Agent Persona",
+        "角色设定",
+        "多智能体",
+        "系统提示词"
+      ],
+      "tags": [
+        "agent",
+        "角色",
+        "persona",
+        "多智能体",
+        "智能体"
+      ],
+      "category": "ai",
+      "icon": "users",
+      "tagline": "写清一个智能体该是谁",
+      "url": "/tools/agent-role-designer/"
+    },
+    {
+      "id": "agent-workflow-generator",
+      "name": "智能体工作流生成器",
+      "description": "免费在线智能体工作流生成器：逐行添加步骤（名称、类型：模型 / 工具 / 条件分支、说明），一键生成结构化工作流 JSON 与可读的流程描述，便于直接落进 n8n / Dify / LangGraph 等编排框架，本地生成不上传。",
+      "keywords": [
+        "智能体工作流",
+        "Workflow",
+        "Agent编排",
+        "n8n",
+        "Dify"
+      ],
+      "tags": [
+        "agent",
+        "工作流",
+        "编排",
+        "自动化",
+        "智能体"
+      ],
+      "category": "ai",
+      "icon": "git-branch",
+      "tagline": "把步骤画成可跑的流程",
+      "url": "/tools/agent-workflow-generator/"
+    },
+    {
+      "id": "ai-model-selector",
+      "name": "场景选模型助手",
+      "description": "免费在线场景选模型助手：选使用场景（写代码、长文档、中文、省钱、多模态、推理），从内置主流大模型对照表中过滤并给出推荐理由，帮你在新模型层出不穷时快速做选型，数据本地对照不上传。",
+      "keywords": [
+        "模型推荐",
+        "大模型选型",
+        "AI模型对比",
+        "LLM选择",
+        "模型评测"
+      ],
+      "tags": [
+        "ai",
+        "模型",
+        "选型",
+        "大模型",
+        "对比"
+      ],
+      "category": "ai",
+      "icon": "git-compare",
+      "tagline": "按任务挑最合适的大模型",
+      "url": "/tools/ai-model-selector/"
+    },
+    {
       "id": "ai-price-compare",
       "name": "AI 价格比价",
       "description": "免费在线 AI 价格比价工具，汇总 OpenAI、Anthropic、Google、DeepSeek、通义千问、智谱、Kimi 等主流大模型的 API 单价（每百万 token 输入/输出价），以及即梦、可灵、Runway、Sora、Veo 等视觉生成工具的价格，支持按场景估算调用成本，数据本地对比、不上传，仅供参考。",
@@ -933,6 +1048,29 @@
       "url": "/tools/compound-interest/"
     },
     {
+      "id": "context-window-calculator",
+      "name": "上下文窗口计算器",
+      "description": "免费在线上下文窗口计算器：选模型、填每轮输入 / 输出 token 与系统提示词长度，估算一轮对话能撑多少轮不超窗口、以及达到上限时的截断风险，内置主流大模型上下文长度对照，帮你为长对话与批量任务定预算，本地计算不上传。",
+      "keywords": [
+        "上下文窗口",
+        "Context Window",
+        "Token计算",
+        "大模型长度",
+        "对话预算"
+      ],
+      "tags": [
+        "ai",
+        "token",
+        "上下文",
+        "大模型",
+        "成本"
+      ],
+      "category": "ai",
+      "icon": "ruler",
+      "tagline": "算清一次对话能吃多少 token",
+      "url": "/tools/context-window-calculator/"
+    },
+    {
       "id": "countdown-timer",
       "name": "倒计时",
       "description": "免费在线倒计时工具，输入目标日期时间即可实时显示还剩多少天、时、分、秒，每秒自动刷新，到期弹窗提示。内置元旦、春节、中秋、高考、考研等快捷目标，适合考试、纪念日、恋爱天数、项目截止日、合同到期倒数与节日倒计时，纯浏览器本地计算。",
@@ -1525,6 +1663,29 @@
       "url": "/tools/favicon-generator/"
     },
     {
+      "id": "fine-tune-dataset-generator",
+      "name": "微调数据集生成器",
+      "description": "免费在线微调数据集生成器：粘贴「问题 / 回答」成对的文本，一键转换成 Alpaca 或 ShareGPT 格式的 JSONL 训练集，自动去空行、校验字段，方便直接喂给 LoRA / SFT 微调流程，全程本地处理不上传你的数据。",
+      "keywords": [
+        "微调数据集",
+        "SFT",
+        "JSONL",
+        "LoRA",
+        "训练数据"
+      ],
+      "tags": [
+        "ai",
+        "微调",
+        "数据集",
+        "jsonl",
+        "大模型"
+      ],
+      "category": "ai",
+      "icon": "table",
+      "tagline": "把问答对整理成训练 JSONL",
+      "url": "/tools/fine-tune-dataset-generator/"
+    },
+    {
       "id": "flip-clock",
       "name": "翻页时钟",
       "description": "免费在线翻页时钟，还原经典机械翻牌动画（带滴答声可选），每秒翻动数字，怀旧又吸睛。支持 12/24 小时制、多套主题（极简/复古/霓虹）与一键全屏，适合直播背景、大屏展示、桌面常驻或会议倒计时。纯浏览器本地运行，打开即用，不上传任何数据。",
@@ -1649,6 +1810,52 @@
       "icon": "fuel",
       "tagline": "L/100km、km/L、mpg 等燃油效率单位在线互转",
       "url": "/tools/fuel-efficiency/"
+    },
+    {
+      "id": "fullscreen-clock",
+      "name": "全屏时钟",
+      "description": "免费在线全屏时钟，超大字号铺满整屏，隔着几米也看得清，支持北京时间一键切换全球时区、显示毫秒、12/24 小时制与多套主题配色，可设屏幕常亮不熄屏。适合会议室投屏、直播间背景、教室讲台、店铺大屏与电脑副屏，纯浏览器本地运行，打开即用、不上传任何数据。",
+      "keywords": [
+        "全屏时钟",
+        "大屏时钟",
+        "在线时钟显示全屏",
+        "时钟在线大屏",
+        "北京时间全屏显示",
+        "数字时钟全屏"
+      ],
+      "tags": [
+        "时钟",
+        "全屏",
+        "大屏",
+        "时间"
+      ],
+      "category": "clock",
+      "icon": "maximize",
+      "tagline": "铺满整屏的超大时间显示",
+      "url": "/tools/fullscreen-clock/"
+    },
+    {
+      "id": "function-calling-generator",
+      "name": "函数调用 Schema 生成器",
+      "description": "免费在线函数调用 Schema 生成器：按行添加参数（名称、类型、描述、是否必填），一键生成 OpenAI / Anthropic 兼容的 function calling / tool use JSON，并实时校验类型与必填项，复制即可接入大模型智能体，本地生成不上传。",
+      "keywords": [
+        "函数调用",
+        "Function Calling",
+        "Tool Use",
+        "JSON Schema",
+        "智能体工具"
+      ],
+      "tags": [
+        "ai",
+        "函数调用",
+        "json-schema",
+        "智能体",
+        "大模型"
+      ],
+      "category": "ai",
+      "icon": "function-square",
+      "tagline": "可视化生成工具调用定义",
+      "url": "/tools/function-calling-generator/"
     },
     {
       "id": "fund-dca-calc",
@@ -2949,6 +3156,52 @@
       "url": "/tools/mcp-config-generator/"
     },
     {
+      "id": "mcp-server-directory",
+      "name": "MCP 服务器清单",
+      "description": "免费在线 MCP 服务器清单：按官方参考实现、数据库、云服务、开发工具等维度整理热门 Model Context Protocol 服务器，附仓库链接与一句话定位，帮你快速找到能接进 Claude / Cursor 的 MCP Server，纯静态导航不上传。",
+      "keywords": [
+        "MCP Server",
+        "MCP清单",
+        "模型上下文协议",
+        "Claude MCP",
+        "Cursor MCP"
+      ],
+      "tags": [
+        "mcp",
+        "服务器",
+        "导航",
+        "协议",
+        "智能体"
+      ],
+      "category": "ai",
+      "icon": "server",
+      "tagline": "热门 MCP Server 一站速览",
+      "url": "/tools/mcp-server-directory/"
+    },
+    {
+      "id": "mcp-tool-generator",
+      "name": "MCP 工具定义生成器",
+      "description": "免费在线 MCP 工具定义生成器：按行填写工具名、描述与参数（名称、类型、必填），一键生成符合 Model Context Protocol 的 tool 定义 JSON（含 inputSchema），方便你给自己的 MCP Server 增工具，本地生成不上传。",
+      "keywords": [
+        "MCP",
+        "工具定义",
+        "Model Context Protocol",
+        "inputSchema",
+        "MCP Server"
+      ],
+      "tags": [
+        "mcp",
+        "工具定义",
+        "json-schema",
+        "协议",
+        "智能体"
+      ],
+      "category": "ai",
+      "icon": "plug",
+      "tagline": "写出合规的 MCP 工具",
+      "url": "/tools/mcp-tool-generator/"
+    },
+    {
       "id": "medical-insurance",
       "name": "医保报销计算器",
       "description": "免费医保报销计算器，输入医疗费用总额、自费部分、起付线、报销比例和封顶线，自动算出基本医保能报销多少、个人自付多少，并区分职工医保与居民医保。看懂住院花费怎么报，做到心里有数，附三甲医院常见报销比例参考，全程本地运算。",
@@ -3420,6 +3673,29 @@
       "url": "/tools/profit-margin/"
     },
     {
+      "id": "prompt-injection-detector",
+      "name": "提示词注入检测",
+      "description": "免费在线提示词注入检测器：把用户可能喂给 AI 的一段文本贴进来，工具扫描「忽略上文」「你是 DAN」「扮演无限制助手」等常见越狱与指令劫持特征，按风险等级列出命中项并给出建议，帮助你在上线智能体前拦一道，纯本地检测不上传。",
+      "keywords": [
+        "提示词注入",
+        "Prompt Injection",
+        "越狱检测",
+        "AI安全",
+        "指令劫持"
+      ],
+      "tags": [
+        "ai",
+        "安全",
+        "提示词注入",
+        "越狱",
+        "智能体"
+      ],
+      "category": "ai",
+      "icon": "shield",
+      "tagline": "识别藏在日常文本里的注入指令",
+      "url": "/tools/prompt-injection-detector/"
+    },
+    {
       "id": "prompt-library",
       "name": "提示词工坊",
       "description": "免费在线提示词工坊，集合「我的收藏」与「随机生成」两大功能：在浏览器本地保存、搜索、分享常用提示词；也能按角色、任务、格式、语气、约束五个维度自由组合，随机抛出脑洞提示词，支持自定义候选与主题关键词注入。数据存于本机 localStorage，不上传服务器。",
@@ -3443,6 +3719,29 @@
       "icon": "bookmark",
       "tagline": "收藏管理 + 随机生成提示词",
       "url": "/tools/prompt-library/"
+    },
+    {
+      "id": "prompt-optimizer",
+      "name": "提示词优化器",
+      "description": "免费在线提示词优化器：粘贴一段随手写的粗糙提示词，工具按角色明确、目标清晰、补充上下文、指定输出格式、加入示例等套路自动增强，并高亮本次补了哪些内容，帮你把「随便问问」变成「能稳定出活」的提示词，本地处理不上传。",
+      "keywords": [
+        "提示词优化",
+        "Prompt优化",
+        "提示词改写",
+        "AI提效",
+        "Prompt工程"
+      ],
+      "tags": [
+        "ai",
+        "提示词",
+        "优化",
+        "prompt-engineering",
+        "大模型"
+      ],
+      "category": "ai",
+      "icon": "wand",
+      "tagline": "把粗糙提示词改写得更好用",
+      "url": "/tools/prompt-optimizer/"
     },
     {
       "id": "prompt-template",
@@ -3574,6 +3873,29 @@
       "icon": "link-2",
       "tagline": "解析、排序、去重、拼接 URL 查询参数",
       "url": "/tools/query-params/"
+    },
+    {
+      "id": "rag-prompt-builder",
+      "name": "RAG 提示词构建器",
+      "description": "免费在线 RAG 提示词构建器：填入角色、任务说明、引用格式与上下文占位符，一键拼出带 {context} 与 {question} 变量的检索增强生成（RAG）提示词模板，并支持「要求标注出处」开关，方便接进你自己的知识库问答，本地拼装不上传。",
+      "keywords": [
+        "RAG",
+        "检索增强",
+        "提示词模板",
+        "知识库问答",
+        "Citation"
+      ],
+      "tags": [
+        "ai",
+        "rag",
+        "提示词",
+        "知识库",
+        "大模型"
+      ],
+      "category": "ai",
+      "icon": "database",
+      "tagline": "拼装带引用的检索增强提示词",
+      "url": "/tools/rag-prompt-builder/"
     },
     {
       "id": "random-number",
@@ -4238,6 +4560,29 @@
       "icon": "server",
       "tagline": "拆解经典系统的设计要点",
       "url": "/tools/system-design/"
+    },
+    {
+      "id": "system-prompt-generator",
+      "name": "系统提示词生成器",
+      "description": "免费在线系统提示词生成器：填入角色、任务目标、约束条件、语气风格与输出格式，一键拼装出结构清晰、可直接粘贴给 ChatGPT / Claude / Kimi 的系统提示词（System Prompt），支持中英文与复制导出，全程本地生成不上传。",
+      "keywords": [
+        "系统提示词",
+        "System Prompt",
+        "提示词生成",
+        "AI角色设定",
+        "Prompt"
+      ],
+      "tags": [
+        "ai",
+        "提示词",
+        "system-prompt",
+        "角色",
+        "大模型"
+      ],
+      "category": "ai",
+      "icon": "bot",
+      "tagline": "把角色目标约束拼成系统提示词",
+      "url": "/tools/system-prompt-generator/"
     },
     {
       "id": "temperature-convert",

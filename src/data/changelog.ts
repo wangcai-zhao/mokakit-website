@@ -47,6 +47,40 @@ export interface Release {
 
 export const RELEASES: Release[] = [
   {
+    version: '2026.10.11',
+    date: '2026-10-11',
+    title: 'AI / 智能体 / MCP 工具扩容至 260 · 好站导航新增 MCP 分组',
+    summary:
+      '这一批把工具总数推到 260，新增 14 个集中在 AI、智能体（Agent）与 MCP 三条主线：提示词工程（系统提示词生成、优化、注入检测、RAG 构建）、让模型调工具（函数调用 Schema、上下文窗口计算、微调数据集、场景选模型）、智能体工程（角色设定、工作流、命名、评测用例）、以及 MCP（工具定义生成、服务器清单）。同步在好站导航新增 MCP 专属分组并充实 AI 智能体 / 模型分组，智能体专栏补 MCP 生态。目标是补齐「从想法到能跑的 AI 工作流」中间缺失的工程化环节，全部浏览器本地运行、不上传内容。',
+    groups: [
+      {
+        label: '新增工具 ×14（AI / 智能体 / MCP）',
+        note: '从「聊天」走向「能干活」：模型通过 Function Calling 调工具、智能体按流程自主跑、MCP 把外部系统统一接进客户端，这批工具补齐配套工程化环节。',
+        tools: [
+          { id: 'system-prompt-generator', role: '把角色/目标/约束拼成可直接用的系统提示词' },
+          { id: 'prompt-optimizer', role: '按 checklist 自动补全粗糙提示词并高亮改动' },
+          { id: 'prompt-injection-detector', role: '扫描越狱与指令劫持特征，按风险分级' },
+          { id: 'function-calling-generator', role: '表单化生成 OpenAI / Anthropic 函数调用定义' },
+          { id: 'rag-prompt-builder', role: '拼装带引用约束的检索增强提示词模板' },
+          { id: 'context-window-calculator', role: '算清一轮对话能吃多少 token、还能聊几轮' },
+          { id: 'fine-tune-dataset-generator', role: '把问答对整理成 Alpaca / ShareGPT 的 JSONL' },
+          { id: 'ai-model-selector', role: '按场景过滤主流模型并给出推荐理由' },
+          { id: 'agent-role-designer', role: '产出结构化智能体角色卡，人设不串戏' },
+          { id: 'agent-workflow-generator', role: '把步骤画成可落 n8n / Dify / LangGraph 的流程' },
+          { id: 'agent-name-generator', role: '按风格批量给智能体起候选名' },
+          { id: 'agent-eval-generator', role: '生成测试用例，防智能体上线后悄悄退化' },
+          { id: 'mcp-tool-generator', role: '写出合规的 MCP tool 定义（inputSchema）' },
+          { id: 'mcp-server-directory', role: '按维度整理热门 MCP Server，一站速览' },
+        ],
+      },
+    ],
+    notes: [
+      '好站导航新增「MCP · 模型上下文协议」分组，并充实 AI 智能体 / AI 模型分组',
+      '智能体专栏（/agents）新增 MCP 生态分组',
+      '博客新增《把 AI 用起来：MokaKit 工具箱扩容到 260，重点压在智能体与 MCP》',
+    ],
+  },
+  {
     version: '2026.10.09',
     date: '2026-10-09',
     title: '按 Bing 搜索数据重排 SEO · 新增全屏时钟，时钟族拆成三个着陆页',

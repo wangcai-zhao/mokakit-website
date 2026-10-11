@@ -95,4 +95,18 @@ export const AGENT_GROUPS: AgentGroup[] = [
       { name: 'Hugging Face', url: 'https://huggingface.co/', desc: '模型社区' }
     ],
   },
+  {
+    id: 'mcp-eco',
+    name: 'MCP 生态',
+    desc: '模型上下文协议相关的 Server 与客户端',
+    icon: 'plug',
+    links: [
+      { name: 'MCP 官方', url: 'https://modelcontextprotocol.io/', desc: '协议文档' },
+      { name: 'mcp.so', url: 'https://mcp.so/', desc: 'Server 社区目录' },
+      { name: 'MokaKit MCP', url: 'https://www.mokakit.com/mcp', desc: '工具接入' },
+      { name: 'Smithery', url: 'https://smithery.ai/', desc: 'Server 注册安装' },
+      { name: 'Composio', url: 'https://composio.dev/', desc: 'SaaS 工具集成' },
+      { name: 'Cline', url: 'https://cline.bot/', desc: '支持 MCP 的编码体' },
+    ],
+  },
 ];

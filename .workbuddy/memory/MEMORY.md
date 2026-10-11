@@ -1,9 +1,10 @@
 # MokaKit 摩卡工具箱 — 项目长期记忆
 
-> 目录 `D:\WorkBuddy\website`；git master，远端 github.com/wangcai-zhao/mokakit-website.git。续干：读本文件 + 当日日志 + conversation_search。
+> 📚 **项目专属知识库（更新前必读）**：`.workbuddy/memory/KNOWLEDGE_BASE.md` —— 含目录结构、技术规范（新增工具四件套 / WidgetHost 注册 / SEO / 财金单源）、部署节点、更新记录里程碑、避雷清单、下次更新前必读清单。任何 MokaKit 改动 / 部署前先读它。
+> 目录 `D:\WorkBuddy\website`；git master，远端 github.com/wangcai-zhao/mokakit-website.git。续干：KNOWLEDGE_BASE.md → 本文件 → 当日日志 → conversation_search。
 
 ## 架构
-- Astro 7 + Preact 10 + daisyUI 5 + Tailwind v4，纯静态。**246 个工具** / 11 分类（2026-10-09，新增 fullscreen-clock）。
+- Astro 7 + Preact 10 + daisyUI 5 + Tailwind v4，纯静态。**260 个工具** / 11 分类（2026-10-11，新增 14 个 AI/智能体/MCP 方向工具）。
 - 🔴 **`seoTitle` 与 `name` 要分开**：`ToolMeta.seoTitle` / `SubPage.seoTitle` 只作用于 `<title>`，`name` 管卡片、面包屑、h1。回退顺序 `seoTitle ?? title ?? tool.seoTitle ?? \`${name} - 在线免费工具\``。接入点有**两处**：`ToolLayout.astro` 和 **`ClockImmersiveLayout.astro`**（`category==='clock'` 的页走后者，改 SEO 标题时别漏）。依据：2026-10-09 Bing 数据实测，同一排名区间下标题首词命中查询词的点击率约为未命中的 2.5 倍。
 - **新工具四件套**：`src/tools/<id>/` 的 meta.ts + Tool.tsx + content.mdx + **WidgetHost.astro 注册**。
   registry.ts 用 import.meta.glob 自动发现 meta，但**水合必须静态 import**：WidgetHost 里要补①import ②`const isXxx = tool.id==='<id>'`③加进 `known` ④渲染区 load/idle/visible 三分支。漏④→ build 成功但 0 个 astro-island，工具是死壳。靠 `npm run check:widgets` 兜。
@@ -46,6 +47,7 @@ timeout 150 git -c credential.helper= -c "http.extraheader=Authorization: Basic 
 - Bash PATH 偶发损坏：开头加 `export PATH="/c/Users/zhao-/.workbuddy/binaries/PortableGit/versions/1.2.0/usr/bin:/c/Users/zhao-/.workbuddy/binaries/PortableGit/versions/1.2.0/bin:$PATH"`。
 - 工作区内 `rm -rf` 可用（safe-delete 只在个人目录生效），但 `git add -A` 会卷进 `_cprof`/`dist_partial_*` 等垃圾，批量提交前先扫。
 - MDX 里裸 `<` `{` `}` 会报语法错，批量生成后必查。tips 默认 draft:true，需显式 false。
+- ⚠️ `gen-sitemap.mjs` 在 `npm run build` 中偶发静默不产出 sitemap（沙箱），上线前 `ls dist/sitemap-0.xml` 确认；缺失则手动 `node scripts/gen-sitemap.mjs` 重跑并补传远端 `/var/www/mokakit/`。2026-10-11 实测踩过，deploy 流程无该护栏。
 
 ## 待办（勿擅自改，等旺财决策）
 ① 5 个工具算法去重（见上）；② markdown-preview 的 dangerouslySetInnerHTML 无消毒（A 引 dompurify / B 自研 / C 接受）；③ changelog 页 465KB、tools 索引 412KB 全量渲染；④ 286M 临时产物被 git 跟踪待清理；⑤ site.ts 教师普惠开关注释标 09-30 到期。

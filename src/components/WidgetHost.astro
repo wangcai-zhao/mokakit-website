@@ -47,6 +47,20 @@ import CronParser from '@/tools/cron-parser/Tool.tsx';
 import UdiGenerator from '@/tools/udi-generator/Tool.tsx';
 import UdiDecoder from '@/tools/udi-decoder/Tool.tsx';
 import AiPriceCompare from '@/tools/ai-price-compare/Tool.tsx';
+import SystemPromptGenerator from '@/tools/system-prompt-generator/Tool.tsx';
+import PromptOptimizer from '@/tools/prompt-optimizer/Tool.tsx';
+import PromptInjectionDetector from '@/tools/prompt-injection-detector/Tool.tsx';
+import FunctionCallingGenerator from '@/tools/function-calling-generator/Tool.tsx';
+import RagPromptBuilder from '@/tools/rag-prompt-builder/Tool.tsx';
+import ContextWindowCalculator from '@/tools/context-window-calculator/Tool.tsx';
+import FineTuneDatasetGenerator from '@/tools/fine-tune-dataset-generator/Tool.tsx';
+import AiModelSelector from '@/tools/ai-model-selector/Tool.tsx';
+import AgentRoleDesigner from '@/tools/agent-role-designer/Tool.tsx';
+import AgentWorkflowGenerator from '@/tools/agent-workflow-generator/Tool.tsx';
+import AgentNameGenerator from '@/tools/agent-name-generator/Tool.tsx';
+import AgentEvalGenerator from '@/tools/agent-eval-generator/Tool.tsx';
+import McpToolGenerator from '@/tools/mcp-tool-generator/Tool.tsx';
+import McpServerDirectory from '@/tools/mcp-server-directory/Tool.tsx';
 import GithubStars from '@/tools/github-stars/Tool.tsx';
 import GitignoreGen from '@/tools/gitignore-gen/Tool.tsx';
 import LicenseGen from '@/tools/license-gen/Tool.tsx';
@@ -317,6 +331,20 @@ const isCron = tool.id === 'cron-parser';
 const isUDIg = tool.id === 'udi-generator';
 const isUDId = tool.id === 'udi-decoder';
 const isAPC = tool.id === 'ai-price-compare';
+const isSysPrompt = tool.id === 'system-prompt-generator';
+const isPromptOpt = tool.id === 'prompt-optimizer';
+const isInjDetect = tool.id === 'prompt-injection-detector';
+const isFnCall = tool.id === 'function-calling-generator';
+const isRag = tool.id === 'rag-prompt-builder';
+const isCtx = tool.id === 'context-window-calculator';
+const isFinetune = tool.id === 'fine-tune-dataset-generator';
+const isModelSel = tool.id === 'ai-model-selector';
+const isAgentRole = tool.id === 'agent-role-designer';
+const isAgentWf = tool.id === 'agent-workflow-generator';
+const isAgentName = tool.id === 'agent-name-generator';
+const isAgentEval = tool.id === 'agent-eval-generator';
+const isMcpTool = tool.id === 'mcp-tool-generator';
+const isMcpDir = tool.id === 'mcp-server-directory';
 const isGHS = tool.id === 'github-stars';
 const isGI = tool.id === 'gitignore-gen';
 const isLic = tool.id === 'license-gen';
@@ -526,6 +554,7 @@ const known =
   isJFc || isCCv || isRE || isQR || isMD || isSkill || isMcp ||
   isTok || isPT || isPL || isJwt || isPwd || isRsa || isDiff || isHttp || isCron ||
   isUDIg || isUDId || isAPC || isGHS || isGI || isLic || isCommit || isCL ||
+  isSysPrompt || isPromptOpt || isInjDetect || isFnCall || isRag || isCtx || isFinetune || isModelSel || isAgentRole || isAgentWf || isAgentName || isAgentEval || isMcpTool || isMcpDir ||
   isDC || isBMI || isLoan || isPct || isTip || isAge || isTemp || isCD || isRN || isLot ||
   isTI || isBS || isDR || isNG || isES || isRPS || isDW || isJC || isSF || isHE || isUP ||
   isTD || isLS || isTR || isTOTP || isAES || isISBN ||
@@ -713,6 +742,76 @@ const known =
 {isAPC && mode === 'load' && <AiPriceCompare client:load {...widgetProps} />}
 {isAPC && mode === 'idle' && <AiPriceCompare client:idle {...widgetProps} />}
 {isAPC && mode === 'visible' && <AiPriceCompare client:visible {...widgetProps} />}
+
+<!-- 系统提示词生成器 -->
+{isSysPrompt && mode === 'load' && <SystemPromptGenerator client:load {...widgetProps} />}
+{isSysPrompt && mode === 'idle' && <SystemPromptGenerator client:idle {...widgetProps} />}
+{isSysPrompt && mode === 'visible' && <SystemPromptGenerator client:visible {...widgetProps} />}
+
+<!-- 提示词优化器 -->
+{isPromptOpt && mode === 'load' && <PromptOptimizer client:load {...widgetProps} />}
+{isPromptOpt && mode === 'idle' && <PromptOptimizer client:idle {...widgetProps} />}
+{isPromptOpt && mode === 'visible' && <PromptOptimizer client:visible {...widgetProps} />}
+
+<!-- 提示词注入检测 -->
+{isInjDetect && mode === 'load' && <PromptInjectionDetector client:load {...widgetProps} />}
+{isInjDetect && mode === 'idle' && <PromptInjectionDetector client:idle {...widgetProps} />}
+{isInjDetect && mode === 'visible' && <PromptInjectionDetector client:visible {...widgetProps} />}
+
+<!-- 函数调用 Schema 生成器 -->
+{isFnCall && mode === 'load' && <FunctionCallingGenerator client:load {...widgetProps} />}
+{isFnCall && mode === 'idle' && <FunctionCallingGenerator client:idle {...widgetProps} />}
+{isFnCall && mode === 'visible' && <FunctionCallingGenerator client:visible {...widgetProps} />}
+
+<!-- RAG 提示词构建器 -->
+{isRag && mode === 'load' && <RagPromptBuilder client:load {...widgetProps} />}
+{isRag && mode === 'idle' && <RagPromptBuilder client:idle {...widgetProps} />}
+{isRag && mode === 'visible' && <RagPromptBuilder client:visible {...widgetProps} />}
+
+<!-- 上下文窗口计算器 -->
+{isCtx && mode === 'load' && <ContextWindowCalculator client:load {...widgetProps} />}
+{isCtx && mode === 'idle' && <ContextWindowCalculator client:idle {...widgetProps} />}
+{isCtx && mode === 'visible' && <ContextWindowCalculator client:visible {...widgetProps} />}
+
+<!-- 微调数据集生成器 -->
+{isFinetune && mode === 'load' && <FineTuneDatasetGenerator client:load {...widgetProps} />}
+{isFinetune && mode === 'idle' && <FineTuneDatasetGenerator client:idle {...widgetProps} />}
+{isFinetune && mode === 'visible' && <FineTuneDatasetGenerator client:visible {...widgetProps} />}
+
+<!-- 场景选模型助手 -->
+{isModelSel && mode === 'load' && <AiModelSelector client:load {...widgetProps} />}
+{isModelSel && mode === 'idle' && <AiModelSelector client:idle {...widgetProps} />}
+{isModelSel && mode === 'visible' && <AiModelSelector client:visible {...widgetProps} />}
+
+<!-- 智能体角色设定生成器 -->
+{isAgentRole && mode === 'load' && <AgentRoleDesigner client:load {...widgetProps} />}
+{isAgentRole && mode === 'idle' && <AgentRoleDesigner client:idle {...widgetProps} />}
+{isAgentRole && mode === 'visible' && <AgentRoleDesigner client:visible {...widgetProps} />}
+
+<!-- 智能体工作流生成器 -->
+{isAgentWf && mode === 'load' && <AgentWorkflowGenerator client:load {...widgetProps} />}
+{isAgentWf && mode === 'idle' && <AgentWorkflowGenerator client:idle {...widgetProps} />}
+{isAgentWf && mode === 'visible' && <AgentWorkflowGenerator client:visible {...widgetProps} />}
+
+<!-- 智能体命名生成器 -->
+{isAgentName && mode === 'load' && <AgentNameGenerator client:load {...widgetProps} />}
+{isAgentName && mode === 'idle' && <AgentNameGenerator client:idle {...widgetProps} />}
+{isAgentName && mode === 'visible' && <AgentNameGenerator client:visible {...widgetProps} />}
+
+<!-- 智能体评测用例生成器 -->
+{isAgentEval && mode === 'load' && <AgentEvalGenerator client:load {...widgetProps} />}
+{isAgentEval && mode === 'idle' && <AgentEvalGenerator client:idle {...widgetProps} />}
+{isAgentEval && mode === 'visible' && <AgentEvalGenerator client:visible {...widgetProps} />}
+
+<!-- MCP 工具定义生成器 -->
+{isMcpTool && mode === 'load' && <McpToolGenerator client:load {...widgetProps} />}
+{isMcpTool && mode === 'idle' && <McpToolGenerator client:idle {...widgetProps} />}
+{isMcpTool && mode === 'visible' && <McpToolGenerator client:visible {...widgetProps} />}
+
+<!-- MCP 服务器清单 -->
+{isMcpDir && mode === 'load' && <McpServerDirectory client:load {...widgetProps} />}
+{isMcpDir && mode === 'idle' && <McpServerDirectory client:idle {...widgetProps} />}
+{isMcpDir && mode === 'visible' && <McpServerDirectory client:visible {...widgetProps} />}
 
 <!-- GitHub 高星项目榜 -->
 {isGHS && mode === 'load' && <GithubStars client:load {...widgetProps} />}
