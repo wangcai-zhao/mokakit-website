@@ -49,7 +49,7 @@ timeout 150 git -c credential.helper= -c "http.extraheader=Authorization: Basic 
 - 工作区内 `rm -rf` 可用（safe-delete 只在个人目录生效），但 `git add -A` 会卷进 `_cprof`/`dist_partial_*` 等垃圾，批量提交前先扫。
 - MDX 里裸 `<` `{` `}` 会报语法错，批量生成后必查。tips 默认 draft:true，需显式 false。
 - ⚠️ `gen-sitemap.mjs` 在 `npm run build` 中偶发静默不产出 sitemap（沙箱），上线前 `ls dist/sitemap-0.xml` 确认；缺失则手动 `node scripts/gen-sitemap.mjs` 重跑并补传远端 `/var/www/mokakit/`。2026-10-11 实测踩过，deploy 流程无该护栏。
-- ⚠️ **IMA 文件上传在当前环境走不通**（2026-10-12 实测）：`create_media` 拿到腾讯云 COS 临时凭证后，对标准端点 `ima-media-prod-1258344701.cos.ap-shanghai.myqcloud.com` 与 custom_domain 均返回 `InvalidAccessKeyId`（AK 不被 COS 认，非签名错）；且本机连不上 npm registry，装不了官方 `cos-nodejs-sdk-v5`。→ IMA 同步知识库只能由旺财在 IMA App 手动建「MokaKit 项目专属知识库」粘贴 `KNOWLEDGE_BASE.md` 内容，或等网络/COS 恢复后重试。IMA 可写库仅「旺财先生的知识库」。
+- ⚠️ **IMA 同步知识库方法（2026-10-12 实测，已跑通）**：「MokaKit 项目专属知识库」id = `7515215847499395`（旺财在 IMA 建）。**主路径 `create_media→COS→add_knowledge` 当前坏**：IMA 下发的 STS `secret_id` 格式异常（带连字符，非标准腾讯 AKID），腾讯云 COS 标准端点 `InvalidAccessKeyId`、custom_domain 403 Forbidden；官方 `cos-nodejs-sdk-v5` 同样报错，确认是 IMA 凭证发放侧问题，非签名 bug。**可用旁路 = `import_urls`**：传 `knowledge_base_id=7515215847499395`、空 `folder_id`、`urls=[https://raw.githubusercontent.com/wangcai-zhao/mokakit-website/master/.workbuddy/memory/KNOWLEDGE_BASE.md]`，把 GitHub raw 链接导入即可（ret_code 0、解析成功）。改完本地 KB 后 commit+push 到 GitHub，再 `import_urls` 同 URL 即更新（同 URL 可能产生新条目，必要时在 IMA 删旧条）。
 
 ## 待办（勿擅自改，等旺财决策）
 ① 5 个工具算法去重（见上）；② markdown-preview 的 dangerouslySetInnerHTML 无消毒（A 引 dompurify / B 自研 / C 接受）；③ changelog 页 465KB、tools 索引 412KB 全量渲染；④ 286M 临时产物被 git 跟踪待清理；⑤ site.ts 教师普惠开关注释标 09-30 到期。
