@@ -4,7 +4,7 @@
 > 目录 `D:\WorkBuddy\website`；git master，远端 github.com/wangcai-zhao/mokakit-website.git。续干：KNOWLEDGE_BASE.md → 本文件 → 当日日志 → conversation_search。
 
 ## 架构
-- Astro 7 + Preact 10 + daisyUI 5 + Tailwind v4，纯静态。**260 个工具** / 11 分类（2026-10-11，新增 14 个 AI/智能体/MCP 方向工具）。
+- Astro 7 + Preact 10 + daisyUI 5 + Tailwind v4，纯静态。**280 个工具** / 11 分类（2026-10-20 新增 20 个：文本/换算/金融/安全/开发/生活）。
 - 🔴 **`seoTitle` 与 `name` 要分开**：`ToolMeta.seoTitle` / `SubPage.seoTitle` 只作用于 `<title>`，`name` 管卡片、面包屑、h1。回退顺序 `seoTitle ?? title ?? tool.seoTitle ?? \`${name} - 在线免费工具\``。接入点有**两处**：`ToolLayout.astro` 和 **`ClockImmersiveLayout.astro`**（`category==='clock'` 的页走后者，改 SEO 标题时别漏）。依据：2026-10-09 Bing 数据实测，同一排名区间下标题首词命中查询词的点击率约为未命中的 2.5 倍。
 - **新工具四件套**：`src/tools/<id>/` 的 meta.ts + Tool.tsx + content.mdx + **WidgetHost.astro 注册**。
   registry.ts 用 import.meta.glob 自动发现 meta，但**水合必须静态 import**：WidgetHost 里要补①import ②`const isXxx = tool.id==='<id>'`③加进 `known` ④渲染区 load/idle/visible 三分支。漏④→ build 成功但 0 个 astro-island，工具是死壳。靠 `npm run check:widgets` 兜。

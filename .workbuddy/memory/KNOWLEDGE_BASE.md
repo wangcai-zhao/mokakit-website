@@ -7,7 +7,7 @@
 ---
 
 ## 0. 一句话定位
-MokaKit = "AI 时代的工具箱"，**纯静态站点**，260 个免费在线工具 / 11 分类。战略核心是 **MCP Server**——让外部 LLM（Claude / GPT 等）能直接调用这 260 个工具的能力。
+MokaKit = "AI 时代的工具箱"，**纯静态站点**，280 个免费在线工具 / 11 分类。战略核心是 **MCP Server**——让外部 LLM（Claude / GPT 等）能直接调用这 280 个工具的能力。
 
 ---
 
@@ -21,7 +21,7 @@ MokaKit = "AI 时代的工具箱"，**纯静态站点**，260 个免费在线工
 | AdSense | `ca-pub-0218164655974877`（`site.ts` 预留 `ads.enabled` 开关，默认 false） |
 | 服务器 | 腾讯云 `58.87.68.151`（root） |
 | 技术栈 | Astro 7 + Preact 10 + daisyUI 5 + Tailwind v4（纯静态；MCP 是唯一的 Node 运行时） |
-| 当前规模 | 260 工具 / 11 分类（2026-10-11 达成；动态，以 `src/tools` 为准） |
+| 当前规模 | 280 工具 / 11 分类（2026-10-20 达成；动态，以 `src/tools` 为准） |
 
 ---
 
@@ -74,7 +74,7 @@ dist/              构建产物（610+ index.html，可重建，勿手改）
 3. 加进 `known` 大 OR 表达式；
 4. 渲染区补 `load` / `idle` / `visible` 三分支（如 `{isXxx && mode === 'visible' && <Xxx client:visible {...widgetProps} />}`）。
 
-判定真上线：`grep -c astro-island dist/tools/<id>/index.html` ≥ 1。靠 `npm run check:widgets` 兜底（扫 260 个工具是否都注册）。
+判定真上线：`grep -c astro-island dist/tools/<id>/index.html` ≥ 1。靠 `npm run check:widgets` 兜底（扫 280 个工具是否都注册）。
 
 ### 3.3 命名规范
 - 工具 id：kebab-case（`system-prompt-generator`），与目录名一致。

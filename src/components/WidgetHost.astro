@@ -278,6 +278,26 @@ import LaborIncomeTax from '@/tools/labor-income-tax/Tool.tsx';
 import SecondHandHouseTax from '@/tools/second-hand-house-tax/Tool.tsx';
 import ShippingFeeCalculator from '@/tools/shipping-fee-calculator/Tool.tsx';
 import DownloadTimeCalculator from '@/tools/download-time-calculator/Tool.tsx';
+import WordFrequency from '@/tools/word-frequency/Tool.tsx';
+import MorseCode from '@/tools/morse-code/Tool.tsx';
+import RemoveAccents from '@/tools/remove-accents/Tool.tsx';
+import NatoPhonetic from '@/tools/nato-phonetic/Tool.tsx';
+import AngleConvert from '@/tools/angle-convert/Tool.tsx';
+import DataRateConvert from '@/tools/data-rate-convert/Tool.tsx';
+import SpeedConvert from '@/tools/speed-convert/Tool.tsx';
+import FrequencyConvert from '@/tools/frequency-convert/Tool.tsx';
+import CagrCalculator from '@/tools/cagr-calculator/Tool.tsx';
+import RuleOf72 from '@/tools/rule-of-72/Tool.tsx';
+import DepreciationCalculator from '@/tools/depreciation-calculator/Tool.tsx';
+import AnnuityCalculator from '@/tools/annuity-calculator/Tool.tsx';
+import Crc32Checksum from '@/tools/crc32-checksum/Tool.tsx';
+import Base32Encoder from '@/tools/base32-encoder/Tool.tsx';
+import Rot13Cipher from '@/tools/rot13-cipher/Tool.tsx';
+import Pbkdf2Generator from '@/tools/pbkdf2-generator/Tool.tsx';
+import CsvToJson from '@/tools/csv-to-json/Tool.tsx';
+import RateLimitCalculator from '@/tools/rate-limit-calculator/Tool.tsx';
+import PetAgeCalculator from '@/tools/pet-age-calculator/Tool.tsx';
+import CoffeeRatio from '@/tools/coffee-ratio/Tool.tsx';
 
 interface Props {
   tool: ToolMeta;
@@ -548,6 +568,26 @@ const isLaborTax = tool.id === 'labor-income-tax';
 const isSecondHandTax = tool.id === 'second-hand-house-tax';
 const isShipFee = tool.id === 'shipping-fee-calculator';
 const isDownloadTime = tool.id === 'download-time-calculator';
+const isWordFreq = tool.id === 'word-frequency';
+const isMorse = tool.id === 'morse-code';
+const isRemoveAccents = tool.id === 'remove-accents';
+const isNato = tool.id === 'nato-phonetic';
+const isAngleConv = tool.id === 'angle-convert';
+const isDataRate = tool.id === 'data-rate-convert';
+const isSpeedConv = tool.id === 'speed-convert';
+const isFreqConv = tool.id === 'frequency-convert';
+const isCagr = tool.id === 'cagr-calculator';
+const isRule72 = tool.id === 'rule-of-72';
+const isDeprec = tool.id === 'depreciation-calculator';
+const isAnnuity = tool.id === 'annuity-calculator';
+const isCrc32 = tool.id === 'crc32-checksum';
+const isBase32 = tool.id === 'base32-encoder';
+const isRot13 = tool.id === 'rot13-cipher';
+const isPbkdf2 = tool.id === 'pbkdf2-generator';
+const isCsvJson = tool.id === 'csv-to-json';
+const isRateLimit = tool.id === 'rate-limit-calculator';
+const isPetAge = tool.id === 'pet-age-calculator';
+const isCoffeeRatio = tool.id === 'coffee-ratio';
 const known =
   isPG || isUC || isTS || isJF || isCC || isBC || isHC ||
   isUE || isB64 || isUUID || isTC || isColor ||
@@ -585,7 +625,10 @@ const known =
   isImgCompress || isImgResize || isImgConvert || isImgB64 || isImgWM || isImgCrop || isImgFilter || isImgInfo || isFavGen || isPlaceholder || isTxtExtract || isTxtReplace || isTxtWS || isTxtSplitJoin || isTxtPad || isUniEsc || isCnNum || isTxtSim || isMdToc || isLorem || isJsonDiff || isJson2Ts || isJsonFlat || isCurlConv || isChmod || isNginxGen || isDockerGen || isMdTable || isSecHeaders || isGitCmd || isDesens ||
   isStopwatch || isPomodoro || isBreakEven || isRoi || isIdCard || isBankCard ||
   isCidr || isMatrix || isMetaTags || isBytesConv || isSaveGoal ||
-  isVehPurchaseTax || isLaborTax || isSecondHandTax || isShipFee || isDownloadTime;
+  isVehPurchaseTax || isLaborTax || isSecondHandTax || isShipFee || isDownloadTime ||
+  isWordFreq || isMorse || isRemoveAccents || isNato || isAngleConv || isDataRate || isSpeedConv || isFreqConv ||
+  isCagr || isRule72 || isDeprec || isAnnuity || isCrc32 || isBase32 || isRot13 || isPbkdf2 ||
+  isCsvJson || isRateLimit || isPetAge || isCoffeeRatio;
 ---
 
 <!-- 密码生成器 -->
@@ -1826,6 +1869,106 @@ const known =
 {isDownloadTime && mode === 'load' && <DownloadTimeCalculator client:load {...widgetProps} />}
 {isDownloadTime && mode === 'idle' && <DownloadTimeCalculator client:idle {...widgetProps} />}
 {isDownloadTime && mode === 'visible' && <DownloadTimeCalculator client:visible {...widgetProps} />}
+
+<!-- 词频统计 -->
+{isWordFreq && mode === 'load' && <WordFrequency client:load {...widgetProps} />}
+{isWordFreq && mode === 'idle' && <WordFrequency client:idle {...widgetProps} />}
+{isWordFreq && mode === 'visible' && <WordFrequency client:visible {...widgetProps} />}
+
+<!-- 摩斯密码 -->
+{isMorse && mode === 'load' && <MorseCode client:load {...widgetProps} />}
+{isMorse && mode === 'idle' && <MorseCode client:idle {...widgetProps} />}
+{isMorse && mode === 'visible' && <MorseCode client:visible {...widgetProps} />}
+
+<!-- 去除重音符号 -->
+{isRemoveAccents && mode === 'load' && <RemoveAccents client:load {...widgetProps} />}
+{isRemoveAccents && mode === 'idle' && <RemoveAccents client:idle {...widgetProps} />}
+{isRemoveAccents && mode === 'visible' && <RemoveAccents client:visible {...widgetProps} />}
+
+<!-- 北约音标字母 -->
+{isNato && mode === 'load' && <NatoPhonetic client:load {...widgetProps} />}
+{isNato && mode === 'idle' && <NatoPhonetic client:idle {...widgetProps} />}
+{isNato && mode === 'visible' && <NatoPhonetic client:visible {...widgetProps} />}
+
+<!-- 角度单位换算 -->
+{isAngleConv && mode === 'load' && <AngleConvert client:load {...widgetProps} />}
+{isAngleConv && mode === 'idle' && <AngleConvert client:idle {...widgetProps} />}
+{isAngleConv && mode === 'visible' && <AngleConvert client:visible {...widgetProps} />}
+
+<!-- 数据速率换算 -->
+{isDataRate && mode === 'load' && <DataRateConvert client:load {...widgetProps} />}
+{isDataRate && mode === 'idle' && <DataRateConvert client:idle {...widgetProps} />}
+{isDataRate && mode === 'visible' && <DataRateConvert client:visible {...widgetProps} />}
+
+<!-- 速度单位换算 -->
+{isSpeedConv && mode === 'load' && <SpeedConvert client:load {...widgetProps} />}
+{isSpeedConv && mode === 'idle' && <SpeedConvert client:idle {...widgetProps} />}
+{isSpeedConv && mode === 'visible' && <SpeedConvert client:visible {...widgetProps} />}
+
+<!-- 频率单位换算 -->
+{isFreqConv && mode === 'load' && <FrequencyConvert client:load {...widgetProps} />}
+{isFreqConv && mode === 'idle' && <FrequencyConvert client:idle {...widgetProps} />}
+{isFreqConv && mode === 'visible' && <FrequencyConvert client:visible {...widgetProps} />}
+
+<!-- 复合年增长率 -->
+{isCagr && mode === 'load' && <CagrCalculator client:load {...widgetProps} />}
+{isCagr && mode === 'idle' && <CagrCalculator client:idle {...widgetProps} />}
+{isCagr && mode === 'visible' && <CagrCalculator client:visible {...widgetProps} />}
+
+<!-- 72 法则 -->
+{isRule72 && mode === 'load' && <RuleOf72 client:load {...widgetProps} />}
+{isRule72 && mode === 'idle' && <RuleOf72 client:idle {...widgetProps} />}
+{isRule72 && mode === 'visible' && <RuleOf72 client:visible {...widgetProps} />}
+
+<!-- 折旧计算器 -->
+{isDeprec && mode === 'load' && <DepreciationCalculator client:load {...widgetProps} />}
+{isDeprec && mode === 'idle' && <DepreciationCalculator client:idle {...widgetProps} />}
+{isDeprec && mode === 'visible' && <DepreciationCalculator client:visible {...widgetProps} />}
+
+<!-- 年金计算器 -->
+{isAnnuity && mode === 'load' && <AnnuityCalculator client:load {...widgetProps} />}
+{isAnnuity && mode === 'idle' && <AnnuityCalculator client:idle {...widgetProps} />}
+{isAnnuity && mode === 'visible' && <AnnuityCalculator client:visible {...widgetProps} />}
+
+<!-- CRC32 校验和 -->
+{isCrc32 && mode === 'load' && <Crc32Checksum client:load {...widgetProps} />}
+{isCrc32 && mode === 'idle' && <Crc32Checksum client:idle {...widgetProps} />}
+{isCrc32 && mode === 'visible' && <Crc32Checksum client:visible {...widgetProps} />}
+
+<!-- Base32 编解码 -->
+{isBase32 && mode === 'load' && <Base32Encoder client:load {...widgetProps} />}
+{isBase32 && mode === 'idle' && <Base32Encoder client:idle {...widgetProps} />}
+{isBase32 && mode === 'visible' && <Base32Encoder client:visible {...widgetProps} />}
+
+<!-- ROT13 凯撒密码 -->
+{isRot13 && mode === 'load' && <Rot13Cipher client:load {...widgetProps} />}
+{isRot13 && mode === 'idle' && <Rot13Cipher client:idle {...widgetProps} />}
+{isRot13 && mode === 'visible' && <Rot13Cipher client:visible {...widgetProps} />}
+
+<!-- PBKDF2 密钥派生 -->
+{isPbkdf2 && mode === 'load' && <Pbkdf2Generator client:load {...widgetProps} />}
+{isPbkdf2 && mode === 'idle' && <Pbkdf2Generator client:idle {...widgetProps} />}
+{isPbkdf2 && mode === 'visible' && <Pbkdf2Generator client:visible {...widgetProps} />}
+
+<!-- CSV 与 JSON 互转 -->
+{isCsvJson && mode === 'load' && <CsvToJson client:load {...widgetProps} />}
+{isCsvJson && mode === 'idle' && <CsvToJson client:idle {...widgetProps} />}
+{isCsvJson && mode === 'visible' && <CsvToJson client:visible {...widgetProps} />}
+
+<!-- 限流参数计算器 -->
+{isRateLimit && mode === 'load' && <RateLimitCalculator client:load {...widgetProps} />}
+{isRateLimit && mode === 'idle' && <RateLimitCalculator client:idle {...widgetProps} />}
+{isRateLimit && mode === 'visible' && <RateLimitCalculator client:visible {...widgetProps} />}
+
+<!-- 宠物年龄换算 -->
+{isPetAge && mode === 'load' && <PetAgeCalculator client:load {...widgetProps} />}
+{isPetAge && mode === 'idle' && <PetAgeCalculator client:idle {...widgetProps} />}
+{isPetAge && mode === 'visible' && <PetAgeCalculator client:visible {...widgetProps} />}
+
+<!-- 咖啡粉水比 -->
+{isCoffeeRatio && mode === 'load' && <CoffeeRatio client:load {...widgetProps} />}
+{isCoffeeRatio && mode === 'idle' && <CoffeeRatio client:idle {...widgetProps} />}
+{isCoffeeRatio && mode === 'visible' && <CoffeeRatio client:visible {...widgetProps} />}
 
 <!-- 未接入水合岛屿的工具 -->
 {

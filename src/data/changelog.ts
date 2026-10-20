@@ -47,6 +47,127 @@ export interface Release {
 
 export const RELEASES: Release[] = [
   {
+    version: '2026.10.20',
+    date: '2026-10-20',
+    title: '批量新增 20 个实用工具 · 文本 / 换算 / 金融 / 安全 / 开发 / 生活全覆盖',
+    summary:
+      '这一批新增 20 个工具，把日常「想算一下」的场景尽量收进工具箱：文本类（词频、摩斯、去重音、北约音标）、换算类（角度、数据速率、速度、频率）、金融类（复合年增长率、72 法则、折旧、年金）、安全类（CRC32、Base32、ROT13、PBKDF2）、开发类（CSV/JSON 互转、限流参数）、生活类（宠物年龄、咖啡粉水比）。所有计算逻辑继续只写在 src/lib 纯函数层、与未来 MCP Server 同源，前端与 AI 调用不会算出两套数；错误处理统一走 ToolResult 判别联合，报错一律红字 role=alert，输入校验统一用 parseNumber 守门。',
+    groups: [
+      {
+        label: '文本处理 ×4',
+        note: '本地运行、不上传文本，适合写作、教学与数据清洗。',
+        tools: [
+          { id: 'word-frequency', role: '统计中英文词频与占比，支持停用词/最小词长/TopN' },
+          { id: 'morse-code', role: '文本与摩斯密码双向互转' },
+          { id: 'remove-accents', role: '移除拉丁字母重音，便于检索与归一' },
+          { id: 'nato-phonetic', role: '字母与北约音标单词双向转换' },
+        ],
+      },
+      {
+        label: '单位换算 ×4',
+        note: '输入一值即得其余单位，覆盖角度、速率、速度、频率。',
+        tools: [
+          { id: 'angle-convert', role: '角度/弧度/梯度/度分秒互转' },
+          { id: 'data-rate-convert', role: 'bit/s 系单位互转，支持 1000 与 1024 进制' },
+          { id: 'speed-convert', role: '米每秒/公里时/英里时/节互转' },
+          { id: 'frequency-convert', role: 'Hz/kHz/MHz/GHz 与 rpm 互转' },
+        ],
+      },
+      {
+        label: '金融计算 ×4',
+        note: '评估增长、翻倍、折旧与年金，公式透明可核对。',
+        tools: [
+          {
+            id: 'cagr-calculator',
+            role: '算期初到期末的年化复合增长率与倍数',
+            features: [
+              'CAGR = (期末/期初)^(1/年数) − 1，抹平中间波动',
+              '同时给出增长倍数，年数支持小数',
+            ],
+          },
+          {
+            id: 'rule-of-72',
+            role: '用 72 法则快速估算本金翻倍年限',
+            features: [
+              '72 ÷ 年化利率得到估算值',
+              '同步给出精确公式 ln(2)/ln(1+r) 对照',
+            ],
+          },
+          {
+            id: 'depreciation-calculator',
+            role: '三种折旧法逐年明细（年限平均/年数总和/双倍余额递减）',
+            features: [
+              '逐年输出当年折旧、累计折旧、账面净值',
+              '残值与年限做边界校验，末年不击穿残值',
+            ],
+          },
+          {
+            id: 'annuity-calculator',
+            role: '算普通年金终值与现值，汇总本金与利息',
+            features: [
+              '终值 FV 与现值 PV 同屏给出',
+              '利率为 0 时两值都等于本金合计',
+            ],
+          },
+        ],
+      },
+      {
+        label: '安全加密 ×4',
+        note: '检错、编码与口令拉伸，浏览器本地完成、不上传。',
+        tools: [
+          {
+            id: 'crc32-checksum',
+            role: '计算文本 CRC32 校验和，用于完整性检错',
+            features: [
+              '输出 8 位十六进制，基于 UTF-8 字节',
+              '适合文件/通信传输检错（非加密哈希）',
+            ],
+          },
+          {
+            id: 'base32-encoder',
+            role: '文本与 Base32 双向编解码（RFC 4648）',
+            features: [
+              '只含 A-Z 与 2-7，避免 URL/文件名被转义',
+              '解码自动忽略空格与大小写',
+            ],
+          },
+          {
+            id: 'rot13-cipher',
+            role: '字母按任意偏移移位，默认 ROT13 可双向',
+            features: [
+              '只处理 A-Z/a-z，数字与中文原样保留',
+              '偏移 0-25 可调，得到标准凯撒密码',
+            ],
+          },
+          {
+            id: 'pbkdf2-generator',
+            role: '用 Web Crypto 生成 PBKDF2 派生密钥',
+            features: [
+              '可调迭代次数/密钥长度/哈希算法',
+              '密码加盐多次拉伸，抗暴力破解',
+            ],
+          },
+        ],
+      },
+      {
+        label: '开发辅助 ×2',
+        note: '数据格式转换与接口限流参数推导。',
+        tools: [
+          { id: 'csv-to-json', role: 'CSV 与 JSON 双向转换，可选分隔符与表头' },
+          { id: 'rate-limit-calculator', role: '由速率与突发容量推导令牌桶限流参数' },
+        ],
+      },
+      {
+        label: '生活实用 ×2',
+        note: '宠物与咖啡等日常小算计，仅供娱乐/参考。',
+        tools: [
+          { id: 'pet-age-calculator', role: '狗/猫年龄换算人类岁数并给生命阶段' },
+          { id: 'coffee-ratio', role: '按粉量配比例或水量，算手冲粉水比' },
+        ],
+      },
+    ],
+  },
+  {
     version: '2026.10.11',
     date: '2026-10-11',
     title: 'AI / 智能体 / MCP 工具扩容至 260 · 好站导航新增 MCP 分组',
