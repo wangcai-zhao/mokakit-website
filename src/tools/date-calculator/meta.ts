@@ -29,5 +29,5 @@ export default defineTool({
       a: '支持。在天数输入框填负数即可往前推，例如填 -30 就是当前日期往前 30 天。计算会自动处理跨月、跨年和闰年二月，不需要你手动换算。',
     },
   ],
-  related: ['age-calculator', 'timestamp-converter'],
+  related: ['90-day', 'days-between', 'days-ago', 'workdays-count'],
 });

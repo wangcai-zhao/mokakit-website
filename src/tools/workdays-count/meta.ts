@@ -34,4 +34,5 @@ export default defineTool({
       a: '包含。开始日和结束日都计入区间。例如 9 月 1 日到 9 月 1 日算 1 天。跨月、跨年都能正确累计。',
     },
   ],
+  related: ['days-between', '90-day', 'days-ago', 'calendar-quarter'],
 });

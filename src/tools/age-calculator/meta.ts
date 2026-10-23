@@ -29,5 +29,5 @@ export default defineTool({
       a: '因为每个月天数不同。计算「几岁几个月零几天」时，天数不足会向上一个月借位，而各月天数在 28 到 31 天之间，所以借位得到的余数会随月份变化，这是正常现象。',
     },
   ],
-  related: ['date-calculator', 'timestamp-converter'],
+  related: ['90-day', 'date-calculator', 'min-age-birth', 'retirement-age'],
 });

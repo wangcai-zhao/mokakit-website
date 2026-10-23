@@ -86,6 +86,16 @@ export default function TodayInfoTool() {
 
   const isToday = useMemo(() => dateStr === toLocalDateInput(new Date()), [dateStr]);
 
+  // 查询日期前一天 / 后一天快捷切换
+  const shiftDay = (n: number) => {
+    const parts = dateStr.split('-').map(Number);
+    if (parts.length !== 3 || parts.some((v) => !Number.isFinite(v))) return;
+    const d = new Date(parts[0], parts[1] - 1, parts[2]);
+    if (Number.isNaN(d.getTime())) return;
+    d.setDate(d.getDate() + n);
+    setDateStr(toLocalDateInput(d));
+  };
+
   const summary = useMemo(() => {
     if (!info) return '';
     return [
@@ -128,6 +138,22 @@ export default function TodayInfoTool() {
             onInput={(e) => setDateStr((e.target as HTMLInputElement).value)}
           />
         </div>
+        <button
+          type="button"
+          class="btn btn-sm btn-outline"
+          onClick={() => shiftDay(-1)}
+          aria-label="查询日期改为前一天"
+        >
+          前一天
+        </button>
+        <button
+          type="button"
+          class="btn btn-sm btn-outline"
+          onClick={() => shiftDay(1)}
+          aria-label="查询日期改为后一天"
+        >
+          后一天
+        </button>
         {!isToday && (
           <button
             type="button"

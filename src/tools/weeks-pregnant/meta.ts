@@ -29,5 +29,5 @@ export default defineTool({
       a: '孕周与预产期都依赖 LMP，填错会整体偏移。工具会校验日期合法性，若 LMP 晚于今天会提示核对。',
     },
   ],
-  related: ['age-calculator', 'days-between', '90-day', 'days-ago'],
+  related: ['due-date', 'days-between', '90-day', 'days-ago'],
 });

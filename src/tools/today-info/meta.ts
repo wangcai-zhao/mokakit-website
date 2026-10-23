@@ -5,7 +5,7 @@ export default defineTool({
   name: '今天几号',
   tagline: '日期星期与年份信息',
   description:
-    '免费在线查询今天是几月几号、星期几的工具，一屏看全本年第几周（ISO 8601）、今年第几天、是否闰年、距离年末还有多少天、距下一个节气/节日还有几天。支持切换任意历史或未来日期查询，附万年历速查，纯浏览器本地运算，打开即用，结果可一键复制。',
+    '免费在线查询今天是几月几号、星期几的工具，一屏看全本年第几周（ISO 8601）、今年第几天、是否闰年、所属季度、本月天数与距离年末还有多少天，附年度进度条。支持切换任意历史或未来日期查询，可一键跳到前一天或后一天，纯浏览器本地运算，打开即用，结果可一键复制。',
   keywords: ['今天几号', '今天星期几', '第几周', '今年第几天', '闰年查询'],
   category: 'life',
   tags: ['日期', '查询'],
@@ -13,7 +13,7 @@ export default defineTool({
   status: 'stable',
   hydrate: 'load',
   createdAt: '2026-08-05',
-  updatedAt: '2026-08-05',
+  updatedAt: '2026-10-23',
   priority: 6,
   faq: [
     {
@@ -29,5 +29,5 @@ export default defineTool({
       a: '工具读取的是你设备的系统时间与时区。如果显示有偏差，请检查电脑或手机的日期时间设置是否正确、时区是否选对。你也可以在上方手动切换到任意日期进行查询。',
     },
   ],
-  related: ['countdown-timer', 'timestamp-converter'],
+  related: ['90-day', 'days-ago', 'lunar-converter', 'calendar-quarter'],
 });

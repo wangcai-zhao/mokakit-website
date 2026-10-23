@@ -29,5 +29,5 @@ export default defineTool({
       a: '输入 1-12 之外的数字会提示「请输入 1 到 12 之间的月份」，不会给出错误结果。',
     },
   ],
-  related: ['days-between', '90-day', 'time-duration', 'date-calculator'],
+  related: ['today-info', 'days-between', '90-day', 'date-calculator'],
 });

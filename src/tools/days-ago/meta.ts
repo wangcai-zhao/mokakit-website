@@ -30,5 +30,5 @@ export default defineTool({
       a: '可以。结果区右侧有复制按钮，一键复制 ISO 格式（YYYY-MM-DD）方便粘贴到别处。',
     },
   ],
-  related: ['90-day', 'days-between', 'date-calculator', 'age-calculator'],
+  related: ['90-day', 'days-between', 'date-calculator', 'lunar-converter'],
 });

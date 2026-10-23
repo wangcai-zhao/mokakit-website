@@ -33,4 +33,5 @@ export default defineTool({
       a: '不能。预产期只预测分娩的大致时间，与宝宝性别、健康状况无关。任何关于性别或发育的判断都应通过正规产检（B 超、唐筛、无创 DNA 等）由医生给出。',
     },
   ],
+  related: ['weeks-pregnant', 'age-calculator', 'days-between', '90-day'],
 });

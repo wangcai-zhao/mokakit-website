@@ -2,18 +2,18 @@ import { defineTool } from '@/tools/types';
 
 export default defineTool({
   id: '90-day',
-  name: '90天计算器',
-  tagline: '算 90 天/任意天后是几号',
+  name: '90天计算器 · 日期与农历工具箱',
+  tagline: '日期推算 + 天数间隔 + 阴阳历互转，本地一键算',
   description:
-    '免费在线 90 天计算器，输入起始日期即可算出 90 天、180 天或任意自定义天数之后是哪一天，并显示对应的星期几与 ISO 周数。适用于合同到期、项目节点、账期、试用期、保质期与各类截止日推算，支持往前（向前）推算与批量日期计算，全部在浏览器本地计算。',
-  keywords: ['90天计算器', '90天后是几号', '日期加天数', '到期日推算', '天数后日期'],
+    '免费在线 90 天计算器 / 日期工具箱，集三大功能：①日期推算——输入起始日期加任意天数（含负数往前推）即算目标日期与星期几；②天数间隔——选择开始与结束日期精确算出相差天数，并给出周数、约月数、约年数；③阴阳历转换——公历与农历双向互转，自动展示干支年、生肖与星期。适用于合同到期、项目节点、账期、试用期、保质期、纪念日倒推、工期核算与农历查询，自动处理跨月跨年、闰年与闰月，全部在浏览器本地计算。',
+  keywords: ['90天计算器', '天数计算器', '阴阳历转换', '公历转农历', '农历转公历', '90天后是几号', '两个日期相差天数', '日期加天数', '到期日推算'],
   category: 'calc',
   tags: ['日期', '天数', '计算'],
   icon: 'calendar',
   status: 'stable',
   hydrate: 'idle',
   createdAt: '2026-08-09',
-  updatedAt: '2026-08-09',
+  updatedAt: '2026-10-23',
   priority: 7,
   faq: [
     {
@@ -29,5 +29,5 @@ export default defineTool({
       a: '不会。计算基于真实公历，自动处理闰年 29 天、跨月与跨年。',
     },
   ],
-  related: ['days-ago', 'days-between', 'date-calculator', 'age-calculator'],
+  related: ['lunar-converter', 'days-ago', 'days-between', 'date-calculator'],
 });

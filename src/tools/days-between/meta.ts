@@ -29,5 +29,5 @@ export default defineTool({
       a: '不会。结果仍显示相差天数，并标注「结束早于起始」，方便核对输入是否填反。',
     },
   ],
-  related: ['90-day', 'days-ago', 'date-calculator', 'age-calculator'],
+  related: ['90-day', 'days-ago', 'date-calculator', 'lunar-converter'],
 });

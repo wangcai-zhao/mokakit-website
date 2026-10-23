@@ -118,6 +118,7 @@ import AnalogClock from '@/tools/analog-clock/Tool.tsx';
 import WorldClock from '@/tools/world-clock/Tool.tsx';
 import FullscreenClock from '@/tools/fullscreen-clock/Tool.tsx';
 import NinetyDay from '@/tools/90-day/Tool.tsx';
+import LunarConverter from '@/tools/lunar-converter/Tool.tsx';
 import CalendarQuarter from '@/tools/calendar-quarter/Tool.tsx';
 import DaysAgo from '@/tools/days-ago/Tool.tsx';
 import DaysBetween from '@/tools/days-between/Tool.tsx';
@@ -422,6 +423,7 @@ const isAnalog = tool.id === 'analog-clock';
 const isWorld = tool.id === 'world-clock';
 const isFullscreenClock = tool.id === 'fullscreen-clock';
 const is90Day = tool.id === '90-day';
+const isLunarCv = tool.id === 'lunar-converter';
 const isCalQ = tool.id === 'calendar-quarter';
 const isDaysAgo = tool.id === 'days-ago';
 const isDaysBetween = tool.id === 'days-between';
@@ -603,7 +605,7 @@ const known =
   isSocialSecurityCn || isMortgageEarly || isFundLoanCalc || isVatCalc ||
   isRetireAge || isAfterTax || isDeposit || isDeedTax || isOvertime || isPension ||
   isDigital || isFlip || isAnalog || isWorld || isFullscreenClock ||
-  is90Day || isCalQ || isDaysAgo || isDaysBetween || isF2H || isGovSD ||
+  is90Day || isLunarCv || isCalQ || isDaysAgo || isDaysBetween || isF2H || isGovSD ||
   isHmsAdd || isHmsToUnits || isHoursFromNow || isMinAge || isSec2Time || isTimeDur ||
   isUtcCst || isUtcEdt || isUtcEst || isUtcPst || isVideoSpeed || isWeeklyHours ||
   isWeeksPregnant ||
@@ -1140,6 +1142,9 @@ const known =
 {is90Day && mode === 'load' && <NinetyDay client:load {...widgetProps} />}
 {is90Day && mode === 'idle' && <NinetyDay client:idle {...widgetProps} />}
 {is90Day && mode === 'visible' && <NinetyDay client:visible {...widgetProps} />}
+{isLunarCv && mode === 'load' && <LunarConverter client:load {...widgetProps} />}
+{isLunarCv && mode === 'idle' && <LunarConverter client:idle {...widgetProps} />}
+{isLunarCv && mode === 'visible' && <LunarConverter client:visible {...widgetProps} />}
 
 <!-- 日历季度查询 -->
 {isCalQ && mode === 'load' && <CalendarQuarter client:load {...widgetProps} />}
