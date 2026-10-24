@@ -61,7 +61,10 @@ function loadAllMeta() {
       category: meta.category || "",
       icon: meta.icon || "",
       tagline: meta.tagline || "",
-      url: `/tools/${id}/`
+      url: `/tools/${id}/`,
+      // 检索排序与去索引判定要用；正则兜底分支拿不到时给安全默认值
+      priority: Number.isFinite(Number(meta.priority)) ? Number(meta.priority) : 0,
+      noindex: Boolean(meta.noindex)
     });
   }
   return { tools, errors };
@@ -3162,6 +3165,254 @@ function formatDuration(seconds) {
   return parts.join(" ");
 }
 
+// src/lib/search.ts
+var W = {
+  nameExact: 1e3,
+  namePrefix: 700,
+  nameSub: 500,
+  kwExact: 430,
+  kwPrefix: 370,
+  kwSub: 300,
+  idSub: 340,
+  pyPrefix: 300,
+  pySub: 240,
+  pyiPrefix: 210,
+  tagSub: 140,
+  catSub: 90,
+  /** priority 换算系数：priority 0-10，最多贡献 40 分，只用于同档位微调 */
+  priority: 4,
+  /** 分类也命中的额外加成 */
+  catBonus: 25
+};
+function normalize(s) {
+  return s.normalize("NFKC").toLowerCase().replace(/[\u3000\s]+/g, " ").replace(/[·・,，。、;；:：!！?？'"“”‘’()（）[\]【】{}<>《》/\\|_\-–—+*#@&~^%$=`]+/g, " ").replace(/\s+/g, " ").trim();
+}
+function toWords(s) {
+  const n = normalize(s);
+  return n ? n.split(" ") : [];
+}
+function compact(s) {
+  return s.toLowerCase().replace(/[^a-z0-9\u4e00-\u9fa5]/g, "");
+}
+function prepareIndex(data) {
+  const docs = data.n.map((name, k) => {
+    const url = data.u[k] ?? "";
+    const id = url.replace(/^\/tools\//, "").replace(/\/$/, "") || name;
+    const kw = data.k[k] ?? "";
+    const catName = data.cats[data.c[k]] ?? "";
+    return {
+      doc: {
+        id,
+        name,
+        tagline: data.g[k] ?? "",
+        keywords: kw,
+        url,
+        icon: data.i[k] ?? "",
+        category: catName,
+        priority: data.p[k] ?? 0
+      },
+      nameN: normalize(name),
+      tagN: normalize(data.g[k] ?? ""),
+      kwN: normalize(kw),
+      kwWords: toWords(kw),
+      idN: compact(id),
+      py: (data.y[k] ?? "").toLowerCase(),
+      pyi: (data.s[k] ?? "").toLowerCase(),
+      catN: normalize(catName)
+    };
+  });
+  return { docs, cats: data.cats };
+}
+var isAsciiWord = (s) => /^[a-z0-9]+$/.test(s);
+function scoreToken(d, tok) {
+  if (tok.length === 1) {
+    if (d.nameN === tok) return { score: W.nameExact, field: "name" };
+    if (d.nameN.startsWith(tok)) return { score: W.namePrefix, field: "name" };
+    if (d.nameN.includes(tok)) return { score: W.nameSub - 200, field: "name" };
+    return { score: 0, field: "name" };
+  }
+  if (d.nameN === tok) return { score: W.nameExact, field: "name" };
+  if (d.nameN.startsWith(tok)) return { score: W.namePrefix, field: "name" };
+  if (d.nameN.includes(tok)) return { score: W.nameSub, field: "name" };
+  if (d.idN.startsWith(tok)) return { score: W.idSub + 40, field: "id" };
+  if (d.idN.includes(tok)) return { score: W.idSub, field: "id" };
+  for (const w of d.kwWords) {
+    if (w === tok) return { score: W.kwExact, field: "keywords" };
+  }
+  if (d.kwN.startsWith(tok)) return { score: W.kwPrefix, field: "keywords" };
+  if (d.kwWords.some((w) => w.startsWith(tok))) return { score: W.kwPrefix, field: "keywords" };
+  if (d.kwN.includes(tok)) return { score: W.kwSub, field: "keywords" };
+  if (isAsciiWord(tok)) {
+    if (d.py && d.py.startsWith(tok)) return { score: W.pyPrefix, field: "pinyin" };
+    if (d.pyi && d.pyi.startsWith(tok)) return { score: W.pyiPrefix, field: "pinyin" };
+    if (d.py && d.py.includes(tok)) return { score: W.pySub, field: "pinyin" };
+    if (d.pyi && d.pyi.includes(tok)) return { score: W.pyiPrefix - 20, field: "pinyin" };
+  }
+  if (d.tagN.includes(tok)) return { score: W.tagSub, field: "tagline" };
+  if (d.catN && (d.catN === tok || d.catN.includes(tok))) return { score: W.catSub, field: "category" };
+  return { score: 0, field: "name" };
+}
+function editDistance(a, b, max2 = 2) {
+  if (a === b) return 0;
+  if (Math.abs(a.length - b.length) > max2) return max2 + 1;
+  let prev = new Array(b.length + 1);
+  let cur = new Array(b.length + 1);
+  for (let j = 0; j <= b.length; j++) prev[j] = j;
+  for (let i = 1; i <= a.length; i++) {
+    cur[0] = i;
+    let rowMin = cur[0];
+    for (let j = 1; j <= b.length; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + cost);
+      if (cur[j] < rowMin) rowMin = cur[j];
+    }
+    if (rowMin > max2) return max2 + 1;
+    const t = prev;
+    prev = cur;
+    cur = t;
+  }
+  return prev[b.length];
+}
+function findRanges(text, tokens) {
+  if (!text || tokens.length === 0) return [];
+  const lower = text.toLowerCase();
+  const out = [];
+  for (const tok of tokens) {
+    if (!tok || tok.length < 1) continue;
+    let from = 0;
+    for (let n = 0; n < 3; n++) {
+      const at = lower.indexOf(tok, from);
+      if (at < 0) break;
+      out.push([at, at + tok.length]);
+      from = at + tok.length;
+    }
+  }
+  if (out.length <= 1) return out;
+  out.sort((x, y) => x[0] - y[0]);
+  const merged = [out[0]];
+  for (let i = 1; i < out.length; i++) {
+    const last = merged[merged.length - 1];
+    if (out[i][0] <= last[1]) last[1] = Math.max(last[1], out[i][1]);
+    else merged.push(out[i]);
+  }
+  return merged;
+}
+function suggest(pi, tokens, limit = 2) {
+  const scored = [];
+  for (const tok of tokens) {
+    if (tok.length < 3) continue;
+    const max2 = tok.length <= 4 ? 1 : 2;
+    for (const d of pi.docs) {
+      const candidates = [d.nameN, ...d.kwWords];
+      for (const c of candidates) {
+        if (!c || c.length < 2) continue;
+        if (Math.abs(c.length - tok.length) > max2) continue;
+        const dist = editDistance(tok, c, max2);
+        if (dist > 0 && dist <= max2) scored.push({ word: c, dist, pr: d.doc.priority });
+      }
+    }
+  }
+  scored.sort((a, b) => a.dist - b.dist || b.pr - a.pr || a.word.length - b.word.length);
+  const seen = /* @__PURE__ */ new Set();
+  const out = [];
+  for (const s of scored) {
+    if (seen.has(s.word)) continue;
+    seen.add(s.word);
+    out.push(s.word);
+    if (out.length >= limit) break;
+  }
+  return out;
+}
+function searchTools(pi, rawQuery, opts = {}) {
+  const limit = opts.limit ?? 40;
+  const q = normalize(rawQuery).slice(0, 64);
+  if (!q) return { hits: [], suggestions: [], relaxed: false, total: 0 };
+  const tokens = q.split(" ").filter(Boolean);
+  if (tokens.length === 0) return { hits: [], suggestions: [], relaxed: false, total: 0 };
+  const strict = [];
+  const loose = [];
+  for (const d of pi.docs) {
+    let sum2 = 0;
+    let covered = 0;
+    let bestField = "tagline";
+    let bestScore = 0;
+    let catHit = false;
+    for (const tok of tokens) {
+      const r = scoreToken(d, tok);
+      if (r.score > 0) {
+        covered++;
+        sum2 += r.score;
+        if (r.score > bestScore) {
+          bestScore = r.score;
+          bestField = r.field;
+        }
+        if (r.field === "category") catHit = true;
+      }
+    }
+    if (covered === 0) continue;
+    let score = sum2 + d.doc.priority * W.priority + (catHit ? W.catBonus : 0);
+    const field = bestField;
+    if (covered === tokens.length) {
+      strict.push({ d, score, field, covered });
+    } else if (covered / tokens.length >= 0.6) {
+      loose.push({ d, score: score * (covered / tokens.length) * 0.75, field, covered });
+    }
+  }
+  const cmp = (a, b) => b.score - a.score || b.d.doc.priority - a.d.doc.priority;
+  strict.sort(cmp);
+  loose.sort(cmp);
+  let list = strict;
+  let relaxed = false;
+  if (strict.length < 3 && loose.length > 0) {
+    const strictIds = new Set(strict.map((s) => s.d.doc.id));
+    list = [...strict, ...loose.filter((s) => !strictIds.has(s.d.doc.id))];
+    relaxed = true;
+  }
+  if (list.length === 0 && !opts.noFuzzy) {
+    const fuzzy = [];
+    for (const d of pi.docs) {
+      let hit = false;
+      for (const tok of tokens) {
+        if (tok.length < 3) continue;
+        const max2 = tok.length <= 4 ? 1 : 2;
+        const pools = [d.nameN, d.idN, ...d.kwWords];
+        for (const p of pools) {
+          if (!p || Math.abs(p.length - tok.length) > max2) continue;
+          if (editDistance(tok, p, max2) <= max2) {
+            hit = true;
+            break;
+          }
+        }
+        if (hit) break;
+      }
+      if (hit) fuzzy.push({ d, score: 100 + d.doc.priority, field: "name", covered: 1 });
+    }
+    fuzzy.sort(cmp);
+    list = fuzzy;
+    return {
+      hits: toHits(list, tokens, limit),
+      suggestions: suggest(pi, tokens),
+      relaxed: true,
+      total: fuzzy.length
+    };
+  }
+  return {
+    hits: toHits(list, tokens, limit),
+    suggestions: [],
+    relaxed,
+    total: list.length
+  };
+}
+function toHits(list, tokens, limit) {
+  return list.slice(0, limit).map(({ d, score, field }) => ({
+    ...d.doc,
+    score,
+    matched: field,
+    nameRanges: findRanges(d.doc.name, tokens),
+    tagRanges: findRanges(d.doc.tagline, tokens)
+  }));
+}
+
 // mcp/server.mjs
 var PORT = Number(process.env.MCP_PORT || 18700);
 var SERVER_NAME = "mokakit-mcp";
@@ -3177,8 +3428,28 @@ function getCatalog() {
   }
   return loadAllMeta();
 }
-var { tools: CATALOG, errors: META_ERRORS } = getCatalog();
+var { tools: CATALOG, errors: META_ERRORS, search: SEARCH_DATA } = getCatalog();
 var META_BY_ID = new Map(CATALOG.map((t) => [t.id, t]));
+var SEARCH_INDEX = prepareIndex(
+  SEARCH_DATA?.v === 2 ? SEARCH_DATA : fallbackSearchData(CATALOG)
+);
+function fallbackSearchData(tools) {
+  const catOf = (t) => t.categoryName || t.category || "";
+  const cats = [...new Set(tools.map(catOf))];
+  return {
+    v: 2,
+    n: tools.map((t) => t.name),
+    g: tools.map((t) => t.tagline || ""),
+    k: tools.map((t) => [...t.keywords || [], ...t.tags || []].join(" ")),
+    y: tools.map(() => ""),
+    s: tools.map(() => ""),
+    c: tools.map((t) => cats.indexOf(catOf(t))),
+    p: tools.map((t) => t.priority ?? 0),
+    u: tools.map((t) => t.url || `/tools/${t.id}/`),
+    i: tools.map((t) => t.icon || ""),
+    cats
+  };
+}
 var CONCRETE_BY_ID = {
   "income-tax-cn": "income_tax_cn",
   "bonus-tax-cn": "bonus_tax_cn",
@@ -3207,26 +3478,19 @@ function num(v, d = 0) {
   return Number.isFinite(n) ? n : d;
 }
 function searchCatalog(query, limit = 8) {
-  const q = (query || "").toLowerCase().trim();
-  if (!q) return [];
-  const tokens = q.split(/\s+/).filter(Boolean);
-  return CATALOG.map((t) => {
-    const hay = [t.name, t.description, t.tagline, ...t.keywords, ...t.tags, t.id, t.category].join(" ").toLowerCase();
-    let score = 0;
-    for (const tk of tokens) {
-      if (t.name.toLowerCase().includes(tk)) score += 5;
-      if (t.id.toLowerCase().includes(tk)) score += 3;
-      if (hay.includes(tk)) score += 1;
-    }
-    return { t, score };
-  }).filter((x) => x.score > 0).sort((a, b) => b.score - a.score).slice(0, limit).map((x) => ({
-    id: x.t.id,
-    name: x.t.name,
-    description: x.t.description,
-    category: x.t.category,
-    url: x.t.url,
-    mcpTool: CONCRETE_BY_ID[x.t.id] || null
-  }));
+  const caps = Math.max(1, Math.min(20, Math.floor(num(limit, 8)) || 8));
+  const { hits } = searchTools(SEARCH_INDEX, query, { limit: caps });
+  return hits.map((h) => {
+    const meta = META_BY_ID.get(h.id);
+    return {
+      id: h.id,
+      name: h.name,
+      description: meta?.description || h.tagline,
+      category: h.category,
+      url: h.url,
+      mcpTool: CONCRETE_BY_ID[h.id] || null
+    };
+  });
 }
 var COMPUTE_TOOLS = [
   {

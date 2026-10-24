@@ -46,6 +46,8 @@ import {
   calcSecondHandHouseTax,
 } from '../src/lib/china-calc-extra.ts';
 import { calcShippingFee, calcTransferTime } from '../src/lib/misc-calc.ts';
+// 检索引擎与网页端同源：同一份 src/lib/search.ts，杜绝「网页能搜到、MCP 搜不到」
+import { prepareIndex, searchTools } from '../src/lib/search.ts';
 
 const PORT = Number(process.env.MCP_PORT || 18700);
 const SERVER_NAME = 'mokakit-mcp';
@@ -59,17 +61,52 @@ const REQUIRED_TOKEN = process.env.MCP_TOKEN || '';
 // ── 元数据（同源发现）────────────────────────────────────────────────────
 // 优先读构建期生成的 catalog.json（生产态，不依赖 src/ 与 TS 运行时）；
 // 读不到再回退运行时扫描 src/tools/*/meta.ts（本地 dev 态）。
+/**
+ * 优先读构建期生成的 catalog.json（生产态，同目录，不依赖 src/ 与 TS 运行时）；
+ * 本地 dev 态 server.mjs 在 mcp/ 下，产物在 deploy/mcp/ 下，所以两处都找。
+ * 都没有才回退运行时扫描 src/tools/<id>/meta.ts（此时无拼音，功能自动降级）。
+ */
 function getCatalog() {
-  try {
-    const p = new URL('./catalog.json', import.meta.url);
-    if (existsSync(p)) return JSON.parse(readFileSync(p, 'utf8'));
-  } catch {
-    /* ignore */
+  for (const rel of ['./catalog.json', '../deploy/mcp/catalog.json']) {
+    try {
+      const p = new URL(rel, import.meta.url);
+      if (existsSync(p)) return JSON.parse(readFileSync(p, 'utf8'));
+    } catch {
+      /* 继续找下一个 */
+    }
   }
   return loadAllMeta();
 }
-const { tools: CATALOG, errors: META_ERRORS } = getCatalog();
+const { tools: CATALOG, errors: META_ERRORS, search: SEARCH_DATA } = getCatalog();
 const META_BY_ID = new Map(CATALOG.map((t) => [t.id, t]));
+
+/**
+ * 检索索引：优先用 catalog.json 里构建期算好的（含拼音），
+ * 老版本 catalog 没有 search 字段时退化为运行时从 tools 现场拼一份（无拼音）。
+ * 两条路径共用同一个 searchTools，匹配规则不会分叉。
+ */
+const SEARCH_INDEX = prepareIndex(
+  SEARCH_DATA?.v === 2 ? SEARCH_DATA : fallbackSearchData(CATALOG),
+);
+
+/** 老版本 catalog.json 没有 search 字段时的兜底：现场拼一份（无拼音，其余规则一致） */
+function fallbackSearchData(tools) {
+  const catOf = (t) => t.categoryName || t.category || '';
+  const cats = [...new Set(tools.map(catOf))];
+  return {
+    v: 2,
+    n: tools.map((t) => t.name),
+    g: tools.map((t) => t.tagline || ''),
+    k: tools.map((t) => [...(t.keywords || []), ...(t.tags || [])].join(' ')),
+    y: tools.map(() => ''),
+    s: tools.map(() => ''),
+    c: tools.map((t) => cats.indexOf(catOf(t))),
+    p: tools.map((t) => t.priority ?? 0),
+    u: tools.map((t) => t.url || `/tools/${t.id}/`),
+    i: tools.map((t) => t.icon || ''),
+    cats,
+  };
+}
 
 /** catalog id → 对应的计算型 MCP tool 名（search-first 时告诉 AI 可直接调用） */
 const CONCRETE_BY_ID = {
@@ -102,33 +139,28 @@ function num(v, d = 0) {
 }
 
 // ── search-first 检索 ───────────────────────────────────────────────────────
+/**
+ * 与网页端共用 src/lib/search.ts 的打分与排序：
+ * 名称精确 > 名称前缀 > id/英文别名 > 关键词 > 拼音 > 副标题，
+ * 支持词序无关、大小写/全角归一、拼音全拼与首字母（mima / mmscq）。
+ *
+ * 返回结构保持与旧版完全一致（id/name/description/category/url/mcpTool），
+ * 调用方无感知升级。
+ */
 function searchCatalog(query, limit = 8) {
-  const q = (query || '').toLowerCase().trim();
-  if (!q) return [];
-  const tokens = q.split(/\s+/).filter(Boolean);
-  return CATALOG.map((t) => {
-    const hay = [t.name, t.description, t.tagline, ...t.keywords, ...t.tags, t.id, t.category]
-      .join(' ')
-      .toLowerCase();
-    let score = 0;
-    for (const tk of tokens) {
-      if (t.name.toLowerCase().includes(tk)) score += 5;
-      if (t.id.toLowerCase().includes(tk)) score += 3;
-      if (hay.includes(tk)) score += 1;
-    }
-    return { t, score };
-  })
-    .filter((x) => x.score > 0)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, limit)
-    .map((x) => ({
-      id: x.t.id,
-      name: x.t.name,
-      description: x.t.description,
-      category: x.t.category,
-      url: x.t.url,
-      mcpTool: CONCRETE_BY_ID[x.t.id] || null,
-    }));
+  const caps = Math.max(1, Math.min(20, Math.floor(num(limit, 8)) || 8));
+  const { hits } = searchTools(SEARCH_INDEX, query, { limit: caps });
+  return hits.map((h) => {
+    const meta = META_BY_ID.get(h.id);
+    return {
+      id: h.id,
+      name: h.name,
+      description: meta?.description || h.tagline,
+      category: h.category,
+      url: h.url,
+      mcpTool: CONCRETE_BY_ID[h.id] || null,
+    };
+  });
 }
 
 // ── 计算型 tool 定义（compute 入参即契约）─────────────────────────────────

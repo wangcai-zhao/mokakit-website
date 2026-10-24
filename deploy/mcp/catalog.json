@@ -2,14 +2,18 @@
   "tools": [
     {
       "id": "90-day",
-      "name": "90天计算器",
-      "description": "免费在线 90 天计算器，输入起始日期即可算出 90 天、180 天或任意自定义天数之后是哪一天，并显示对应的星期几与 ISO 周数。适用于合同到期、项目节点、账期、试用期、保质期与各类截止日推算，支持往前（向前）推算与批量日期计算，全部在浏览器本地计算。",
+      "name": "90天计算器 · 日期与农历工具箱",
+      "description": "免费在线 90 天计算器 / 日期工具箱，集三大功能：①日期推算——输入起始日期加任意天数（含负数往前推）即算目标日期与星期几；②天数间隔——选择开始与结束日期精确算出相差天数，并给出周数、约月数、约年数；③阴阳历转换——公历与农历双向互转，自动展示干支年、生肖与星期。适用于合同到期、项目节点、账期、试用期、保质期、纪念日倒推、工期核算与农历查询，自动处理跨月跨年、闰年与闰月，全部在浏览器本地计算。",
       "keywords": [
         "90天计算器",
+        "天数计算器",
+        "阴阳历转换",
+        "公历转农历",
+        "农历转公历",
         "90天后是几号",
+        "两个日期相差天数",
         "日期加天数",
-        "到期日推算",
-        "天数后日期"
+        "到期日推算"
       ],
       "tags": [
         "日期",
@@ -18,8 +22,10 @@
       ],
       "category": "calc",
       "icon": "calendar",
-      "tagline": "算 90 天/任意天后是几号",
-      "url": "/tools/90-day/"
+      "tagline": "日期推算 + 天数间隔 + 阴阳历互转，本地一键算",
+      "url": "/tools/90-day/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "acceleration",
@@ -40,7 +46,9 @@
       "category": "convert",
       "icon": "rocket",
       "tagline": "m/s²、g、ft/s²、Gal 等加速度单位在线互转",
-      "url": "/tools/acceleration/"
+      "url": "/tools/acceleration/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "aes-encrypt",
@@ -62,7 +70,9 @@
       "category": "security",
       "icon": "lock",
       "tagline": "密码保护的对称加密",
-      "url": "/tools/aes-encrypt/"
+      "url": "/tools/aes-encrypt/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "after-tax-salary",
@@ -83,7 +93,9 @@
       "category": "calc",
       "icon": "receipt",
       "tagline": "税前税后双向算，到手多少一目了然",
-      "url": "/tools/after-tax-salary/"
+      "url": "/tools/after-tax-salary/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "age-calculator",
@@ -103,7 +115,9 @@
       "category": "calc",
       "icon": "cake",
       "tagline": "精确年龄与下次生日",
-      "url": "/tools/age-calculator/"
+      "url": "/tools/age-calculator/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "agent-eval-generator",
@@ -126,7 +140,9 @@
       "category": "ai",
       "icon": "check",
       "tagline": "给智能体出一套考题",
-      "url": "/tools/agent-eval-generator/"
+      "url": "/tools/agent-eval-generator/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "agent-name-generator",
@@ -149,7 +165,9 @@
       "category": "ai",
       "icon": "tag",
       "tagline": "给智能体起个好名字",
-      "url": "/tools/agent-name-generator/"
+      "url": "/tools/agent-name-generator/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "agent-role-designer",
@@ -172,7 +190,9 @@
       "category": "ai",
       "icon": "users",
       "tagline": "写清一个智能体该是谁",
-      "url": "/tools/agent-role-designer/"
+      "url": "/tools/agent-role-designer/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "agent-workflow-generator",
@@ -195,7 +215,9 @@
       "category": "ai",
       "icon": "git-branch",
       "tagline": "把步骤画成可跑的流程",
-      "url": "/tools/agent-workflow-generator/"
+      "url": "/tools/agent-workflow-generator/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "ai-model-selector",
@@ -218,7 +240,9 @@
       "category": "ai",
       "icon": "git-compare",
       "tagline": "按任务挑最合适的大模型",
-      "url": "/tools/ai-model-selector/"
+      "url": "/tools/ai-model-selector/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "ai-price-compare",
@@ -242,7 +266,9 @@
       "category": "ai",
       "icon": "coins",
       "tagline": "主流大模型与视觉生成价格对比",
-      "url": "/tools/ai-price-compare/"
+      "url": "/tools/ai-price-compare/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "analog-clock",
@@ -262,7 +288,32 @@
       "category": "clock",
       "icon": "clock",
       "tagline": "经典指针表盘",
-      "url": "/tools/analog-clock/"
+      "url": "/tools/analog-clock/",
+      "priority": 8,
+      "noindex": false
+    },
+    {
+      "id": "angle-convert",
+      "name": "角度换算",
+      "description": "免费在线角度换算工具，支持角度、弧度、梯度与度分秒四种单位一键互转，适合数学、工程与导航场景，结果实时显示，全部在浏览器本地计算。",
+      "keywords": [
+        "角度换算",
+        "弧度转换",
+        "度分秒",
+        "梯度",
+        "角度单位"
+      ],
+      "tags": [
+        "换算",
+        "角度",
+        "数学"
+      ],
+      "category": "convert",
+      "icon": "triangle",
+      "tagline": "度、弧度、梯度、度分秒互转",
+      "url": "/tools/angle-convert/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "angular-velocity",
@@ -284,7 +335,9 @@
       "category": "convert",
       "icon": "rotate-cw",
       "tagline": "rad/s、rpm、°/s、rps 等角速度单位在线互转",
-      "url": "/tools/angular-velocity/"
+      "url": "/tools/angular-velocity/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "annual-leave",
@@ -305,7 +358,9 @@
       "category": "calc",
       "icon": "calendar-days",
       "tagline": "按工龄一算该休几天",
-      "url": "/tools/annual-leave/"
+      "url": "/tools/annual-leave/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "annual-tax-settlement",
@@ -328,7 +383,9 @@
       "category": "calc",
       "icon": "receipt",
       "tagline": "算清你该补税还是退税",
-      "url": "/tools/annual-tax-settlement/"
+      "url": "/tools/annual-tax-settlement/",
+      "priority": 9,
+      "noindex": false
     },
     {
       "id": "annualized-return",
@@ -351,7 +408,32 @@
       "category": "calc",
       "icon": "trending-up",
       "tagline": "把任意期限的收益折算成年化",
-      "url": "/tools/annualized-return/"
+      "url": "/tools/annualized-return/",
+      "priority": 8,
+      "noindex": false
+    },
+    {
+      "id": "annuity-calculator",
+      "name": "年金计算",
+      "description": "免费在线年金计算器，输入每期投入金额、期数与每期利率，一键算出普通年金的未来值与现值，以及累计本金和利息，适合基金定投、养老金与储蓄规划，全部在浏览器本地计算。",
+      "keywords": [
+        "年金计算",
+        "基金定投",
+        "未来值",
+        "现值",
+        "定投收益"
+      ],
+      "tags": [
+        "计算",
+        "金融",
+        "储蓄"
+      ],
+      "category": "calc",
+      "icon": "piggy-bank",
+      "tagline": "普通年金未来值/现值计算",
+      "url": "/tools/annuity-calculator/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "api-key-gen",
@@ -371,7 +453,9 @@
       "category": "dev",
       "icon": "key-round",
       "tagline": "生成高强度随机密钥、API Key、Token",
-      "url": "/tools/api-key-gen/"
+      "url": "/tools/api-key-gen/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "average-calculator",
@@ -392,7 +476,9 @@
       "category": "calc",
       "icon": "sigma",
       "tagline": "均值、中位数与众数",
-      "url": "/tools/average-calculator/"
+      "url": "/tools/average-calculator/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "baking",
@@ -414,7 +500,9 @@
       "category": "convert",
       "icon": "utensils",
       "tagline": "杯/汤匙/茶匙/毫升/克 烘焙单位在线互转",
-      "url": "/tools/baking/"
+      "url": "/tools/baking/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "bank-card-validator",
@@ -435,7 +523,9 @@
       "category": "security",
       "icon": "fingerprint",
       "tagline": "Luhn 校验与卡组织识别",
-      "url": "/tools/bank-card-validator/"
+      "url": "/tools/bank-card-validator/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "base-converter",
@@ -457,7 +547,32 @@
       "category": "convert",
       "icon": "binary",
       "tagline": "2/8/10/16 等进制互转",
-      "url": "/tools/base-converter/"
+      "url": "/tools/base-converter/",
+      "priority": 6,
+      "noindex": false
+    },
+    {
+      "id": "base32-encoder",
+      "name": "Base32 编解码",
+      "description": "免费在线 Base32 编解码工具，按 RFC4648 标准将文本与 Base32 双向转换，结果只用 A-Z 与 2-7 共 32 个字符，适合密钥、一次性密码与易读场景，全部在浏览器本地完成。",
+      "keywords": [
+        "Base32",
+        "编码解码",
+        "RFC4648",
+        "base32 转换",
+        "在线编解码"
+      ],
+      "tags": [
+        "安全",
+        "编码",
+        "Base32"
+      ],
+      "category": "security",
+      "icon": "shuffle",
+      "tagline": "RFC4648 标准 Base32 互转",
+      "url": "/tools/base32-encoder/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "base58",
@@ -477,7 +592,9 @@
       "category": "dev",
       "icon": "binary",
       "tagline": "Base58 编码解码，比特币风格去易混字符",
-      "url": "/tools/base58/"
+      "url": "/tools/base58/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "base64",
@@ -499,7 +616,9 @@
       "category": "dev",
       "icon": "file-code",
       "tagline": "文本与 Base64 互转",
-      "url": "/tools/base64/"
+      "url": "/tools/base64/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "bill-split",
@@ -520,7 +639,9 @@
       "category": "life",
       "icon": "users",
       "tagline": "均摊含小费每人应付",
-      "url": "/tools/bill-split/"
+      "url": "/tools/bill-split/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "bmi-calculator",
@@ -541,7 +662,9 @@
       "category": "calc",
       "icon": "activity",
       "tagline": "算 BMI 与体型分类",
-      "url": "/tools/bmi-calculator/"
+      "url": "/tools/bmi-calculator/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "bmr-calculator",
@@ -562,7 +685,9 @@
       "category": "life",
       "icon": "heart",
       "tagline": "算每日最低热量消耗",
-      "url": "/tools/bmr-calculator/"
+      "url": "/tools/bmr-calculator/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "body-fat",
@@ -585,7 +710,9 @@
       "category": "life",
       "icon": "activity",
       "tagline": "美国海军法估算体脂与分级",
-      "url": "/tools/body-fat/"
+      "url": "/tools/body-fat/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "bonus-tax-cn",
@@ -606,7 +733,9 @@
       "category": "calc",
       "icon": "coins",
       "tagline": "单独计税还是并入综合所得更省",
-      "url": "/tools/bonus-tax-cn/"
+      "url": "/tools/bonus-tax-cn/",
+      "priority": 9,
+      "noindex": false
     },
     {
       "id": "bra-size",
@@ -627,7 +756,9 @@
       "category": "convert",
       "icon": "shirt",
       "tagline": "下围+罩杯 各国文胸尺码在线互转",
-      "url": "/tools/bra-size/"
+      "url": "/tools/bra-size/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "break-even-calculator",
@@ -648,7 +779,9 @@
       "category": "calc",
       "icon": "calculator",
       "tagline": "算保本销量与销售额定价",
-      "url": "/tools/break-even-calculator/"
+      "url": "/tools/break-even-calculator/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "build-your-own-x",
@@ -671,7 +804,9 @@
       "category": "dev",
       "icon": "code",
       "tagline": "按主题索引「自己实现一个 X」的教程",
-      "url": "/tools/build-your-own-x/"
+      "url": "/tools/build-your-own-x/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "bytes-size-converter",
@@ -692,7 +827,32 @@
       "category": "convert",
       "icon": "database",
       "tagline": "B/KB/MB/GB/TB 互转",
-      "url": "/tools/bytes-size-converter/"
+      "url": "/tools/bytes-size-converter/",
+      "priority": 6,
+      "noindex": false
+    },
+    {
+      "id": "cagr-calculator",
+      "name": "复合年增长率",
+      "description": "免费在线复合年增长率（CAGR）计算器，输入期初值、期末值与年数，一键算出年化增长率与投资倍数，适合评估投资、营收与用户增长的长期表现，全部在浏览器本地计算。",
+      "keywords": [
+        "CAGR",
+        "复合年增长率",
+        "年化增长率",
+        "增长率计算",
+        "投资回报"
+      ],
+      "tags": [
+        "计算",
+        "金融",
+        "增长"
+      ],
+      "category": "calc",
+      "icon": "percent",
+      "tagline": "算期初到期末的年化增长率",
+      "url": "/tools/cagr-calculator/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "calendar-quarter",
@@ -713,7 +873,9 @@
       "category": "calc",
       "icon": "calendar",
       "tagline": "月份查所属季度",
-      "url": "/tools/calendar-quarter/"
+      "url": "/tools/calendar-quarter/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "calorie-burn",
@@ -736,7 +898,9 @@
       "category": "calc",
       "icon": "trending-up",
       "tagline": "体重 × 运动 × 时长算消耗",
-      "url": "/tools/calorie-burn/"
+      "url": "/tools/calorie-burn/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "capacitance",
@@ -757,7 +921,9 @@
       "category": "convert",
       "icon": "battery-charging",
       "tagline": "pF、nF、μF、mF、F 等电容单位在线互转",
-      "url": "/tools/capacitance/"
+      "url": "/tools/capacitance/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "car-loan",
@@ -780,7 +946,9 @@
       "category": "calc",
       "icon": "coins",
       "tagline": "贷款买车，算清每月还多少",
-      "url": "/tools/car-loan/"
+      "url": "/tools/car-loan/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "card-installment",
@@ -803,7 +971,9 @@
       "category": "calc",
       "icon": "coins",
       "tagline": "名义手续费率背后的真实年化",
-      "url": "/tools/card-installment/"
+      "url": "/tools/card-installment/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "case-converter",
@@ -825,7 +995,9 @@
       "category": "text",
       "icon": "type",
       "tagline": "大小写与命名风格互转",
-      "url": "/tools/case-converter/"
+      "url": "/tools/case-converter/",
+      "priority": 5,
+      "noindex": false
     },
     {
       "id": "changelog-gen",
@@ -848,7 +1020,9 @@
       "category": "dev",
       "icon": "file-text",
       "tagline": "Keep a Changelog + Issue/PR 模板",
-      "url": "/tools/changelog-gen/"
+      "url": "/tools/changelog-gen/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "child-height",
@@ -871,7 +1045,9 @@
       "category": "calc",
       "icon": "users",
       "tagline": "父母身高估算孩子能长多高",
-      "url": "/tools/child-height/"
+      "url": "/tools/child-height/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "chinese-number",
@@ -892,7 +1068,9 @@
       "category": "text",
       "icon": "coins",
       "tagline": "数字与人民币大写",
-      "url": "/tools/chinese-number/"
+      "url": "/tools/chinese-number/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "chmod-calculator",
@@ -913,7 +1091,9 @@
       "category": "dev",
       "icon": "lock",
       "tagline": "权限数字与符号互转",
-      "url": "/tools/chmod-calculator/"
+      "url": "/tools/chmod-calculator/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "cidr-calculator",
@@ -934,7 +1114,9 @@
       "category": "dev",
       "icon": "globe",
       "tagline": "子网划分与掩码换算",
-      "url": "/tools/cidr-calculator/"
+      "url": "/tools/cidr-calculator/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "clothing-size",
@@ -957,7 +1139,32 @@
       "category": "calc",
       "icon": "tag",
       "tagline": "国际 / 中国 / 美码 对照",
-      "url": "/tools/clothing-size/"
+      "url": "/tools/clothing-size/",
+      "priority": 5,
+      "noindex": false
+    },
+    {
+      "id": "coffee-ratio",
+      "name": "手冲咖啡粉水比",
+      "description": "免费在线手冲咖啡粉水比工具，输入咖啡粉重量与粉水比例即可算出所需水量，也能反推已有粉水对应的比例，帮你稳定复刻一杯好咖啡，全部在浏览器本地计算。",
+      "keywords": [
+        "咖啡粉水比",
+        "手冲咖啡",
+        "咖啡水量",
+        "冲煮比例",
+        "咖啡计算"
+      ],
+      "tags": [
+        "生活",
+        "咖啡",
+        "比例"
+      ],
+      "category": "life",
+      "icon": "coffee",
+      "tagline": "按粉水比算用水量或比例",
+      "url": "/tools/coffee-ratio/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "color-converter",
@@ -980,7 +1187,9 @@
       "category": "convert",
       "icon": "palette",
       "tagline": "HEX / RGB / HSL 互转",
-      "url": "/tools/color-converter/"
+      "url": "/tools/color-converter/",
+      "priority": 5,
+      "noindex": false
     },
     {
       "id": "combo-loan-calc",
@@ -1002,7 +1211,9 @@
       "category": "calc",
       "icon": "landmark",
       "tagline": "公积金+商贷月供合计",
-      "url": "/tools/combo-loan-calc/"
+      "url": "/tools/combo-loan-calc/",
+      "priority": 9,
+      "noindex": false
     },
     {
       "id": "commit-gen",
@@ -1024,7 +1235,9 @@
       "category": "dev",
       "icon": "git-compare",
       "tagline": "约定式提交，秒出标准提交信息",
-      "url": "/tools/commit-gen/"
+      "url": "/tools/commit-gen/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "compound-interest",
@@ -1045,7 +1258,9 @@
       "category": "calc",
       "icon": "trending-up",
       "tagline": "利滚利与定投复利",
-      "url": "/tools/compound-interest/"
+      "url": "/tools/compound-interest/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "context-window-calculator",
@@ -1068,7 +1283,9 @@
       "category": "ai",
       "icon": "ruler",
       "tagline": "算清一次对话能吃多少 token",
-      "url": "/tools/context-window-calculator/"
+      "url": "/tools/context-window-calculator/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "countdown-timer",
@@ -1088,7 +1305,32 @@
       "category": "life",
       "icon": "timer",
       "tagline": "距目标日期还有多久",
-      "url": "/tools/countdown-timer/"
+      "url": "/tools/countdown-timer/",
+      "priority": 8,
+      "noindex": false
+    },
+    {
+      "id": "crc32-checksum",
+      "name": "CRC32 校验",
+      "description": "免费在线 CRC32 校验工具，输入文本即可计算标准的 CRC32 校验值（八位大写十六进制），用于数据完整性校验、通信与文件比对，全部在浏览器本地计算。",
+      "keywords": [
+        "CRC32",
+        "校验和",
+        "checksum",
+        "数据校验",
+        "CRC 计算"
+      ],
+      "tags": [
+        "安全",
+        "校验",
+        "哈希"
+      ],
+      "category": "security",
+      "icon": "binary",
+      "tagline": "计算文本 CRC32 校验值",
+      "url": "/tools/crc32-checksum/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "cron-parser",
@@ -1111,7 +1353,32 @@
       "category": "dev",
       "icon": "clock",
       "tagline": "把 Cron 表达式翻译成人话",
-      "url": "/tools/cron-parser/"
+      "url": "/tools/cron-parser/",
+      "priority": 4,
+      "noindex": false
+    },
+    {
+      "id": "csv-to-json",
+      "name": "CSV ↔ JSON 转换",
+      "description": "免费在线 CSV 与 JSON 转换工具，支持自定义分隔符与表头开关，把 CSV 文本转成 JSON 数组，也能把 JSON 数组转回 CSV，适合接口调试与表格处理，全部在浏览器本地完成。",
+      "keywords": [
+        "CSV 转 JSON",
+        "JSON 转 CSV",
+        "表格转换",
+        "数据转换",
+        "在线互转"
+      ],
+      "tags": [
+        "开发",
+        "数据",
+        "转换"
+      ],
+      "category": "dev",
+      "icon": "table",
+      "tagline": "CSV 与 JSON 双向转换",
+      "url": "/tools/csv-to-json/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "csv-to-markdown",
@@ -1131,7 +1398,9 @@
       "category": "dev",
       "icon": "table",
       "tagline": "把 CSV 数据一键转成 Markdown 表格",
-      "url": "/tools/csv-to-markdown/"
+      "url": "/tools/csv-to-markdown/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "curl-converter",
@@ -1152,7 +1421,9 @@
       "category": "dev",
       "icon": "terminal",
       "tagline": "curl 转各语言代码",
-      "url": "/tools/curl-converter/"
+      "url": "/tools/curl-converter/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "currency-convert",
@@ -1174,7 +1445,9 @@
       "category": "convert",
       "icon": "scale",
       "tagline": "多币种实时换算（内置参考汇率）",
-      "url": "/tools/currency-convert/"
+      "url": "/tools/currency-convert/",
+      "priority": 5,
+      "noindex": false
     },
     {
       "id": "current",
@@ -1194,7 +1467,9 @@
       "category": "convert",
       "icon": "zap",
       "tagline": "μA、mA、A、kA 等电流单位在线互转",
-      "url": "/tools/current/"
+      "url": "/tools/current/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "data-binary",
@@ -1216,7 +1491,32 @@
       "category": "convert",
       "icon": "memory-stick",
       "tagline": "bit/B/KB/KiB/MB/MiB/GB/GiB 等存储容量在线互转",
-      "url": "/tools/data-binary/"
+      "url": "/tools/data-binary/",
+      "priority": 8,
+      "noindex": false
+    },
+    {
+      "id": "data-rate-convert",
+      "name": "数据速率换算",
+      "description": "免费在线数据速率换算工具，支持 bps、kbps、Mbps、Gbps 在十进制（1000）与二进制（1024）两种基准间互转，适合网络带宽、存储吞吐与下载速度评估，浏览器本地计算。",
+      "keywords": [
+        "数据速率换算",
+        "带宽换算",
+        "Mbps",
+        "Gbps",
+        "kbps"
+      ],
+      "tags": [
+        "换算",
+        "网络",
+        "速率"
+      ],
+      "category": "convert",
+      "icon": "gauge",
+      "tagline": "bps/kbps/Mbps/Gbps 互转",
+      "url": "/tools/data-rate-convert/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "date-calculator",
@@ -1237,7 +1537,9 @@
       "category": "calc",
       "icon": "calendar",
       "tagline": "计算两日期相差天数",
-      "url": "/tools/date-calculator/"
+      "url": "/tools/date-calculator/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "days-ago",
@@ -1258,7 +1560,9 @@
       "category": "calc",
       "icon": "calendar",
       "tagline": "算 N 天前是几月几号",
-      "url": "/tools/days-ago/"
+      "url": "/tools/days-ago/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "days-between",
@@ -1279,7 +1583,9 @@
       "category": "calc",
       "icon": "calendar",
       "tagline": "算两日期相差多少天",
-      "url": "/tools/days-between/"
+      "url": "/tools/days-between/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "decision-wheel",
@@ -1300,7 +1606,9 @@
       "category": "fun",
       "icon": "loader",
       "tagline": "选项转盘帮你决定",
-      "url": "/tools/decision-wheel/"
+      "url": "/tools/decision-wheel/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "deed-tax",
@@ -1321,7 +1629,9 @@
       "category": "calc",
       "icon": "building",
       "tagline": "买房交多少契税，提前算清楚",
-      "url": "/tools/deed-tax/"
+      "url": "/tools/deed-tax/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "density",
@@ -1341,7 +1651,9 @@
       "category": "convert",
       "icon": "layers",
       "tagline": "kg/m³、g/cm³、lb/ft³ 等密度单位在线互转",
-      "url": "/tools/density/"
+      "url": "/tools/density/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "deposit-interest",
@@ -1362,7 +1674,32 @@
       "category": "calc",
       "icon": "landmark",
       "tagline": "算清定存大额存单能赚多少",
-      "url": "/tools/deposit-interest/"
+      "url": "/tools/deposit-interest/",
+      "priority": 7,
+      "noindex": false
+    },
+    {
+      "id": "depreciation-calculator",
+      "name": "资产折旧计算",
+      "description": "免费在线资产折旧计算器，支持直线法、年数总和法与双倍余额递减法三种常用折旧方式，输入原值、残值与使用年限即可生成逐年折旧表，适合财务与资产管理，全部在浏览器本地计算。",
+      "keywords": [
+        "折旧计算",
+        "直线折旧",
+        "双倍余额递减",
+        "年数总和法",
+        "资产折旧"
+      ],
+      "tags": [
+        "计算",
+        "财务",
+        "折旧"
+      ],
+      "category": "calc",
+      "icon": "scale",
+      "tagline": "直线/年数总和/双倍余额递减",
+      "url": "/tools/depreciation-calculator/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "dev-roadmap",
@@ -1385,7 +1722,9 @@
       "category": "dev",
       "icon": "mapPin",
       "tagline": "按角色规划该学什么",
-      "url": "/tools/dev-roadmap/"
+      "url": "/tools/dev-roadmap/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "dice-roller",
@@ -1406,7 +1745,9 @@
       "category": "fun",
       "icon": "dice",
       "tagline": "自定义面数与数量",
-      "url": "/tools/dice-roller/"
+      "url": "/tools/dice-roller/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "digital-clock",
@@ -1426,7 +1767,9 @@
       "category": "clock",
       "icon": "clock",
       "tagline": "全屏大字时间显示",
-      "url": "/tools/digital-clock/"
+      "url": "/tools/digital-clock/",
+      "priority": 9,
+      "noindex": false
     },
     {
       "id": "discount-calculator",
@@ -1447,7 +1790,9 @@
       "category": "calc",
       "icon": "tag",
       "tagline": "折扣价与到手价",
-      "url": "/tools/discount-calculator/"
+      "url": "/tools/discount-calculator/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "doc-desensitize",
@@ -1468,7 +1813,9 @@
       "category": "security",
       "icon": "eyeOff",
       "tagline": "自动识别并打码敏感信息",
-      "url": "/tools/doc-desensitize/"
+      "url": "/tools/doc-desensitize/",
+      "priority": 9,
+      "noindex": false
     },
     {
       "id": "dockerfile-gen",
@@ -1489,7 +1836,9 @@
       "category": "dev",
       "icon": "box",
       "tagline": "多语言镜像构建文件",
-      "url": "/tools/dockerfile-gen/"
+      "url": "/tools/dockerfile-gen/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "download-time-calculator",
@@ -1511,7 +1860,9 @@
       "category": "convert",
       "icon": "gauge",
       "tagline": "多大文件、多少带宽，多久传完",
-      "url": "/tools/download-time-calculator/"
+      "url": "/tools/download-time-calculator/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "due-date",
@@ -1534,7 +1885,9 @@
       "category": "life",
       "icon": "baby",
       "tagline": "末次月经推算预产期与孕周",
-      "url": "/tools/due-date/"
+      "url": "/tools/due-date/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "electricity-cost",
@@ -1555,7 +1908,9 @@
       "category": "life",
       "icon": "zap",
       "tagline": "算算家电一年吃多少电费",
-      "url": "/tools/electricity-cost/"
+      "url": "/tools/electricity-cost/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "emoji-search",
@@ -1576,7 +1931,9 @@
       "category": "fun",
       "icon": "smile",
       "tagline": "搜表情一键复制",
-      "url": "/tools/emoji-search/"
+      "url": "/tools/emoji-search/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "env-parser",
@@ -1596,7 +1953,9 @@
       "category": "dev",
       "icon": "file-cog",
       "tagline": "解析 dotenv 配置，校验键值与重复",
-      "url": "/tools/env-parser/"
+      "url": "/tools/env-parser/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "extract-links",
@@ -1616,7 +1975,9 @@
       "category": "dev",
       "icon": "link",
       "tagline": "从文本或 HTML 提取所有 URL 链接",
-      "url": "/tools/extract-links/"
+      "url": "/tools/extract-links/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "factorial",
@@ -1639,7 +2000,9 @@
       "category": "calc",
       "icon": "sigma",
       "tagline": "阶乘、排列数、组合数一键算",
-      "url": "/tools/factorial/"
+      "url": "/tools/factorial/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "favicon-generator",
@@ -1660,7 +2023,9 @@
       "category": "image",
       "icon": "star",
       "tagline": "一次出全套图标尺寸",
-      "url": "/tools/favicon-generator/"
+      "url": "/tools/favicon-generator/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "fine-tune-dataset-generator",
@@ -1683,7 +2048,9 @@
       "category": "ai",
       "icon": "table",
       "tagline": "把问答对整理成训练 JSONL",
-      "url": "/tools/fine-tune-dataset-generator/"
+      "url": "/tools/fine-tune-dataset-generator/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "flip-clock",
@@ -1703,7 +2070,9 @@
       "category": "clock",
       "icon": "timer",
       "tagline": "经典翻牌动画时钟",
-      "url": "/tools/flip-clock/"
+      "url": "/tools/flip-clock/",
+      "priority": 10,
+      "noindex": false
     },
     {
       "id": "flow-rate",
@@ -1724,7 +2093,9 @@
       "category": "convert",
       "icon": "droplet",
       "tagline": "L/s、L/min、m³/h、gpm、cfm 等流量单位在线互转",
-      "url": "/tools/flow-rate/"
+      "url": "/tools/flow-rate/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "fortnight-to-hours",
@@ -1745,7 +2116,9 @@
       "category": "calc",
       "icon": "clock",
       "tagline": "天数换算成总小时数",
-      "url": "/tools/fortnight-to-hours/"
+      "url": "/tools/fortnight-to-hours/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "fraction-calculator",
@@ -1766,7 +2139,32 @@
       "category": "calc",
       "icon": "divide",
       "tagline": "分数加减乘除与约分",
-      "url": "/tools/fraction-calculator/"
+      "url": "/tools/fraction-calculator/",
+      "priority": 7,
+      "noindex": false
+    },
+    {
+      "id": "frequency-convert",
+      "name": "频率换算",
+      "description": "免费在线频率换算工具，支持赫兹、千赫、兆赫、吉赫四种频率单位一键互转，适合电子、音频与无线场景，结果实时显示，全部在浏览器本地计算。",
+      "keywords": [
+        "频率换算",
+        "Hz 转换",
+        "MHz",
+        "GHz",
+        "赫兹"
+      ],
+      "tags": [
+        "换算",
+        "频率",
+        "单位"
+      ],
+      "category": "convert",
+      "icon": "waves",
+      "tagline": "Hz、kHz、MHz、GHz 互转",
+      "url": "/tools/frequency-convert/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "fuel-cost",
@@ -1787,7 +2185,9 @@
       "category": "life",
       "icon": "gauge",
       "tagline": "里程油耗油价一算便知",
-      "url": "/tools/fuel-cost/"
+      "url": "/tools/fuel-cost/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "fuel-efficiency",
@@ -1809,7 +2209,9 @@
       "category": "convert",
       "icon": "fuel",
       "tagline": "L/100km、km/L、mpg 等燃油效率单位在线互转",
-      "url": "/tools/fuel-efficiency/"
+      "url": "/tools/fuel-efficiency/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "fullscreen-clock",
@@ -1832,7 +2234,9 @@
       "category": "clock",
       "icon": "maximize",
       "tagline": "铺满整屏的超大时间显示",
-      "url": "/tools/fullscreen-clock/"
+      "url": "/tools/fullscreen-clock/",
+      "priority": 9,
+      "noindex": false
     },
     {
       "id": "function-calling-generator",
@@ -1855,7 +2259,9 @@
       "category": "ai",
       "icon": "function-square",
       "tagline": "可视化生成工具调用定义",
-      "url": "/tools/function-calling-generator/"
+      "url": "/tools/function-calling-generator/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "fund-dca-calc",
@@ -1876,7 +2282,9 @@
       "category": "calc",
       "icon": "activity",
       "tagline": "定期定额复利收益一目了然",
-      "url": "/tools/fund-dca-calc/"
+      "url": "/tools/fund-dca-calc/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "fund-loan-calc",
@@ -1897,7 +2305,9 @@
       "category": "calc",
       "icon": "landmark",
       "tagline": "算清公积金贷款月供与利息",
-      "url": "/tools/fund-loan-calc/"
+      "url": "/tools/fund-loan-calc/",
+      "priority": 9,
+      "noindex": false
     },
     {
       "id": "fund-yield-convert",
@@ -1918,7 +2328,9 @@
       "category": "calc",
       "icon": "landmark",
       "tagline": "万份收益与七日年化互算",
-      "url": "/tools/fund-yield-convert/"
+      "url": "/tools/fund-yield-convert/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "gcd-lcm",
@@ -1939,7 +2351,9 @@
       "category": "calc",
       "icon": "binary",
       "tagline": "GCD / LCM 一键求",
-      "url": "/tools/gcd-lcm/"
+      "url": "/tools/gcd-lcm/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "git-command-gen",
@@ -1960,7 +2374,9 @@
       "category": "dev",
       "icon": "git-branch",
       "tagline": "常见场景命令速查",
-      "url": "/tools/git-command-gen/"
+      "url": "/tools/git-command-gen/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "github-stars",
@@ -1984,7 +2400,9 @@
       "category": "dev",
       "icon": "star",
       "tagline": "按 star 排行的开源项目速查",
-      "url": "/tools/github-stars/"
+      "url": "/tools/github-stars/",
+      "priority": 0,
+      "noindex": false
     },
     {
       "id": "gitignore-gen",
@@ -2007,7 +2425,9 @@
       "category": "dev",
       "icon": "file-text",
       "tagline": "按技术栈勾选，秒出 .gitignore",
-      "url": "/tools/gitignore-gen/"
+      "url": "/tools/gitignore-gen/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "gold-weight-convert",
@@ -2028,7 +2448,9 @@
       "category": "convert",
       "icon": "coins",
       "tagline": "克两钱盎司快速互算",
-      "url": "/tools/gold-weight-convert/"
+      "url": "/tools/gold-weight-convert/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "gov-shutdown-countdown",
@@ -2049,7 +2471,9 @@
       "category": "calc",
       "icon": "timer",
       "tagline": "自定义目标实时倒计时",
-      "url": "/tools/gov-shutdown-countdown/"
+      "url": "/tools/gov-shutdown-countdown/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "gpa-calculator",
@@ -2070,7 +2494,9 @@
       "category": "calc",
       "icon": "school",
       "tagline": "学分加权算绩点",
-      "url": "/tools/gpa-calculator/"
+      "url": "/tools/gpa-calculator/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "hash-calculator",
@@ -2092,7 +2518,9 @@
       "category": "security",
       "icon": "fingerprint",
       "tagline": "SHA-1 / SHA-256 本地计算",
-      "url": "/tools/hash-calculator/"
+      "url": "/tools/hash-calculator/",
+      "priority": 4,
+      "noindex": false
     },
     {
       "id": "hash-identify",
@@ -2112,7 +2540,9 @@
       "category": "dev",
       "icon": "fingerprint",
       "tagline": "根据长度与特征识别 md5/sha/bcrypt 等",
-      "url": "/tools/hash-identify/"
+      "url": "/tools/hash-identify/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "hat-size",
@@ -2133,7 +2563,9 @@
       "category": "convert",
       "icon": "tag",
       "tagline": "美码/英码/欧码/中码帽子尺寸在线互转",
-      "url": "/tools/hat-size/"
+      "url": "/tools/hat-size/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "hmac-gen",
@@ -2153,7 +2585,9 @@
       "category": "dev",
       "icon": "shield-check",
       "tagline": "HMAC-SHA256/384/512 带密钥签名",
-      "url": "/tools/hmac-gen/"
+      "url": "/tools/hmac-gen/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "hms-add",
@@ -2174,7 +2608,9 @@
       "category": "calc",
       "icon": "timer",
       "tagline": "按 时:分:秒 累加加减",
-      "url": "/tools/hms-add/"
+      "url": "/tools/hms-add/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "hms-to-units",
@@ -2195,7 +2631,9 @@
       "category": "calc",
       "icon": "timer",
       "tagline": "HH:MM:SS 转总小时/分钟/秒",
-      "url": "/tools/hms-to-units/"
+      "url": "/tools/hms-to-units/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "hourly-wage",
@@ -2216,7 +2654,9 @@
       "category": "calc",
       "icon": "coins",
       "tagline": "时薪与月薪互转",
-      "url": "/tools/hourly-wage/"
+      "url": "/tools/hourly-wage/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "hours-from-now",
@@ -2237,7 +2677,9 @@
       "category": "calc",
       "icon": "clock",
       "tagline": "算 N 小时后是几点钟",
-      "url": "/tools/hours-from-now/"
+      "url": "/tools/hours-from-now/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "html-escape",
@@ -2258,7 +2700,9 @@
       "category": "dev",
       "icon": "code",
       "tagline": "转义特殊字符",
-      "url": "/tools/html-escape/"
+      "url": "/tools/html-escape/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "html-to-markdown",
@@ -2278,7 +2722,9 @@
       "category": "dev",
       "icon": "file-code-2",
       "tagline": "把 HTML 片段转成 Markdown 文本",
-      "url": "/tools/html-to-markdown/"
+      "url": "/tools/html-to-markdown/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "http-status",
@@ -2301,7 +2747,9 @@
       "category": "dev",
       "icon": "server",
       "tagline": "常用 HTTP 状态码含义速查",
-      "url": "/tools/http-status/"
+      "url": "/tools/http-status/",
+      "priority": 4,
+      "noindex": false
     },
     {
       "id": "id-card-check",
@@ -2322,7 +2770,9 @@
       "category": "security",
       "icon": "shield-check",
       "tagline": "18/15 位校验与信息解析",
-      "url": "/tools/id-card-check/"
+      "url": "/tools/id-card-check/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "ideal-weight",
@@ -2345,7 +2795,9 @@
       "category": "calc",
       "icon": "scale",
       "tagline": "按身高算标准体重区间",
-      "url": "/tools/ideal-weight/"
+      "url": "/tools/ideal-weight/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "illuminance",
@@ -2367,7 +2819,9 @@
       "category": "convert",
       "icon": "lightbulb",
       "tagline": "lux、foot-candle、phot 等光照度单位在线互转",
-      "url": "/tools/illuminance/"
+      "url": "/tools/illuminance/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "image-base64",
@@ -2388,7 +2842,9 @@
       "category": "image",
       "icon": "file-code",
       "tagline": "图片与 Base64 互转",
-      "url": "/tools/image-base64/"
+      "url": "/tools/image-base64/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "image-compress",
@@ -2409,7 +2865,9 @@
       "category": "image",
       "icon": "minimize",
       "tagline": "压体积不降清晰度",
-      "url": "/tools/image-compress/"
+      "url": "/tools/image-compress/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "image-convert",
@@ -2430,7 +2888,9 @@
       "category": "image",
       "icon": "arrowLeftRight",
       "tagline": "PNG / JPEG / WebP 互转",
-      "url": "/tools/image-convert/"
+      "url": "/tools/image-convert/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "image-crop",
@@ -2451,7 +2911,9 @@
       "category": "image",
       "icon": "crop",
       "tagline": "按比例取图不变形",
-      "url": "/tools/image-crop/"
+      "url": "/tools/image-crop/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "image-filter",
@@ -2472,7 +2934,9 @@
       "category": "image",
       "icon": "sliders-horizontal",
       "tagline": "亮度对比度模糊调色",
-      "url": "/tools/image-filter/"
+      "url": "/tools/image-filter/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "image-info",
@@ -2493,7 +2957,9 @@
       "category": "image",
       "icon": "scan",
       "tagline": "尺寸体积与主色提取",
-      "url": "/tools/image-info/"
+      "url": "/tools/image-info/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "image-resize",
@@ -2514,7 +2980,9 @@
       "category": "image",
       "icon": "maximize",
       "tagline": "改宽高、按比例缩放",
-      "url": "/tools/image-resize/"
+      "url": "/tools/image-resize/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "image-watermark",
@@ -2535,7 +3003,9 @@
       "category": "image",
       "icon": "droplet",
       "tagline": "文字水印、平铺防截图",
-      "url": "/tools/image-watermark/"
+      "url": "/tools/image-watermark/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "income-tax-cn",
@@ -2556,7 +3026,9 @@
       "category": "calc",
       "icon": "receipt",
       "tagline": "算清一年工资该交多少税",
-      "url": "/tools/income-tax-cn/"
+      "url": "/tools/income-tax-cn/",
+      "priority": 9,
+      "noindex": false
     },
     {
       "id": "inductance",
@@ -2577,7 +3049,9 @@
       "category": "convert",
       "icon": "waves",
       "tagline": "nH、μH、mH、H 等电感单位在线互转",
-      "url": "/tools/inductance/"
+      "url": "/tools/inductance/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "inflation-calculator",
@@ -2598,7 +3072,9 @@
       "category": "calc",
       "icon": "trending-down",
       "tagline": "算清钱随时间的购买力",
-      "url": "/tools/inflation-calculator/"
+      "url": "/tools/inflation-calculator/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "installment-apr",
@@ -2619,7 +3095,9 @@
       "category": "calc",
       "icon": "percent",
       "tagline": "名义费率换算真实年化IRR",
-      "url": "/tools/installment-apr/"
+      "url": "/tools/installment-apr/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "isbn-validator",
@@ -2641,7 +3119,9 @@
       "category": "barcode",
       "icon": "book",
       "tagline": "校验位与 10/13 互换",
-      "url": "/tools/isbn-validator/"
+      "url": "/tools/isbn-validator/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "jian-fan-convert",
@@ -2663,7 +3143,9 @@
       "category": "text",
       "icon": "languages",
       "tagline": "简体中文与繁体中文互转",
-      "url": "/tools/jian-fan-convert/"
+      "url": "/tools/jian-fan-convert/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "json-diff",
@@ -2684,7 +3166,9 @@
       "category": "dev",
       "icon": "diff",
       "tagline": "找出两份 JSON 差异",
-      "url": "/tools/json-diff/"
+      "url": "/tools/json-diff/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "json-flatten",
@@ -2705,7 +3189,9 @@
       "category": "dev",
       "icon": "layers",
       "tagline": "嵌套 JSON 展平成一层",
-      "url": "/tools/json-flatten/"
+      "url": "/tools/json-flatten/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "json-formatter",
@@ -2727,7 +3213,9 @@
       "category": "dev",
       "icon": "braces",
       "tagline": "格式化、压缩、校验 JSON",
-      "url": "/tools/json-formatter/"
+      "url": "/tools/json-formatter/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "json-to-csv",
@@ -2748,7 +3236,9 @@
       "category": "dev",
       "icon": "table",
       "tagline": "数组对象转表格 CSV",
-      "url": "/tools/json-to-csv/"
+      "url": "/tools/json-to-csv/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "json-to-typescript",
@@ -2769,7 +3259,9 @@
       "category": "dev",
       "icon": "file-code",
       "tagline": "自动生成接口类型",
-      "url": "/tools/json-to-typescript/"
+      "url": "/tools/json-to-typescript/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "jsonpath",
@@ -2789,7 +3281,9 @@
       "category": "dev",
       "icon": "braces",
       "tagline": "用 JSONPath 从 JSON 提取任意字段",
-      "url": "/tools/jsonpath/"
+      "url": "/tools/jsonpath/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "jwt-decoder",
@@ -2811,7 +3305,9 @@
       "category": "dev",
       "icon": "key",
       "tagline": "在线解析 JWT，查看 Header / Payload",
-      "url": "/tools/jwt-decoder/"
+      "url": "/tools/jwt-decoder/",
+      "priority": 5,
+      "noindex": false
     },
     {
       "id": "jwt-generator",
@@ -2831,7 +3327,9 @@
       "category": "dev",
       "icon": "badge-check",
       "tagline": "自定义 Header/Payload 生成并 HS256 签名 JWT",
-      "url": "/tools/jwt-generator/"
+      "url": "/tools/jwt-generator/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "labor-income-tax",
@@ -2853,7 +3351,9 @@
       "category": "calc",
       "icon": "coins",
       "tagline": "接私活、拿稿费，先扣多少税",
-      "url": "/tools/labor-income-tax/"
+      "url": "/tools/labor-income-tax/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "license-gen",
@@ -2877,7 +3377,9 @@
       "category": "dev",
       "icon": "scale",
       "tagline": "问答推荐 + 一键生成 LICENSE",
-      "url": "/tools/license-gen/"
+      "url": "/tools/license-gen/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "line-sort",
@@ -2897,7 +3399,9 @@
       "category": "text",
       "icon": "arrow-down-narrow-wide",
       "tagline": "多行文本排序",
-      "url": "/tools/line-sort/"
+      "url": "/tools/line-sort/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "loan-calculator",
@@ -2918,7 +3422,9 @@
       "category": "calc",
       "icon": "landmark",
       "tagline": "等额本息月供与总利息",
-      "url": "/tools/loan-calculator/"
+      "url": "/tools/loan-calculator/",
+      "priority": 9,
+      "noindex": false
     },
     {
       "id": "loc-counter",
@@ -2938,7 +3444,9 @@
       "category": "dev",
       "icon": "list-ordered",
       "tagline": "统计代码总行数/注释/空行/有效代码",
-      "url": "/tools/loc-counter/"
+      "url": "/tools/loc-counter/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "log-calculator",
@@ -2959,7 +3467,9 @@
       "category": "calc",
       "icon": "sigma",
       "tagline": "任意底数的对数",
-      "url": "/tools/log-calculator/"
+      "url": "/tools/log-calculator/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "lorem-ipsum",
@@ -2980,7 +3490,9 @@
       "category": "text",
       "icon": "file-text",
       "tagline": "中文与经典占位文",
-      "url": "/tools/lorem-ipsum/"
+      "url": "/tools/lorem-ipsum/",
+      "priority": 5,
+      "noindex": false
     },
     {
       "id": "lottery-draw",
@@ -3000,7 +3512,9 @@
       "category": "life",
       "icon": "ticket",
       "tagline": "从选项里随机抽取",
-      "url": "/tools/lottery-draw/"
+      "url": "/tools/lottery-draw/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "magnetic",
@@ -3021,7 +3535,9 @@
       "category": "convert",
       "icon": "magnet",
       "tagline": "T、mT、μT、nT、G 等磁感应强度在线互转",
-      "url": "/tools/magnetic/"
+      "url": "/tools/magnetic/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "markdown-preview",
@@ -3043,7 +3559,9 @@
       "category": "text",
       "icon": "file-text",
       "tagline": "实时渲染 Markdown 为富文本",
-      "url": "/tools/markdown-preview/"
+      "url": "/tools/markdown-preview/",
+      "priority": 4,
+      "noindex": false
     },
     {
       "id": "markdown-table-gen",
@@ -3064,7 +3582,9 @@
       "category": "dev",
       "icon": "table",
       "tagline": "CSV 与 JSON 转表格",
-      "url": "/tools/markdown-table-gen/"
+      "url": "/tools/markdown-table-gen/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "markdown-toc",
@@ -3085,7 +3605,9 @@
       "category": "text",
       "icon": "list",
       "tagline": "一键生成文章锚点目录",
-      "url": "/tools/markdown-toc/"
+      "url": "/tools/markdown-toc/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "maternity-benefit",
@@ -3108,7 +3630,9 @@
       "category": "calc",
       "icon": "users",
       "tagline": "单位月均工资除30乘产假天数",
-      "url": "/tools/maternity-benefit/"
+      "url": "/tools/maternity-benefit/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "matrix-calculator",
@@ -3129,7 +3653,9 @@
       "category": "calc",
       "icon": "grid",
       "tagline": "2×2 与 3×3 矩阵运算",
-      "url": "/tools/matrix-calculator/"
+      "url": "/tools/matrix-calculator/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "mcp-config-generator",
@@ -3153,7 +3679,9 @@
       "category": "ai",
       "icon": "plug",
       "tagline": "选服务生成 mcp.json 配置",
-      "url": "/tools/mcp-config-generator/"
+      "url": "/tools/mcp-config-generator/",
+      "priority": 5,
+      "noindex": false
     },
     {
       "id": "mcp-server-directory",
@@ -3176,7 +3704,9 @@
       "category": "ai",
       "icon": "server",
       "tagline": "热门 MCP Server 一站速览",
-      "url": "/tools/mcp-server-directory/"
+      "url": "/tools/mcp-server-directory/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "mcp-tool-generator",
@@ -3199,7 +3729,9 @@
       "category": "ai",
       "icon": "plug",
       "tagline": "写出合规的 MCP 工具",
-      "url": "/tools/mcp-tool-generator/"
+      "url": "/tools/mcp-tool-generator/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "medical-insurance",
@@ -3222,7 +3754,9 @@
       "category": "calc",
       "icon": "activity",
       "tagline": "总费用减起付线乘比例，算能报多少",
-      "url": "/tools/medical-insurance/"
+      "url": "/tools/medical-insurance/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "menstrual-cycle",
@@ -3243,7 +3777,9 @@
       "category": "life",
       "icon": "calendar-heart",
       "tagline": "推算排卵日与易孕窗口",
-      "url": "/tools/menstrual-cycle/"
+      "url": "/tools/menstrual-cycle/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "meta-tags-generator",
@@ -3264,7 +3800,9 @@
       "category": "dev",
       "icon": "file-code",
       "tagline": "一键生成 OG 与 Twitter 标签",
-      "url": "/tools/meta-tags-generator/"
+      "url": "/tools/meta-tags-generator/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "min-age-birth",
@@ -3285,7 +3823,32 @@
       "category": "calc",
       "icon": "cake",
       "tagline": "反推达标最晚生日",
-      "url": "/tools/min-age-birth/"
+      "url": "/tools/min-age-birth/",
+      "priority": 6,
+      "noindex": false
+    },
+    {
+      "id": "morse-code",
+      "name": "摩斯电码转换",
+      "description": "免费在线摩斯电码转换工具，支持英文、数字与常用标点与摩斯电码双向转换，点划清晰分隔，适合业余无线电、电报教学与解密游戏，全部在浏览器本地完成。",
+      "keywords": [
+        "摩斯电码",
+        "莫尔斯码",
+        "电报",
+        "Morse",
+        "电码转换"
+      ],
+      "tags": [
+        "文本",
+        "编码",
+        "摩斯"
+      ],
+      "category": "text",
+      "icon": "megaphone",
+      "tagline": "文本与摩斯电码双向转换",
+      "url": "/tools/morse-code/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "mortgage-early-repayment",
@@ -3306,7 +3869,9 @@
       "category": "calc",
       "icon": "building",
       "tagline": "提前还贷能省多少利息",
-      "url": "/tools/mortgage-early-repayment/"
+      "url": "/tools/mortgage-early-repayment/",
+      "priority": 9,
+      "noindex": false
     },
     {
       "id": "name-generator",
@@ -3327,7 +3892,32 @@
       "category": "fun",
       "icon": "user-round",
       "tagline": "中英文随机姓名",
-      "url": "/tools/name-generator/"
+      "url": "/tools/name-generator/",
+      "priority": 6,
+      "noindex": false
+    },
+    {
+      "id": "nato-phonetic",
+      "name": "NATO 字母拼读",
+      "description": "免费在线 NATO 字母拼读工具，把英文字母与数字转换为 Alpha、Bravo、Charlie 等标准拼音词，方便电话、无线电与工单里准确报读拼写，全部在浏览器本地完成。",
+      "keywords": [
+        "NATO 拼音",
+        "字母拼读",
+        " phonetic",
+        "Alpha Bravo",
+        "无线电拼写"
+      ],
+      "tags": [
+        "文本",
+        "编码",
+        "拼写"
+      ],
+      "category": "text",
+      "icon": "book",
+      "tagline": "字母转 NATO 拼音便于口头拼读",
+      "url": "/tools/nato-phonetic/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "nginx-config-gen",
@@ -3348,7 +3938,9 @@
       "category": "dev",
       "icon": "server",
       "tagline": "五种场景一键出配置",
-      "url": "/tools/nginx-config-gen/"
+      "url": "/tools/nginx-config-gen/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "ode-solver",
@@ -3369,7 +3961,9 @@
       "category": "calc",
       "icon": "activity",
       "tagline": "一阶常微分方程 RK4 数值解",
-      "url": "/tools/ode-solver/"
+      "url": "/tools/ode-solver/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "overtime-pay",
@@ -3390,7 +3984,9 @@
       "category": "calc",
       "icon": "clock",
       "tagline": "工作日 1.5 倍，休息日 2 倍，法定节假日 3 倍",
-      "url": "/tools/overtime-pay/"
+      "url": "/tools/overtime-pay/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "paper-size",
@@ -3412,7 +4008,9 @@
       "category": "convert",
       "icon": "printer",
       "tagline": "A/B/C 系列、Letter、Legal 等纸张尺寸在线互转",
-      "url": "/tools/paper-size/"
+      "url": "/tools/paper-size/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "password-generator",
@@ -3433,7 +4031,9 @@
       "category": "security",
       "icon": "key",
       "tagline": "一键生成高强度随机密码",
-      "url": "/tools/password-generator/"
+      "url": "/tools/password-generator/",
+      "priority": 9,
+      "noindex": false
     },
     {
       "id": "password-strength",
@@ -3455,7 +4055,32 @@
       "category": "security",
       "icon": "shield",
       "tagline": "实时评估密码强度与风险",
-      "url": "/tools/password-strength/"
+      "url": "/tools/password-strength/",
+      "priority": 5,
+      "noindex": false
+    },
+    {
+      "id": "pbkdf2-generator",
+      "name": "PBKDF2 密钥派生",
+      "description": "免费在线 PBKDF2 密钥派生工具，基于浏览器原生 Web Crypto，用口令、盐、迭代次数与哈希算法派生强密钥，用于密码哈希与密钥扩展，全程在你的设备本地完成，不上传任何数据。",
+      "keywords": [
+        "PBKDF2",
+        "密钥派生",
+        "口令哈希",
+        "Web Crypto",
+        "密码学"
+      ],
+      "tags": [
+        "安全",
+        "加密",
+        "哈希"
+      ],
+      "category": "security",
+      "icon": "shield",
+      "tagline": "用口令派生强密钥",
+      "url": "/tools/pbkdf2-generator/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "pension-estimate",
@@ -3476,7 +4101,9 @@
       "category": "calc",
       "icon": "coins",
       "tagline": "估算退休后每月能领多少养老金",
-      "url": "/tools/pension-estimate/"
+      "url": "/tools/pension-estimate/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "percentage-calculator",
@@ -3496,7 +4123,9 @@
       "category": "calc",
       "icon": "percent",
       "tagline": "百分比/增减/占比一键算",
-      "url": "/tools/percentage-calculator/"
+      "url": "/tools/percentage-calculator/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "permutation-combination",
@@ -3517,7 +4146,32 @@
       "category": "calc",
       "icon": "shuffle",
       "tagline": "排列数 P(n,k) 与组合数 C(n,k)",
-      "url": "/tools/permutation-combination/"
+      "url": "/tools/permutation-combination/",
+      "priority": 7,
+      "noindex": false
+    },
+    {
+      "id": "pet-age-calculator",
+      "name": "宠物年龄换算",
+      "description": "免费在线宠物年龄换算工具，把狗或猫的实际年龄折算为等效人类岁数并给出生命阶段（幼龄、成年、老年），帮主人更直观地理解爱宠状态，全部在浏览器本地计算。",
+      "keywords": [
+        "宠物年龄",
+        "狗龄换算",
+        "猫龄换算",
+        "宠物岁数",
+        "人宠年龄"
+      ],
+      "tags": [
+        "生活",
+        "宠物",
+        "年龄"
+      ],
+      "category": "life",
+      "icon": "paw-print",
+      "tagline": "狗/猫年龄折算人类年龄",
+      "url": "/tools/pet-age-calculator/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "placeholder-image",
@@ -3538,7 +4192,9 @@
       "category": "image",
       "icon": "grid",
       "tagline": "自定义尺寸的占位图片",
-      "url": "/tools/placeholder-image/"
+      "url": "/tools/placeholder-image/",
+      "priority": 5,
+      "noindex": false
     },
     {
       "id": "pomodoro-timer",
@@ -3559,7 +4215,9 @@
       "category": "life",
       "icon": "clock",
       "tagline": "番茄工作法专注计时器",
-      "url": "/tools/pomodoro-timer/"
+      "url": "/tools/pomodoro-timer/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "port-lookup",
@@ -3579,7 +4237,9 @@
       "category": "dev",
       "icon": "network",
       "tagline": "常见端口号与用途速查，TCP/UDP 一览",
-      "url": "/tools/port-lookup/"
+      "url": "/tools/port-lookup/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "power-root",
@@ -3601,7 +4261,9 @@
       "category": "calc",
       "icon": "sigma",
       "tagline": "a^b 与 n 次根",
-      "url": "/tools/power-root/"
+      "url": "/tools/power-root/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "pressure-convert",
@@ -3626,7 +4288,9 @@
       "category": "convert",
       "icon": "gauge",
       "tagline": "Pa、bar、psi、atm、mmHg 等压强单位在线互转",
-      "url": "/tools/pressure-convert/"
+      "url": "/tools/pressure-convert/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "prime-factor",
@@ -3647,7 +4311,9 @@
       "category": "calc",
       "icon": "divide",
       "tagline": "分解质因数并判定素数",
-      "url": "/tools/prime-factor/"
+      "url": "/tools/prime-factor/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "profit-margin",
@@ -3670,7 +4336,9 @@
       "category": "calc",
       "icon": "percent",
       "tagline": "成本售价算毛利，反推定价",
-      "url": "/tools/profit-margin/"
+      "url": "/tools/profit-margin/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "prompt-injection-detector",
@@ -3693,7 +4361,9 @@
       "category": "ai",
       "icon": "shield",
       "tagline": "识别藏在日常文本里的注入指令",
-      "url": "/tools/prompt-injection-detector/"
+      "url": "/tools/prompt-injection-detector/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "prompt-library",
@@ -3718,7 +4388,9 @@
       "category": "ai",
       "icon": "bookmark",
       "tagline": "收藏管理 + 随机生成提示词",
-      "url": "/tools/prompt-library/"
+      "url": "/tools/prompt-library/",
+      "priority": 5,
+      "noindex": false
     },
     {
       "id": "prompt-optimizer",
@@ -3741,7 +4413,9 @@
       "category": "ai",
       "icon": "wand",
       "tagline": "把粗糙提示词改写得更好用",
-      "url": "/tools/prompt-optimizer/"
+      "url": "/tools/prompt-optimizer/",
+      "priority": 9,
+      "noindex": false
     },
     {
       "id": "prompt-template",
@@ -3766,7 +4440,9 @@
       "category": "ai",
       "icon": "braces",
       "tagline": "用变量填充模板，一键生成最终提示词",
-      "url": "/tools/prompt-template/"
+      "url": "/tools/prompt-template/",
+      "priority": 5,
+      "noindex": false
     },
     {
       "id": "provident-fund-calc",
@@ -3787,7 +4463,9 @@
       "category": "calc",
       "icon": "wallet",
       "tagline": "算清每月公积金缴存额",
-      "url": "/tools/provident-fund-calc/"
+      "url": "/tools/provident-fund-calc/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "public-apis",
@@ -3810,7 +4488,9 @@
       "category": "dev",
       "icon": "database",
       "tagline": "按分类检索可用的免费开放接口",
-      "url": "/tools/public-apis/"
+      "url": "/tools/public-apis/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "punycode",
@@ -3830,7 +4510,9 @@
       "category": "dev",
       "icon": "globe",
       "tagline": "中文域名与 xn-- 编码互转",
-      "url": "/tools/punycode/"
+      "url": "/tools/punycode/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "qrcode-generator",
@@ -3852,7 +4534,9 @@
       "category": "dev",
       "icon": "qr",
       "tagline": "文本/网址一键生成二维码",
-      "url": "/tools/qrcode-generator/"
+      "url": "/tools/qrcode-generator/",
+      "priority": 4,
+      "noindex": false
     },
     {
       "id": "query-params",
@@ -3872,7 +4556,9 @@
       "category": "dev",
       "icon": "link-2",
       "tagline": "解析、排序、去重、拼接 URL 查询参数",
-      "url": "/tools/query-params/"
+      "url": "/tools/query-params/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "rag-prompt-builder",
@@ -3895,7 +4581,9 @@
       "category": "ai",
       "icon": "database",
       "tagline": "拼装带引用的检索增强提示词",
-      "url": "/tools/rag-prompt-builder/"
+      "url": "/tools/rag-prompt-builder/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "random-number",
@@ -3915,7 +4603,32 @@
       "category": "life",
       "icon": "dice",
       "tagline": "区间内批量随机整数",
-      "url": "/tools/random-number/"
+      "url": "/tools/random-number/",
+      "priority": 7,
+      "noindex": false
+    },
+    {
+      "id": "rate-limit-calculator",
+      "name": "限流参数计算器",
+      "description": "免费在线限流参数计算器，输入每秒速率与突发容量，给出令牌桶的桶容量、补充间隔与补充量，帮助后端与网关快速定参数，全部在浏览器本地计算。",
+      "keywords": [
+        "限流计算",
+        "令牌桶",
+        "漏桶",
+        "速率限制",
+        "API 限流"
+      ],
+      "tags": [
+        "开发",
+        "网络",
+        "限流"
+      ],
+      "category": "dev",
+      "icon": "timer",
+      "tagline": "算令牌桶/漏桶容量与补充",
+      "url": "/tools/rate-limit-calculator/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "ratio-calculator",
@@ -3936,7 +4649,9 @@
       "category": "calc",
       "icon": "scale",
       "tagline": "比例换算与按比例分配",
-      "url": "/tools/ratio-calculator/"
+      "url": "/tools/ratio-calculator/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "regex-tester",
@@ -3958,7 +4673,32 @@
       "category": "dev",
       "icon": "regex",
       "tagline": "在线测试正则表达式与匹配",
-      "url": "/tools/regex-tester/"
+      "url": "/tools/regex-tester/",
+      "priority": 5,
+      "noindex": false
+    },
+    {
+      "id": "remove-accents",
+      "name": "去变音符号",
+      "description": "免费在线去变音符号工具，把 é、ü、ñ、ç 等带重音或变音的拉丁字母还原为 ASCII 基础字母，适合清洗文件名、生成 URL 友好文本与统一搜索词，全部在浏览器本地完成。",
+      "keywords": [
+        "去变音符号",
+        "去重音",
+        "normalize",
+        "拉丁字母清洗",
+        "ASCII"
+      ],
+      "tags": [
+        "文本",
+        "清洗",
+        "编码"
+      ],
+      "category": "text",
+      "icon": "type",
+      "tagline": "去除拉丁字母的重音符号",
+      "url": "/tools/remove-accents/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "rental-yield",
@@ -3981,7 +4721,9 @@
       "category": "calc",
       "icon": "building",
       "tagline": "房价和租金，算回本要几年",
-      "url": "/tools/rental-yield/"
+      "url": "/tools/rental-yield/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "resistance",
@@ -4002,7 +4744,9 @@
       "category": "convert",
       "icon": "zap",
       "tagline": "Ω、mΩ、kΩ、MΩ、GΩ 等电阻单位在线互转",
-      "url": "/tools/resistance/"
+      "url": "/tools/resistance/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "retirement-age",
@@ -4023,7 +4767,9 @@
       "category": "calc",
       "icon": "calendar",
       "tagline": "渐进式延迟退休，算算你几岁退",
-      "url": "/tools/retirement-age/"
+      "url": "/tools/retirement-age/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "ring-size",
@@ -4045,7 +4791,9 @@
       "category": "convert",
       "icon": "gem",
       "tagline": "美码/港码/欧码/日码/中码戒指尺寸在线互转",
-      "url": "/tools/ring-size/"
+      "url": "/tools/ring-size/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "rock-paper-scissors",
@@ -4066,7 +4814,9 @@
       "category": "fun",
       "icon": "hand",
       "tagline": "人机对战记分",
-      "url": "/tools/rock-paper-scissors/"
+      "url": "/tools/rock-paper-scissors/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "roi-calculator",
@@ -4087,7 +4837,9 @@
       "category": "calc",
       "icon": "percent",
       "tagline": "ROI与年化收益率速算",
-      "url": "/tools/roi-calculator/"
+      "url": "/tools/roi-calculator/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "roman-numeral",
@@ -4108,7 +4860,32 @@
       "category": "calc",
       "icon": "hash",
       "tagline": "阿拉伯数字与罗马数字互转",
-      "url": "/tools/roman-numeral/"
+      "url": "/tools/roman-numeral/",
+      "priority": 7,
+      "noindex": false
+    },
+    {
+      "id": "rot13-cipher",
+      "name": "ROT13 凯撒密码",
+      "description": "免费在线 ROT13 与凯撒密码工具，把英文字母按指定位数循环移位，ROT13 加解密互为同一操作，适合趣味加密、谜题与教学演示，全部在浏览器本地完成。",
+      "keywords": [
+        "ROT13",
+        "凯撒密码",
+        "字母移位",
+        "加密解密",
+        "趣味密码"
+      ],
+      "tags": [
+        "安全",
+        "加密",
+        "趣味"
+      ],
+      "category": "security",
+      "icon": "key",
+      "tagline": "字母移位加密与解密",
+      "url": "/tools/rot13-cipher/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "rounding-calculator",
@@ -4129,7 +4906,9 @@
       "category": "calc",
       "icon": "target",
       "tagline": "指定位数四舍五入",
-      "url": "/tools/rounding-calculator/"
+      "url": "/tools/rounding-calculator/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "rsa-keygen",
@@ -4152,7 +4931,32 @@
       "category": "security",
       "icon": "fingerprint",
       "tagline": "浏览器内生成 RSA 公钥 / 私钥",
-      "url": "/tools/rsa-keygen/"
+      "url": "/tools/rsa-keygen/",
+      "priority": 5,
+      "noindex": false
+    },
+    {
+      "id": "rule-of-72",
+      "name": "72 法则",
+      "description": "免费在线 72 法则计算器，输入年化收益率即可快速估算本金翻倍所需年限，并给出基于对数的精确值对照，适合理财与复利直觉培养，全部在浏览器本地计算。",
+      "keywords": [
+        "72 法则",
+        "翻倍年限",
+        "复利",
+        "理财计算",
+        "翻倍时间"
+      ],
+      "tags": [
+        "计算",
+        "金融",
+        "复利"
+      ],
+      "category": "calc",
+      "icon": "calculator",
+      "tagline": "估算本金翻倍所需年限",
+      "url": "/tools/rule-of-72/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "running-pace",
@@ -4173,7 +4977,9 @@
       "category": "life",
       "icon": "timer",
       "tagline": "配速时间完赛成绩互算",
-      "url": "/tools/running-pace/"
+      "url": "/tools/running-pace/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "savings-goal-calculator",
@@ -4194,7 +5000,9 @@
       "category": "calc",
       "icon": "landmark",
       "tagline": "攒够目标要存多久",
-      "url": "/tools/savings-goal-calculator/"
+      "url": "/tools/savings-goal-calculator/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "scientific-notation",
@@ -4215,7 +5023,9 @@
       "category": "calc",
       "icon": "function-square",
       "tagline": "普通数字与科学计数法互转",
-      "url": "/tools/scientific-notation/"
+      "url": "/tools/scientific-notation/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "second-hand-house-tax",
@@ -4237,7 +5047,9 @@
       "category": "calc",
       "icon": "house",
       "tagline": "卖房要交多少税，签约前算清楚",
-      "url": "/tools/second-hand-house-tax/"
+      "url": "/tools/second-hand-house-tax/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "seconds-to-time",
@@ -4258,7 +5070,9 @@
       "category": "calc",
       "icon": "timer",
       "tagline": "秒数换算成 HH:MM:SS",
-      "url": "/tools/seconds-to-time/"
+      "url": "/tools/seconds-to-time/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "security-headers",
@@ -4279,7 +5093,9 @@
       "category": "dev",
       "icon": "shield-check",
       "tagline": "HSTS 与 CSP 一键配置",
-      "url": "/tools/security-headers/"
+      "url": "/tools/security-headers/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "semver-compare",
@@ -4299,7 +5115,9 @@
       "category": "dev",
       "icon": "git-compare",
       "tagline": "语义化版本号比较与校验",
-      "url": "/tools/semver-compare/"
+      "url": "/tools/semver-compare/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "severance-calc",
@@ -4320,7 +5138,9 @@
       "category": "calc",
       "icon": "scale",
       "tagline": "算清N、N+1还是2N",
-      "url": "/tools/severance-calc/"
+      "url": "/tools/severance-calc/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "shipping-fee-calculator",
@@ -4342,7 +5162,9 @@
       "category": "life",
       "icon": "box",
       "tagline": "首重加续重，发货前算清运费",
-      "url": "/tools/shipping-fee-calculator/"
+      "url": "/tools/shipping-fee-calculator/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "shoe-size",
@@ -4364,7 +5186,9 @@
       "category": "life",
       "icon": "footprints",
       "tagline": "中/欧/美/英码互转",
-      "url": "/tools/shoe-size/"
+      "url": "/tools/shoe-size/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "skill-generator",
@@ -4388,7 +5212,9 @@
       "category": "ai",
       "icon": "bot",
       "tagline": "填表生成 WorkBuddy 技能文件",
-      "url": "/tools/skill-generator/"
+      "url": "/tools/skill-generator/",
+      "priority": 5,
+      "noindex": false
     },
     {
       "id": "sleep-cycle",
@@ -4409,7 +5235,9 @@
       "category": "life",
       "icon": "moon",
       "tagline": "按90分钟周期倒推入睡",
-      "url": "/tools/sleep-cycle/"
+      "url": "/tools/sleep-cycle/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "slug-generator",
@@ -4429,7 +5257,9 @@
       "category": "dev",
       "icon": "link",
       "tagline": "标题转 URL 友好 slug，支持中英文",
-      "url": "/tools/slug-generator/"
+      "url": "/tools/slug-generator/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "social-security-cn",
@@ -4450,7 +5280,32 @@
       "category": "calc",
       "icon": "shield",
       "tagline": "算清每月社保公积金缴多少",
-      "url": "/tools/social-security-cn/"
+      "url": "/tools/social-security-cn/",
+      "priority": 9,
+      "noindex": false
+    },
+    {
+      "id": "speed-convert",
+      "name": "速度换算",
+      "description": "免费在线速度换算工具，支持公里每小时、英里每小时、米每秒与节（海里每小时）四种速度单位一键互转，适合出行、航海与运动场景，全部在浏览器本地计算。",
+      "keywords": [
+        "速度换算",
+        "mph 转换",
+        "节 换算",
+        "km/h",
+        "m/s"
+      ],
+      "tags": [
+        "换算",
+        "速度",
+        "单位"
+      ],
+      "category": "convert",
+      "icon": "wind",
+      "tagline": "km/h、mph、m/s、节 互转",
+      "url": "/tools/speed-convert/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "sql-formatter",
@@ -4471,7 +5326,9 @@
       "category": "dev",
       "icon": "database",
       "tagline": "关键字换行缩进",
-      "url": "/tools/sql-formatter/"
+      "url": "/tools/sql-formatter/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "stamp-duty",
@@ -4494,7 +5351,9 @@
       "category": "calc",
       "icon": "receipt",
       "tagline": "选合同类型填金额，算应缴印花税",
-      "url": "/tools/stamp-duty/"
+      "url": "/tools/stamp-duty/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "stock-fee-calc",
@@ -4515,7 +5374,9 @@
       "category": "calc",
       "icon": "receipt",
       "tagline": "算清佣金印花税过户费成本",
-      "url": "/tools/stock-fee-calc/"
+      "url": "/tools/stock-fee-calc/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "stopwatch",
@@ -4536,7 +5397,9 @@
       "category": "life",
       "icon": "timer",
       "tagline": "毫秒计次的专业秒表",
-      "url": "/tools/stopwatch/"
+      "url": "/tools/stopwatch/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "system-design",
@@ -4559,7 +5422,9 @@
       "category": "dev",
       "icon": "server",
       "tagline": "拆解经典系统的设计要点",
-      "url": "/tools/system-design/"
+      "url": "/tools/system-design/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "system-prompt-generator",
@@ -4582,7 +5447,9 @@
       "category": "ai",
       "icon": "bot",
       "tagline": "把角色目标约束拼成系统提示词",
-      "url": "/tools/system-prompt-generator/"
+      "url": "/tools/system-prompt-generator/",
+      "priority": 9,
+      "noindex": false
     },
     {
       "id": "temperature-convert",
@@ -4602,7 +5469,9 @@
       "category": "convert",
       "icon": "thermometer",
       "tagline": "摄氏华氏开尔文互转",
-      "url": "/tools/temperature-convert/"
+      "url": "/tools/temperature-convert/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "text-counter",
@@ -4624,7 +5493,9 @@
       "category": "text",
       "icon": "align-left",
       "tagline": "字符 / 字数 / 字节统计",
-      "url": "/tools/text-counter/"
+      "url": "/tools/text-counter/",
+      "priority": 5,
+      "noindex": false
     },
     {
       "id": "text-dedup",
@@ -4644,7 +5515,9 @@
       "category": "text",
       "icon": "copy-x",
       "tagline": "删除重复行",
-      "url": "/tools/text-dedup/"
+      "url": "/tools/text-dedup/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "text-diff",
@@ -4667,7 +5540,9 @@
       "category": "text",
       "icon": "align-left",
       "tagline": "逐行对比两段文本差异",
-      "url": "/tools/text-diff/"
+      "url": "/tools/text-diff/",
+      "priority": 5,
+      "noindex": false
     },
     {
       "id": "text-extract",
@@ -4688,7 +5563,9 @@
       "category": "text",
       "icon": "text-search",
       "tagline": "批量提取手机号邮箱",
-      "url": "/tools/text-extract/"
+      "url": "/tools/text-extract/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "text-pad",
@@ -4709,7 +5586,9 @@
       "category": "text",
       "icon": "type",
       "tagline": "补零对齐到固定长度",
-      "url": "/tools/text-pad/"
+      "url": "/tools/text-pad/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "text-replace",
@@ -4730,7 +5609,9 @@
       "category": "text",
       "icon": "wand",
       "tagline": "多条规则一次替换",
-      "url": "/tools/text-replace/"
+      "url": "/tools/text-replace/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "text-reverse",
@@ -4750,7 +5631,9 @@
       "category": "text",
       "icon": "flip-horizontal",
       "tagline": "字符/单词/行反转",
-      "url": "/tools/text-reverse/"
+      "url": "/tools/text-reverse/",
+      "priority": 5,
+      "noindex": false
     },
     {
       "id": "text-similarity",
@@ -4771,7 +5654,9 @@
       "category": "text",
       "icon": "git-compare",
       "tagline": "查重与洗稿检测",
-      "url": "/tools/text-similarity/"
+      "url": "/tools/text-similarity/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "text-split-join",
@@ -4792,7 +5677,9 @@
       "category": "text",
       "icon": "align-left",
       "tagline": "分隔符互转、加引号",
-      "url": "/tools/text-split-join/"
+      "url": "/tools/text-split-join/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "text-whitespace",
@@ -4813,7 +5700,9 @@
       "category": "text",
       "icon": "eraser",
       "tagline": "清全角空格与空行",
-      "url": "/tools/text-whitespace/"
+      "url": "/tools/text-whitespace/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "time-duration",
@@ -4834,7 +5723,9 @@
       "category": "calc",
       "icon": "clock",
       "tagline": "算两时刻之间时长",
-      "url": "/tools/time-duration/"
+      "url": "/tools/time-duration/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "timestamp-converter",
@@ -4856,7 +5747,9 @@
       "category": "dev",
       "icon": "clock",
       "tagline": "Unix 时间戳与日期互转",
-      "url": "/tools/timestamp-converter/"
+      "url": "/tools/timestamp-converter/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "tip-calculator",
@@ -4877,7 +5770,9 @@
       "category": "calc",
       "icon": "receipt",
       "tagline": "账单小费与人均分摊",
-      "url": "/tools/tip-calculator/"
+      "url": "/tools/tip-calculator/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "today-info",
@@ -4897,7 +5792,9 @@
       "category": "life",
       "icon": "calendar-days",
       "tagline": "日期星期与年份信息",
-      "url": "/tools/today-info/"
+      "url": "/tools/today-info/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "token-counter",
@@ -4922,7 +5819,9 @@
       "category": "ai",
       "icon": "hash",
       "tagline": "估算 GPT/Claude 等模型的 token 数量",
-      "url": "/tools/token-counter/"
+      "url": "/tools/token-counter/",
+      "priority": 5,
+      "noindex": false
     },
     {
       "id": "totp-generator",
@@ -4944,7 +5843,9 @@
       "category": "security",
       "icon": "smartphone",
       "tagline": "两步验证动态码",
-      "url": "/tools/totp-generator/"
+      "url": "/tools/totp-generator/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "trigonometry",
@@ -4967,7 +5868,9 @@
       "category": "calc",
       "icon": "sigma",
       "tagline": "角度一输，六函数全出",
-      "url": "/tools/trigonometry/"
+      "url": "/tools/trigonometry/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "typography",
@@ -4989,7 +5892,9 @@
       "category": "convert",
       "icon": "type",
       "tagline": "pt、px、mm、Q、pc 等字号单位在线互转",
-      "url": "/tools/typography/"
+      "url": "/tools/typography/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "udi-decoder",
@@ -5013,7 +5918,9 @@
       "category": "barcode",
       "icon": "scan",
       "tagline": "解析 GS1 应用标识符，还原 UDI 各字段",
-      "url": "/tools/udi-decoder/"
+      "url": "/tools/udi-decoder/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "udi-generator",
@@ -5039,7 +5946,9 @@
       "category": "barcode",
       "icon": "barcode",
       "tagline": "生成医疗器械唯一标识的二维码与条形码",
-      "url": "/tools/udi-generator/"
+      "url": "/tools/udi-generator/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "unicode-escape",
@@ -5060,7 +5969,9 @@
       "category": "text",
       "icon": "braces",
       "tagline": "中文与转义互转",
-      "url": "/tools/unicode-escape/"
+      "url": "/tools/unicode-escape/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "unit-convert",
@@ -5085,7 +5996,9 @@
       "category": "convert",
       "icon": "ruler",
       "tagline": "长度重量温度网速等 16 类单位在线互换",
-      "url": "/tools/unit-convert/"
+      "url": "/tools/unit-convert/",
+      "priority": 0,
+      "noindex": false
     },
     {
       "id": "url-encoder",
@@ -5107,7 +6020,9 @@
       "category": "dev",
       "icon": "link",
       "tagline": "URL 编码与解码",
-      "url": "/tools/url-encoder/"
+      "url": "/tools/url-encoder/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "url-parser",
@@ -5128,7 +6043,9 @@
       "category": "dev",
       "icon": "link",
       "tagline": "拆解协议域名参数",
-      "url": "/tools/url-parser/"
+      "url": "/tools/url-parser/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "user-agent-parse",
@@ -5148,7 +6065,9 @@
       "category": "dev",
       "icon": "scan",
       "tagline": "解析 UA 识别浏览器、系统、设备",
-      "url": "/tools/user-agent-parse/"
+      "url": "/tools/user-agent-parse/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "utc-to-cst",
@@ -5169,7 +6088,9 @@
       "category": "calc",
       "icon": "globe",
       "tagline": "UTC 换算成北京时间",
-      "url": "/tools/utc-to-cst/"
+      "url": "/tools/utc-to-cst/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "utc-to-edt",
@@ -5190,7 +6111,9 @@
       "category": "calc",
       "icon": "globe",
       "tagline": "UTC 换算成美东夏令时",
-      "url": "/tools/utc-to-edt/"
+      "url": "/tools/utc-to-edt/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "utc-to-est",
@@ -5211,7 +6134,9 @@
       "category": "calc",
       "icon": "globe",
       "tagline": "UTC 换算成美东标准时",
-      "url": "/tools/utc-to-est/"
+      "url": "/tools/utc-to-est/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "utc-to-pst",
@@ -5232,7 +6157,9 @@
       "category": "calc",
       "icon": "globe",
       "tagline": "UTC 换算成太平洋时间",
-      "url": "/tools/utc-to-pst/"
+      "url": "/tools/utc-to-pst/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "uuid-generator",
@@ -5254,7 +6181,9 @@
       "category": "dev",
       "icon": "fingerprint",
       "tagline": "批量生成 UUID v4",
-      "url": "/tools/uuid-generator/"
+      "url": "/tools/uuid-generator/",
+      "priority": 5,
+      "noindex": false
     },
     {
       "id": "variance-std",
@@ -5277,7 +6206,9 @@
       "category": "calc",
       "icon": "sigma",
       "tagline": "一组数据算均值与波动",
-      "url": "/tools/variance-std/"
+      "url": "/tools/variance-std/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "vat-calc",
@@ -5298,7 +6229,9 @@
       "category": "calc",
       "icon": "percent",
       "tagline": "一般纳税人/小规模纳税人都能算",
-      "url": "/tools/vat-calc/"
+      "url": "/tools/vat-calc/",
+      "priority": 9,
+      "noindex": false
     },
     {
       "id": "vehicle-purchase-tax",
@@ -5320,7 +6253,9 @@
       "category": "calc",
       "icon": "fuel",
       "tagline": "买车要交多少购置税，开票前算清楚",
-      "url": "/tools/vehicle-purchase-tax/"
+      "url": "/tools/vehicle-purchase-tax/",
+      "priority": 8,
+      "noindex": false
     },
     {
       "id": "video-speed",
@@ -5341,7 +6276,9 @@
       "category": "calc",
       "icon": "film",
       "tagline": "算倍速下看完要多久",
-      "url": "/tools/video-speed/"
+      "url": "/tools/video-speed/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "viscosity",
@@ -5362,7 +6299,9 @@
       "category": "convert",
       "icon": "droplets",
       "tagline": "Pa·s、mPa·s、cP 等动力粘度单位在线互转",
-      "url": "/tools/viscosity/"
+      "url": "/tools/viscosity/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "voltage",
@@ -5383,7 +6322,9 @@
       "category": "convert",
       "icon": "plug",
       "tagline": "μV、mV、V、kV、MV 等电压单位在线互转",
-      "url": "/tools/voltage/"
+      "url": "/tools/voltage/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "volume-weight",
@@ -5404,7 +6345,9 @@
       "category": "convert",
       "icon": "ruler",
       "tagline": "抛重计费重一算便知",
-      "url": "/tools/volume-weight/"
+      "url": "/tools/volume-weight/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "water-intake",
@@ -5427,7 +6370,9 @@
       "category": "calc",
       "icon": "activity",
       "tagline": "按体重算每天该喝多少水",
-      "url": "/tools/water-intake/"
+      "url": "/tools/water-intake/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "wcag-contrast",
@@ -5447,7 +6392,9 @@
       "category": "dev",
       "icon": "contrast",
       "tagline": "前景/背景色对比度，过 AA/AAA 无障碍",
-      "url": "/tools/wcag-contrast/"
+      "url": "/tools/wcag-contrast/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "weather",
@@ -5470,7 +6417,9 @@
       "category": "life",
       "icon": "cloud-sun",
       "tagline": "查任意城市的实时天气与 7 天预报",
-      "url": "/tools/weather/"
+      "url": "/tools/weather/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "weekly-hours",
@@ -5491,7 +6440,9 @@
       "category": "calc",
       "icon": "clock",
       "tagline": "按打卡统计周总/加班工时",
-      "url": "/tools/weekly-hours/"
+      "url": "/tools/weekly-hours/",
+      "priority": 6,
+      "noindex": false
     },
     {
       "id": "weeks-pregnant",
@@ -5512,7 +6463,32 @@
       "category": "calc",
       "icon": "calendar",
       "tagline": "LMP 算今天孕周+天",
-      "url": "/tools/weeks-pregnant/"
+      "url": "/tools/weeks-pregnant/",
+      "priority": 6,
+      "noindex": false
+    },
+    {
+      "id": "word-frequency",
+      "name": "词频统计器",
+      "description": "免费在线词频统计工具，粘贴一段中英文文本即可统计每个词出现的次数与占比，支持忽略停用词、最小词长过滤与 TopN 排序，结果可一键复制，全部在浏览器本地完成，不上传任何内容。",
+      "keywords": [
+        "词频统计",
+        "文本分析",
+        "词频分析",
+        "词语计数",
+        "在线词频"
+      ],
+      "tags": [
+        "文本",
+        "统计",
+        "词频"
+      ],
+      "category": "text",
+      "icon": "hash",
+      "tagline": "统计词语出现次数与占比",
+      "url": "/tools/word-frequency/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "workdays-count",
@@ -5535,7 +6511,9 @@
       "category": "calc",
       "icon": "calendar",
       "tagline": "起止日期算工作日",
-      "url": "/tools/workdays-count/"
+      "url": "/tools/workdays-count/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "world-clock",
@@ -5555,7 +6533,9 @@
       "category": "clock",
       "icon": "globe",
       "tagline": "多时区并列对照",
-      "url": "/tools/world-clock/"
+      "url": "/tools/world-clock/",
+      "priority": 9,
+      "noindex": false
     },
     {
       "id": "xml-json",
@@ -5576,7 +6556,9 @@
       "category": "dev",
       "icon": "file-code",
       "tagline": "XML 和 JSON 在线互相转换，保留属性与结构",
-      "url": "/tools/xml-json/"
+      "url": "/tools/xml-json/",
+      "priority": 7,
+      "noindex": false
     },
     {
       "id": "yaml-json",
@@ -5597,8 +6579,2564 @@
       "category": "dev",
       "icon": "file-json",
       "tagline": "YAML 和 JSON 在线互相转换，支持嵌套与常用类型",
-      "url": "/tools/yaml-json/"
+      "url": "/tools/yaml-json/",
+      "priority": 7,
+      "noindex": false
     }
   ],
-  "errors": []
+  "errors": [],
+  "search": {
+    "v": 2,
+    "n": [
+      "90天计算器 · 日期与农历工具箱",
+      "加速度换算",
+      "AES 加解密",
+      "税后工资计算器",
+      "年龄计算器",
+      "智能体评测用例生成器",
+      "智能体命名生成器",
+      "智能体角色设定生成器",
+      "智能体工作流生成器",
+      "场景选模型助手",
+      "AI 价格比价",
+      "模拟时钟",
+      "角度换算",
+      "角速度换算",
+      "年假天数计算器",
+      "个税年度汇算计算器",
+      "年化收益率计算器",
+      "年金计算",
+      "随机密钥/Token 生成器",
+      "平均数计算器",
+      "烘焙用量换算",
+      "银行卡号校验",
+      "进制转换",
+      "Base32 编解码",
+      "Base58 编解码",
+      "Base64 编解码",
+      "聚餐 AA 分摊",
+      "BMI 计算器",
+      "基础代谢率计算器",
+      "体脂率计算器",
+      "年终奖计税计算器",
+      "胸罩尺码换算",
+      "盈亏平衡计算器",
+      "从零造 X 项目清单",
+      "字节单位换算",
+      "复合年增长率",
+      "日历季度计算器",
+      "运动消耗卡路里计算器",
+      "电容单位换算",
+      "车贷月供计算器",
+      "信用卡分期真实利率",
+      "大小写转换",
+      "CHANGELOG 模板生成器",
+      "儿童身高预测计算器",
+      "中文数字转换",
+      "chmod 权限计算器",
+      "CIDR 子网计算器",
+      "衣服尺码换算",
+      "手冲咖啡粉水比",
+      "颜色转换",
+      "组合贷月供计算器",
+      "Commit 规范生成器",
+      "复利计算器",
+      "上下文窗口计算器",
+      "倒计时",
+      "CRC32 校验",
+      "Cron 表达式解读",
+      "CSV ↔ JSON 转换",
+      "CSV 转 Markdown 表格",
+      "curl 命令转换",
+      "汇率换算",
+      "电流单位换算",
+      "存储单位换算",
+      "数据速率换算",
+      "日期计算器",
+      "几天前日期计算器",
+      "两个日期之间天数计算器",
+      "幸运转盘",
+      "契税计算器",
+      "密度单位换算",
+      "存款利息计算器",
+      "资产折旧计算",
+      "开发者路线图",
+      "掷骰子",
+      "数字时钟",
+      "打折计算器",
+      "文档脱敏",
+      "Dockerfile 生成",
+      "下载时间计算器",
+      "预产期计算器",
+      "电器电费计算器",
+      "Emoji 表情搜索",
+      ".env 配置解析",
+      "链接提取器",
+      "阶乘计算器",
+      "Favicon 生成",
+      "微调数据集生成器",
+      "翻页时钟",
+      "体积流量换算",
+      "两周转小时计算器",
+      "分数计算器",
+      "频率换算",
+      "油费计算器",
+      "油耗换算",
+      "全屏时钟",
+      "函数调用 Schema 生成器",
+      "基金定投收益计算器",
+      "公积金贷款计算器",
+      "货币基金收益换算器",
+      "最大公约数与最小公倍数",
+      "Git 命令生成",
+      "GitHub 高星项目榜",
+      ".gitignore 生成器",
+      "黄金重量换算器",
+      "事件倒计时器",
+      "GPA 计算器",
+      "哈希计算",
+      "哈希类型识别",
+      "帽子尺码换算",
+      "HMAC 生成器",
+      "时间计算器 hh:mm:ss",
+      "时分秒转小时分钟秒",
+      "时薪换算器",
+      "几小时后是几点",
+      "HTML 实体编解码",
+      "HTML 转 Markdown",
+      "HTTP 状态码速查",
+      "身份证号校验",
+      "理想体重计算器",
+      "照度换算",
+      "图片 Base64 转换",
+      "图片压缩",
+      "图片格式转换",
+      "图片裁剪",
+      "图片滤镜",
+      "图片信息查看",
+      "图片尺寸调整",
+      "图片水印",
+      "个人所得税计算器",
+      "电感单位换算",
+      "通货膨胀计算器",
+      "分期真实利率计算器",
+      "ISBN 校验转换",
+      "简繁转换",
+      "JSON 对比",
+      "JSON 扁平化",
+      "JSON 格式化",
+      "JSON 转 CSV",
+      "JSON 转 TypeScript",
+      "JSONPath 提取器",
+      "JWT 解析器",
+      "JWT 生成器",
+      "劳务报酬个税计算器",
+      "开源协议选择器",
+      "行排序",
+      "贷款月供计算器",
+      "代码行数统计",
+      "对数计算器",
+      "占位文本生成",
+      "抽签抽奖",
+      "磁感应强度换算",
+      "Markdown 预览",
+      "Markdown 表格生成",
+      "Markdown 目录生成",
+      "生育津贴计算器",
+      "矩阵计算器",
+      "MCP 配置生成器",
+      "MCP 服务器清单",
+      "MCP 工具定义生成器",
+      "医保报销计算器",
+      "月经周期与排卵期",
+      "SEO Meta 标签生成器",
+      "最低年龄出生日期计算器",
+      "摩斯电码转换",
+      "房贷提前还款计算器",
+      "随机名字生成",
+      "NATO 字母拼读",
+      "Nginx 配置生成",
+      "微分方程求解器",
+      "加班工资计算器",
+      "纸张尺寸换算",
+      "密码生成器",
+      "密码强度分析",
+      "PBKDF2 密钥派生",
+      "养老金测算",
+      "百分比计算器",
+      "排列组合计算器",
+      "宠物年龄换算",
+      "占位图生成",
+      "番茄钟",
+      "端口号速查",
+      "幂与根式计算器",
+      "压力换算",
+      "质因数分解",
+      "利润率计算器",
+      "提示词注入检测",
+      "提示词工坊",
+      "提示词优化器",
+      "Prompt 变量模板",
+      "公积金计算器",
+      "免费 API 大全",
+      "Punycode 编解码",
+      "二维码生成",
+      "URL 查询参数处理",
+      "RAG 提示词构建器",
+      "随机数生成器",
+      "限流参数计算器",
+      "比例计算器",
+      "正则测试",
+      "去变音符号",
+      "租售比 / 房产回报计算器",
+      "电阻单位换算",
+      "退休年龄测算",
+      "戒指圈号换算",
+      "石头剪刀布",
+      "投资回报率计算器",
+      "罗马数字转换",
+      "ROT13 凯撒密码",
+      "四舍五入计算器",
+      "RSA 密钥对生成",
+      "72 法则",
+      "跑步配速计算器",
+      "存钱计划计算器",
+      "科学计数法转换",
+      "二手房交易税费计算器",
+      "秒转时分秒计算器",
+      "安全响应头生成",
+      "版本号比较",
+      "经济补偿金计算器",
+      "快递运费计算器",
+      "鞋码换算",
+      "SKILL.md 生成器",
+      "睡眠周期计算器",
+      "URL Slug 生成器",
+      "五险一金计算器",
+      "速度换算",
+      "SQL 格式化",
+      "印花税计算器",
+      "A股交易费用计算器",
+      "在线秒表",
+      "系统设计案例库",
+      "系统提示词生成器",
+      "温度换算",
+      "字数统计",
+      "文本去重",
+      "文本比较 (Diff)",
+      "文本提取",
+      "文本补齐对齐",
+      "批量替换",
+      "文本反转",
+      "文本相似度",
+      "文本分割合并",
+      "空白清理",
+      "时间间隔计算器",
+      "时间戳转换",
+      "小费计算器",
+      "今天几号",
+      "Token 计算器",
+      "TOTP 验证码",
+      "三角函数计算器",
+      "排版单位换算",
+      "UDI 码解码",
+      "UDI 码生成",
+      "Unicode 转义",
+      "单位换算",
+      "URL 编解码",
+      "URL 解析拆解",
+      "User-Agent 解析器",
+      "UTC 转中国标准时间",
+      "UTC 转 EDT 换算器",
+      "UTC 转 EST 换算器",
+      "UTC 转 PST 换算器",
+      "UUID 生成器",
+      "方差标准差计算器",
+      "增值税计算器",
+      "车辆购置税计算器",
+      "视频倍速观看时间计算器",
+      "粘度换算",
+      "电压单位换算",
+      "快递体积重量计算器",
+      "每日饮水量计算器",
+      "WCAG 对比度检查",
+      "天气查询",
+      "每周工时计算器",
+      "怀孕周数计算器",
+      "词频统计器",
+      "工作天数计算器",
+      "世界时钟",
+      "XML 与 JSON 互转",
+      "YAML 与 JSON 互转"
+    ],
+    "g": [
+      "日期推算 + 天数间隔 + 阴阳历互转，本地一键算",
+      "m/s²、g、ft/s²、Gal 等加速度单位在线互转",
+      "密码保护的对称加密",
+      "税前税后双向算，到手多少一目了然",
+      "精确年龄与下次生日",
+      "给智能体出一套考题",
+      "给智能体起个好名字",
+      "写清一个智能体该是谁",
+      "把步骤画成可跑的流程",
+      "按任务挑最合适的大模型",
+      "主流大模型与视觉生成价格对比",
+      "经典指针表盘",
+      "度、弧度、梯度、度分秒互转",
+      "rad/s、rpm、°/s、rps 等角速度单位在线互转",
+      "按工龄一算该休几天",
+      "算清你该补税还是退税",
+      "把任意期限的收益折算成年化",
+      "普通年金未来值/现值计算",
+      "生成高强度随机密钥、API Key、Token",
+      "均值、中位数与众数",
+      "杯/汤匙/茶匙/毫升/克 烘焙单位在线互转",
+      "Luhn 校验与卡组织识别",
+      "2/8/10/16 等进制互转",
+      "RFC4648 标准 Base32 互转",
+      "Base58 编码解码，比特币风格去易混字符",
+      "文本与 Base64 互转",
+      "均摊含小费每人应付",
+      "算 BMI 与体型分类",
+      "算每日最低热量消耗",
+      "美国海军法估算体脂与分级",
+      "单独计税还是并入综合所得更省",
+      "下围+罩杯 各国文胸尺码在线互转",
+      "算保本销量与销售额定价",
+      "按主题索引「自己实现一个 X」的教程",
+      "B/KB/MB/GB/TB 互转",
+      "算期初到期末的年化增长率",
+      "月份查所属季度",
+      "体重 × 运动 × 时长算消耗",
+      "pF、nF、μF、mF、F 等电容单位在线互转",
+      "贷款买车，算清每月还多少",
+      "名义手续费率背后的真实年化",
+      "大小写与命名风格互转",
+      "Keep a Changelog + Issue/PR 模板",
+      "父母身高估算孩子能长多高",
+      "数字与人民币大写",
+      "权限数字与符号互转",
+      "子网划分与掩码换算",
+      "国际 / 中国 / 美码 对照",
+      "按粉水比算用水量或比例",
+      "HEX / RGB / HSL 互转",
+      "公积金+商贷月供合计",
+      "约定式提交，秒出标准提交信息",
+      "利滚利与定投复利",
+      "算清一次对话能吃多少 token",
+      "距目标日期还有多久",
+      "计算文本 CRC32 校验值",
+      "把 Cron 表达式翻译成人话",
+      "CSV 与 JSON 双向转换",
+      "把 CSV 数据一键转成 Markdown 表格",
+      "curl 转各语言代码",
+      "多币种实时换算（内置参考汇率）",
+      "μA、mA、A、kA 等电流单位在线互转",
+      "bit/B/KB/KiB/MB/MiB/GB/GiB 等存储容量在线互转",
+      "bps/kbps/Mbps/Gbps 互转",
+      "计算两日期相差天数",
+      "算 N 天前是几月几号",
+      "算两日期相差多少天",
+      "选项转盘帮你决定",
+      "买房交多少契税，提前算清楚",
+      "kg/m³、g/cm³、lb/ft³ 等密度单位在线互转",
+      "算清定存大额存单能赚多少",
+      "直线/年数总和/双倍余额递减",
+      "按角色规划该学什么",
+      "自定义面数与数量",
+      "全屏大字时间显示",
+      "折扣价与到手价",
+      "自动识别并打码敏感信息",
+      "多语言镜像构建文件",
+      "多大文件、多少带宽，多久传完",
+      "末次月经推算预产期与孕周",
+      "算算家电一年吃多少电费",
+      "搜表情一键复制",
+      "解析 dotenv 配置，校验键值与重复",
+      "从文本或 HTML 提取所有 URL 链接",
+      "阶乘、排列数、组合数一键算",
+      "一次出全套图标尺寸",
+      "把问答对整理成训练 JSONL",
+      "经典翻牌动画时钟",
+      "L/s、L/min、m³/h、gpm、cfm 等流量单位在线互转",
+      "天数换算成总小时数",
+      "分数加减乘除与约分",
+      "Hz、kHz、MHz、GHz 互转",
+      "里程油耗油价一算便知",
+      "L/100km、km/L、mpg 等燃油效率单位在线互转",
+      "铺满整屏的超大时间显示",
+      "可视化生成工具调用定义",
+      "定期定额复利收益一目了然",
+      "算清公积金贷款月供与利息",
+      "万份收益与七日年化互算",
+      "GCD / LCM 一键求",
+      "常见场景命令速查",
+      "按 star 排行的开源项目速查",
+      "按技术栈勾选，秒出 .gitignore",
+      "克两钱盎司快速互算",
+      "自定义目标实时倒计时",
+      "学分加权算绩点",
+      "SHA-1 / SHA-256 本地计算",
+      "根据长度与特征识别 md5/sha/bcrypt 等",
+      "美码/英码/欧码/中码帽子尺寸在线互转",
+      "HMAC-SHA256/384/512 带密钥签名",
+      "按 时:分:秒 累加加减",
+      "HH:MM:SS 转总小时/分钟/秒",
+      "时薪与月薪互转",
+      "算 N 小时后是几点钟",
+      "转义特殊字符",
+      "把 HTML 片段转成 Markdown 文本",
+      "常用 HTTP 状态码含义速查",
+      "18/15 位校验与信息解析",
+      "按身高算标准体重区间",
+      "lux、foot-candle、phot 等光照度单位在线互转",
+      "图片与 Base64 互转",
+      "压体积不降清晰度",
+      "PNG / JPEG / WebP 互转",
+      "按比例取图不变形",
+      "亮度对比度模糊调色",
+      "尺寸体积与主色提取",
+      "改宽高、按比例缩放",
+      "文字水印、平铺防截图",
+      "算清一年工资该交多少税",
+      "nH、μH、mH、H 等电感单位在线互转",
+      "算清钱随时间的购买力",
+      "名义费率换算真实年化IRR",
+      "校验位与 10/13 互换",
+      "简体中文与繁体中文互转",
+      "找出两份 JSON 差异",
+      "嵌套 JSON 展平成一层",
+      "格式化、压缩、校验 JSON",
+      "数组对象转表格 CSV",
+      "自动生成接口类型",
+      "用 JSONPath 从 JSON 提取任意字段",
+      "在线解析 JWT，查看 Header / Payload",
+      "自定义 Header/Payload 生成并 HS256 签名 JWT",
+      "接私活、拿稿费，先扣多少税",
+      "问答推荐 + 一键生成 LICENSE",
+      "多行文本排序",
+      "等额本息月供与总利息",
+      "统计代码总行数/注释/空行/有效代码",
+      "任意底数的对数",
+      "中文与经典占位文",
+      "从选项里随机抽取",
+      "T、mT、μT、nT、G 等磁感应强度在线互转",
+      "实时渲染 Markdown 为富文本",
+      "CSV 与 JSON 转表格",
+      "一键生成文章锚点目录",
+      "单位月均工资除30乘产假天数",
+      "2×2 与 3×3 矩阵运算",
+      "选服务生成 mcp.json 配置",
+      "热门 MCP Server 一站速览",
+      "写出合规的 MCP 工具",
+      "总费用减起付线乘比例，算能报多少",
+      "推算排卵日与易孕窗口",
+      "一键生成 OG 与 Twitter 标签",
+      "反推达标最晚生日",
+      "文本与摩斯电码双向转换",
+      "提前还贷能省多少利息",
+      "中英文随机姓名",
+      "字母转 NATO 拼音便于口头拼读",
+      "五种场景一键出配置",
+      "一阶常微分方程 RK4 数值解",
+      "工作日 1.5 倍，休息日 2 倍，法定节假日 3 倍",
+      "A/B/C 系列、Letter、Legal 等纸张尺寸在线互转",
+      "一键生成高强度随机密码",
+      "实时评估密码强度与风险",
+      "用口令派生强密钥",
+      "估算退休后每月能领多少养老金",
+      "百分比/增减/占比一键算",
+      "排列数 P(n,k) 与组合数 C(n,k)",
+      "狗/猫年龄折算人类年龄",
+      "自定义尺寸的占位图片",
+      "番茄工作法专注计时器",
+      "常见端口号与用途速查，TCP/UDP 一览",
+      "a^b 与 n 次根",
+      "Pa、bar、psi、atm、mmHg 等压强单位在线互转",
+      "分解质因数并判定素数",
+      "成本售价算毛利，反推定价",
+      "识别藏在日常文本里的注入指令",
+      "收藏管理 + 随机生成提示词",
+      "把粗糙提示词改写得更好用",
+      "用变量填充模板，一键生成最终提示词",
+      "算清每月公积金缴存额",
+      "按分类检索可用的免费开放接口",
+      "中文域名与 xn-- 编码互转",
+      "文本/网址一键生成二维码",
+      "解析、排序、去重、拼接 URL 查询参数",
+      "拼装带引用的检索增强提示词",
+      "区间内批量随机整数",
+      "算令牌桶/漏桶容量与补充",
+      "比例换算与按比例分配",
+      "在线测试正则表达式与匹配",
+      "去除拉丁字母的重音符号",
+      "房价和租金，算回本要几年",
+      "Ω、mΩ、kΩ、MΩ、GΩ 等电阻单位在线互转",
+      "渐进式延迟退休，算算你几岁退",
+      "美码/港码/欧码/日码/中码戒指尺寸在线互转",
+      "人机对战记分",
+      "ROI与年化收益率速算",
+      "阿拉伯数字与罗马数字互转",
+      "字母移位加密与解密",
+      "指定位数四舍五入",
+      "浏览器内生成 RSA 公钥 / 私钥",
+      "估算本金翻倍所需年限",
+      "配速时间完赛成绩互算",
+      "攒够目标要存多久",
+      "普通数字与科学计数法互转",
+      "卖房要交多少税，签约前算清楚",
+      "秒数换算成 HH:MM:SS",
+      "HSTS 与 CSP 一键配置",
+      "语义化版本号比较与校验",
+      "算清N、N+1还是2N",
+      "首重加续重，发货前算清运费",
+      "中/欧/美/英码互转",
+      "填表生成 WorkBuddy 技能文件",
+      "按90分钟周期倒推入睡",
+      "标题转 URL 友好 slug，支持中英文",
+      "算清每月社保公积金缴多少",
+      "km/h、mph、m/s、节 互转",
+      "关键字换行缩进",
+      "选合同类型填金额，算应缴印花税",
+      "算清佣金印花税过户费成本",
+      "毫秒计次的专业秒表",
+      "拆解经典系统的设计要点",
+      "把角色目标约束拼成系统提示词",
+      "摄氏华氏开尔文互转",
+      "字符 / 字数 / 字节统计",
+      "删除重复行",
+      "逐行对比两段文本差异",
+      "批量提取手机号邮箱",
+      "补零对齐到固定长度",
+      "多条规则一次替换",
+      "字符/单词/行反转",
+      "查重与洗稿检测",
+      "分隔符互转、加引号",
+      "清全角空格与空行",
+      "算两时刻之间时长",
+      "Unix 时间戳与日期互转",
+      "账单小费与人均分摊",
+      "日期星期与年份信息",
+      "估算 GPT/Claude 等模型的 token 数量",
+      "两步验证动态码",
+      "角度一输，六函数全出",
+      "pt、px、mm、Q、pc 等字号单位在线互转",
+      "解析 GS1 应用标识符，还原 UDI 各字段",
+      "生成医疗器械唯一标识的二维码与条形码",
+      "中文与转义互转",
+      "长度重量温度网速等 16 类单位在线互换",
+      "URL 编码与解码",
+      "拆解协议域名参数",
+      "解析 UA 识别浏览器、系统、设备",
+      "UTC 换算成北京时间",
+      "UTC 换算成美东夏令时",
+      "UTC 换算成美东标准时",
+      "UTC 换算成太平洋时间",
+      "批量生成 UUID v4",
+      "一组数据算均值与波动",
+      "一般纳税人/小规模纳税人都能算",
+      "买车要交多少购置税，开票前算清楚",
+      "算倍速下看完要多久",
+      "Pa·s、mPa·s、cP 等动力粘度单位在线互转",
+      "μV、mV、V、kV、MV 等电压单位在线互转",
+      "抛重计费重一算便知",
+      "按体重算每天该喝多少水",
+      "前景/背景色对比度，过 AA/AAA 无障碍",
+      "查任意城市的实时天气与 7 天预报",
+      "按打卡统计周总/加班工时",
+      "LMP 算今天孕周+天",
+      "统计词语出现次数与占比",
+      "起止日期算工作日",
+      "多时区并列对照",
+      "XML 和 JSON 在线互相转换，保留属性与结构",
+      "YAML 和 JSON 在线互相转换，支持嵌套与常用类型"
+    ],
+    "k": [
+      "90天计算器 天数计算器 阴阳历转换 公历转农历 农历转公历 90天后是几号 两个日期相差天数 日期加天数 到期日推算 日期 天数 计算",
+      "加速度换算 m/s2 g 重力加速度 ft/s2 Gal 汽车加速 加速度 换算",
+      "AES加密 在线解密 对称加密 AES-GCM 密码加密 aes 加密 对称 安全",
+      "税后工资计算器 税前税后换算 到手工资 个税反推 月薪计算 工资 税后收入 个税",
+      "年龄计算器 周岁计算 生日倒计时 实际年龄 出生日期算年龄 年龄 日期",
+      "智能体评测 Agent Eval 测试用例 回归测试 AI质检 agent 评测 测试 质量 智能体",
+      "智能体命名 AI起名 Bot名字 产品起名 名称生成 agent 命名 起名 智能体 创意",
+      "智能体角色 Agent Persona 角色设定 多智能体 系统提示词 agent 角色 persona 多智能体 智能体",
+      "智能体工作流 Workflow Agent编排 n8n Dify agent 工作流 编排 自动化 智能体",
+      "模型推荐 大模型选型 AI模型对比 LLM选择 模型评测 ai 模型 选型 大模型 对比",
+      "AI价格 大模型比价 API价格 即梦价格 token价格 GPU成本 ai 价格 比价 大模型 即梦",
+      "模拟时钟 在线时钟 指针时钟 传统时钟 表盘时钟 时钟 模拟",
+      "角度换算 弧度转换 度分秒 梯度 角度单位 换算 角度 数学",
+      "角速度换算 rad/s rpm 转每分 弧度每秒 度每秒 转速 角速度 转速 换算",
+      "年假天数计算器 带薪年假 工龄年假 未休年假补偿 年休假条例 年假 劳动权益 职场",
+      "个税年度汇算 个税汇算清缴 退税计算器 补税计算器 综合所得 个税 汇算清缴 退税 补税 综合所得",
+      "年化收益率计算器 年化回报 复利年化 持有期收益率 投资收益年化 年化 收益率 投资 复利 理财",
+      "年金计算 基金定投 未来值 现值 定投收益 计算 金融 储蓄",
+      "随机密钥 api key 生成 token 生成 密钥生成器 密钥 随机 安全",
+      "平均数计算器 算术平均值 中位数计算 众数计算 均值怎么算 平均数 统计 数学",
+      "烘焙换算 杯勺毫升 cup tbsp tsp 克毫升 烘焙用量 面粉克数 烘焙 用量 换算",
+      "银行卡校验 Luhn算法 卡号验证 卡组织识别 银行卡BIN 银行卡 校验 Luhn",
+      "进制转换 二进制转换 十六进制转换 在线进制计算器 2进制转16进制 进制 转换 计算 数字",
+      "Base32 编码解码 RFC4648 base32 转换 在线编解码 安全 编码 Base32",
+      "base58 base58编码 base58解码 比特币base58 编码 Base58 区块链",
+      "Base64编码 Base64解码 在线base64 base64转文本 utf8 base64 Base64 编码 解码 开发",
+      "AA制计算器 聚餐分摊 账单均摊 每人应付 小费计算 分摊 AA 聚餐",
+      "BMI计算器 身体质量指数 标准体重 体型分类 在线算BMI 健康 BMI 体重",
+      "基础代谢率 BMR计算器 热量消耗 Mifflin-St Jeor 减脂增肌 BMR 健康 计算",
+      "体脂率计算器 体脂率怎么算 海军法体脂 体脂率标准 身材分级 体脂率 海军法 健身 减肥 身材",
+      "年终奖计税 年终奖个税 全年一次性奖金 年终奖单独计税 税后年终奖 年终奖 个税 税后收入",
+      "胸罩尺码 文胸尺寸 罩杯换算 bra size 下围罩杯 胸罩 尺码 换算",
+      "盈亏平衡计算器 保本销量计算 盈亏平衡点 边际贡献 保本销售额 盈亏平衡 成本核算 定价",
+      "从零造X build your own x 手写实现 练手项目 编程进阶 编程 练手 教程 系统 进阶",
+      "字节换算 MB转GB 文件大小换算 KB换算MB 存储单位转换 单位换算 字节 存储容量",
+      "CAGR 复合年增长率 年化增长率 增长率计算 投资回报 计算 金融 增长",
+      "日历季度 季度计算 Q1Q2Q3Q4 月份查季度 季度起止 季度 日期 计算",
+      "运动消耗卡路里 卡路里计算器 MET计算 运动热量 健身消耗 卡路里 运动 消耗 减肥 健身",
+      "电容换算 pF nF μF F 换算 电容单位 法拉 微法纳法 电容 电子 换算",
+      "车贷月供计算器 汽车贷款月供 车贷利息 等额本息车贷 首付月供 车贷 月供 等额本息 买车 利息",
+      "信用卡分期真实利率 分期实际年化 手续费率换算 IRR计算 信用卡分期划算吗 信用卡 分期 真实利率 APR 手续费",
+      "大小写转换 命名风格转换 camelCase转换 snake_case 在线大小写 大小写 命名 文本 转换",
+      "CHANGELOG生成 更新日志生成 Keep a Changelog Issue模板 PR模板 GitHub模板 git changelog 模板 开源",
+      "儿童身高预测 父母身高算孩子身高 遗传身高 靶身高 孩子能长多高 身高预测 遗传 儿童 父母身高 成长",
+      "中文数字 人民币大写 数字转中文 金额大写 中文转数字 文本 数字 金额",
+      "chmod 计算器 Linux 权限 文件权限计算 rwx 换算 755 644 含义 Linux 权限 运维",
+      "CIDR计算 子网掩码换算 网段划分 可用主机数 广播地址 网络 CIDR 子网",
+      "衣服尺码换算 国际尺码对照 SMLXL对照 中美尺码 海淘尺码 尺码 衣服 SML 对照 海淘",
+      "咖啡粉水比 手冲咖啡 咖啡水量 冲煮比例 咖啡计算 生活 咖啡 比例",
+      "颜色转换 HEX转RGB RGB转HSL 在线颜色 颜色值换算 颜色 HEX RGB HSL 转换",
+      "组合贷计算器 组合贷月供 公积金商贷组合 房贷月供 组合贷利息 组合贷 月供 公积金 商贷",
+      "commit规范 约定式提交 Conventional Commits 提交信息生成 git提交格式 git 提交 规范 协作",
+      "复利计算器 利滚利 定投复利 年化收益 本息合计 复利 理财 金融",
+      "上下文窗口 Context Window Token计算 大模型长度 对话预算 ai token 上下文 大模型 成本",
+      "倒计时 在线倒计时 距离目标日期还有多久 倒数天数 日期倒计时 倒计时 日期",
+      "CRC32 校验和 checksum 数据校验 CRC 计算 安全 校验 哈希",
+      "Cron 定时任务 表达式 Crontab 调度 cron 定时 dev 解析 调度",
+      "CSV 转 JSON JSON 转 CSV 表格转换 数据转换 在线互转 开发 数据 转换",
+      "csv 转 markdown csv 表格 csv to md markdown 表格 CSV Markdown 转换",
+      "curl 转代码 cURL 转换 curl to fetch curl 转 Python 接口调试 curl HTTP 代码生成",
+      "汇率换算 货币换算 人民币美元换算 外币兑换 实时汇率 汇率 货币 换算 金融",
+      "电流换算 微安毫安安培 μA mA A kA 电流单位 电流 电子 换算",
+      "存储换算 KB KiB 区别 十进制二进制存储 GB GiB 比特字节 硬盘容量 存储 数据 换算",
+      "数据速率换算 带宽换算 Mbps Gbps kbps 换算 网络 速率",
+      "日期计算器 相差天数 日期加减 在线算天数 两个日期间隔 日期 计算 天数",
+      "几天前日期 N天前是几号 过去日期计算 日期往前推 几号前 日期 天数 计算",
+      "两个日期相差天数 日期之间天数 相隔多少天 日期差计算 天数计算器 日期 天数 计算",
+      "幸运转盘 随机决定 抽签工具 吃什么转盘 在线抽奖 转盘 决定 随机",
+      "契税计算器 买房契税 房产契税 首套房契税 二手房税费 房产 契税 买房",
+      "密度换算 kg/m3 g/cm3 比重 密度单位 克每立方厘米 密度 换算",
+      "存款利息计算器 大额存单收益 定期存款利息 复利计算 存钱收益 存款 利息 理财",
+      "折旧计算 直线折旧 双倍余额递减 年数总和法 资产折旧 计算 财务 折旧",
+      "开发者路线图 学习路线 前端路线 后端路线 devops路线 学习 路线 成长 前端 后端",
+      "掷骰子 在线骰子 骰子模拟器 随机点数 D20 骰子 骰子 随机 游戏",
+      "数字时钟 在线时钟 全屏时钟 电子时钟 实时时间 时钟 时间",
+      "打折计算器 折扣计算 到手价 原价折扣 省了多少钱 折扣 购物 计算",
+      "文档脱敏 敏感信息打码 身份证脱敏 手机号打码 数据脱敏工具 脱敏 隐私 安全",
+      "Dockerfile 生成 Docker 镜像 多阶段构建 容器化配置 dockerignore Docker 运维 构建",
+      "下载时间计算器 带宽换算下载速度 传输时间估算 Mbps 换算 MB/s 文件大小传输 带宽 下载 传输 换算",
+      "预产期计算器 预产期推算 孕周计算 末次月经 怀孕周期 预产期 孕周 末次月经 怀孕 母婴",
+      "电费计算器 电器耗电量 功率电费 空调电费 家电用电成本 电费 家电 生活成本",
+      "emoji 搜索 表情符号 emoji 复制 表情大全 颜文字表情 emoji 表情 复制",
+      ".env 解析 dotenv 环境变量解析 env 解析 env 配置 开发",
+      "提取链接 提取url 链接提取 url 提取 URL 提取 开发",
+      "阶乘计算器 n的阶乘 排列数 组合数 排列组合公式 阶乘 排列 组合 数学 概率",
+      "favicon 生成 网站图标制作 apple-touch-icon PWA 图标 ico 生成 图片 favicon 图标",
+      "微调数据集 SFT JSONL LoRA 训练数据 ai 微调 数据集 jsonl 大模型",
+      "翻页时钟 翻牌时钟 在线翻页时钟 flip clock 复古时钟 时钟 翻页",
+      "流量换算 升每秒 立方米每小时 加仑每分钟 L/min m3/h gpm 体积流量 流量 换算",
+      "两周转小时 天数换算小时 天转小时 工时换算 天数乘24 时间 换算 小时",
+      "分数计算器 分数加减乘除 分数约分 带分数换算 假分数化简 分数 数学 计算",
+      "频率换算 Hz 转换 MHz GHz 赫兹 换算 频率 单位",
+      "油费计算器 油耗成本 每公里油费 通勤油费 自驾游油费预算 油费 用车成本 自驾",
+      "油耗换算 燃油效率换算 L/100km转mpg mpg转公里每升 百公里油耗 英里每加仑换算 油耗 燃油效率 换算",
+      "全屏时钟 大屏时钟 在线时钟显示全屏 时钟在线大屏 北京时间全屏显示 数字时钟全屏 时钟 全屏 大屏 时间",
+      "函数调用 Function Calling Tool Use JSON Schema 智能体工具 ai 函数调用 json-schema 智能体 大模型",
+      "基金定投计算器 定投收益 定期定额 复利定投 指数基金定投 基金 定投 理财",
+      "公积金贷款计算器 公积金月供 公积金利率 公积金贷款额度 房贷计算 公积金 房贷 月供",
+      "万份收益换算 七日年化计算 货币基金收益 余额宝收益计算 零钱通收益 货币基金 收益 理财",
+      "最大公约数 最小公倍数 GCD LCM 辗转相除法 数论 数学 计算",
+      "Git 命令 git 撤回提交 git 强推 cherry-pick git 常用命令 Git 版本控制 命令",
+      "GitHub高星项目 GitHub排行榜 开源项目推荐 star排行 AI开源项目 github 开源 排行榜 ai 开发 导航",
+      ".gitignore生成器 gitignore模板 忽略文件生成 git忽略规则 项目初始化 git 开发 模板 初始化 开源",
+      "黄金重量换算 一两黄金多少克 金衡盎司 黄金钱两换算 金价计算 黄金 重量 换算",
+      "倒计时 事件倒计时 目标倒计时 日期倒计时 实时倒计时 倒计时 时间 计算",
+      "GPA计算器 平均学分绩点 绩点换算 4.0制 5.0制 GPA 成绩 计算",
+      "哈希计算 sha256在线 sha1计算 哈希工具 在线哈希 哈希 sha256 加密 校验",
+      "哈希识别 hash 类型 识别哈希 哈希类型判断 哈希 识别 安全",
+      "帽子尺码 帽围换算 美码欧码 hat size 头围 帽子 尺码 换算",
+      "hmac hmac 生成 hmac-sha256 消息签名 HMAC 签名 安全",
+      "时间计算器 时分秒加减 hh:mm:ss 累加 时间相加 时长汇总 时间 计算 时长",
+      "时分秒转小时 HHMMSS换算 时长转小时 时间单位换算 时分秒转分钟 时间 换算 时长",
+      "时薪换算 月薪转时薪 日薪计算 年薪计算 工资换算 时薪 工资 计算",
+      "几小时后是几点 时间加小时 小时后是几点 时间推算 HH:MM 计算 时间 计算 小时",
+      "HTML转义 HTML实体编码 HTML解码 特殊字符转义 html escape html 转义 web",
+      "html 转 markdown html to md html 转换 markdown 转换 HTML Markdown 转换",
+      "HTTP状态码 状态码 HTTP API 响应码 http 状态码 dev 参考 接口",
+      "身份证校验 身份证号验证 身份证解析 校验位计算 身份证升位 身份证 校验 身份信息",
+      "理想体重计算器 标准体重 Broca公式 BMI标准体重 健康体重 理想体重 标准体重 BMI 健康 身高",
+      "照度换算 lux 英尺烛光 勒克斯 foot-candle 光照度 照明单位 照度 照明 换算",
+      "图片转 Base64 Base64 转图片 图片编码 data URL 在线 Base64 图片 Base64 编码",
+      "图片压缩 在线压缩图片 照片压缩 图片体积减小 WebP 压缩 图片 压缩 体积",
+      "图片格式转换 PNG 转 JPG JPG 转 WebP 在线转图片格式 WebP 转换 图片 格式 转换",
+      "图片裁剪 在线裁图 一寸照片裁剪 图片按比例裁剪 方图裁剪 图片 裁剪 比例",
+      "图片滤镜 在线调色 图片黑白 高斯模糊 图片亮度调整 图片 滤镜 调色",
+      "图片信息 查看图片尺寸 图片属性 图片主色 EXIF 查看 图片 信息 主色",
+      "图片改尺寸 在线修改图片大小 图片缩放 调整图片分辨率 图片尺寸 图片 尺寸 缩放",
+      "图片加水印 在线水印工具 批量水印 平铺水印 图片防盗 图片 水印 版权",
+      "个人所得税计算器 个税计算 工资个税 综合所得汇算 税后工资 个税 工资 税后收入",
+      "电感换算 nH μH mH H 换算 电感单位 亨利 微亨 电感 电子 换算",
+      "通货膨胀计算器 通胀计算 购买力 复利贬值 CPI 通胀 理财 计算",
+      "分期真实利率计算器 信用卡分期利率 IRR计算 年化利率 分期手续费 分期 利率 信用卡",
+      "ISBN校验 ISBN转换 国际标准书号 校验位计算 图书条码 isbn 校验 图书 条码",
+      "简繁转换 简体转繁体 繁体转简体 中文转换 简繁互换工具 简繁 中文 文本 转换",
+      "JSON 对比 JSON diff 接口差异比对 在线 diff JSON 比较 JSON 对比 开发",
+      "JSON 扁平化 flatten JSON JSON 展平 嵌套转一层 unflatten JSON 扁平化 数据",
+      "json格式化 json在线格式化 json校验 json美化 json压缩 json 格式化 校验 开发",
+      "JSON转CSV 在线JSON转表格 JSON转Excel CSV导出 JSON工具 json csv 转换",
+      "JSON 转 TypeScript JSON 生成 interface 类型生成 ts 类型 接口类型定义 JSON TypeScript 类型",
+      "jsonpath json 提取 json 路径 jsonpath 在线 JSON 提取 开发",
+      "JWT解析 JWT解码 Token解析 JSON Web Token jwt token dev 解析 鉴权",
+      "jwt 生成 jwt 签名 jwt generator token 生成 JWT 签名 安全",
+      "劳务报酬个税计算器 劳务费扣税 稿酬所得税 特许权使用费计税 预扣预缴 个税 劳务报酬 稿酬 预扣预缴",
+      "开源协议 License选择器 许可证生成 MIT GPL Apache 开源协议怎么选 license 开源 法律 协议",
+      "行排序 文本排序 在线排序 字母排序 数字排序 排序 文本",
+      "贷款计算器 房贷月供 等额本息 利息计算 车贷计算 贷款 月供 利息",
+      "代码行数 loc 统计 注释行数 代码统计 代码 统计 开发",
+      "对数计算器 log计算 自然对数 常用对数 换底公式 对数 数学 计算",
+      "占位文本 lorem ipsum 假文生成 排版测试文字 中文占位 文本 占位 排版",
+      "在线抽签 随机抽奖 随机点名 抽签工具 随机选择器 抽签 随机",
+      "磁感应强度换算 特斯拉 高斯 T G mT μT 磁通密度 磁场 换算",
+      "Markdown预览 Markdown编辑器 在线Markdown MD实时渲染 Markdown转HTML markdown 文档 预览 写作",
+      "Markdown 表格 CSV 转表格 JSON 转表格 md 表格生成 表格生成器 Markdown 表格 文档",
+      "Markdown 目录 TOC 生成 md 目录 锚点生成 文章导航 Markdown 目录 文档",
+      "生育津贴计算器 生育津贴怎么算 产假天数 生育津贴和工资 产假工资 生育津贴 产假 社保 工资 母婴",
+      "矩阵计算器 矩阵求逆 行列式计算 矩阵乘法 线性代数 矩阵 线性代数 计算",
+      "MCP配置 mcp.json生成 Model Context Protocol WorkBuddy配置 MCP服务 多服务组合 mcp workbuddy 配置 ai 智能体",
+      "MCP Server MCP清单 模型上下文协议 Claude MCP Cursor MCP mcp 服务器 导航 协议 智能体",
+      "MCP 工具定义 Model Context Protocol inputSchema MCP Server mcp 工具定义 json-schema 协议 智能体",
+      "医保报销计算器 医保能报多少 起付线封顶线 住院报销比例 职工医保报销 医保 报销 起付线 封顶线 看病",
+      "月经周期计算 排卵期计算 易孕窗口 备孕 排卵日 月经 排卵期 健康",
+      "Meta标签生成 OG标签 SEO优化 JSON-LD canonical链接 SEO Meta 结构化数据",
+      "最低年龄 出生日期推算 年龄核验 达标生日 资格审核 年龄 日期 计算",
+      "摩斯电码 莫尔斯码 电报 Morse 电码转换 文本 编码 摩斯",
+      "房贷提前还款计算器 提前还贷 缩短贷款期限 减少月供 房贷利息 房贷 提前还款 利息",
+      "随机名字 姓名生成器 随机姓名 英文名生成 取名工具 名字 生成 随机",
+      "NATO 拼音 字母拼读  phonetic Alpha Bravo 无线电拼写 文本 编码 拼写",
+      "Nginx 配置生成 nginx.conf 反向代理配置 HTTPS 配置 nginx 静态站点 Nginx 运维 配置",
+      "微分方程求解器 常微分方程 RK4 数值解 ODE 微分方程 数值计算 数学",
+      "加班工资计算器 加班费怎么算 工作日加班 法定节假日加班 三倍工资 工资 加班 劳动法",
+      "纸张尺寸 A4尺寸 纸张换算 Letter mm cm inch A3 A5 纸张 尺寸 换算",
+      "密码生成器 随机密码 强密码生成 在线密码生成 密码 安全 随机 生成器",
+      "密码强度 密码检测 弱口令 密码安全 密码 安全 security 强度 检测",
+      "PBKDF2 密钥派生 口令哈希 Web Crypto 密码学 安全 加密 哈希",
+      "养老金测算 退休金计算器 养老金一个月领多少 基础养老金 个人账户养老金 养老 社保 退休",
+      "百分比计算器 增长率计算 占比计算 折扣计算 涨跌幅 百分比 计算",
+      "排列组合计算器 排列数 组合数 阶乘 Cnk Pnk 怎么算 排列组合 概率 数学",
+      "宠物年龄 狗龄换算 猫龄换算 宠物岁数 人宠年龄 生活 宠物 年龄",
+      "占位图生成 placeholder 图片 占位图片在线生成 骨架屏图片 测试图片 图片 占位图 设计",
+      "番茄钟 番茄工作法 专注计时器 番茄钟在线 时间管理 番茄钟 专注 时间管理",
+      "端口号 端口速查 常见端口 port lookup 网络 端口 开发",
+      "幂计算器 根式计算器 开方 平方根 立方根 指数运算 幂 数学 计算",
+      "压力换算 压强换算 单位换算 bar转psi 帕斯卡换算 psi换算 标准大气压 毫米汞柱 胎压换算 压力 压强 换算",
+      "质因数分解 素数判定 质数分解 合数 算术基本定理 质因数 数学 计算",
+      "利润率计算器 毛利率计算 成本利润率 加价率 定价计算器 利润率 毛利率 定价 成本 生意",
+      "提示词注入 Prompt Injection 越狱检测 AI安全 指令劫持 ai 安全 提示词注入 越狱 智能体",
+      "提示词收藏 Prompt库 提示词生成 随机提示词 提示词管理 本地收藏 prompt 收藏 ai 提示词 随机生成 本地",
+      "提示词优化 Prompt优化 提示词改写 AI提效 Prompt工程 ai 提示词 优化 prompt-engineering 大模型",
+      "Prompt模板 提示词变量 变量替换 模板生成 提示词工程 预设模板 我的模板 prompt 模板 ai 提示词 变量",
+      "公积金计算器 公积金月缴存 公积金比例 五险一金 公积金提取 公积金 理财 计算",
+      "免费API 开放接口 API导航 开源API 公开数据接口 api 开发 数据 导航 开源",
+      "punycode 中文域名 idn 编码 xn-- 转换 域名 编码 开发",
+      "二维码生成 生成二维码 在线二维码 网址转二维码 QR码 二维码 QR 开发 生成",
+      "url 参数 query string 查询参数 url 参数解析 URL 参数 开发",
+      "RAG 检索增强 提示词模板 知识库问答 Citation ai rag 提示词 知识库 大模型",
+      "随机数生成器 在线随机数 随机整数 批量随机数 不重复随机数 随机 生成",
+      "限流计算 令牌桶 漏桶 速率限制 API 限流 开发 网络 限流",
+      "比例计算器 解比例 化简比 按比例分配 比值怎么算 比例 数学 计算",
+      "正则测试 正则表达式 regex在线测试 正则匹配 表达式调试 正则 regex 开发 调试",
+      "去变音符号 去重音 normalize 拉丁字母清洗 ASCII 文本 清洗 编码",
+      "租售比计算器 售租比 租金回报率 房产回本 买房出租收益 租售比 租金 房产 回报 投资",
+      "电阻换算 欧姆换算 千欧兆欧换算 Ω kΩ MΩ GΩ 电阻单位 电阻 电子 换算",
+      "退休年龄计算器 延迟退休 渐进式延迟退休 退休年月 几岁退休 退休 延迟退休 社保",
+      "戒指圈号 戒指尺寸换算 美码港码欧码 ring size 内周长 戒指对照表 戒指 尺码 换算",
+      "石头剪刀布 猜拳游戏 在线猜拳 人机对战 划拳小游戏 游戏 剪刀 对战",
+      "投资回报率计算器 ROI计算 年化收益率 投资回报 盈亏计算 ROI 投资收益 年化",
+      "罗马数字转换 阿拉伯数字转罗马 罗马数字对照 年份转罗马数字 roman numeral 罗马数字 进制 数学",
+      "ROT13 凯撒密码 字母移位 加密解密 趣味密码 安全 加密 趣味",
+      "四舍五入计算器 保留小数 向上取整 向下取整 保留到十位 四舍五入 数学 计算",
+      "RSA生成 密钥对 公钥私钥 PEM Web Crypto rsa 密钥 安全 crypto pem",
+      "72 法则 翻倍年限 复利 理财计算 翻倍时间 计算 金融 复利",
+      "跑步配速计算器 马拉松配速 配速换算 半马成绩预测 跑步成绩计算 跑步 配速 运动",
+      "存钱计划 攒钱计算器 52周存钱法 存款目标 每月存多少 储蓄 理财 复利",
+      "科学计数法 科学计数法转换 工程计数法 指数表示 大数小数表示 科学计数法 数学 换算",
+      "二手房交易税费计算器 卖房税费 二手房增值税 满五唯一 卖房个税 房产 二手房 增值税 个人所得税",
+      "秒转时分秒 秒换算 秒转HHMMSS 时间格式转换 秒数拆分 时间 换算 秒",
+      "安全响应头 CSP 生成 HSTS 配置 X-Frame-Options Web 安全 安全 HTTP 运维",
+      "版本号比较 semver 语义化版本 版本对比 版本 semver 开发",
+      "经济补偿金计算器 N加1赔偿 裁员补偿 2N赔偿金 劳动仲裁计算 劳动权益 补偿金 职场",
+      "快递运费计算器 首重续重计算 运费估算 快递计费重量 寄件费用 快递 运费 物流 计费重量",
+      "鞋码换算 中国码 欧洲码 美码 英码 海淘尺码 鞋码 换码 生活",
+      "SKILL.md生成 WorkBuddy技能 技能生成器 AI技能文件 提示词工程 反向解析 workbuddy skill ai 配置 智能体",
+      "睡眠周期计算器 最佳入睡时间 90分钟睡眠法 几点睡觉 起床时间计算 睡眠 作息 健康",
+      "slug生成 url slug slugify 链接友好 URL slug 开发",
+      "五险一金计算器 社保计算器 公积金计算 社保缴费 用工成本 五险一金 社保 公积金",
+      "速度换算 mph 转换 节 换算 km/h m/s 换算 速度 单位",
+      "SQL格式化 在线SQL美化 SQL缩进 SQL在线整理 sql formatter sql 格式化 开发",
+      "印花税计算器 印花税怎么算 购销合同印花税 产权转移印花税 印花税税率表 印花税 合同 税率 财税 报税",
+      "股票交易费用计算器 A股手续费 佣金印花税 股票交易成本 保本价计算 股票 交易费用 投资",
+      "在线秒表 毫秒秒表 计次计时 跑步计时 秒表计时器 秒表 计时 计次",
+      "系统设计 system design 架构设计 高并发 面试 架构 设计 面试 高并发 分布式",
+      "系统提示词 System Prompt 提示词生成 AI角色设定 Prompt ai 提示词 system-prompt 角色 大模型",
+      "温度换算 摄氏华氏转换 华氏度转摄氏度 开尔文换算 温度单位 温度 换算",
+      "字数统计 字符统计 在线字数 中文字数 字节数统计 字数 字符 统计 文本",
+      "文本去重 删除重复行 在线去重 列表去重 重复内容清理 去重 文本",
+      "文本比较 Diff 文本差异 代码比对 改动对比 diff 对比 文本 text 改动",
+      "文本提取 提取手机号 提取邮箱 正则提取 批量提取号码 文本 提取 正则",
+      "文本补齐 补零 字符串填充 对齐文本 定长编号 文本 补齐 对齐",
+      "批量替换 文本替换 在线替换 批量查找替换 正则替换 文本 替换 批处理",
+      "文本反转 字符串倒序 文字倒过来 单词顺序反转 行序反转 反转 文本",
+      "文本相似度 查重 余弦相似度 编辑距离 重复内容检测 文本 相似度 查重",
+      "文本分割 字符串合并 分隔符转换 split join SQL IN 生成 文本 分割 合并",
+      "空白清理 去除空格 全角转半角 删除空行 文本整理 文本 清理 格式",
+      "时间间隔计算器 两个时间相差 时长计算 时间差 datetime 差 时间 时长 计算",
+      "时间戳转换 unix时间戳 时间戳在线转换 时间戳转日期 在线时间戳工具 时间戳 时间 转换 开发",
+      "小费计算器 小费比例 AA分摊 账单分摊 人均消费 小费 分摊 餐厅",
+      "今天几号 今天星期几 第几周 今年第几天 闰年查询 日期 查询",
+      "Token计算器 token估算 GPT字数 大模型分词 提示词字数 多模型 价格估算 token ai 大模型 分词 提示词",
+      "TOTP生成 两步验证 动态验证码 2FA 身份验证器 totp 2fa 验证码 安全",
+      "三角函数计算器 sin cos tan 正弦余弦正切 余切正割余割 角度算三角函数 三角函数 sin cos tan 数学",
+      "排版单位换算 pt px mm 字号换算 磅 像素 字体单位 点派卡 排版 字体 换算",
+      "UDI解码 GS1解析 应用标识符 AI解析 医疗器械追溯 GS1 Digital Link udi gs1 解码 解析 追溯",
+      "UDI生成 医疗器械唯一标识 GS1 UDI条码 GS1-128 Data Matrix 二维码生成 udi gs1 医疗器械 条码 二维码 标识",
+      "Unicode 转义 中文转 Unicode \\u 转中文 URL 编码 HTML 实体转换 文本 Unicode 编码",
+      "单位换算 单位转换 在线换算器 长度换算 重量换算 网速换算 功率换算 压力换算 换算 单位 计算 转换",
+      "URL编码 URL解码 在线URL编解码 encodeURIComponent urlencode URL 编码 解码 开发",
+      "URL解析 网址拆解 查询参数解析 URL参数提取 url parser url 解析 开发",
+      "user agent 解析 ua 解析 浏览器识别 ua 分析 UA 解析 开发",
+      "UTC转北京时间 UTC转中国时间 UTC+8 时区换算 北京时间计算 时区 UTC 换算",
+      "UTC转EDT UTC转美东夏令时 UTC-4 美国东部时间 时区换算 时区 UTC 换算",
+      "UTC转EST UTC转美东标准时 UTC-5 美国东部时间 时区换算 时区 UTC 换算",
+      "UTC转PST UTC转太平洋时间 UTC-8 美国西部时间 时区换算 时区 UTC 换算",
+      "UUID生成 UUID v4 在线UUID 随机ID生成 guid生成器 UUID 随机 生成 开发",
+      "方差计算器 标准差计算器 样本方差 总体标准差 数据波动 方差 标准差 统计 均值 数据分析",
+      "增值税计算器 一般纳税人 简易计税 销项进项 留抵税额 增值税 税务 进项抵扣",
+      "车辆购置税计算器 购置税怎么算 买车购置税 新能源购置税 车购税 税务 买车 购置税 新能源",
+      "视频倍速 观看时间计算 倍速节省时间 视频时长 网课倍速 视频 时间 计算",
+      "粘度换算 cP mPa·s 帕斯卡秒 动力粘度 厘泊 粘度 流体 换算",
+      "电压换算 毫伏千伏换算 μV mV V kV 电压单位 伏特 电压 电子 换算",
+      "快递体积重量计算 抛重计算器 计费重量 体积重公式 快递费用估算 快递 物流 换算",
+      "每日饮水量 一天喝多少水 喝水计算公式 体重饮水 饮水量计算器 饮水 水量 体重 健康 补水",
+      "对比度 wcag 无障碍 颜色对比 WCAG 颜色 无障碍",
+      "天气查询 实时天气 天气预报 今天天气 七日天气 天气 预报 城市 温度 生活",
+      "每周工时 周工时计算 加班时长 打卡工时 排班统计 工时 计算 排班",
+      "怀孕周数 孕周计算 末次月经 预产期 孕期计算 孕期 日期 计算",
+      "词频统计 文本分析 词频分析 词语计数 在线词频 文本 统计 词频",
+      "工作天数计算器 工作日计算 排除周末 项目工期 法定节假日扣除 工作天数 工作日 排期 工期 日期",
+      "世界时钟 世界时间 多时区时钟 全球时间 时区对照 时钟 时区",
+      "XML转JSON JSON转XML xml json 互转 在线xml转换 XML JSON 开发 转换",
+      "YAML转JSON JSON转YAML yaml json 互转 在线yaml转换 YAML JSON 开发 转换"
+    ],
+    "y": [
+      "90tianjisuanqiriqiyunongligongjuxiang",
+      "jiasuduhuansuan",
+      "aesjiajiemi",
+      "shuihougongzijisuanqi",
+      "nianlingjisuanqi",
+      "zhinengtipingceyonglishengchengqi",
+      "zhinengtimingmingshengchengqi",
+      "zhinengtijueseshedingshengchengqi",
+      "zhinengtigongzuoliushengchengqi",
+      "changjingxuanmoxingzhushou",
+      "aijiagebijia",
+      "monishizhong",
+      "jiaoduhuansuan",
+      "jiaosuduhuansuan",
+      "nianjiatianshujisuanqi",
+      "geshuinianduhuisuanjisuanqi",
+      "nianhuashouyiljisuanqi",
+      "nianjinjisuan",
+      "suijimiyaotokenshengchengqi",
+      "pingjunshujisuanqi",
+      "hongbeiyonglianghuansuan",
+      "yinhangkahaojiaoyan",
+      "jinzhizhuanhuan",
+      "base32bianjiema",
+      "base58bianjiema",
+      "base64bianjiema",
+      "jucanaafentan",
+      "bmijisuanqi",
+      "jichudaixieljisuanqi",
+      "tizhiljisuanqi",
+      "nianzhongjiangjishuijisuanqi",
+      "xiongzhaochimahuansuan",
+      "yingkuipinghengjisuanqi",
+      "conglingzaoxxiangmuqingdan",
+      "zijiedanweihuansuan",
+      "fuhenianzengzhangl",
+      "rilijidujisuanqi",
+      "yundongxiaohaokalulijisuanqi",
+      "dianrongdanweihuansuan",
+      "chedaiyuegongjisuanqi",
+      "xinyongkafenqizhenshilil",
+      "daxiaoxiezhuanhuan",
+      "changelogmubanshengchengqi",
+      "ertongshengaoyucejisuanqi",
+      "zhongwenshuzizhuanhuan",
+      "chmodquanxianjisuanqi",
+      "cidrziwangjisuanqi",
+      "yifuchimahuansuan",
+      "shouchongkafeifenshuibi",
+      "yansezhuanhuan",
+      "zuhedaiyuegongjisuanqi",
+      "commitguifanshengchengqi",
+      "fulijisuanqi",
+      "shangxiawenchuangkoujisuanqi",
+      "daojishi",
+      "crc32jiaoyan",
+      "cronbiaodashijiedu",
+      "csvjsonzhuanhuan",
+      "csvzhuanmarkdownbiaoge",
+      "curlminglingzhuanhuan",
+      "huilhuansuan",
+      "dianliudanweihuansuan",
+      "cunchudanweihuansuan",
+      "shujusulhuansuan",
+      "riqijisuanqi",
+      "jitianqianriqijisuanqi",
+      "lianggeriqizhijiantianshujisuanqi",
+      "xingyunzhuanpan",
+      "qishuijisuanqi",
+      "midudanweihuansuan",
+      "cunkuanlixijisuanqi",
+      "zichanzhejiujisuan",
+      "kaifazheluxiantu",
+      "zhitouzi",
+      "shuzishizhong",
+      "dazhejisuanqi",
+      "wendangtuomin",
+      "dockerfileshengcheng",
+      "xiazaishijianjisuanqi",
+      "yuchanqijisuanqi",
+      "dianqidianfeijisuanqi",
+      "emojibiaoqingsousuo",
+      "envpeizhijiexi",
+      "lianjietiquqi",
+      "jiechengjisuanqi",
+      "faviconshengcheng",
+      "weitiaoshujujishengchengqi",
+      "fanyeshizhong",
+      "tijiliulianghuansuan",
+      "liangzhouzhuanxiaoshijisuanqi",
+      "fenshujisuanqi",
+      "pinlhuansuan",
+      "youfeijisuanqi",
+      "youhaohuansuan",
+      "quanpingshizhong",
+      "hanshudiaoyongschemashengchengqi",
+      "jijindingtoushouyijisuanqi",
+      "gongjijindaikuanjisuanqi",
+      "huobijijinshouyihuansuanqi",
+      "zuidagongyueshuyuzuixiaogongbeishu",
+      "gitminglingshengcheng",
+      "githubgaoxingxiangmubang",
+      "gitignoreshengchengqi",
+      "huangjinzhonglianghuansuanqi",
+      "shijiandaojishiqi",
+      "gpajisuanqi",
+      "haxijisuan",
+      "haxileixingshibie",
+      "maozichimahuansuan",
+      "hmacshengchengqi",
+      "shijianjisuanqihhmmss",
+      "shifenmiaozhuanxiaoshifenzhongmiao",
+      "shixinhuansuanqi",
+      "jixiaoshihoushijidian",
+      "htmlshitibianjiema",
+      "htmlzhuanmarkdown",
+      "httpzhuangtaimasucha",
+      "shenfenzhenghaojiaoyan",
+      "lixiangtizhongjisuanqi",
+      "zhaoduhuansuan",
+      "tupianbase64zhuanhuan",
+      "tupianyasuo",
+      "tupiangeshizhuanhuan",
+      "tupiancaijian",
+      "tupianljing",
+      "tupianxinxichakan",
+      "tupianchicuntiaozheng",
+      "tupianshuiyin",
+      "gerensuodeshuijisuanqi",
+      "diangandanweihuansuan",
+      "tonghuopengzhangjisuanqi",
+      "fenqizhenshililjisuanqi",
+      "isbnjiaoyanzhuanhuan",
+      "jianfanzhuanhuan",
+      "jsonduibi",
+      "jsonbianpinghua",
+      "jsongeshihua",
+      "jsonzhuancsv",
+      "jsonzhuantypescript",
+      "jsonpathtiquqi",
+      "jwtjiexiqi",
+      "jwtshengchengqi",
+      "laowubaochougeshuijisuanqi",
+      "kaiyuanxieyixuanzeqi",
+      "xingpaixu",
+      "daikuanyuegongjisuanqi",
+      "daimaxingshutongji",
+      "duishujisuanqi",
+      "zhanweiwenbenshengcheng",
+      "chouqianchoujiang",
+      "ciganyingqiangduhuansuan",
+      "markdownyulan",
+      "markdownbiaogeshengcheng",
+      "markdownmulushengcheng",
+      "shengyujintiejisuanqi",
+      "juzhenjisuanqi",
+      "mcppeizhishengchengqi",
+      "mcpfuwuqiqingdan",
+      "mcpgongjudingyishengchengqi",
+      "yibaobaoxiaojisuanqi",
+      "yuejingzhouqiyupailuanqi",
+      "seometabiaoqianshengchengqi",
+      "zuidinianlingchushengriqijisuanqi",
+      "mosidianmazhuanhuan",
+      "fangdaitiqianhaikuanjisuanqi",
+      "suijimingzishengcheng",
+      "natozimupindu",
+      "nginxpeizhishengcheng",
+      "weifenfangchengqiujieqi",
+      "jiabangongzijisuanqi",
+      "zhizhangchicunhuansuan",
+      "mimashengchengqi",
+      "mimaqiangdufenxi",
+      "pbkdf2miyaopaisheng",
+      "yanglaojincesuan",
+      "baifenbijisuanqi",
+      "pailiezuhejisuanqi",
+      "chongwunianlinghuansuan",
+      "zhanweitushengcheng",
+      "fanqiezhong",
+      "duankouhaosucha",
+      "miyugenshijisuanqi",
+      "yalihuansuan",
+      "zhiyinshufenjie",
+      "lirunljisuanqi",
+      "tishicizhurujiance",
+      "tishicigongfang",
+      "tishiciyouhuaqi",
+      "promptbianliangmuban",
+      "gongjijinjisuanqi",
+      "mianfeiapidaquan",
+      "punycodebianjiema",
+      "erweimashengcheng",
+      "urlchaxuncanshuchuli",
+      "ragtishicigoujianqi",
+      "suijishushengchengqi",
+      "xianliucanshujisuanqi",
+      "bilijisuanqi",
+      "zhengzeceshi",
+      "qubianyinfuhao",
+      "zushoubifangchanhuibaojisuanqi",
+      "dianzudanweihuansuan",
+      "tuixiunianlingcesuan",
+      "jiezhiquanhaohuansuan",
+      "shitoujiandaobu",
+      "touzihuibaoljisuanqi",
+      "luomashuzizhuanhuan",
+      "rot13kaisamima",
+      "sishewurujisuanqi",
+      "rsamiyaoduishengcheng",
+      "72faze",
+      "paobupeisujisuanqi",
+      "cunqianjihuajisuanqi",
+      "kexuejishufazhuanhuan",
+      "ershoufangjiaoyishuifeijisuanqi",
+      "miaozhuanshifenmiaojisuanqi",
+      "anquanxiangyingtoushengcheng",
+      "banbenhaobijiao",
+      "jingjibuchangjinjisuanqi",
+      "kuaidiyunfeijisuanqi",
+      "xiemahuansuan",
+      "skillmdshengchengqi",
+      "shuimianzhouqijisuanqi",
+      "urlslugshengchengqi",
+      "wuxianyijinjisuanqi",
+      "suduhuansuan",
+      "sqlgeshihua",
+      "yinhuashuijisuanqi",
+      "agujiaoyifeiyongjisuanqi",
+      "zaixianmiaobiao",
+      "xitongshejianliku",
+      "xitongtishicishengchengqi",
+      "wenduhuansuan",
+      "zishutongji",
+      "wenbenquzhong",
+      "wenbenbijiaodiff",
+      "wenbentiqu",
+      "wenbenbuqiduiqi",
+      "piliangtihuan",
+      "wenbenfanzhuan",
+      "wenbenxiangsidu",
+      "wenbenfengehebing",
+      "kongbaiqingli",
+      "shijianjiangejisuanqi",
+      "shijianchuozhuanhuan",
+      "xiaofeijisuanqi",
+      "jintianjihao",
+      "tokenjisuanqi",
+      "totpyanzhengma",
+      "sanjiaohanshujisuanqi",
+      "paibandanweihuansuan",
+      "udimajiema",
+      "udimashengcheng",
+      "unicodezhuanyi",
+      "danweihuansuan",
+      "urlbianjiema",
+      "urljiexichaijie",
+      "useragentjiexiqi",
+      "utczhuanzhongguobiaozhunshijian",
+      "utczhuanedthuansuanqi",
+      "utczhuanesthuansuanqi",
+      "utczhuanpsthuansuanqi",
+      "uuidshengchengqi",
+      "fangchabiaozhunchajisuanqi",
+      "zengzhishuijisuanqi",
+      "chelianggouzhishuijisuanqi",
+      "shipinbeisuguankanshijianjisuanqi",
+      "nianduhuansuan",
+      "dianyadanweihuansuan",
+      "kuaiditijizhongliangjisuanqi",
+      "meiriyinshuiliangjisuanqi",
+      "wcagduibidujiancha",
+      "tianqichaxun",
+      "meizhougongshijisuanqi",
+      "huaiyunzhoushujisuanqi",
+      "cipintongjiqi",
+      "gongzuotianshujisuanqi",
+      "shijieshizhong",
+      "xmlyujsonhuzhuan",
+      "yamlyujsonhuzhuan"
+    ],
+    "s": [
+      "90tjsqrqynlgjx",
+      "jsdhs",
+      "aesjjm",
+      "shgzjsq",
+      "nljsq",
+      "zntpcylscq",
+      "zntmmscq",
+      "zntjssdscq",
+      "zntgzlscq",
+      "cjxmxzs",
+      "aijgbj",
+      "mnsz",
+      "jdhs",
+      "jsdhs",
+      "njtsjsq",
+      "gsndhsjsq",
+      "nhsyljsq",
+      "njjs",
+      "sjmytokenscq",
+      "pjsjsq",
+      "hbylhs",
+      "yhkhjy",
+      "jzzh",
+      "base32bjm",
+      "base58bjm",
+      "base64bjm",
+      "jcaaft",
+      "bmijsq",
+      "jcdxljsq",
+      "tzljsq",
+      "nzjjsjsq",
+      "xzcmhs",
+      "ykphjsq",
+      "clzxxmqd",
+      "zjdwhs",
+      "fhnzzl",
+      "rljdjsq",
+      "ydxhklljsq",
+      "drdwhs",
+      "cdygjsq",
+      "xykfqzsll",
+      "dxxzh",
+      "changelogmbscq",
+      "etsgycjsq",
+      "zwszzh",
+      "chmodqxjsq",
+      "cidrzwjsq",
+      "yfcmhs",
+      "sckffsb",
+      "yszh",
+      "zhdygjsq",
+      "commitgfscq",
+      "fljsq",
+      "sxwckjsq",
+      "djs",
+      "crc32jy",
+      "cronbdsjd",
+      "csvjsonzh",
+      "csvzmarkdownbg",
+      "curlmlzh",
+      "hlhs",
+      "dldwhs",
+      "ccdwhs",
+      "sjslhs",
+      "rqjsq",
+      "jtqrqjsq",
+      "lgrqzjtsjsq",
+      "xyzp",
+      "qsjsq",
+      "mddwhs",
+      "cklxjsq",
+      "zczjjs",
+      "kfzlxt",
+      "ztz",
+      "szsz",
+      "dzjsq",
+      "wdtm",
+      "dockerfilesc",
+      "xzsjjsq",
+      "ycqjsq",
+      "dqdfjsq",
+      "emojibqss",
+      "envpzjx",
+      "ljtqq",
+      "jcjsq",
+      "faviconsc",
+      "wtsjjscq",
+      "fysz",
+      "tjllhs",
+      "lzzxsjsq",
+      "fsjsq",
+      "plhs",
+      "yfjsq",
+      "yhhs",
+      "qpsz",
+      "hsdyschemascq",
+      "jjdtsyjsq",
+      "gjjdkjsq",
+      "hbjjsyhsq",
+      "zdgysyzxgbs",
+      "gitmlsc",
+      "githubgxxmb",
+      "gitignorescq",
+      "hjzlhsq",
+      "sjdjsq",
+      "gpajsq",
+      "hxjs",
+      "hxlxsb",
+      "mzcmhs",
+      "hmacscq",
+      "sjjsqhhmmss",
+      "sfmzxsfzm",
+      "sxhsq",
+      "jxshsjd",
+      "htmlstbjm",
+      "htmlzmarkdown",
+      "httpztmsc",
+      "sfzhjy",
+      "lxtzjsq",
+      "zdhs",
+      "tpbase64zh",
+      "tpys",
+      "tpgszh",
+      "tpcj",
+      "tplj",
+      "tpxxck",
+      "tpcctz",
+      "tpsy",
+      "grsdsjsq",
+      "dgdwhs",
+      "thpzjsq",
+      "fqzslljsq",
+      "isbnjyzh",
+      "jfzh",
+      "jsondb",
+      "jsonbph",
+      "jsongsh",
+      "jsonzcsv",
+      "jsonztypescript",
+      "jsonpathtqq",
+      "jwtjxq",
+      "jwtscq",
+      "lwbcgsjsq",
+      "kyxyxzq",
+      "xpx",
+      "dkygjsq",
+      "dmxstj",
+      "dsjsq",
+      "zwwbsc",
+      "cqcj",
+      "cgyqdhs",
+      "markdownyl",
+      "markdownbgsc",
+      "markdownmlsc",
+      "syjtjsq",
+      "jzjsq",
+      "mcppzscq",
+      "mcpfwqqd",
+      "mcpgjdyscq",
+      "ybbxjsq",
+      "yjzqyplq",
+      "seometabqscq",
+      "zdnlcsrqjsq",
+      "msdmzh",
+      "fdtqhkjsq",
+      "sjmzsc",
+      "natozmpd",
+      "nginxpzsc",
+      "wffcqjq",
+      "jbgzjsq",
+      "zzcchs",
+      "mmscq",
+      "mmqdfx",
+      "pbkdf2myps",
+      "yljcs",
+      "bfbjsq",
+      "plzhjsq",
+      "cwnlhs",
+      "zwtsc",
+      "fqz",
+      "dkhsc",
+      "mygsjsq",
+      "ylhs",
+      "zysfj",
+      "lrljsq",
+      "tsczrjc",
+      "tscgf",
+      "tscyhq",
+      "promptblmb",
+      "gjjjsq",
+      "mfapidq",
+      "punycodebjm",
+      "ewmsc",
+      "urlcxcscl",
+      "ragtscgjq",
+      "sjsscq",
+      "xlcsjsq",
+      "bljsq",
+      "zzcs",
+      "qbyfh",
+      "zsbfchbjsq",
+      "dzdwhs",
+      "txnlcs",
+      "jzqhhs",
+      "stjdb",
+      "tzhbljsq",
+      "lmszzh",
+      "rot13ksmm",
+      "sswrjsq",
+      "rsamydsc",
+      "72fz",
+      "pbpsjsq",
+      "cqjhjsq",
+      "kxjsfzh",
+      "esfjysfjsq",
+      "mzsfmjsq",
+      "aqxytsc",
+      "bbhbj",
+      "jjbcjjsq",
+      "kdyfjsq",
+      "xmhs",
+      "skillmdscq",
+      "smzqjsq",
+      "urlslugscq",
+      "wxyjjsq",
+      "sdhs",
+      "sqlgsh",
+      "yhsjsq",
+      "agjyfyjsq",
+      "zxmb",
+      "xtsjalk",
+      "xttscscq",
+      "wdhs",
+      "zstj",
+      "wbqz",
+      "wbbjdiff",
+      "wbtq",
+      "wbbqdq",
+      "plth",
+      "wbfz",
+      "wbxsd",
+      "wbfghb",
+      "kbql",
+      "sjjgjsq",
+      "sjczh",
+      "xfjsq",
+      "jtjh",
+      "tokenjsq",
+      "totpyzm",
+      "sjhsjsq",
+      "pbdwhs",
+      "udimjm",
+      "udimsc",
+      "unicodezy",
+      "dwhs",
+      "urlbjm",
+      "urljxcj",
+      "useragentjxq",
+      "utczzgbzsj",
+      "utczedthsq",
+      "utczesthsq",
+      "utczpsthsq",
+      "uuidscq",
+      "fcbzcjsq",
+      "zzsjsq",
+      "clgzsjsq",
+      "spbsgksjjsq",
+      "ndhs",
+      "dydwhs",
+      "kdtjzljsq",
+      "mrysljsq",
+      "wcagdbdjc",
+      "tqcx",
+      "mzgsjsq",
+      "hyzsjsq",
+      "cptjq",
+      "gztsjsq",
+      "sjsz",
+      "xmlyjsonhz",
+      "yamlyjsonhz"
+    ],
+    "c": [
+      3,
+      0,
+      2,
+      3,
+      3,
+      7,
+      7,
+      7,
+      7,
+      7,
+      7,
+      10,
+      0,
+      0,
+      3,
+      3,
+      3,
+      3,
+      4,
+      3,
+      0,
+      2,
+      0,
+      2,
+      4,
+      4,
+      8,
+      3,
+      8,
+      8,
+      3,
+      0,
+      3,
+      4,
+      0,
+      3,
+      3,
+      3,
+      0,
+      3,
+      3,
+      1,
+      4,
+      3,
+      1,
+      4,
+      4,
+      3,
+      8,
+      0,
+      3,
+      4,
+      3,
+      7,
+      8,
+      2,
+      4,
+      4,
+      4,
+      4,
+      0,
+      0,
+      0,
+      0,
+      3,
+      3,
+      3,
+      9,
+      3,
+      0,
+      3,
+      3,
+      4,
+      9,
+      10,
+      3,
+      2,
+      4,
+      0,
+      8,
+      8,
+      9,
+      4,
+      4,
+      3,
+      5,
+      7,
+      10,
+      0,
+      3,
+      3,
+      0,
+      8,
+      0,
+      10,
+      7,
+      3,
+      3,
+      3,
+      3,
+      4,
+      4,
+      4,
+      0,
+      3,
+      3,
+      2,
+      4,
+      0,
+      4,
+      3,
+      3,
+      3,
+      3,
+      4,
+      4,
+      4,
+      2,
+      3,
+      0,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      3,
+      0,
+      3,
+      3,
+      6,
+      1,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      3,
+      4,
+      1,
+      3,
+      4,
+      3,
+      1,
+      8,
+      0,
+      1,
+      4,
+      1,
+      3,
+      3,
+      7,
+      7,
+      7,
+      3,
+      8,
+      4,
+      3,
+      1,
+      3,
+      9,
+      1,
+      4,
+      3,
+      3,
+      0,
+      2,
+      2,
+      2,
+      3,
+      3,
+      3,
+      8,
+      5,
+      8,
+      4,
+      3,
+      0,
+      3,
+      3,
+      7,
+      7,
+      7,
+      7,
+      3,
+      4,
+      4,
+      4,
+      4,
+      7,
+      8,
+      4,
+      3,
+      4,
+      1,
+      3,
+      0,
+      3,
+      0,
+      9,
+      3,
+      3,
+      2,
+      3,
+      2,
+      3,
+      8,
+      3,
+      3,
+      3,
+      3,
+      4,
+      4,
+      3,
+      8,
+      8,
+      7,
+      8,
+      4,
+      3,
+      0,
+      4,
+      3,
+      3,
+      8,
+      4,
+      7,
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      3,
+      4,
+      3,
+      8,
+      7,
+      2,
+      3,
+      0,
+      6,
+      6,
+      1,
+      0,
+      4,
+      4,
+      4,
+      3,
+      3,
+      3,
+      3,
+      4,
+      3,
+      3,
+      3,
+      3,
+      0,
+      0,
+      0,
+      3,
+      4,
+      8,
+      3,
+      3,
+      1,
+      3,
+      10,
+      4,
+      4
+    ],
+    "p": [
+      7,
+      7,
+      7,
+      8,
+      7,
+      7,
+      6,
+      8,
+      8,
+      7,
+      8,
+      8,
+      6,
+      7,
+      7,
+      9,
+      8,
+      7,
+      7,
+      7,
+      7,
+      6,
+      6,
+      6,
+      7,
+      6,
+      6,
+      8,
+      7,
+      7,
+      9,
+      7,
+      6,
+      7,
+      6,
+      7,
+      6,
+      7,
+      7,
+      7,
+      8,
+      5,
+      7,
+      6,
+      7,
+      7,
+      6,
+      5,
+      6,
+      5,
+      9,
+      7,
+      7,
+      7,
+      8,
+      6,
+      4,
+      6,
+      7,
+      8,
+      5,
+      7,
+      8,
+      6,
+      8,
+      7,
+      7,
+      7,
+      7,
+      7,
+      7,
+      7,
+      7,
+      7,
+      9,
+      7,
+      9,
+      7,
+      7,
+      8,
+      6,
+      7,
+      7,
+      7,
+      6,
+      6,
+      7,
+      10,
+      7,
+      6,
+      7,
+      6,
+      6,
+      8,
+      9,
+      8,
+      7,
+      9,
+      6,
+      7,
+      7,
+      0,
+      8,
+      6,
+      6,
+      7,
+      4,
+      7,
+      7,
+      7,
+      7,
+      7,
+      7,
+      7,
+      6,
+      7,
+      4,
+      6,
+      6,
+      7,
+      7,
+      8,
+      8,
+      7,
+      6,
+      6,
+      8,
+      7,
+      9,
+      7,
+      7,
+      7,
+      6,
+      6,
+      8,
+      7,
+      7,
+      7,
+      8,
+      7,
+      5,
+      7,
+      8,
+      7,
+      6,
+      9,
+      7,
+      7,
+      5,
+      7,
+      7,
+      4,
+      6,
+      6,
+      7,
+      6,
+      5,
+      8,
+      8,
+      8,
+      7,
+      6,
+      6,
+      6,
+      9,
+      6,
+      6,
+      7,
+      7,
+      7,
+      7,
+      9,
+      5,
+      6,
+      7,
+      8,
+      7,
+      6,
+      5,
+      6,
+      7,
+      7,
+      8,
+      7,
+      8,
+      8,
+      5,
+      9,
+      5,
+      7,
+      8,
+      7,
+      4,
+      7,
+      8,
+      7,
+      6,
+      7,
+      5,
+      6,
+      7,
+      7,
+      8,
+      7,
+      6,
+      6,
+      7,
+      6,
+      7,
+      5,
+      7,
+      6,
+      6,
+      7,
+      8,
+      7,
+      7,
+      7,
+      7,
+      7,
+      7,
+      5,
+      6,
+      7,
+      9,
+      6,
+      7,
+      7,
+      7,
+      6,
+      7,
+      9,
+      7,
+      5,
+      7,
+      5,
+      8,
+      6,
+      7,
+      5,
+      6,
+      7,
+      7,
+      7,
+      8,
+      6,
+      6,
+      5,
+      7,
+      6,
+      7,
+      7,
+      8,
+      7,
+      0,
+      6,
+      7,
+      7,
+      7,
+      6,
+      6,
+      6,
+      5,
+      7,
+      9,
+      8,
+      6,
+      7,
+      7,
+      6,
+      6,
+      7,
+      7,
+      6,
+      6,
+      7,
+      7,
+      9,
+      7,
+      7
+    ],
+    "u": [
+      "/tools/90-day/",
+      "/tools/acceleration/",
+      "/tools/aes-encrypt/",
+      "/tools/after-tax-salary/",
+      "/tools/age-calculator/",
+      "/tools/agent-eval-generator/",
+      "/tools/agent-name-generator/",
+      "/tools/agent-role-designer/",
+      "/tools/agent-workflow-generator/",
+      "/tools/ai-model-selector/",
+      "/tools/ai-price-compare/",
+      "/tools/analog-clock/",
+      "/tools/angle-convert/",
+      "/tools/angular-velocity/",
+      "/tools/annual-leave/",
+      "/tools/annual-tax-settlement/",
+      "/tools/annualized-return/",
+      "/tools/annuity-calculator/",
+      "/tools/api-key-gen/",
+      "/tools/average-calculator/",
+      "/tools/baking/",
+      "/tools/bank-card-validator/",
+      "/tools/base-converter/",
+      "/tools/base32-encoder/",
+      "/tools/base58/",
+      "/tools/base64/",
+      "/tools/bill-split/",
+      "/tools/bmi-calculator/",
+      "/tools/bmr-calculator/",
+      "/tools/body-fat/",
+      "/tools/bonus-tax-cn/",
+      "/tools/bra-size/",
+      "/tools/break-even-calculator/",
+      "/tools/build-your-own-x/",
+      "/tools/bytes-size-converter/",
+      "/tools/cagr-calculator/",
+      "/tools/calendar-quarter/",
+      "/tools/calorie-burn/",
+      "/tools/capacitance/",
+      "/tools/car-loan/",
+      "/tools/card-installment/",
+      "/tools/case-converter/",
+      "/tools/changelog-gen/",
+      "/tools/child-height/",
+      "/tools/chinese-number/",
+      "/tools/chmod-calculator/",
+      "/tools/cidr-calculator/",
+      "/tools/clothing-size/",
+      "/tools/coffee-ratio/",
+      "/tools/color-converter/",
+      "/tools/combo-loan-calc/",
+      "/tools/commit-gen/",
+      "/tools/compound-interest/",
+      "/tools/context-window-calculator/",
+      "/tools/countdown-timer/",
+      "/tools/crc32-checksum/",
+      "/tools/cron-parser/",
+      "/tools/csv-to-json/",
+      "/tools/csv-to-markdown/",
+      "/tools/curl-converter/",
+      "/tools/currency-convert/",
+      "/tools/current/",
+      "/tools/data-binary/",
+      "/tools/data-rate-convert/",
+      "/tools/date-calculator/",
+      "/tools/days-ago/",
+      "/tools/days-between/",
+      "/tools/decision-wheel/",
+      "/tools/deed-tax/",
+      "/tools/density/",
+      "/tools/deposit-interest/",
+      "/tools/depreciation-calculator/",
+      "/tools/dev-roadmap/",
+      "/tools/dice-roller/",
+      "/tools/digital-clock/",
+      "/tools/discount-calculator/",
+      "/tools/doc-desensitize/",
+      "/tools/dockerfile-gen/",
+      "/tools/download-time-calculator/",
+      "/tools/due-date/",
+      "/tools/electricity-cost/",
+      "/tools/emoji-search/",
+      "/tools/env-parser/",
+      "/tools/extract-links/",
+      "/tools/factorial/",
+      "/tools/favicon-generator/",
+      "/tools/fine-tune-dataset-generator/",
+      "/tools/flip-clock/",
+      "/tools/flow-rate/",
+      "/tools/fortnight-to-hours/",
+      "/tools/fraction-calculator/",
+      "/tools/frequency-convert/",
+      "/tools/fuel-cost/",
+      "/tools/fuel-efficiency/",
+      "/tools/fullscreen-clock/",
+      "/tools/function-calling-generator/",
+      "/tools/fund-dca-calc/",
+      "/tools/fund-loan-calc/",
+      "/tools/fund-yield-convert/",
+      "/tools/gcd-lcm/",
+      "/tools/git-command-gen/",
+      "/tools/github-stars/",
+      "/tools/gitignore-gen/",
+      "/tools/gold-weight-convert/",
+      "/tools/gov-shutdown-countdown/",
+      "/tools/gpa-calculator/",
+      "/tools/hash-calculator/",
+      "/tools/hash-identify/",
+      "/tools/hat-size/",
+      "/tools/hmac-gen/",
+      "/tools/hms-add/",
+      "/tools/hms-to-units/",
+      "/tools/hourly-wage/",
+      "/tools/hours-from-now/",
+      "/tools/html-escape/",
+      "/tools/html-to-markdown/",
+      "/tools/http-status/",
+      "/tools/id-card-check/",
+      "/tools/ideal-weight/",
+      "/tools/illuminance/",
+      "/tools/image-base64/",
+      "/tools/image-compress/",
+      "/tools/image-convert/",
+      "/tools/image-crop/",
+      "/tools/image-filter/",
+      "/tools/image-info/",
+      "/tools/image-resize/",
+      "/tools/image-watermark/",
+      "/tools/income-tax-cn/",
+      "/tools/inductance/",
+      "/tools/inflation-calculator/",
+      "/tools/installment-apr/",
+      "/tools/isbn-validator/",
+      "/tools/jian-fan-convert/",
+      "/tools/json-diff/",
+      "/tools/json-flatten/",
+      "/tools/json-formatter/",
+      "/tools/json-to-csv/",
+      "/tools/json-to-typescript/",
+      "/tools/jsonpath/",
+      "/tools/jwt-decoder/",
+      "/tools/jwt-generator/",
+      "/tools/labor-income-tax/",
+      "/tools/license-gen/",
+      "/tools/line-sort/",
+      "/tools/loan-calculator/",
+      "/tools/loc-counter/",
+      "/tools/log-calculator/",
+      "/tools/lorem-ipsum/",
+      "/tools/lottery-draw/",
+      "/tools/magnetic/",
+      "/tools/markdown-preview/",
+      "/tools/markdown-table-gen/",
+      "/tools/markdown-toc/",
+      "/tools/maternity-benefit/",
+      "/tools/matrix-calculator/",
+      "/tools/mcp-config-generator/",
+      "/tools/mcp-server-directory/",
+      "/tools/mcp-tool-generator/",
+      "/tools/medical-insurance/",
+      "/tools/menstrual-cycle/",
+      "/tools/meta-tags-generator/",
+      "/tools/min-age-birth/",
+      "/tools/morse-code/",
+      "/tools/mortgage-early-repayment/",
+      "/tools/name-generator/",
+      "/tools/nato-phonetic/",
+      "/tools/nginx-config-gen/",
+      "/tools/ode-solver/",
+      "/tools/overtime-pay/",
+      "/tools/paper-size/",
+      "/tools/password-generator/",
+      "/tools/password-strength/",
+      "/tools/pbkdf2-generator/",
+      "/tools/pension-estimate/",
+      "/tools/percentage-calculator/",
+      "/tools/permutation-combination/",
+      "/tools/pet-age-calculator/",
+      "/tools/placeholder-image/",
+      "/tools/pomodoro-timer/",
+      "/tools/port-lookup/",
+      "/tools/power-root/",
+      "/tools/pressure-convert/",
+      "/tools/prime-factor/",
+      "/tools/profit-margin/",
+      "/tools/prompt-injection-detector/",
+      "/tools/prompt-library/",
+      "/tools/prompt-optimizer/",
+      "/tools/prompt-template/",
+      "/tools/provident-fund-calc/",
+      "/tools/public-apis/",
+      "/tools/punycode/",
+      "/tools/qrcode-generator/",
+      "/tools/query-params/",
+      "/tools/rag-prompt-builder/",
+      "/tools/random-number/",
+      "/tools/rate-limit-calculator/",
+      "/tools/ratio-calculator/",
+      "/tools/regex-tester/",
+      "/tools/remove-accents/",
+      "/tools/rental-yield/",
+      "/tools/resistance/",
+      "/tools/retirement-age/",
+      "/tools/ring-size/",
+      "/tools/rock-paper-scissors/",
+      "/tools/roi-calculator/",
+      "/tools/roman-numeral/",
+      "/tools/rot13-cipher/",
+      "/tools/rounding-calculator/",
+      "/tools/rsa-keygen/",
+      "/tools/rule-of-72/",
+      "/tools/running-pace/",
+      "/tools/savings-goal-calculator/",
+      "/tools/scientific-notation/",
+      "/tools/second-hand-house-tax/",
+      "/tools/seconds-to-time/",
+      "/tools/security-headers/",
+      "/tools/semver-compare/",
+      "/tools/severance-calc/",
+      "/tools/shipping-fee-calculator/",
+      "/tools/shoe-size/",
+      "/tools/skill-generator/",
+      "/tools/sleep-cycle/",
+      "/tools/slug-generator/",
+      "/tools/social-security-cn/",
+      "/tools/speed-convert/",
+      "/tools/sql-formatter/",
+      "/tools/stamp-duty/",
+      "/tools/stock-fee-calc/",
+      "/tools/stopwatch/",
+      "/tools/system-design/",
+      "/tools/system-prompt-generator/",
+      "/tools/temperature-convert/",
+      "/tools/text-counter/",
+      "/tools/text-dedup/",
+      "/tools/text-diff/",
+      "/tools/text-extract/",
+      "/tools/text-pad/",
+      "/tools/text-replace/",
+      "/tools/text-reverse/",
+      "/tools/text-similarity/",
+      "/tools/text-split-join/",
+      "/tools/text-whitespace/",
+      "/tools/time-duration/",
+      "/tools/timestamp-converter/",
+      "/tools/tip-calculator/",
+      "/tools/today-info/",
+      "/tools/token-counter/",
+      "/tools/totp-generator/",
+      "/tools/trigonometry/",
+      "/tools/typography/",
+      "/tools/udi-decoder/",
+      "/tools/udi-generator/",
+      "/tools/unicode-escape/",
+      "/tools/unit-convert/",
+      "/tools/url-encoder/",
+      "/tools/url-parser/",
+      "/tools/user-agent-parse/",
+      "/tools/utc-to-cst/",
+      "/tools/utc-to-edt/",
+      "/tools/utc-to-est/",
+      "/tools/utc-to-pst/",
+      "/tools/uuid-generator/",
+      "/tools/variance-std/",
+      "/tools/vat-calc/",
+      "/tools/vehicle-purchase-tax/",
+      "/tools/video-speed/",
+      "/tools/viscosity/",
+      "/tools/voltage/",
+      "/tools/volume-weight/",
+      "/tools/water-intake/",
+      "/tools/wcag-contrast/",
+      "/tools/weather/",
+      "/tools/weekly-hours/",
+      "/tools/weeks-pregnant/",
+      "/tools/word-frequency/",
+      "/tools/workdays-count/",
+      "/tools/world-clock/",
+      "/tools/xml-json/",
+      "/tools/yaml-json/"
+    ],
+    "i": [
+      "calendar",
+      "rocket",
+      "lock",
+      "receipt",
+      "cake",
+      "check",
+      "tag",
+      "users",
+      "git-branch",
+      "git-compare",
+      "coins",
+      "clock",
+      "triangle",
+      "rotate-cw",
+      "calendar-days",
+      "receipt",
+      "trending-up",
+      "piggy-bank",
+      "key-round",
+      "sigma",
+      "utensils",
+      "fingerprint",
+      "binary",
+      "shuffle",
+      "binary",
+      "file-code",
+      "users",
+      "activity",
+      "heart",
+      "activity",
+      "coins",
+      "shirt",
+      "calculator",
+      "code",
+      "database",
+      "percent",
+      "calendar",
+      "trending-up",
+      "battery-charging",
+      "coins",
+      "coins",
+      "type",
+      "file-text",
+      "users",
+      "coins",
+      "lock",
+      "globe",
+      "tag",
+      "coffee",
+      "palette",
+      "landmark",
+      "git-compare",
+      "trending-up",
+      "ruler",
+      "timer",
+      "binary",
+      "clock",
+      "table",
+      "table",
+      "terminal",
+      "scale",
+      "zap",
+      "memory-stick",
+      "gauge",
+      "calendar",
+      "calendar",
+      "calendar",
+      "loader",
+      "building",
+      "layers",
+      "landmark",
+      "scale",
+      "mapPin",
+      "dice",
+      "clock",
+      "tag",
+      "eyeOff",
+      "box",
+      "gauge",
+      "baby",
+      "zap",
+      "smile",
+      "file-cog",
+      "link",
+      "sigma",
+      "star",
+      "table",
+      "timer",
+      "droplet",
+      "clock",
+      "divide",
+      "waves",
+      "gauge",
+      "fuel",
+      "maximize",
+      "function-square",
+      "activity",
+      "landmark",
+      "landmark",
+      "binary",
+      "git-branch",
+      "star",
+      "file-text",
+      "coins",
+      "timer",
+      "school",
+      "fingerprint",
+      "fingerprint",
+      "tag",
+      "shield-check",
+      "timer",
+      "timer",
+      "coins",
+      "clock",
+      "code",
+      "file-code-2",
+      "server",
+      "shield-check",
+      "scale",
+      "lightbulb",
+      "file-code",
+      "minimize",
+      "arrowLeftRight",
+      "crop",
+      "sliders-horizontal",
+      "scan",
+      "maximize",
+      "droplet",
+      "receipt",
+      "waves",
+      "trending-down",
+      "percent",
+      "book",
+      "languages",
+      "diff",
+      "layers",
+      "braces",
+      "table",
+      "file-code",
+      "braces",
+      "key",
+      "badge-check",
+      "coins",
+      "scale",
+      "arrow-down-narrow-wide",
+      "landmark",
+      "list-ordered",
+      "sigma",
+      "file-text",
+      "ticket",
+      "magnet",
+      "file-text",
+      "table",
+      "list",
+      "users",
+      "grid",
+      "plug",
+      "server",
+      "plug",
+      "activity",
+      "calendar-heart",
+      "file-code",
+      "cake",
+      "megaphone",
+      "building",
+      "user-round",
+      "book",
+      "server",
+      "activity",
+      "clock",
+      "printer",
+      "key",
+      "shield",
+      "shield",
+      "coins",
+      "percent",
+      "shuffle",
+      "paw-print",
+      "grid",
+      "clock",
+      "network",
+      "sigma",
+      "gauge",
+      "divide",
+      "percent",
+      "shield",
+      "bookmark",
+      "wand",
+      "braces",
+      "wallet",
+      "database",
+      "globe",
+      "qr",
+      "link-2",
+      "database",
+      "dice",
+      "timer",
+      "scale",
+      "regex",
+      "type",
+      "building",
+      "zap",
+      "calendar",
+      "gem",
+      "hand",
+      "percent",
+      "hash",
+      "key",
+      "target",
+      "fingerprint",
+      "calculator",
+      "timer",
+      "landmark",
+      "function-square",
+      "house",
+      "timer",
+      "shield-check",
+      "git-compare",
+      "scale",
+      "box",
+      "footprints",
+      "bot",
+      "moon",
+      "link",
+      "shield",
+      "wind",
+      "database",
+      "receipt",
+      "receipt",
+      "timer",
+      "server",
+      "bot",
+      "thermometer",
+      "align-left",
+      "copy-x",
+      "align-left",
+      "text-search",
+      "type",
+      "wand",
+      "flip-horizontal",
+      "git-compare",
+      "align-left",
+      "eraser",
+      "clock",
+      "clock",
+      "receipt",
+      "calendar-days",
+      "hash",
+      "smartphone",
+      "sigma",
+      "type",
+      "scan",
+      "barcode",
+      "braces",
+      "ruler",
+      "link",
+      "link",
+      "scan",
+      "globe",
+      "globe",
+      "globe",
+      "globe",
+      "fingerprint",
+      "sigma",
+      "percent",
+      "fuel",
+      "film",
+      "droplets",
+      "plug",
+      "ruler",
+      "activity",
+      "contrast",
+      "cloud-sun",
+      "clock",
+      "calendar",
+      "hash",
+      "calendar",
+      "globe",
+      "file-code",
+      "file-json"
+    ],
+    "cats": [
+      "换算转换",
+      "文本处理",
+      "安全加密",
+      "计算工具",
+      "开发辅助",
+      "图片处理",
+      "条码与标识",
+      "AI 与智能体",
+      "生活实用",
+      "趣味娱乐",
+      "时钟"
+    ]
+  }
 }

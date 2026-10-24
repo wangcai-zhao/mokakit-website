@@ -22,6 +22,9 @@ import { loadAllMeta } from './meta-loader.mjs';
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+// 与网页端同源：索引构建器 + 分类表都直接 import src/，不另写一份
+import { buildSearchIndexData } from '../src/lib/search-build.ts';
+import { CATEGORIES } from '../src/config/categories.ts';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 // 产物直接进 deploy 包，随 server-setup.sh 上传到 /opt/mokakit-mcp
@@ -41,8 +44,29 @@ await build({
 
 // 2) 抽取 catalog（运行时不再读 src/），写 catalog.json
 const { tools, errors } = loadAllMeta();
-writeFileSync(join(outDir, 'catalog.json'), JSON.stringify({ tools, errors }, null, 2));
+
+// 顺带把检索索引算好（含拼音），server 启动直接 prepareIndex，
+// 避免线上服务器装 pinyin-pro 或现场算拼音。
+const catName = new Map(CATEGORIES.map((c) => [c.id, c.name]));
+const search = buildSearchIndexData(
+  tools
+    .filter((t) => !t.noindex)
+    .map((t) => ({
+      id: t.id,
+      name: t.name,
+      tagline: t.tagline || '',
+      keywords: t.keywords || [],
+      tags: t.tags || [],
+      category: catName.get(t.category) || t.category,
+      priority: t.priority ?? 0,
+      icon: t.icon || '',
+      url: t.url,
+    })),
+  CATEGORIES.map((c) => c.name),
+);
+
+writeFileSync(join(outDir, 'catalog.json'), JSON.stringify({ tools, errors, search }, null, 2));
 
 console.log(
-  `[mcp:build] bundled server.mjs (target=node18) + catalog.json (${tools.length} tools, ${errors.length} errors) -> ${outDir}`
+  `[mcp:build] bundled server.mjs (target=node18) + catalog.json (${tools.length} tools, ${errors.length} errors, search-index ${search.n.length} docs) -> ${outDir}`,
 );

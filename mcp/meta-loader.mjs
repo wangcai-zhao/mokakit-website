@@ -92,6 +92,9 @@ export function loadAllMeta() {
       icon: meta.icon || '',
       tagline: meta.tagline || '',
       url: `/tools/${id}/`,
+      // 检索排序与去索引判定要用；正则兜底分支拿不到时给安全默认值
+      priority: Number.isFinite(Number(meta.priority)) ? Number(meta.priority) : 0,
+      noindex: Boolean(meta.noindex),
     });
   }
 
