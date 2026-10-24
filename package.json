@@ -13,12 +13,13 @@
     "check:units": "node --experimental-strip-types --no-warnings --import ./scripts/ts-resolve.mjs scripts/check-units.mjs",
     "check:icons": "node --experimental-strip-types --no-warnings --import ./scripts/ts-resolve.mjs scripts/check-icons.mjs",
     "check:widgets": "node scripts/check-widgets.mjs",
+    "check:search": "node --experimental-strip-types --no-warnings --import ./scripts/ts-resolve.mjs scripts/test-search.mjs",
     "changelog:check": "node scripts/changelog-check.mjs",
-    "check:all": "npm run check:widgets && npm run check:icons && npm run changelog:check",
+    "check:all": "npm run check:widgets && npm run check:icons && npm run check:search && npm run changelog:check",
     "astro": "astro",
     "workbench": "node --experimental-strip-types --no-warnings --import ./scripts/ts-resolve.mjs scripts/build-workbench.mjs",
     "mcp": "node --experimental-strip-types --no-warnings mcp/server.mjs",
-    "mcp:build": "node mcp/build.mjs",
+    "mcp:build": "node --experimental-strip-types --no-warnings mcp/build.mjs",
     "indexnow": "node scripts/indexnow.mjs"
   },
   "dependencies": {
@@ -37,6 +38,7 @@
     "@astrojs/check": "^0.9.10",
     "@tailwindcss/vite": "^4.3.3",
     "daisyui": "^5.7.47",
+    "pinyin-pro": "^3.29.5",
     "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3"
   }

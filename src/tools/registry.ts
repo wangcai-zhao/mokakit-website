@@ -1,5 +1,7 @@
 import type { ToolMeta } from './types';
-import { CATEGORIES, type Category } from '@/config/categories';
+import { CATEGORIES, CATEGORY_MAP, type Category } from '@/config/categories';
+import type { SearchIndexData } from '@/lib/search';
+import { buildSearchIndexData, type SearchSource } from '@/lib/search-build';
 
 /**
  * ★ 自动注册表 ★
@@ -75,7 +77,7 @@ function autoRelated(tool: ToolMeta, limit: number): ToolMeta[] {
     .map((x) => x.tool);
 }
 
-/** 站内搜索索引。构建时序列化成 JSON，客户端用 Fuse.js 消费 */
+/** 站内搜索索引（扁平版，保留给外部调用方与旧测试用） */
 export interface SearchEntry {
   id: string;
   name: string;
@@ -86,14 +88,44 @@ export interface SearchEntry {
   icon: string;
 }
 
-export function buildSearchIndex(): SearchEntry[] {
-  return INDEXABLE_TOOLS.map((t) => ({
+/**
+ * 站内搜索索引 —— 列式 + 构建期拼音，供 src/lib/search.ts 消费。
+ *
+ * 与旧版 buildSearchIndex() 的区别：
+ *   1. 列式（单字母 key）省掉 280 条重复字段名，约省 11KB；
+ *   2. 带拼音全拼 / 首字母，解决「打不出汉字就只能放弃」的问题；
+ *   3. 带 priority，让排序有据可依（旧版是 filter 后原序，等于没排序）。
+ *
+ * ⚠️ 本函数依赖 pinyin-pro，只能在构建期调用。客户端组件请只 import 类型。
+ */
+export function buildSearchData(): SearchIndexData {
+  const sources: SearchSource[] = INDEXABLE_TOOLS.map((t) => ({
     id: t.id,
     name: t.name,
     tagline: t.tagline,
-    keywords: [...t.keywords, ...t.tags].join(' '),
-    category: t.category,
-    url: `/tools/${t.id}/`,
+    keywords: t.keywords,
+    tags: t.tags,
+    category: CATEGORY_MAP.get(t.category)?.name ?? t.category,
+    priority: t.priority,
     icon: t.icon,
+    url: `/tools/${t.id}/`,
+  }));
+  return buildSearchIndexData(
+    sources,
+    CATEGORIES.map((c) => c.name),
+  );
+}
+
+/** 扁平版索引（兼容层，内部复用 buildSearchData，保证两版永不漂移） */
+export function buildSearchIndex(): SearchEntry[] {
+  const data = buildSearchData();
+  return data.n.map((name, k) => ({
+    id: data.u[k].replace(/^\/tools\//, '').replace(/\/$/, ''),
+    name,
+    tagline: data.g[k],
+    keywords: data.k[k],
+    category: data.cats[data.c[k]] ?? '',
+    url: data.u[k],
+    icon: data.i[k],
   }));
 }
