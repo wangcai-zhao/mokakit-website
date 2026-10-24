@@ -41,7 +41,7 @@ src/
   layouts/
     ToolLayout.astro        ★SEO 标题入口①（通用工具页）
     ClockImmersiveLayout.astro ★SEO 标题入口②（category==='clock' 走这，改标题别漏）
-  lib/              ★财金算法单源（china-tax / china-social-security / china-vat / china-calc-extra / mortgage 等 .ts 纯函数）
+  lib/              ★纯函数层：财金算法（china-tax / china-social-security / china-vat / china-calc-extra / mortgage）+ ★检索内核 search.ts / search-build.ts
   pages/            路由页（首页 / tools / blog / sites / agents / tips 等）
   styles/          全局样式
   tools/            ★工具本体：每工具一个目录 <id>/
@@ -98,6 +98,16 @@ dist/              构建产物（610+ index.html，可重建，勿手改）
 ### 3.8 出站链接
 第三方链接统一走 `goUrl()`（`src/utils`），便于统计与安全管控。
 
+### 3.9 站内检索单源（2026-10-23 建立）
+`src/lib/search.ts` = **纯函数检索内核**（`normalize` / `prepareIndex` / `searchTools` / `hotTools` / `splitHighlight` / `editDistance`），
+网页与 MCP **必须共用**，禁止再写第二份打分逻辑（同 3.5 财金单源原则）。
+- `src/lib/search-build.ts` = 构建期索引生成器，**依赖 pinyin-pro（devDep）**，只在构建期跑，客户端永远拿不到拼音字典。
+- 索引格式 v2 是**列式单字母 key**（n/g/k/y/s/c/p/u/i + cats），`buildSearchData()` 生成；`buildSearchIndex()` 是兼容层。
+- 页面索引走 `<script type="application/json" id="mk-search-index">`，**不要塞进 astro-island props**（devalue 序列化会膨胀一倍多）。
+- 拼音只在 `name` 上生成（全拼 + 首字母），keywords 不生成（收益低、体积高）。
+- 回归测试 `scripts/test-search.mjs`（71 项，真实 meta 数据），已挂进 `check:all`。
+- 方案全文 `docs/SEARCH-OPTIMIZATION-2026-10-23.md`。
+
 ---
 
 ## 4. 部署节点（线上拓扑）
@@ -115,7 +125,7 @@ dist/              构建产物（610+ index.html，可重建，勿手改）
 ---
 
 ## 5. 校验 / 构建 / 部署流程
-1. **上线前必跑** `npm run check:all`（= `check:widgets` + `check:icons` + `changelog:check`），三项全绿才敢 build。
+1. **上线前必跑** `npm run check:all`（= `check:widgets` + `check:icons` + `check:search` + `changelog:check`），四项全绿才敢 build。
 2. **本地构建**（本机需 NODE_OPTIONS 垫片）：
    ```bash
    export NODE_OPTIONS="--require=D:/WorkBuddy/website/noop-shim.cjs"
@@ -133,6 +143,7 @@ dist/              构建产物（610+ index.html，可重建，勿手改）
 - **2026-10-09** SEO 标题策略重排（Bing 数据驱动）+ 全屏时钟拆分时钟族着陆页。
 - **2026-10-11** 扩容至 **260 工具**（新增 14 个 AI / 智能体 / MCP 方向工具）；好站导航新增 MCP 分组 + 充实 ai-agent/ai-model；博客新增 `ai-agent-mcp-toolbox-2026.md`；全量部署上线 + MCP catalog 同步 260。
 - **2026-10-12** 建立离线 + 线上双备份；制定本技术规范与项目专属知识库（KNOWLEDGE_BASE.md）；补充运行环境/版本基线（§10）与未决事项（§11）；github 远端同步（260 工具 + 知识库）；IMA 镜像知识库同步建立。
+- **2026-10-23** 站内搜索重构：三套实现（SSR/客户端/MCP）收敛为 `src/lib/search.ts` 单源内核；补拼音（全拼+首字母）、英文 id 别名、词序/全角/标点归一、分层放宽与纠错、高亮与键盘导航；索引 52.6→39.8KB、搜索页 HTML 216→127KB；MCP `mokakit_search` 契约不变。详见 `docs/SEARCH-OPTIMIZATION-2026-10-23.md`。
 - 更细的逐日记录见 `.workbuddy/memory/YYYY-MM-DD.md`；结构化 Release 见 `src/data/changelog.ts`。
 
 ---
@@ -145,6 +156,8 @@ dist/              构建产物（610+ index.html，可重建，勿手改）
 - ⚠️ **MDX 裸 `<` `{` `}`** → 构建报 `xxx is not defined`。批量生成 content.mdx 后必查。
 - ⚠️ **SEO 标题两入口** → 改 `seoTitle` 别漏 `ClockImmersiveLayout`（clock 类页）。
 - ⚠️ **NODE_OPTIONS 垫片**只用于 website 项目；切到别的项目前 `unset NODE_OPTIONS`，否则 MODULE_NOT_FOUND。
+- ⚠️ **`.mjs` 块注释里别写 `src/tools/*/meta.ts`** —— `*/` 会提前闭合注释，报 `SyntaxError: Invalid or unexpected token`（2026-10-23 踩过，写 `<id>` 代替）。
+- ⚠️ **静态站读不到 `?q=`**：`Astro.url.searchParams` 在构建期恒为空。任何依赖 URL 参数的交互都必须在客户端 `window.location.search` 里读（搜索页曾因此丢掉「分享链接复现搜索」）。
 - ⚠️ 后台长命令禁止 `| tail`/`| head`（管道提前关闭会永久挂起），改用 `> _x.log 2>&1`。
 - ⚠️ Bash PATH 偶发损坏，命令开头加 PortableGit 的 PATH 修复。
 - ⚠️ 同一文件多条 Edit **必须顺序执行**（并行会互相覆盖）。
