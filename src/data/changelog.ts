@@ -69,6 +69,9 @@ export const RELEASES: Release[] = [
       },
     ],
     notes: [
+      '【升级】ai-price-compare：汇率可调 + localStorage 记忆、月成本估算（单次×30×次数）、模型级勾选；数据抽层 data.ts 并按 LiteLLM 字段结构刷新快照；新增 GPT-4o/Claude/DeepSeek/Gemini/Qwen/即梦/可灵 7 个价格子页',
+      '【升级】base-converter：新增全进制一览（2/8/10/16/32/36 同屏+各自复制）、分组与 0x/0b 前缀开关、IEEE 754 浮点转十六进制折叠区（兑现 description 承诺）；纯函数抽层 radix.ts；新增二/八/十六进制互转与 IEEE754 专题 7 个子页',
+      '【升级】base64：URL-safe 模式（编码 - _ 变体+去补位，解码自动识别+补全）、文件转 Base64（拖拽/选择，图片 dataURL 预览，>2MB 提示）、统计条（字符/字节/长度/膨胀率）——三项 description 承诺全部兑现；纯函数抽层 b64.ts；新增中文/ASCII/emoji 对照表 + URL-safe + 图片专题 5 个子页',
       '90天计算器升级为三合一（日期推算 / 天数间隔 / 阴阳历转换），修好农历数据表污染 bug',
       '日期类工具全站互链：每个日期工具页的「相关工具」区互相直达，content.mdx 补相关工具行',
       'today-info / 90-day 新增「前一天 / 后一天」快捷按钮，页面内即可翻日历',

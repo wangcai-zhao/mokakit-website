@@ -4,6 +4,7 @@ import WidgetHost from '@/components/WidgetHost.astro';
 import { TOOLS, getTool } from '@/tools/registry';
 import type { SubPage } from '@/tools/types';
 import { goUrl } from '@/utils/outbound';
+import { SNAPSHOT_DATE } from '@/tools/ai-price-compare/data';
 
 /**
  * ★ 长尾子页的自动路由 ★
@@ -37,6 +38,9 @@ export async function getStaticPaths() {
 
 const { toolId, sub } = Astro.props as { toolId: string; sub: SubPage };
 const meta = getTool(toolId);
+
+/** AI 价格子页用的快照月份标签（如 2026-10） */
+const SNAPSHOT_DATE_LABEL = SNAPSHOT_DATE.slice(0, 7);
 
 const url = `/tools/${meta.id}/${sub.slug}/`;
 const d = (sub.data ?? {}) as Record<string, string>;
@@ -125,6 +129,133 @@ if (d.equation && d.x0 && d.y0 && d.xEnd && d.h) {
     odeTable = idxs.map((i) => ({
       x: String(Number(pts[i].x.toFixed(6))),
       y: String(Number(pts[i].y.toFixed(6))),
+    }));
+  }
+}
+
+// AI 价格比价子页：构建期把价格明细与成本算例静态写进 HTML。
+// 参考汇率固定 7.2（交互区汇率可调，此处为静态折算，页面已注明）。
+const AI_REF_RATE = 7.2;
+let aiRows: { model: string; ctx: string; inUsd: string; outUsd: string; inCny: string; outCny: string; note: string }[] = [];
+let aiCostCase = '';
+let aiVis: { name: string; vendor: string; type: string; price: string; sub: string; note: string } | null = null;
+if (d.aiModel || d.aiProvider) {
+  const { LLMS, findLLM } = await import('@/tools/ai-price-compare/data');
+  const list = d.aiModel ? [findLLM(d.aiModel)!] : LLMS.filter((m) => m.provider === d.aiProvider);
+  aiRows = list.map((m) => ({
+    model: m.model,
+    ctx: m.ctx,
+    inUsd: `$${m.in.toFixed(2)}`,
+    outUsd: m.out == null ? '—' : `$${m.out.toFixed(2)}`,
+    inCny: `¥${(m.in * AI_REF_RATE).toFixed(1)}`,
+    outCny: m.out == null ? '—' : `¥${(m.out * AI_REF_RATE).toFixed(1)}`,
+    note: m.note ?? '',
+  }));
+  if (d.aiModel) {
+    const m = findLLM(d.aiModel)!;
+    if (m.out != null) {
+      const perCall = 1 * m.in + 0.5 * m.out;
+      aiCostCase = `$${perCall.toFixed(2)}（≈ ¥${(perCall * AI_REF_RATE).toFixed(1)}）`;
+    }
+  }
+}
+if (d.aiVisual) {
+  const { findVis } = await import('@/tools/ai-price-compare/data');
+  const v = findVis(d.aiVisual);
+  if (v) aiVis = { name: v.name, vendor: v.vendor, type: v.type, price: v.price, sub: v.sub ?? '', note: v.note ?? '' };
+}
+if (d.aiModel) widgetProps.initialModel = d.aiModel;
+if (d.aiVisual) widgetProps.initialVisual = d.aiVisual;
+
+// 进制转换子页：构建期算好对照表写进 HTML；工具区预填源/目标进制
+let radixPowers: { p: string; dec: string; hex: string }[] = [];
+let radixHexDigits: { hex: string; bin: string; dec: string }[] = [];
+let radixF64: { label: string; value: string; hex: string; sign: string; exp: string; man: string }[] = [];
+if (d.radixFrom) {
+  widgetProps.initialFrom = Number(d.radixFrom);
+  widgetProps.initialTo = Number(d.radixTo);
+}if (d.tableKind) {
+  const { float64ToHex, ieee754Parts, toRadix } = await import('@/tools/base-converter/radix');
+  if (d.tableKind === 'powers') {
+    radixPowers = Array.from({ length: 17 }, (_, i) => {
+      const v = 2n ** BigInt(i);
+      return { p: `2^${i}`, dec: toRadix(v, 10), hex: '0x' + toRadix(v, 16).toUpperCase() };
+    });
+  } else if (d.tableKind === 'hexdigits') {
+    radixHexDigits = Array.from({ length: 16 }, (_, i) => ({
+      hex: i.toString(16).toUpperCase(),
+      bin: i.toString(2).padStart(4, '0'),
+      dec: String(i),
+    }));
+  } else if (d.tableKind === 'ieee754') {
+    radixF64 = [
+      { label: '0.5', value: '0.5' },
+      { label: '1', value: '1' },
+      { label: '3.14', value: '3.14' },
+      { label: 'π（Math.PI）', value: String(Math.PI) },
+      { label: 'e（Math.E）', value: String(Math.E) },
+      { label: '0.1', value: '0.1' },
+    ].map((r) => {
+      const hex = float64ToHex(Number(r.value));
+      const parts = ieee754Parts(hex);
+      return {
+        label: r.label,
+        value: r.value.length > 12 ? r.value.slice(0, 12) + '…' : r.value,
+        hex,
+        sign: parts.sign,
+        exp: String(parts.exponentValue - 1023),
+        man: parts.mantissa.slice(0, 16) + '…',
+      };
+    });
+  }
+}
+
+// Base64 子页：构建期用 b64.ts 纯函数算好对照表写进 HTML
+let b64Rows: { a: string; b: string; c: string }[] = [];
+let b64Intro = '';
+let b64Extra: string[] = [];
+if (d.b64Kind) {
+  const { utf8ToBase64, urlSafeEncode } = await import('@/tools/base64/b64');
+  const { CHINESE_SAMPLES, ASCII_SAMPLES, EMOJI_SAMPLES, JWT_SAMPLE, SIZE_SAMPLES } = await import(
+    '@/tools/base64/samples'
+  );
+  if (d.b64Kind === 'chinese') {
+    b64Intro = '下表收录 100+ 常用汉字的 Base64 编码（UTF-8 处理后），构建时静态生成：';
+    b64Rows = [...CHINESE_SAMPLES].map((ch) => ({
+      a: ch,
+      b: String(new TextEncoder().encode(ch).length),
+      c: utf8ToBase64(ch),
+    }));
+  } else if (d.b64Kind === 'ascii') {
+    b64Intro = '下表收录 ASCII 可打印字符（33-126）的 Base64 编码，构建时静态生成：';
+    b64Rows = ASCII_SAMPLES.map((ch) => ({
+      a: ch,
+      b: String(new TextEncoder().encode(ch).length),
+      c: utf8ToBase64(ch),
+    }));
+  } else if (d.b64Kind === 'emoji') {
+    b64Intro = '下表收录常用 emoji 的 Base64 编码（emoji 在 UTF-8 下通常占 4 字节）：';
+    b64Rows = EMOJI_SAMPLES.map((e) => ({
+      a: e,
+      b: String(new TextEncoder().encode(e).length),
+      c: utf8ToBase64(e),
+    }));
+  } else if (d.b64Kind === 'urlsafe') {
+    const demo = 'URL-safe 演示：特殊字符 + / = 与中文 ?? ??';
+    b64Intro =
+      'URL-safe Base64（Base64URL）把标准字符表中的 + 替换为 -、/ 替换为 _，并可去掉结尾的 = 补位。JWT 的三段正是这种编码。';
+    b64Extra = [
+      `JWT 示例：${JWT_SAMPLE.header}.${JWT_SAMPLE.payload}.${JWT_SAMPLE.signature}`,
+      `标准编码：${utf8ToBase64(demo)}`,
+      `URL-safe（去补位）：${urlSafeEncode(demo, { padding: false })}`,
+    ];
+  } else if (d.b64Kind === 'image') {
+    b64Intro =
+      'Base64 编码后体积增大约 33%（每 3 字节变 4 字符）。下表为常见图片文件大小编码后的 Base64 长度参考：';
+    b64Rows = SIZE_SAMPLES.map((n) => ({
+      a: `${(n / 1024).toFixed(0)} KB`,
+      b: String(n),
+      c: `≈ ${Math.ceil(n / 3) * 4} 字符`,
     }));
   }
 }
@@ -263,14 +394,222 @@ if (d.equation && d.x0 && d.y0 && d.xEnd && d.h) {
               </tr>
             </thead>
             <tbody>
-              {odeTable.map((row, i) => (
-                <tr key={i}>
+              {odeTable.map((row) => (
+                <tr>
                   <td>{row.x}</td>
                   <td>{row.y}</td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </>
+      )
+    }
+
+    {
+      aiRows.length > 0 && (
+        <>
+          <h2>{sub.title}明细（{SNAPSHOT_DATE_LABEL}快照）</h2>
+          <p>
+            下表为每百万 token 的输入/输出单价，人民币按 1 USD ≈ {AI_REF_RATE} CNY 参考折算
+            （页面上方工具中汇率可自行调整）。价格为人工维护的快照，正式采购请以厂商官网为准。
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>模型</th>
+                <th>上下文</th>
+                <th>输入 / 1M</th>
+                <th>输出 / 1M</th>
+                <th>备注</th>
+              </tr>
+            </thead>
+            <tbody>
+              {aiRows.map((r) => (
+                <tr>
+                  <td>{r.model}</td>
+                  <td>{r.ctx}</td>
+                  <td>
+                    {r.inUsd}
+                    <br />
+                    <span style="opacity:.7;font-size:.85em">{r.inCny}</span>
+                  </td>
+                  <td>
+                    {r.outUsd}
+                    <br />
+                    <span style="opacity:.7;font-size:.85em">{r.outCny}</span>
+                  </td>
+                  <td>{r.note}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {aiCostCase && (
+            <>
+              <h2>成本算例：100 万输入 + 50 万输出 token</h2>
+              <p>
+                按上表单价，单次调用约 <strong>{aiCostCase}</strong>。批量场景（如每日 100 次）可在上方工具中填入调用次数，自动估算月成本。
+              </p>
+            </>
+          )}
+        </>
+      )
+    }
+
+    {
+      aiVis && (
+        <>
+          <h2>{aiVis.name}价格明细</h2>
+          <p>
+            {aiVis.name}（{aiVis.vendor}）当前覆盖：{aiVis.type}。
+          </p>
+          <p>
+            <strong>{aiVis.price}</strong>
+          </p>
+          {aiVis.sub && <p>{aiVis.sub}</p>}
+          {aiVis.note && <p>{aiVis.note}</p>}
+          <p>
+            视觉生成产品调价频繁，以上为 {SNAPSHOT_DATE_LABEL} 参考快照，请以官网实时价格为准。
+          </p>
+        </>
+      )
+    }
+
+    {
+      radixPowers.length > 0 && (
+        <>
+          <h2>2 的幂对照表</h2>
+          <p>
+            二进制按位权展开时，第 n 位的权重正是 2^n。记住常用几档（2^8=256、2^16=65536、2^32≈4.29e9）能快速估算二进制串的量级。
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>幂</th>
+                <th>十进制</th>
+                <th>十六进制</th>
+              </tr>
+            </thead>
+            <tbody>
+              {radixPowers.map((r) => (
+                <tr>
+                  <td>{r.p}</td>
+                  <td>{r.dec}</td>
+                  <td>{r.hex}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )
+    }
+
+    {
+      radixHexDigits.length > 0 && (
+        <>
+          <h2>十六进制与二进制对照表（0-F ↔ 4 位二进制）</h2>
+          <p>
+            一位十六进制恰好对应 4 位二进制，这就是十六进制与二进制互转「四位一组」的依据。
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>十六进制</th>
+                <th>二进制</th>
+                <th>十进制</th>
+              </tr>
+            </thead>
+            <tbody>
+              {radixHexDigits.map((r) => (
+                <tr>
+                  <td>{r.hex}</td>
+                  <td>{r.bin}</td>
+                  <td>{r.dec}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )
+    }
+
+    {
+      radixF64.length > 0 && (
+        <>
+          <h2>IEEE 754 双精度常见值对照表</h2>
+          <p>
+            IEEE 754 双精度（float64）共 64 位：1 位符号 + 11 位指数 + 52 位尾数。下表为常见十进制小数的十六进制表示与拆解（指数列为去偏置后的实际值）。
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>十进制值</th>
+                <th>十六进制表示</th>
+                <th>符号位</th>
+                <th>指数</th>
+                <th>尾数（前 16 位）</th>
+              </tr>
+            </thead>
+            <tbody>
+              {radixF64.map((r) => (
+                <tr>
+                  <td>{r.label}</td>
+                  <td>{r.hex}</td>
+                  <td>{r.sign}</td>
+                  <td>{r.exp}</td>
+                  <td>{r.man}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p>
+            注意 0.1 的表示（0x3FB999999999999A）比精确值略大，这就是浮点误差的来源：0.1 + 0.2 在二进制里并不精确等于 0.3。
+          </p>
+        </>
+      )
+    }
+
+    {
+      b64Rows.length > 0 && (
+        <>
+          <h2>{d.b64Kind === 'image' ? '体积膨胀对照表' : 'Base64 编码对照表'}</h2>
+          <p>{b64Intro}</p>
+          <table>
+            <thead>
+              <tr>
+                <th>{d.b64Kind === 'image' ? '原文件大小' : '字符'}</th>
+                <th>{d.b64Kind === 'image' ? '字节数' : 'UTF-8 字节'}</th>
+                <th>{d.b64Kind === 'image' ? 'Base64 长度' : 'Base64 编码'}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {b64Rows.map((r) => (
+                <tr>
+                  <td>{r.a}</td>
+                  <td>{r.b}</td>
+                  <td class="font-mono text-xs break-all">{r.c}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )
+    }
+
+    {
+      b64Extra.length > 0 && (
+        <>
+          <h2>标准 vs URL-safe 对照</h2>
+          <p>{b64Intro}</p>
+          <ul>
+            {b64Extra.map((line) => (
+              <li class="font-mono text-xs break-all">{line}</li>
+            ))}
+          </ul>
+          <p>
+            可以看到同一个字符串，标准编码里出现了 <code>+</code> 和 <code>/</code>，URL-safe
+            编码把换成了 <code>-</code> 和 <code>_</code> 并去掉了结尾补位。需要编解码可直接使用页面上方的工具，解码时两种格式都能自动识别。
+          </p>
         </>
       )
     }
