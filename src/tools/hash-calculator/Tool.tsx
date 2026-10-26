@@ -1,200 +1,89 @@
 import { useState, useEffect, useRef } from 'preact/hooks';
 import { copyText } from '@/tools/_shared/copy';
+import { hashText, Hasher, HASH_ALGOS, HEX_LEN, type HashAlgo } from '@/lib/hash';
 
-/**
- * 纯 JS 实现的 SHA-1 / SHA-256。
- * 不使用 Web Crypto 的 crypto.subtle，因为它只在 HTTPS 等安全上下文可用；
- * 站点在 ICP 备案通过、启用 SSL 之前是 http，subtle 会拿不到。纯 JS 在任何环境都能跑。
- */
+const CHUNK = 4 * 1024 * 1024; // 文件分片 4MB
 
-function utf8Bytes(str: string): Uint8Array {
-  return new TextEncoder().encode(str);
-}
-
-function sha1(msg: string): string {
-  const rotl = (n: number, s: number) => (n << s) | (n >>> (32 - s));
-  const bytes = utf8Bytes(msg);
-  const ml = bytes.length * 8;
-  const total = Math.ceil((bytes.length + 1 + 8) / 64) * 64;
-  const buf = new Uint8Array(total);
-  buf.set(bytes);
-  buf[bytes.length] = 0x80;
-  const view = new DataView(buf.buffer);
-  view.setUint32(total - 4, ml >>> 0, false);
-  view.setUint32(total - 8, Math.floor(ml / 0x100000000), false);
-
-  let h0 = 0x67452301,
-    h1 = 0xefcdab89,
-    h2 = 0x98badcfe,
-    h3 = 0x10325476,
-    h4 = 0xc3d2e1f0;
-  const w = new Uint32Array(80);
-  for (let i = 0; i < total; i += 64) {
-    for (let t = 0; t < 16; t++) w[t] = view.getUint32(i + t * 4, false);
-    for (let t = 16; t < 80; t++)
-      w[t] = rotl(w[t - 3]! ^ w[t - 8]! ^ w[t - 14]! ^ w[t - 16]!, 1);
-    let a = h0,
-      b = h1,
-      c = h2,
-      d = h3,
-      e = h4;
-    for (let t = 0; t < 80; t++) {
-      let f: number, k: number;
-      if (t < 20) {
-        f = (b & c) | (~b & d);
-        k = 0x5a827999;
-      } else if (t < 40) {
-        f = b ^ c ^ d;
-        k = 0x6ed9eba1;
-      } else if (t < 60) {
-        f = (b & c) | (b & d) | (c & d);
-        k = 0x8f1bbcdc;
-      } else {
-        f = b ^ c ^ d;
-        k = 0xca62c1d6;
-      }
-      const tmp = (rotl(a, 5) + f + e + k + w[t]!) >>> 0;
-      e = d;
-      d = c;
-      c = rotl(b, 30);
-      b = a;
-      a = tmp;
-    }
-    h0 = (h0 + a) >>> 0;
-    h1 = (h1 + b) >>> 0;
-    h2 = (h2 + c) >>> 0;
-    h3 = (h3 + d) >>> 0;
-    h4 = (h4 + e) >>> 0;
-  }
-  return [h0, h1, h2, h3, h4].map((x) => x.toString(16).padStart(8, '0')).join('');
-}
-
-function sha256(msg: string): string {
-  const K = new Uint32Array([
-    0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4,
-    0xab1c5ed5, 0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe,
-    0x9bdc06a7, 0xc19bf174, 0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f,
-    0x4a7484aa, 0x5cb0a9dc, 0x76f988da, 0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7,
-    0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967, 0x27b70a85, 0x2e1b2138, 0x4d2c6dfc,
-    0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85, 0xa2bfe8a1, 0xa81a664b,
-    0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070, 0x19a4c116,
-    0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
-    0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7,
-    0xc67178f2,
-  ]);
-  const rotr = (n: number, s: number) => (n >>> s) | (n << (32 - s));
-  const bytes = utf8Bytes(msg);
-  const ml = bytes.length * 8;
-  const total = Math.ceil((bytes.length + 1 + 8) / 64) * 64;
-  const buf = new Uint8Array(total);
-  buf.set(bytes);
-  buf[bytes.length] = 0x80;
-  const view = new DataView(buf.buffer);
-  view.setUint32(total - 4, ml >>> 0, false);
-  view.setUint32(total - 8, Math.floor(ml / 0x100000000), false);
-
-  let h0 = 0x6a09e667,
-    h1 = 0xbb67ae85,
-    h2 = 0x3c6ef372,
-    h3 = 0xa54ff53a,
-    h4 = 0x510e527f,
-    h5 = 0x9b05688c,
-    h6 = 0x1f83d9ab,
-    h7 = 0x5be0cd19;
-  const w = new Uint32Array(64);
-  for (let i = 0; i < total; i += 64) {
-    for (let t = 0; t < 16; t++) w[t] = view.getUint32(i + t * 4, false);
-    for (let t = 16; t < 64; t++) {
-      const s0 = rotr(w[t - 15]!, 7) ^ rotr(w[t - 15]!, 18) ^ (w[t - 15]! >>> 3);
-      const s1 = rotr(w[t - 2]!, 17) ^ rotr(w[t - 2]!, 19) ^ (w[t - 2]! >>> 10);
-      w[t] = (w[t - 16]! + s0 + w[t - 7]! + s1) >>> 0;
-    }
-    let a = h0,
-      b = h1,
-      c = h2,
-      d = h3,
-      e = h4,
-      f = h5,
-      g = h6,
-      h = h7;
-    for (let t = 0; t < 64; t++) {
-      const S1 = rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25);
-      const ch = (e & f) ^ (~e & g);
-      const t1 = (h + S1 + ch + K[t]! + w[t]!) >>> 0;
-      const S0 = rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22);
-      const maj = (a & b) ^ (a & c) ^ (b & c);
-      const t2 = (S0 + maj) >>> 0;
-      h = g;
-      g = f;
-      f = e;
-      e = (d + t1) >>> 0;
-      d = c;
-      c = b;
-      b = a;
-      a = (t1 + t2) >>> 0;
-    }
-    h0 = (h0 + a) >>> 0;
-    h1 = (h1 + b) >>> 0;
-    h2 = (h2 + c) >>> 0;
-    h3 = (h3 + d) >>> 0;
-    h4 = (h4 + e) >>> 0;
-    h5 = (h5 + f) >>> 0;
-    h6 = (h6 + g) >>> 0;
-    h7 = (h7 + h) >>> 0;
-  }
-  return [h0, h1, h2, h3, h4, h5, h6, h7]
-    .map((x) => x.toString(16).padStart(8, '0'))
-    .join('');
-}
-
-const ALGOS = [
-  { id: 'SHA-1', fn: sha1 },
-  { id: 'SHA-256', fn: sha256 },
-] as const;
-type AlgoId = (typeof ALGOS)[number]['id'];
-
-export default function HashCalculator() {
+export default function HashCalculator(props: { initialAlgo?: string }) {
+  const initialAlgo =
+    props.initialAlgo && (HASH_ALGOS as string[]).includes(props.initialAlgo)
+      ? (props.initialAlgo as HashAlgo)
+      : 'SHA-256';
   const [text, setText] = useState('');
-  const [sel, setSel] = useState<AlgoId[]>(['SHA-256']);
+  const [sel, setSel] = useState<HashAlgo[]>([initialAlgo]);
+  const [upper, setUpper] = useState(false);
   const [results, setResults] = useState<Record<string, string>>({});
-  const [busy, setBusy] = useState(false);
+  const [file, setFile] = useState<{ name: string; size: number } | null>(null);
+  const [fileProgress, setFileProgress] = useState(0);
+  const [fileBusy, setFileBusy] = useState(false);
+  const [fileResults, setFileResults] = useState<Record<string, string>>({});
   const [copied, setCopied] = useState<string | null>(null);
   const timer = useRef<number | undefined>(undefined);
 
+  // 文本摘要：本地同步计算（纯 JS，无 HTTPS 依赖）
   useEffect(() => {
     if (text === '') {
       setResults({});
-      setBusy(false);
       return;
     }
-    let cancelled = false;
-    setBusy(true);
-    (async () => {
-      const next: Record<string, string> = {};
-      for (const a of sel) {
-        const algo = ALGOS.find((x) => x.id === a);
-        if (algo) next[a] = algo.fn(text);
-      }
-      if (!cancelled) {
-        setResults(next);
-        setBusy(false);
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
+    const next: Record<string, string> = {};
+    for (const a of sel) next[a] = hashText(a, text);
+    setResults(next);
   }, [text, sel]);
 
-  const toggle = (a: AlgoId) =>
+  const toggle = (a: HashAlgo) =>
     setSel((prev) => (prev.includes(a) ? prev.filter((x) => x !== a) : [...prev, a]));
+
+  /** 摘要统一按小写存储，展示/复制时再套大小写（切换即时生效） */
+  const show = (hex: string | undefined) =>
+    !hex ? '' : upper ? hex.toUpperCase() : hex;
 
   const copy = async (key: string, value: string) => {
     if (!value) return;
-      await copyText(text);
+    await copyText(value);
     setCopied(key);
     window.clearTimeout(timer.current);
     timer.current = window.setTimeout(() => setCopied(null), 1800);
   };
+
+  // 文件摘要：分片读入，增量喂给 Hasher（常量内存）
+  const onFile = async (f: File) => {
+    setFile({ name: f.name, size: f.size });
+    setFileBusy(true);
+    setFileProgress(0);
+    setFileResults({});
+    try {
+      const hashers = sel.map((a) => [a, new Hasher(a)] as const);
+      for (let off = 0; off < f.size; off += CHUNK) {
+        const buf = new Uint8Array(await f.slice(off, off + CHUNK).arrayBuffer());
+        for (const [, h] of hashers) h.update(buf);
+        setFileProgress(Math.min(1, (off + buf.length) / Math.max(1, f.size)));
+        await new Promise((r) => setTimeout(r, 0)); // 让进度条有机会渲染
+      }
+      const next: Record<string, string> = {};
+      for (const [a, h] of hashers) next[a] = h.digest();
+      setFileResults(next);
+    } finally {
+      setFileBusy(false);
+    }
+  };
+
+  const resultCard = (key: string, label: string, hex: string | undefined) => (
+    <div class="rounded-xl bg-base-200 p-3">
+      <div class="flex items-center justify-between mb-1">
+        <span class="text-xs font-medium opacity-70">{label}</span>
+        <button
+          type="button"
+          class={`btn btn-xs ${copied === key ? 'btn-success' : 'btn-ghost'}`}
+          onClick={() => copy(key, show(hex))}
+          disabled={!hex}
+        >
+          {copied === key ? '已复制' : '复制'}
+        </button>
+      </div>
+      <code class="block font-mono text-sm break-all">{show(hex) || '—'}</code>
+    </div>
+  );
 
   return (
     <div class="space-y-4">
@@ -205,7 +94,7 @@ export default function HashCalculator() {
         <textarea
           id="hash-input"
           class="textarea textarea-bordered mt-2 w-full font-mono text-sm"
-          rows="5"
+          rows={5}
           placeholder="输入要计算哈希的内容…"
           value={text}
           onInput={(e) => setText((e.target as HTMLTextAreaElement).value)}
@@ -214,17 +103,30 @@ export default function HashCalculator() {
       </div>
 
       <div>
-        <span class="text-sm font-medium">算法（可多选）</span>
+        <div class="flex items-center justify-between">
+          <span class="text-sm font-medium">算法（可多选）</span>
+          <label class="flex items-center gap-1.5 text-sm cursor-pointer select-none">
+            <input
+              type="checkbox"
+              class="toggle toggle-xs toggle-primary"
+              checked={upper}
+              onChange={(e) => setUpper((e.target as HTMLInputElement).checked)}
+            />
+            大写输出
+          </label>
+        </div>
         <div class="mt-2 flex flex-wrap gap-3">
-          {ALGOS.map((a) => (
+          {HASH_ALGOS.map((a) => (
             <label class="cursor-pointer flex items-center gap-1.5 text-sm select-none">
               <input
                 type="checkbox"
                 class="checkbox checkbox-sm checkbox-primary"
-                checked={sel.includes(a.id)}
-                onChange={() => toggle(a.id)}
+                checked={sel.includes(a)}
+                onChange={() => toggle(a)}
               />
-              {a.id}
+              {a}
+              {a === 'MD5' && <span class="opacity-50 text-xs">（仅兼容用途）</span>}
+              <span class="opacity-40 text-xs">{HEX_LEN[a]} 位</span>
             </label>
           ))}
         </div>
@@ -233,32 +135,45 @@ export default function HashCalculator() {
       {text !== '' && (
         <div class="space-y-2">
           {sel.length === 0 && <p class="text-sm opacity-60">请至少选择一种算法。</p>}
-          {sel.map((a) => (
-            <div class="rounded-xl bg-base-200 p-3">
-              <div class="flex items-center justify-between mb-1">
-                <span class="text-xs font-medium opacity-70">{a}</span>
-                <button
-                  type="button"
-                  class={`btn btn-xs ${copied === a ? 'btn-success' : 'btn-ghost'}`}
-                  onClick={() => copy(a, results[a] ?? '')}
-                  disabled={!results[a]}
-                >
-                  {copied === a ? '已复制' : '复制'}
-                </button>
-              </div>
-              <code class="block font-mono text-sm break-all">
-                {busy && !results[a]
-                  ? '计算中…'
-                  : (results[a] ?? '—')}
-              </code>
-            </div>
-          ))}
+          {sel.map((a) => resultCard(a, `${a} · ${HEX_LEN[a]} 位`, results[a]))}
+        </div>
+      )}
+
+      <div class="divider">或计算文件摘要</div>
+
+      <div>
+        <input
+          type="file"
+          class="file-input file-input-bordered file-input-sm w-full max-w-xs"
+          onChange={(e) => {
+            const f = (e.target as HTMLInputElement).files?.[0];
+            if (f) void onFile(f);
+          }}
+        />
+        {file && (
+          <p class="text-xs opacity-70 mt-1.5">
+            {file.name}（{(file.size / 1024).toFixed(1)} KB）
+            {fileBusy && ` · 计算中 ${Math.round(fileProgress * 100)}%`}
+            {!fileBusy && Object.keys(fileResults).length > 0 && ' · 完成'}
+          </p>
+        )}
+        {fileBusy && (
+          <progress class="progress progress-primary w-full mt-1 h-1" value={fileProgress} max="1" />
+        )}
+        {sel.length === 0 && <p class="text-xs opacity-60 mt-1">先在上面勾选算法，再选文件。</p>}
+      </div>
+
+      {!fileBusy && sel.some((a) => fileResults[a]) && (
+        <div class="space-y-2">
+          {sel.map((a) =>
+            fileResults[a] ? resultCard(`file-${a}`, `${a} · ${file?.name ?? '文件'}`, fileResults[a]) : null,
+          )}
         </div>
       )}
 
       <p class="text-xs opacity-55 leading-relaxed">
-        使用纯本地算法计算（SHA 系列），内容不会离开你的设备，也不需要 HTTPS。注意：MD5
-        已被证明不安全，本工具不提供；Web Crypto 同样不支持 MD5。
+        使用纯本地算法计算（不依赖 Web Crypto，HTTP 环境同样可用），内容不会离开你的设备。文件按 4MB
+        分片增量计算，大文件也不会占满内存。注意：MD5 已被证明不安全，仅建议用于兼容旧系统或校验完整性。
       </p>
     </div>
   );
