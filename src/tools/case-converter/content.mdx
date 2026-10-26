@@ -1,17 +1,18 @@
 ## 命名大小写转换原理
 
-按分隔符（空格、下划线、连字符）切词，再按目标风格重组：camelCase 首词小写、PascalCase 首词大写、snake_case 全小写加下划线、kebab-case 全小写加连字符
+按单词边界切词，再按目标风格重组：camelCase 首词小写、PascalCase 首词大写、snake_case 全小写加下划线、kebab-case 全小写加连字符、CONSTANT_CASE 全大写加下划线、Sentence case 首词大写其余小写
 
 ## 这个工具能做什么
 
-- 在 camelCase / PascalCase / snake_case / kebab-case 间互转
-- 批量处理多个变量名
-- 辅助代码风格统一
+- 在 camelCase / PascalCase / snake_case / kebab-case / CONSTANT_CASE / Sentence case 间互转
+- 多行批量处理变量名清单，每行独立转换、一键复制整篇
+- 可选数字切分（user2Name → user 2 Name），对标 change-case 的 separateNumbers 行为
 
 ## 怎么使用（输入说明）
 
-1. **输入文本**：粘入用任意风格写的变量名。
-2. **选目标风格**：点击对应按钮，实时得到转换结果。
+1. **输入文本**：粘入用任意风格写的变量名，每行一个；多行时每行独立转换。
+2. **选目标风格**：九种风格卡片实时显示结果，点「复制」复制该风格整篇结果。
+3. **数字切分（可选）**：勾选后字母与数字边界断开，适合生成 MY_API_KEY_2 这类常量名。
 
 ## camelCase 和 PascalCase 区别
 
@@ -19,7 +20,13 @@
 
 ## 计算实例
 
-例："user_name" → camelCase "userName"、PascalCase "UserName"、kebab-case "user-name"。
+输入 `myAPIKey2`（连续大写按词边界切开为 my / API / Key2）：
+
+- camelCase → `myApiKey2`
+- CONSTANT_CASE → `MY_API_KEY2`
+- snake_case → `my_api_key2`
+
+多行示例：`user_name`、`first-name`、`USER_ID` 三行同时转换，各得一行对应风格结果。
 
 ## 常见问题 FAQ
 
@@ -30,3 +37,7 @@ A：两者都是除首字母外的单词首字母大写，区别在于第一个�
 **Q：snake_case 和 kebab-case 分别在哪用？**
 
 A：snake_case（下划线）常见于 Python 变量、数据库字段、环境变量；kebab-case（短横线）常见于 URL、CSS 类名、Linux 文件名。本工具可在这几种风格间自由切换。
+
+**Q：什么是 CONSTANT_CASE？**
+
+A：CONSTANT_CASE 是 snake_case 的全大写形式（如 MAX_RETRY_COUNT），用于常量、环境变量、宏定义。
