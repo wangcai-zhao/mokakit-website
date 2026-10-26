@@ -69,6 +69,9 @@ export const RELEASES: Release[] = [
       },
     ],
     notes: [
+      '【升级】jian-fan-convert：修复「处境」脏数据污染「处」映射的 P0 bug（处理→境理）；修正发/干/脏多义字默认映射与 f2j 覆盖策略（改先到先得）；新增词组级最长匹配（干净→乾淨、公里→公里防污染）；新增通用/台湾/香港三档地区用词（软件→軟件/軟體）；数据抽层 src/lib/jian-fan.ts（25 项断言）；补 与→與、络→络；新增「简体转繁体」长尾子页（构建期三档对照表）+ seoTitle + related',
+      '【升级】hash-calculator：修复复制按钮复制输入原文的 P0 bug；算法抽层 src/lib/hash.ts（MD5/SHA-1/SHA-256/SHA-384/SHA-512 + 增量 update，140 项断言对标 Node crypto 全过）；新增文件分片哈希（4MB/片+进度条）与十六进制大写/小写切换；description/tagline/FAQ/content.mdx 四处口径统一；新增 sha256/md5 2 个长尾子页（构建期生成真实摘要对照表）',
+      '【升级】case-converter：单行 input 改多行 textarea 批量转换（兑现 content.mdx 承诺）、补 CONSTANT_CASE 与 Sentence case 两种模式、数字切分开关（对标 change-case separateNumbers）、连续大写按词边界切开（APIKey→API Key）；补 seoTitle/related；新增 camelcase/snake-case 2 个长尾子页',
       '【升级】ai-price-compare：汇率可调 + localStorage 记忆、月成本估算（单次×30×次数）、模型级勾选；数据抽层 data.ts 并按 LiteLLM 字段结构刷新快照；新增 GPT-4o/Claude/DeepSeek/Gemini/Qwen/即梦/可灵 7 个价格子页',
       '【升级】base-converter：新增全进制一览（2/8/10/16/32/36 同屏+各自复制）、分组与 0x/0b 前缀开关、IEEE 754 浮点转十六进制折叠区（兑现 description 承诺）；纯函数抽层 radix.ts；新增二/八/十六进制互转与 IEEE754 专题 7 个子页',
       '【升级】base64：URL-safe 模式（编码 - _ 变体+去补位，解码自动识别+补全）、文件转 Base64（拖拽/选择，图片 dataURL 预览，>2MB 提示）、统计条（字符/字节/长度/膨胀率）——三项 description 承诺全部兑现；纯函数抽层 b64.ts；新增中文/ASCII/emoji 对照表 + URL-safe + 图片专题 5 个子页',

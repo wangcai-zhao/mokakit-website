@@ -247,7 +247,7 @@
     {
       "id": "ai-price-compare",
       "name": "AI 价格比价",
-      "description": "免费在线 AI 价格比价工具，汇总 OpenAI、Anthropic、Google、DeepSeek、通义千问、智谱、Kimi 等主流大模型的 API 单价（每百万 token 输入/输出价），以及即梦、可灵、Runway、Sora、Veo 等视觉生成工具的价格，支持按场景估算调用成本，数据本地对比、不上传，仅供参考。",
+      "description": "免费在线 AI 价格比价工具，汇总 OpenAI、Anthropic、Google、DeepSeek、通义千问、智谱、Kimi 等主流大模型的 API 单价（每百万 token 输入/输出价），以及即梦、可灵、Runway、Sora、Veo 等视觉生成工具的价格，支持按场景估算调用成本与月成本，汇率可调，数据本地对比、不上传，仅供参考。",
       "keywords": [
         "AI价格",
         "大模型比价",
@@ -267,7 +267,7 @@
       "icon": "coins",
       "tagline": "主流大模型与视觉生成价格对比",
       "url": "/tools/ai-price-compare/",
-      "priority": 8,
+      "priority": 0,
       "noindex": false
     },
     {
@@ -530,7 +530,7 @@
     {
       "id": "base-converter",
       "name": "进制转换",
-      "description": "免费在线进制转换工具，支持二进制、八进制、十进制、十六进制及 2 到 36 任意进制互转，基于 BigInt 任意精度，超长数字（>64 位）也不丢精度。程序员、学生做进制换算、颜色码解析、网络地址换算的好帮手，附 IEEE 754 浮点进制说明。",
+      "description": "二进制转十进制在线工具：输入二进制串（支持 0b 前缀与下划线分组）即时得到十进制值，BigInt 任意精度不丢位，附 2 的 0-16 次幂对照表与按位权展开原理说明。",
       "keywords": [
         "进制转换",
         "二进制转换",
@@ -548,7 +548,7 @@
       "icon": "binary",
       "tagline": "2/8/10/16 等进制互转",
       "url": "/tools/base-converter/",
-      "priority": 6,
+      "priority": 0,
       "noindex": false
     },
     {
@@ -599,7 +599,7 @@
     {
       "id": "base64",
       "name": "Base64 编解码",
-      "description": "免费在线 Base64 编解码工具，支持中文与 emoji 的 UTF-8 正确处理（不是 Latin1），可将文本/文件编码为 Base64 或将 Base64 还原为原文，常用于接口传输（JWT/DataURL）、图片内联（CSS/HTML）、数据伪装与签名调试，结果支持 URL-safe 模式。",
+      "description": "免费在线 Base64 编解码工具，支持中文与 emoji 的 UTF-8 正确处理（不是 Latin1），可将文本/文件编码为 Base64 或将 Base64 还原为原文，支持 URL-safe 模式与字符/字节/膨胀率统计，常用于接口传输（JWT/DataURL）、图片内联（CSS/HTML）、数据伪装与签名调试。",
       "keywords": [
         "Base64编码",
         "Base64解码",
@@ -978,7 +978,7 @@
     {
       "id": "case-converter",
       "name": "大小写转换",
-      "description": "免费在线大小写转换工具，支持 camelCase、PascalCase、snake_case、kebab-case、全大写、全小写、标题大小写等命名风格一键互转，常用于变量命名、SQL 字段、文件名规范化。",
+      "description": "免费在线大小写转换工具，支持 camelCase、PascalCase、snake_case、kebab-case、CONSTANT_CASE、句子大小写等命名风格一键互转，多行批量处理，常用于变量命名、SQL 字段、文件名规范化。",
       "keywords": [
         "大小写转换",
         "命名风格转换",
@@ -2501,12 +2501,13 @@
     {
       "id": "hash-calculator",
       "name": "哈希计算",
-      "description": "免费在线哈希计算工具，支持 MD5、SHA-1、SHA-256、SHA-512 摘要计算，纯本地运行，输入内容不会离开你的设备。可用于文件校验、接口签名、数据完整性验证与密码存储研究，结果支持一键复制与大小写切换。",
+      "description": "免费在线哈希计算工具，支持 MD5、SHA-1、SHA-256、SHA-384、SHA-512 摘要计算与文件校验，纯本地运行，输入内容不会离开你的设备。可用于文件校验、接口签名、数据完整性验证，结果支持一键复制与大小写切换。MD5 仅供兼容用途。",
       "keywords": [
         "哈希计算",
         "sha256在线",
+        "md5在线",
         "sha1计算",
-        "哈希工具",
+        "文件校验",
         "在线哈希"
       ],
       "tags": [
@@ -2517,7 +2518,7 @@
       ],
       "category": "security",
       "icon": "fingerprint",
-      "tagline": "SHA-1 / SHA-256 本地计算",
+      "tagline": "MD5 / SHA 家族本地计算",
       "url": "/tools/hash-calculator/",
       "priority": 4,
       "noindex": false
@@ -3126,7 +3127,7 @@
     {
       "id": "jian-fan-convert",
       "name": "简繁转换",
-      "description": "免费在线简繁转换工具，支持简体中文（简体）转繁体中文（正体）、繁体转简体，一键切换方向，支持香港繁体、台湾繁体等地区差异词。适用于文档整理、网页翻译、字幕制作与学术写作，所有转换都在本地浏览器完成，不上传任何文本。",
+      "description": "免费在线简繁转换工具，支持简体中文转繁体中文、繁体转简体，一键切换方向，支持通用/台湾/香港三档地区差异用词（如软件：軟件/軟體），词组级精准转换，适用于文档整理、网页翻译、字幕制作与学术写作，所有转换都在本地浏览器完成，不上传任何文本。",
       "keywords": [
         "简繁转换",
         "简体转繁体",
@@ -3514,6 +3515,30 @@
       "tagline": "从选项里随机抽取",
       "url": "/tools/lottery-draw/",
       "priority": 7,
+      "noindex": false
+    },
+    {
+      "id": "lunar-converter",
+      "name": "阴阳历转换器",
+      "description": "免费在线阴阳历转换器，支持公历转农历、农历转公历双向互查：选公历日期立即得到农历几月几号，填农历年月日（支持闰月）立即得到对应公历日期，并自动展示干支年、生肖与星期几。适用于查农历生日、春节端午中秋等传统节日日期、生辰八字排盘前的换算，覆盖 1900-2100 年，自动处理闰月与闰年，浏览器本地计算。",
+      "keywords": [
+        "阴阳历转换",
+        "公历转农历",
+        "农历转公历",
+        "农历查询",
+        "农历生日",
+        "干支生肖"
+      ],
+      "tags": [
+        "日期",
+        "农历",
+        "转换"
+      ],
+      "category": "calc",
+      "icon": "moon",
+      "tagline": "公历农历双向互转，带干支生肖",
+      "url": "/tools/lunar-converter/",
+      "priority": 6,
       "noindex": false
     },
     {
@@ -5777,7 +5802,7 @@
     {
       "id": "today-info",
       "name": "今天几号",
-      "description": "免费在线查询今天是几月几号、星期几的工具，一屏看全本年第几周（ISO 8601）、今年第几天、是否闰年、距离年末还有多少天、距下一个节气/节日还有几天。支持切换任意历史或未来日期查询，附万年历速查，纯浏览器本地运算，打开即用，结果可一键复制。",
+      "description": "免费在线查询今天是几月几号、星期几的工具，一屏看全本年第几周（ISO 8601）、今年第几天、是否闰年、所属季度、本月天数与距离年末还有多少天，附年度进度条。支持切换任意历史或未来日期查询，可一键跳到前一天或后一天，纯浏览器本地运算，打开即用，结果可一键复制。",
       "keywords": [
         "今天几号",
         "今天星期几",
@@ -6738,6 +6763,7 @@
       "对数计算器",
       "占位文本生成",
       "抽签抽奖",
+      "阴阳历转换器",
       "磁感应强度换算",
       "Markdown 预览",
       "Markdown 表格生成",
@@ -6976,7 +7002,7 @@
       "克两钱盎司快速互算",
       "自定义目标实时倒计时",
       "学分加权算绩点",
-      "SHA-1 / SHA-256 本地计算",
+      "MD5 / SHA 家族本地计算",
       "根据长度与特征识别 md5/sha/bcrypt 等",
       "美码/英码/欧码/中码帽子尺寸在线互转",
       "HMAC-SHA256/384/512 带密钥签名",
@@ -7020,6 +7046,7 @@
       "任意底数的对数",
       "中文与经典占位文",
       "从选项里随机抽取",
+      "公历农历双向互转，带干支生肖",
       "T、mT、μT、nT、G 等磁感应强度在线互转",
       "实时渲染 Markdown 为富文本",
       "CSV 与 JSON 转表格",
@@ -7258,7 +7285,7 @@
       "黄金重量换算 一两黄金多少克 金衡盎司 黄金钱两换算 金价计算 黄金 重量 换算",
       "倒计时 事件倒计时 目标倒计时 日期倒计时 实时倒计时 倒计时 时间 计算",
       "GPA计算器 平均学分绩点 绩点换算 4.0制 5.0制 GPA 成绩 计算",
-      "哈希计算 sha256在线 sha1计算 哈希工具 在线哈希 哈希 sha256 加密 校验",
+      "哈希计算 sha256在线 md5在线 sha1计算 文件校验 在线哈希 哈希 sha256 加密 校验",
       "哈希识别 hash 类型 识别哈希 哈希类型判断 哈希 识别 安全",
       "帽子尺码 帽围换算 美码欧码 hat size 头围 帽子 尺码 换算",
       "hmac hmac 生成 hmac-sha256 消息签名 HMAC 签名 安全",
@@ -7302,6 +7329,7 @@
       "对数计算器 log计算 自然对数 常用对数 换底公式 对数 数学 计算",
       "占位文本 lorem ipsum 假文生成 排版测试文字 中文占位 文本 占位 排版",
       "在线抽签 随机抽奖 随机点名 抽签工具 随机选择器 抽签 随机",
+      "阴阳历转换 公历转农历 农历转公历 农历查询 农历生日 干支生肖 日期 农历 转换",
       "磁感应强度换算 特斯拉 高斯 T G mT μT 磁通密度 磁场 换算",
       "Markdown预览 Markdown编辑器 在线Markdown MD实时渲染 Markdown转HTML markdown 文档 预览 写作",
       "Markdown 表格 CSV 转表格 JSON 转表格 md 表格生成 表格生成器 Markdown 表格 文档",
@@ -7584,6 +7612,7 @@
       "duishujisuanqi",
       "zhanweiwenbenshengcheng",
       "chouqianchoujiang",
+      "yinyanglizhuanhuanqi",
       "ciganyingqiangduhuansuan",
       "markdownyulan",
       "markdownbiaogeshengcheng",
@@ -7866,6 +7895,7 @@
       "dsjsq",
       "zwwbsc",
       "cqcj",
+      "yylzhq",
       "cgyqdhs",
       "markdownyl",
       "markdownbgsc",
@@ -8148,6 +8178,7 @@
       3,
       1,
       8,
+      3,
       0,
       1,
       4,
@@ -8290,7 +8321,7 @@
       8,
       8,
       7,
-      8,
+      0,
       8,
       6,
       7,
@@ -8302,7 +8333,7 @@
       7,
       7,
       6,
-      6,
+      0,
       6,
       7,
       6,
@@ -8430,6 +8461,7 @@
       7,
       5,
       7,
+      6,
       7,
       4,
       6,
@@ -8712,6 +8744,7 @@
       "/tools/log-calculator/",
       "/tools/lorem-ipsum/",
       "/tools/lottery-draw/",
+      "/tools/lunar-converter/",
       "/tools/magnetic/",
       "/tools/markdown-preview/",
       "/tools/markdown-table-gen/",
@@ -8994,6 +9027,7 @@
       "sigma",
       "file-text",
       "ticket",
+      "moon",
       "magnet",
       "file-text",
       "table",

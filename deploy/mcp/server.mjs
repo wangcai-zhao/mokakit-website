@@ -3421,10 +3421,12 @@ var API_VERSION = "v1";
 var SUPPORTED_PROTOCOLS = ["2025-06-18", "2024-11-05"];
 var REQUIRED_TOKEN = process.env.MCP_TOKEN || "";
 function getCatalog() {
-  try {
-    const p = new URL("./catalog.json", import.meta.url);
-    if (existsSync(p)) return JSON.parse(readFileSync2(p, "utf8"));
-  } catch {
+  for (const rel of ["./catalog.json", "../deploy/mcp/catalog.json"]) {
+    try {
+      const p = new URL(rel, import.meta.url);
+      if (existsSync(p)) return JSON.parse(readFileSync2(p, "utf8"));
+    } catch {
+    }
   }
   return loadAllMeta();
 }

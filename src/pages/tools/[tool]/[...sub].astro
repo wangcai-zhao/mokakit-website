@@ -171,6 +171,7 @@ if (d.aiVisual) widgetProps.initialVisual = d.aiVisual;
 let radixPowers: { p: string; dec: string; hex: string }[] = [];
 let radixHexDigits: { hex: string; bin: string; dec: string }[] = [];
 let radixF64: { label: string; value: string; hex: string; sign: string; exp: string; man: string }[] = [];
+if (d.caseInput) widgetProps.initialInput = d.caseInput;
 if (d.radixFrom) {
   widgetProps.initialFrom = Number(d.radixFrom);
   widgetProps.initialTo = Number(d.radixTo);
@@ -258,6 +259,40 @@ if (d.b64Kind) {
       c: `≈ ${Math.ceil(n / 3) * 4} 字符`,
     }));
   }
+}
+
+// 哈希子页：构建期用 src/lib/hash 生成真实摘要对照表（供爬虫抓取）
+let hashAlgoLabel = '';
+let hashRows: { a: string; b: string; c: string }[] = [];
+if (d.hashAlgo) {
+  widgetProps.initialAlgo = String(d.hashAlgo);
+  const { hashText, HASH_ALGOS } = await import('@/lib/hash');
+  const algo = (HASH_ALGOS as string[]).includes(String(d.hashAlgo))
+    ? (String(d.hashAlgo) as (typeof HASH_ALGOS)[number])
+    : 'SHA-256';
+  hashAlgoLabel = algo;
+  const samples = ['hello', 'hello world', '123456', 'password', 'MokaKit', '你好，世界'];
+  hashRows = samples.map((s) => ({
+    a: s,
+    b: String(new TextEncoder().encode(s).length),
+    c: hashText(algo, s),
+  }));
+}
+
+// 简繁转换子页：预填方向/地区/输入，并构建期生成三档地区对照表
+let jfInputText = '';
+let jfRegionRows: { region: string; output: string }[] = [];
+if (d.jfDirection === 'j2f' && d.jfInput) {
+  widgetProps.initialDirection = 'j2f';
+  if (d.jfRegion) widgetProps.initialRegion = String(d.jfRegion);
+  widgetProps.initialInput = String(d.jfInput);
+  jfInputText = String(d.jfInput);
+  const { convert } = await import('@/lib/jian-fan');
+  jfRegionRows = [
+    { region: '通用', output: convert(jfInputText, { direction: 'j2f', region: 'generic' }) },
+    { region: '台湾', output: convert(jfInputText, { direction: 'j2f', region: 'tw' }) },
+    { region: '香港', output: convert(jfInputText, { direction: 'j2f', region: 'hk' }) },
+  ];
 }
 ---
 
@@ -609,6 +644,67 @@ if (d.b64Kind) {
           <p>
             可以看到同一个字符串，标准编码里出现了 <code>+</code> 和 <code>/</code>，URL-safe
             编码把换成了 <code>-</code> 和 <code>_</code> 并去掉了结尾补位。需要编解码可直接使用页面上方的工具，解码时两种格式都能自动识别。
+          </p>
+        </>
+      )
+    }
+    {
+      hashRows.length > 0 && (
+        <>
+          <h2>{hashAlgoLabel} 常见字符串摘要对照表</h2>
+          <p>
+            下表为构建时用本工具同款算法（src/lib/hash 纯函数层）静态生成的常见字符串 {hashAlgoLabel}{' '}
+            摘要（十六进制小写），可与命令行输出直接比对：
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>字符串</th>
+                <th>UTF-8 字节</th>
+                <th>{hashAlgoLabel}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {hashRows.map((r) => (
+                <tr>
+                  <td>{r.a}</td>
+                  <td>{r.b}</td>
+                  <td class="font-mono text-xs break-all">{r.c}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p>
+            校验文件完整性时，把官方提供的 {hashAlgoLabel} 值与本工具计算的结果逐字符比对即可；注意{' '}
+            MD5 仅建议用于兼容场景，安全用途请用 SHA-256 及以上。
+          </p>
+        </>
+      )
+    }
+    {
+      jfRegionRows.length > 0 && (
+        <>
+          <h2>同一句子 · 三档地区转换对照</h2>
+          <p>输入：{jfInputText}</p>
+          <table>
+            <thead>
+              <tr>
+                <th>地区档位</th>
+                <th>转换结果</th>
+              </tr>
+            </thead>
+            <tbody>
+              {jfRegionRows.map((r) => (
+                <tr>
+                  <td>{r.region}</td>
+                  <td>{r.output}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p>
+            可以看到「软件」「信息」在三个档位下的差异：通用与香港作「軟件 / 信息」，台湾作「軟體 /
+            資訊」；而「发展」「干净」这类通用词在三档下一致。
           </p>
         </>
       )
