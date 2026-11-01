@@ -95,3 +95,12 @@ recipe-card-*.html
 # WorkBuddy 自动化运行时数据（每个自动化一个目录，含 memory.md / status-*.md）
 .workbuddy/automations/
 .workbuddy/memory/automations/
+
+# GenUI / 本地检索 / 审计临时产物（2026-11-01 补充，不入库）
+_genui_apps/
+_genui_dl/
+_kms_check.json
+_reports/
+outputs/
+_shot_search_*.png
+.workbuddy/upgrade-daily/_dryrun-*.md
