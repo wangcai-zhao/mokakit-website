@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'preact/hooks';
 import { marked } from 'marked';
+import DOMPurify from 'dompurify';
 
 /**
  * 默认示例刻意用二级标题起头：
@@ -29,7 +30,9 @@ export default function MarkdownPreview() {
 
   const html = useMemo(() => {
     try {
-      return marked.parse(md, { breaks: true, gfm: true }) as string;
+      const raw = marked.parse(md, { breaks: true, gfm: true }) as string;
+      // SSR 阶段无 DOM，仅渲染可信的默认 DEMO；浏览器水合后对用户输入做净化，杜绝 XSS
+      return typeof window === 'undefined' ? raw : DOMPurify.sanitize(raw);
     } catch {
       return '';
     }

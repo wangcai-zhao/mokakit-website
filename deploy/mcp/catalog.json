@@ -5924,7 +5924,7 @@
     {
       "id": "udi-decoder",
       "name": "UDI 码解码",
-      "description": "免费在线 UDI 解码工具，支持解析多种格式的 UDI 文本：GS1 括号元素字符串（如 (01)…(17)…）、GS1 Digital Link URI、以及行式 AI 键值文本。自动识别应用标识符（AI），将 DI、批号、序列号、生产 / 失效日期等字段还原为可读中文说明，全部在浏览器本地完成。",
+      "description": "免费在线 UDI 解码工具：解析 GS1 括号字符串、GS1 Digital Link URI、行式 AI 键值三种格式，自动识别应用标识符（AI），还原 DI、批号、序列号、生产 / 失效日期等字段，并校验 GTIN 校验位、识别发码机构，全部本地完成。",
       "keywords": [
         "UDI解码",
         "GS1解析",
@@ -5950,7 +5950,7 @@
     {
       "id": "udi-generator",
       "name": "UDI 码生成",
-      "description": "免费在线 UDI 医疗器械唯一标识生成工具，按 GS1 标准填写设备标识 DI 与生产标识 PI（批号、序列号、生产日期、失效日期等），一键生成 QR Code、GS1 QR、Data Matrix、GS1-128、Code 128 等条码，支持逐码下载 PNG，全部本地生成不上传。",
+      "description": "免费在线 UDI 生成工具：按 GS1 标准填写 DI 与 PI（批号、序列号、生产日期、失效日期），GTIN 自动计算校验位，一键生成 QR Code、Data Matrix、GS1-128 等条码，可逐码下载 PNG，本地生成不上传。",
       "keywords": [
         "UDI生成",
         "医疗器械唯一标识",

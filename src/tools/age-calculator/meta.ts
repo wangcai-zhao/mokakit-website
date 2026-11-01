@@ -13,7 +13,7 @@ export default defineTool({
   status: 'stable',
   hydrate: 'idle',
   createdAt: '2026-08-05',
-  updatedAt: '2026-08-05',
+  updatedAt: '2026-10-26',
   priority: 7,
   faq: [
     {
@@ -30,4 +30,14 @@ export default defineTool({
     },
   ],
   related: ['90-day', 'date-calculator', 'min-age-birth', 'retirement-age'],
+  subpages: () => [
+    {
+      slug: '10000-days',
+      title: '一万天纪念日',
+      seoTitle: '一万天纪念日 - 活到10000天是几岁 年龄里程碑查询',
+      description:
+        '输入出生日期，算出你的 1 万天、2 万天、3 万天纪念日分别是哪一天、当天多少周岁，以及距离下一个里程碑还有多少天。附参考出生日期里程碑速查表，全部本地计算。',
+      data: { ageMilestone: true },
+    },
+  ],
 });

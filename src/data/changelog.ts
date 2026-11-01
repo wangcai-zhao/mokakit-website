@@ -69,6 +69,9 @@ export const RELEASES: Release[] = [
       },
     ],
     notes: [
+      '【升级】age-calculator：兑现「万天里程碑」承诺——结果区新增 1/2/3 万天纪念日（日期 + 当天周岁 + 已达成 / 倒计时）；修复 useMemo 跨零点不刷新（今天提为 state，30 秒轻量比对 + visibilitychange 兜底）；修复闰年 2/29 出生者「届时年龄」少一岁（平年落点口径 +1）；算法抽层 src/lib/age.ts（51 项断言：date-fns 测试向量、闰年边界、天数不为负、日历天累加自洽）；新增「一万天纪念日」子页（构建期 5 个参考出生日期 × 3 档里程碑表）；content.mdx 计算实例补全为「36 岁 1 个月 28 天」',
+      '【升级】udi-generator：兑现「自动计算校验位」P0 承诺——GTIN 填 13 位自动按模 10 补校验位（0690123456789→06901234567892），14 位实时校验、错误提示应为几位并支持一键修正；新增日期字段 YYMMDD 校验（月 01-12/日 01-31）与非法字段拦截（不生成错码）；description 185 字砍到 119 字；content.mdx「填厂商前缀与型号」口径对齐为 DI+PI，计算实例改为与工具输出逐字一致；算法共用 src/lib/gs1.ts + related 内链',
+      '【升级】udi-decoder：兑现「解析出发码机构」承诺——新增 GTIN 校验位验证（GS1 模 10，错误时指出应为哪位）与发码机构识别（前缀 690-699→中国大陆、489→中国香港、471→中国台湾、958→中国澳门等）；AI 字典按 GS1 官方数据集扩充至 66 条并修正 22=CPV、250=次级序列号、7001=北约库存号、8018=GSRN 等错译，抽层 src/lib/gs1.ts（78 项断言，含 marius103/gtin-checksum 与 QRSalt/gs1-digital-link 公开向量）；日期世纪口径统一为固定阈值（YY 00-49→20xx / 50-99→19xx）；新增「GS1 应用标识符（AI）大全」子页（构建期 66 行速查表）+ related 内链',
       '【升级】jian-fan-convert：修复「处境」脏数据污染「处」映射的 P0 bug（处理→境理）；修正发/干/脏多义字默认映射与 f2j 覆盖策略（改先到先得）；新增词组级最长匹配（干净→乾淨、公里→公里防污染）；新增通用/台湾/香港三档地区用词（软件→軟件/軟體）；数据抽层 src/lib/jian-fan.ts（25 项断言）；补 与→與、络→络；新增「简体转繁体」长尾子页（构建期三档对照表）+ seoTitle + related',
       '【升级】hash-calculator：修复复制按钮复制输入原文的 P0 bug；算法抽层 src/lib/hash.ts（MD5/SHA-1/SHA-256/SHA-384/SHA-512 + 增量 update，140 项断言对标 Node crypto 全过）；新增文件分片哈希（4MB/片+进度条）与十六进制大写/小写切换；description/tagline/FAQ/content.mdx 四处口径统一；新增 sha256/md5 2 个长尾子页（构建期生成真实摘要对照表）',
       '【升级】case-converter：单行 input 改多行 textarea 批量转换（兑现 content.mdx 承诺）、补 CONSTANT_CASE 与 Sentence case 两种模式、数字切分开关（对标 change-case separateNumbers）、连续大写按词边界切开（APIKey→API Key）；补 seoTitle/related；新增 camelcase/snake-case 2 个长尾子页',

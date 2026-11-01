@@ -29,13 +29,12 @@
 ## MCP（战略核心）
 - www.mokakit.com/mcp；systemd /opt/mokakit-mcp，127.0.0.1:18700 + nginx 反代。改工具后必须 `npm run mcp:build`（esbuild → deploy/mcp/server.mjs + catalog.json）再部署。
 
-## 每日工具升级自动化（2026-10-23 上线，首跑 10-24 09:00/20:00）
-- 两个自动化：早计划 `86f3d35a-7205-4a97-b626-85fd246381c3`（每天 9:00）+ 晚总结 `7eaf3aec-b3f5-4fe1-a9ee-621e9572dc86`（每天 20:00），均 ACTIVE / validFrom 2026-10-24。**晚任务需旺财在聊天里确认（方式一 GitHub 借鉴 / 方式二 手工内容，至少其一）才执行**；硬护栏：git 已跟踪文件干净为前提、只动计划内工具、不 commit/push/build/部署、失败自动回滚该工具。
-- 状态目录 `.workbuddy/upgrade-daily/`：`YYYY-MM-DD.md`（计划+确认+结果，唯一状态源）、`history.json`（分类轮转 last/prevCategories）、`kb-node.json`（资料库节点 id）。
-- 资料库文件夹节点「MokaKit 工具升级日志」id `lnYFLsUwVv0bITXQDi3tmS`（个人空间 `AxSVk6z0eEelery6Zb92Rg`）；晚任务用 library_upload 把当日结果 md 传到该节点。
-- 素材层：`D:/WorkBuddy/MOKAKIT项目公众号/素材/`（仅升级成功的工具；七段式骨架+升级亮点；索引 素材/README.md）。
-- 筛选器 `scripts/pick-stale-tools.mjs`：updatedAt 升序 + 分类轮转避让（读 history.json），只读；`--count 2-5`、`--stale-days 14`。
-- 方案全文：`C:\Users\zhao-\.workbuddy\plans\toasty-aurora-einstein-UqQGXQNK.md`；干跑样例 `.workbuddy/upgrade-daily/_dryrun-2026-10-23.md`（选中 base64/base-converter/ai-price-compare）。
+## 每日工具升级自动化（全自动·单步，2026-11-01 简化合并）
+- 现为一个全自动自动化 `86f3d35a-7205-4a97-b626-85fd246381c3`（每天 20:00，ACTIVE）。原晚总结 `7eaf3aec-b3f5-4fe1-a9ee-621e9572dc86` 已于 2026-11-01 删除。
+- 流程：每天定点自动选 2-5 个陈旧工具（默认 3，走 `scripts/pick-stale-tools.mjs`，updatedAt 升序 + 分类轮转避让）→ 按内置升级点（算法口径核对 / 修 bug / 补 seoTitle·description·faq / 长尾 subpages / UI / 补 mdx）改代码 → 每工具跑 `check:all`，动 `src/lib` 加跑 `mcp:build`+回归 → 失败自动 `git checkout` 回滚该工具。
+- **已砍掉的复杂环节**：确认门（方式一/方式二）、GitHub 检索借鉴、公众号素材产出、资料库上传。`upgrade-daily/` 下 `kb-node.json` 与素材层已不再使用；`YYYY-MM-DD.md` 不再写计划，结果改记 `.workbuddy/memory/TODAY.md`。
+- 硬护栏：git 已跟踪文件干净为前提（不干净则当天自动跳过，避免与手动工作冲突）、只动计划内工具、不 commit/push/build/部署。
+- 筛选器 `scripts/pick-stale-tools.mjs`：`--count 2-5`、`--stale-days 14`，只读。状态目录 `.workbuddy/upgrade-daily/history.json`（分类轮转 last/prevCategories）。
 
 ## Git push（Agent 侧唯一可用通路）
 ```bash

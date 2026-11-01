@@ -1,5 +1,6 @@
 /** @jsxImportSource preact */
 import { useState, useEffect, useRef } from 'preact/hooks';
+import { validateGtinField, validateDateField, appendCheckDigit } from '@/lib/gs1';
 
 const SYMBOLOGIES = [
   { group: '二维码', id: 'qrcode', label: 'QR Code', bcid: 'qrcode' },
@@ -12,7 +13,7 @@ const SYMBOLOGIES = [
 ] as const;
 
 const FIELDS = [
-  { key: 'gtin', ai: '01', label: '设备标识 DI（GTIN）', placeholder: '14 位数字，如 06901234567892', hint: '全球贸易项目代码，医疗器械“身份号”' },
+  { key: 'gtin', ai: '01', label: '设备标识 DI（GTIN）', placeholder: '14 位数字，如 06901234567892', hint: '全球贸易项目代码，医疗器械“身份号”；13 位自动补校验位' },
   { key: 'lot', ai: '10', label: '批号 / 批（Lot）', placeholder: '如 BATCH2026', hint: '生产批号' },
   { key: 'serial', ai: '21', label: '序列号（Serial）', placeholder: '如 SN123456', hint: '单件序列号' },
   { key: 'prodDate', ai: '11', label: '生产日期 (11)', placeholder: 'YYMMDD，如 260401', hint: '生产日期' },
@@ -20,6 +21,9 @@ const FIELDS = [
   { key: 'bestBefore', ai: '15', label: '保质期 (15)', placeholder: 'YYMMDD', hint: '保质期（可选）' },
   { key: 'qty', ai: '30', label: '数量 (30)', placeholder: '如 100', hint: '包装内数量（可选）' },
 ] as const;
+
+/** YYMMDD 型字段（走日期校验） */
+const DATE_KEYS = new Set(['prodDate', 'expDate', 'bestBefore']);
 
 function buildGs1(f: Record<string, string>) {
   return FIELDS.filter((fd) => f[fd.key] && f[fd.key].trim() !== '')
@@ -37,7 +41,7 @@ function BarcodeCanvas({ bcid, label, text }: { bcid: string; label: string; tex
     if (!text) return;
     (async () => {
       try {
-        const mod: any = await import('bwip-js');
+        const mod: any = await import(/* @vite-ignore */ 'bwip-js');
         const bwip = mod.default ?? mod;
         if (cancelled || !ref.current) return;
         await bwip.toCanvas(ref.current, {
@@ -103,8 +107,30 @@ export default function UdiGenerator() {
     Object.fromEntries(SYMBOLOGIES.map((s) => [s.id, true])),
   );
 
+  // ---- 字段校验（空字段跳过；纯函数层 src/lib/gs1.ts）----
+  const gtin = fields.gtin.trim();
+  const gtinState = gtin === '' ? null : validateGtinField(gtin);
+  const dateErrs: Record<string, string> = {};
+  for (const k of DATE_KEYS) {
+    const v = fields[k].trim();
+    if (v !== '') {
+      const r = validateDateField(v);
+      if (!r.ok) dateErrs[k] = r.msg;
+    }
+  }
+  const blocked = gtinState?.level === 'error' || Object.keys(dateErrs).length > 0;
+
   const updateField = (key: string, val: string) => {
-    const nf = { ...fields, [key]: val };
+    let v = val;
+    // GTIN 填到 13 位数字：按 GS1 模 10 自动补校验位
+    if (key === 'gtin') {
+      const t = val.trim();
+      if (/^\d{13}$/.test(t)) {
+        const full = appendCheckDigit(t);
+        if (full) v = full;
+      }
+    }
+    const nf = { ...fields, [key]: v };
     setFields(nf);
     setText(buildGs1(nf));
   };
@@ -121,29 +147,61 @@ export default function UdiGenerator() {
       <div class="alert alert-info text-sm">
         <span>
           按 GS1 标准填写设备标识 DI 与生产标识 PI，自动组合成 <code>(01)…(17)…</code>{' '}
-          元素字符串并生成多种条码。全部本地生成，不上传数据。
+          元素字符串并生成多种条码。GTIN 只填 13 位时自动补校验位，14 位实时校验。全部本地生成，不上传数据。
         </span>
       </div>
 
       <div class="grid md:grid-cols-2 gap-4">
-        {FIELDS.map((fd) => (
-          <div class="form-control">
-            <label class="label py-1">
-              <span class="label-text font-medium">
-                {fd.label} <span class="badge badge-ghost badge-sm">({fd.ai})</span>
-              </span>
-            </label>
-            <input
-              class="input input-bordered input-sm"
-              placeholder={fd.placeholder}
-              value={fields[fd.key]}
-              onInput={(e: any) => updateField(fd.key, e.currentTarget.value)}
-            />
-            <label class="label py-0.5">
-              <span class="label-text-alt opacity-60">{fd.hint}</span>
-            </label>
-          </div>
-        ))}
+        {FIELDS.map((fd) => {
+          const dateErr = dateErrs[fd.key];
+          const isGtin = fd.key === 'gtin';
+          return (
+            <div class="form-control">
+              <label class="label py-1">
+                <span class="label-text font-medium">
+                  {fd.label} <span class="badge badge-ghost badge-sm">({fd.ai})</span>
+                </span>
+                {isGtin && gtinState?.level === 'error' && /^\d{14}$/.test(gtin) && (
+                  <button
+                    class="label-text-alt link"
+                    onClick={() => updateField('gtin', gtin.slice(0, 13))}
+                  >
+                    一键修正
+                  </button>
+                )}
+              </label>
+              <input
+                class={`input input-bordered input-sm ${
+                  dateErr || (isGtin && gtinState?.level === 'error')
+                    ? 'input-error'
+                    : ''
+                }`}
+                placeholder={fd.placeholder}
+                value={fields[fd.key]}
+                onInput={(e: any) => updateField(fd.key, e.currentTarget.value)}
+              />
+              <label class="label py-0.5">
+                {dateErr ? (
+                  <span class="label-text-alt text-error">{dateErr}</span>
+                ) : isGtin && gtinState ? (
+                  <span
+                    class={`label-text-alt ${
+                      gtinState.level === 'ok'
+                        ? 'text-success'
+                        : gtinState.level === 'warn'
+                          ? ''
+                          : 'text-error'
+                    }`}
+                  >
+                    {gtinState.msg}
+                  </span>
+                ) : (
+                  <span class="label-text-alt opacity-60">{fd.hint}</span>
+                )}
+              </label>
+            </div>
+          );
+        })}
       </div>
 
       <div class="form-control">
@@ -186,6 +244,13 @@ export default function UdiGenerator() {
         <div class="font-medium mb-2">生成结果（{active.length} 个）</div>
         {text.trim() === '' ? (
           <div class="text-sm opacity-60 py-6 text-center">请先填写至少一个字段</div>
+        ) : blocked ? (
+          <div class="alert alert-error text-sm">
+            <span>
+              字段校验未通过，已暂停生成：GTIN 需 14 位数字且校验位正确（13
+              位可自动补位），日期字段需为 YYMMDD 格式。请先修正上方标红的字段。
+            </span>
+          </div>
         ) : (
           <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {active.map((s) => (

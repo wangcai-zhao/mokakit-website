@@ -1,0 +1,8 @@
+{
+  "node_id": "lnYFLsUwVv0bITXQDi3tmS",
+  "node_name": "MokaKit 工具升级日志",
+  "node_link": "https://www.workbuddy.cn/space/d/lnYFLsUwVv0bITXQDi3tmS",
+  "space_id": "AxSVk6z0eEelery6Zb92Rg",
+  "created_at": "2026-10-23",
+  "note": "由大美丽于 2026-10-23 创建。早晚两个自动化读写此文件获取资料库目标节点 id；library_upload 上传每日升级结果文档到此文件夹节点下。"
+}

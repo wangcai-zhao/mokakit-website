@@ -1,58 +1,12 @@
 /** @jsxImportSource preact */
 import { useState } from 'preact/hooks';
+import { GS1_AI, DATE_AIS, parseGs1Date, gtinStructure } from '@/lib/gs1';
 
-const GS1_AI: Record<string, string> = {
-  '00': 'SSCC 系列货运集装箱代码',
-  '01': 'GTIN 全球贸易项目代码（设备标识 DI）',
-  '02': '包装 GTIN',
-  '10': '批号 / 批（Lot）',
-  '11': '生产日期 (YYMMDD)',
-  '12': '付款到期日 (YYMMDD)',
-  '13': '包装日期 (YYMMDD)',
-  '15': '保质期 (YYMMDD)',
-  '17': '失效日期 / 有效期 (YYMMDD)',
-  '20': '产品变体',
-  '21': '序列号（Serial）',
-  '22': '次级序列号（医疗器械）',
-  '240': '附加产品标识',
-  '241': '客户部件号',
-  '242': 'Made-to-Order 标识',
-  '250': '第三方交易号',
-  '251': '溯源序列号',
-  '400': '客户订单号',
-  '401': '货物托运代码',
-  '410': '收货方 GLN',
-  '411': '发运方 GLN',
-  '412': '供方 GLN',
-  '413': '最终收货方 GLN',
-  '414': '物理位置 GLN',
-  '420': '寄送邮政编码',
-  '421': '寄送邮编 + 国家代码',
-  '7001': '废旧资产编号',
-  '8003': 'GS1 标识的资产编号',
-  '8004': 'GS1 标识的 GIAI',
-  '8006': 'GS1 标识的 ITIP',
-  '8018': '认证产品标识',
-  '8020': '编号认证标识',
-  '90': '内部自定义数据',
-};
-
-const DATE_AIS = new Set(['11', '12', '13', '15', '17']);
-
-function expandYear(yy: string): string {
-  const y = parseInt(yy, 10);
-  return y >= 50 ? `19${yy}` : `20${yy}`;
-}
-
-function parseDate(val: string): string | null {
-  const m = /^(\d{2})(\d{2})(\d{2})$/.exec(val.trim());
-  if (!m) return null;
-  const [, yy, mm, dd] = m;
-  const year = expandYear(yy);
-  const month = parseInt(mm, 10);
-  const day = parseInt(dd, 10);
-  if (month < 1 || month > 12 || day < 1 || day > 31) return null;
-  return `${year}-${mm}-${dd}`;
+interface GtinInfo {
+  prefix: string;
+  region: string;
+  checkOk: boolean;
+  expected: string;
 }
 
 interface Row {
@@ -60,16 +14,19 @@ interface Row {
   name: string;
   raw: string;
   display: string;
+  gtin?: GtinInfo | null;
 }
 
 function toRows(pairs: [string, string][]): Row[] {
   return pairs.map(([ai, val]) => {
     let display = val;
     if (DATE_AIS.has(ai)) {
-      const d = parseDate(val);
+      const d = parseGs1Date(val);
       if (d) display = `${d}（原始 ${val}）`;
     }
-    return { ai, name: GS1_AI[ai] || '未知应用标识符', raw: val, display };
+    // 识别到 AI 01（GTIN）时附带校验位与发码机构信息（纯函数层 src/lib/gs1.ts）
+    const gtin = ai === '01' ? gtinStructure(val) : undefined;
+    return { ai, name: GS1_AI[ai] || '未知应用标识符', raw: val, display, gtin };
   });
 }
 
@@ -125,6 +82,7 @@ export default function UdiDecoder() {
 
   const result = parseUdi(input);
   const gs1String = result.rows.map((r) => `(${r.ai})${r.raw}`).join('');
+  const gtinRow = result.rows.find((r) => r.ai === '01' && r.gtin);
 
   const loadSample = () =>
     setInput('(01)06901234567892(11)260401(17)271231(10)BATCH2026(21)SN123456');
@@ -134,7 +92,8 @@ export default function UdiDecoder() {
     <div class="space-y-6">
       <div class="alert alert-info text-sm">
         <span>
-          粘贴 UDI 文本即可自动识别格式并解析。支持 GS1 括号格式、GS1 Digital Link URI、行式键值三种。全程本地解析，不出本机。
+          粘贴 UDI 文本即可自动识别格式并解析。支持 GS1 括号格式、GS1 Digital Link URI、行式键值三种。识别到 GTIN 时会按 GS1 模 10
+          校验校验位并识别发码机构，全程本地解析，不出本机。
         </span>
       </div>
 
@@ -168,6 +127,15 @@ export default function UdiDecoder() {
               <div class="flex items-center gap-2 flex-wrap">
                 <span class="badge badge-success">已识别：{result.format}</span>
                 <span class="badge badge-ghost">{result.rows.length} 个字段</span>
+                {gtinRow?.gtin && (
+                  <span
+                    class={`badge ${gtinRow.gtin.checkOk ? 'badge-success' : 'badge-error'}`}
+                  >
+                    {gtinRow.gtin.checkOk
+                      ? `GTIN 校验位通过 · 发码机构：${gtinRow.gtin.region}`
+                      : `GTIN 校验位不通过（应为 ${gtinRow.gtin.expected}）`}
+                  </span>
+                )}
                 <button class="btn btn-xs btn-outline" onClick={() => copy(gs1String)}>
                   复制 GS1 字符串
                 </button>
@@ -188,7 +156,21 @@ export default function UdiDecoder() {
                         <td class="font-mono whitespace-nowrap">({r.ai})</td>
                         <td>{r.name}</td>
                         <td class="font-mono break-all">{r.raw}</td>
-                        <td class="break-all">{r.display}</td>
+                        <td class="break-all">
+                          {r.display}
+                          {r.gtin && (
+                            <div class="text-xs mt-1 space-y-0.5">
+                              <div class={r.gtin.checkOk ? 'text-success' : 'text-error'}>
+                                {r.gtin.checkOk
+                                  ? 'GTIN 校验位：✅ 通过'
+                                  : `GTIN 校验位：❌ 不通过（应为 ${r.gtin.expected}）`}
+                              </div>
+                              <div class="opacity-60">
+                                发码机构：前缀 {r.gtin.prefix} → {r.gtin.region}
+                              </div>
+                            </div>
+                          )}
+                        </td>
                       </tr>
                     ))}
                   </tbody>

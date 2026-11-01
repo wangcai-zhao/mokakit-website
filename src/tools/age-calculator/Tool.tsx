@@ -1,7 +1,14 @@
-import { useState, useMemo, useRef } from 'preact/hooks';
+import { useState, useMemo, useRef, useEffect } from 'preact/hooks';
 import { copyText } from '@/tools/_shared/copy';
+import {
+  calcAge,
+  totalDays,
+  nextBirthdayInfo,
+  milestoneDates,
+  nextMilestone,
+  fmtAge,
+} from '@/lib/age';
 
-const DAY_MS = 86400000;
 const WEEK_LABEL = ['日', '一', '二', '三', '四', '五', '六'];
 
 function pad(n: number): string {
@@ -10,6 +17,10 @@ function pad(n: number): string {
 
 function toInputValue(d: Date): string {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
+function todayStr(): string {
+  return toInputValue(new Date());
 }
 
 function parseDate(s: string): Date | null {
@@ -21,11 +32,6 @@ function parseDate(s: string): Date | null {
   const d = new Date(y, mo - 1, da);
   if (d.getFullYear() !== y || d.getMonth() !== mo - 1 || d.getDate() !== da) return null;
   return d;
-}
-
-/** 某年某月的天数，month 为 0-11 */
-function daysInMonth(year: number, month: number): number {
-  return new Date(year, month + 1, 0).getDate();
 }
 
 function fmtFull(d: Date): string {
@@ -46,12 +52,26 @@ type Result =
       next: Date;
       daysToNext: number;
       nextAge: number;
+      milestones: ReturnType<typeof milestoneDates>;
+      nextMilestone: ReturnType<typeof nextMilestone>;
     };
 
 export default function AgeCalculator() {
   const [birth, setBirth] = useState('2000-01-01');
   const [copied, setCopied] = useState<string | null>(null);
   const timer = useRef<number | undefined>(undefined);
+  // 「今天」提为 state：页面挂过 0 点后定时刷新，避免总天数 / 倒计时停摆一天
+  const [today, setToday] = useState(todayStr);
+
+  useEffect(() => {
+    const tick = () => setToday((t) => (t === todayStr() ? t : todayStr()));
+    const id = window.setInterval(tick, 30000); // 轻量比对日期串，跨零点即重算
+    document.addEventListener('visibilitychange', tick); // 从后台切回也立即比对
+    return () => {
+      window.clearInterval(id);
+      document.removeEventListener('visibilitychange', tick);
+    };
+  }, []);
 
   const copy = async (text: string, key: string) => {
     if (!text) return;
@@ -64,49 +84,28 @@ export default function AgeCalculator() {
   const result = useMemo<Result | null>(() => {
     const b = parseDate(birth);
     if (!b) return null;
-    const raw = new Date();
-    const now = new Date(raw.getFullYear(), raw.getMonth(), raw.getDate());
+    const now = parseDate(today) ?? new Date();
     if (b.getTime() > now.getTime()) return { ok: false, error: '出生日期不能晚于今天' };
 
-    let y = now.getFullYear() - b.getFullYear();
-    let mo = now.getMonth() - b.getMonth();
-    let d = now.getDate() - b.getDate();
-    if (d < 0) {
-      mo -= 1;
-      d += daysInMonth(now.getFullYear(), now.getMonth() - 1);
-    }
-    if (mo < 0) {
-      mo += 12;
-      y -= 1;
-    }
-
-    const totalDays = Math.round((now.getTime() - b.getTime()) / DAY_MS);
-
-    const bm = b.getMonth();
-    const bd = b.getDate();
-    const birthdayIn = (year: number) =>
-      new Date(year, bm, Math.min(bd, daysInMonth(year, bm)));
-
-    const thisYear = birthdayIn(now.getFullYear());
-    const isToday = thisYear.getTime() === now.getTime();
-    const passed = thisYear.getTime() < now.getTime();
-    const next = passed ? birthdayIn(now.getFullYear() + 1) : thisYear;
-    const daysToNext = Math.round((next.getTime() - now.getTime()) / DAY_MS);
-
+    const age = calcAge(b, now);
+    const td = totalDays(b, now);
+    const nb = nextBirthdayInfo(b, now);
     return {
       ok: true,
-      y,
-      mo,
-      d,
-      totalDays,
-      totalWeeks: Math.floor(totalDays / 7),
-      isToday,
-      passed,
-      next,
-      daysToNext,
-      nextAge: y + 1,
+      y: age.y,
+      mo: age.mo,
+      d: age.d,
+      totalDays: td,
+      totalWeeks: Math.floor(td / 7),
+      isToday: nb.isToday,
+      passed: nb.passed,
+      next: nb.next,
+      daysToNext: nb.days,
+      nextAge: nb.nextAge,
+      milestones: milestoneDates(b, now),
+      nextMilestone: nextMilestone(b, now),
     };
-  }, [birth]);
+  }, [birth, today]);
 
   const summary =
     result && result.ok
@@ -121,7 +120,7 @@ export default function AgeCalculator() {
           <input
             type="date"
             class="input input-bordered input-sm mt-1.5 w-full sm:max-w-xs"
-            max={toInputValue(new Date())}
+            max={today}
             value={birth}
             onInput={(e) => setBirth((e.target as HTMLInputElement).value)}
           />
@@ -184,13 +183,49 @@ export default function AgeCalculator() {
                 </tbody>
               </table>
             </div>
+
+            <div>
+              <div class="text-sm font-medium mb-1.5">人生万天里程碑</div>
+              <div class="overflow-x-auto">
+                <table class="table table-sm">
+                  <thead>
+                    <tr>
+                      <th>里程碑</th>
+                      <th class="text-right">日期</th>
+                      <th class="text-right">当天周岁</th>
+                      <th class="text-right">状态</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {result.milestones.map((m) => (
+                      <tr key={m.n}>
+                        <td class="font-mono">{m.n.toLocaleString('en-US')} 天</td>
+                        <td class="text-right">{fmtFull(m.date)}</td>
+                        <td class="text-right">{fmtAge(m.age)}</td>
+                        <td class="text-right">
+                          {m.passed ? (
+                            <span class="badge badge-success badge-sm">
+                              已达成 · {m.daysAgo} 天前
+                            </span>
+                          ) : result.nextMilestone?.n === m.n ? (
+                            <span class="badge badge-primary badge-sm">还有 {m.daysAgo === 0 ? 0 : -m.daysAgo} 天</span>
+                          ) : (
+                            <span class="opacity-60">还有 {-m.daysAgo} 天</span>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         )}
       </div>
 
       <p class="text-xs opacity-55 leading-relaxed">
         计算的是周岁（国际通用实际年龄），以本机当前日期为基准。闰年 2 月 29
-        日出生者在平年按 2 月最后一天推算下次生日。所有计算在浏览器本地完成，不会上传任何数据。
+        日出生者在平年按 2 月最后一天推算下次生日。万天里程碑按日历天累加，从出生日起算。所有计算在浏览器本地完成，不会上传任何数据。
       </p>
     </div>
   );

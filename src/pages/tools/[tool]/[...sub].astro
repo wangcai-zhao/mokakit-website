@@ -294,6 +294,34 @@ if (d.jfDirection === 'j2f' && d.jfInput) {
     { region: '香港', output: convert(jfInputText, { direction: 'j2f', region: 'hk' }) },
   ];
 }
+
+// GS1 AI 大全子页：构建期从 src/lib/gs1.ts 渲染完整 AI 字典表（供爬虫抓取真实数据）
+let gs1AiRows: { ai: string; name: string; format: string }[] = [];
+if (d.aiTable) {
+  const { AI_DEFS } = await import('@/lib/gs1');
+  gs1AiRows = AI_DEFS.map((r) => ({ ai: r.ai, name: r.name, format: r.format }));
+}
+
+// 一万天纪念日子页：构建期按参考出生日期算好里程碑表（供爬虫抓取真实数据）
+let ageMilestoneRows: { birth: string; n: string; date: string; age: string }[] = [];
+if (d.ageMilestone) {
+  const { addCalendarDays, calcAge, fmtAge } = await import('@/lib/age');
+  const births = ['1990-01-01', '1995-06-15', '2000-01-01', '2000-02-29', '2005-10-01'];
+  for (const b of births) {
+    const [by, bm, bd] = b.split('-').map(Number);
+    const bd0 = new Date(by, bm - 1, bd);
+    for (const n of [10000, 20000, 30000]) {
+      const date = addCalendarDays(bd0, n);
+      const a = calcAge(bd0, date);
+      ageMilestoneRows.push({
+        birth: b,
+        n: n.toLocaleString('en-US'),
+        date: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`,
+        age: fmtAge(a),
+      });
+    }
+  }
+}
 ---
 
 <ToolLayout
@@ -705,6 +733,85 @@ if (d.jfDirection === 'j2f' && d.jfInput) {
           <p>
             可以看到「软件」「信息」在三个档位下的差异：通用与香港作「軟件 / 信息」，台湾作「軟體 /
             資訊」；而「发展」「干净」这类通用词在三档下一致。
+          </p>
+        </>
+      )
+    }
+    {
+      gs1AiRows.length > 0 && (
+        <>
+          <h2>GS1 应用标识符（AI）速查表</h2>
+          <p>
+            下表收录 {gs1AiRows.length} 个常用 GS1
+            应用标识符：AI 是条码 / UDI 字符串里括号中的两位到四位数字，用来标注后面数据的含义。含义依据
+            GS1 官方数据集（ref.gs1.org/ai）整理，构建时静态生成。
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>AI</th>
+                <th>含义</th>
+                <th>数据格式</th>
+              </tr>
+            </thead>
+            <tbody>
+              {gs1AiRows.map((r) => (
+                <tr>
+                  <td class="font-mono whitespace-nowrap">({r.ai})</td>
+                  <td>{r.name}</td>
+                  <td>{r.format}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <h2>日期型 AI 的世纪怎么判定</h2>
+          <p>
+            YYMMDD 型字段（生产日期 11、失效日期 17、保质期 15 等）按 GS1 固定阈值还原为
+            YYYY-MM-DD：YY 00-49 视为 20xx，50-99 视为 19xx。例如 (17)290314 表示失效日期
+            2029-03-14，(17)990101 表示 1999-01-01。
+          </p>
+          <h2>GTIN 校验位怎么算</h2>
+          <p>
+            GTIN 末位是模 10 校验位：从最右数据位起权重 3 / 1
+            交替相乘后求和，校验位 = (10 − 合计 mod 10) mod 10。例如数据位 0690123456789
+            的校验位为 2，完整 GTIN 为 06901234567892。校验不通过时，
+            <a href={`/tools/${meta.id}/`}>UDI 码解码</a>
+            会提示正确校验位应为几，并识别发码机构前缀对应的国家或地区。
+          </p>
+        </>
+      )
+    }
+
+    {
+      ageMilestoneRows.length > 0 && (
+        <>
+          <h2>参考出生日期的万天里程碑表</h2>
+          <p>
+            下表按参考出生日期静态计算 1 万天 / 2 万天 / 3
+            万天里程碑的确切日期与当天周岁（日历天累加，与工具同款算法）：
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>出生日期</th>
+                <th>里程碑</th>
+                <th>达到日期</th>
+                <th>当天周岁</th>
+              </tr>
+            </thead>
+            <tbody>
+              {ageMilestoneRows.map((r) => (
+                <tr>
+                  <td class="font-mono">{r.birth}</td>
+                  <td class="font-mono">{r.n} 天</td>
+                  <td class="font-mono">{r.date}</td>
+                  <td>{r.age}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p>
+            注意 2000-02-29 出生者的里程碑按日历天自然累加，不涉及平年生日归并问题；在页面上方工具中输入你的出生日期，即可看到属于你的万天纪念日。
           </p>
         </>
       )
