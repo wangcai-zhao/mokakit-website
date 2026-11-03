@@ -33,6 +33,15 @@ c_warn() { printf '\033[33m  ⚠ %s\033[0m\n' "$*"; }
 c_head() { printf '\n\033[1m%s\033[0m\n' "$*"; }
 
 # ------------------------------------------------------------
+# 部署前自检：SSH 必须能免交互连通，否则后面传到一半才失败更麻烦
+# ------------------------------------------------------------
+if ! ssh -o ConnectTimeout=8 -o BatchMode=yes "$SSH_TARGET" 'true' 2>/dev/null; then
+  printf '\033[31m  ✗ 无法通过 SSH 连接 %s（检查密钥 / 网络 / known_hosts），已中止\033[0m\n' "$SSH_TARGET"
+  exit 1
+fi
+c_ok "SSH 连接正常：$SSH_TARGET"
+
+# ------------------------------------------------------------
 # --setup：把部署配置传上去并初始化服务器
 # ------------------------------------------------------------
 if [[ "$ACTION" == "--setup" ]]; then
@@ -62,9 +71,24 @@ fi
 # ------------------------------------------------------------
 c_head "[1/3] 本地构建"
 
-# 本机的 npm shim 在 Git Bash 下会把 /c/... 错解析成 d:\c\...，直接调 npm-cli.js 绕开
-NPM_CLI="C:/Users/zhao-/.workbuddy/binaries/node/versions/22.22.2/node_modules/npm/bin/npm-cli.js"
-if [[ -f "$NPM_CLI" ]]; then
+# 本机的 npm shim 在 Git Bash 下会把 /c/... 错解析成 d:\c\...，直接调 npm-cli.js 绕开。
+# 但 node 是 WorkBuddy 隔离安装的，版本目录名会变（22.22.2 → 22.22.2-6），
+# 所以这里不写死路径：PATH 里没有 node 时按版本目录自动探测，npm-cli.js 同样用通配找。
+if ! command -v node >/dev/null 2>&1; then
+  for d in "$HOME"/.workbuddy/binaries/node/versions/*/; do
+    [[ -x "${d}node.exe" || -x "${d}bin/node" ]] && NODE_HOME="${d%/}"
+  done
+  if [[ -n "${NODE_HOME:-}" ]]; then
+    export PATH="$NODE_HOME:$PATH"
+    c_ok "已自动探测到 Node：$(node -v)"
+  fi
+fi
+
+NPM_CLI=""
+for c in "$HOME"/.workbuddy/binaries/node/versions/*/node_modules/npm/bin/npm-cli.js; do
+  [[ -f "$c" ]] && NPM_CLI="$c"
+done
+if [[ -n "$NPM_CLI" ]]; then
   BUILD_CMD=(node "$NPM_CLI" run build)
 else
   BUILD_CMD=(npm run build)

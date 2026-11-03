@@ -145,6 +145,7 @@ dist/              构建产物（610+ index.html，可重建，勿手改）
 - **2026-10-12** 建立离线 + 线上双备份；制定本技术规范与项目专属知识库（KNOWLEDGE_BASE.md）；补充运行环境/版本基线（§10）与未决事项（§11）；github 远端同步（260 工具 + 知识库）；IMA 镜像知识库同步建立。
 - **2026-10-23** 站内搜索重构：三套实现（SSR/客户端/MCP）收敛为 `src/lib/search.ts` 单源内核；补拼音（全拼+首字母）、英文 id 别名、词序/全角/标点归一、分层放宽与纠错、高亮与键盘导航；索引 52.6→39.8KB、搜索页 HTML 216→127KB；MCP `mokakit_search` 契约不变。详见 `docs/SEARCH-OPTIMIZATION-2026-10-23.md`。
 - **2026-11-02** 场景选模型助手重做：18 场景 × 11 维能力 × 9 约束 + 自然语言需求识别 + 可解释推荐（加分项/代价/排除原因）+ 3 模型对比（表 + SVG 雷达）。算法抽 `src/tools/ai-model-selector/{data,logic}.ts`，价格与 `ai-price-compare/data` 同源；配 `npm run test:model-select`（38 项断言）。新增工具若需同类"选型/打分"能力，照此「data + logic + 纯函数 + 断言脚本」四件套落地。
+- **2026-11-03** 场景选模型助手长出 18 个长尾子页并上线：`seo.ts`（每场景 slug/seoTitle/description/intro/faq）+ `meta.ts subpages()` 自动进 sitemap + `AiModelTaskContent.astro` 服务端渲染（Top5 排名表/权重表/首选理由/替代建议），`[...sub].astro` 透传 `initialTask` 让子页直达推荐结果。URL 规则 `/tools/ai-model-selector/<slug>/`。校验双保险：`npm run verify:subpages`（查 dist）、`scripts/verify-live-subpages.mjs`（查线上）。**`deploy.sh` 的 node/npm 路径已改为通配自动探测**（版本目录 `22.22.2` → `22.22.2-6` 曾导致失效）；🔴 **deploy.sh 必须前台 + dangerouslyDisableSandbox 跑，沙箱内 SSH 自检会因出站 22 被封而误报"无法连接"**。
 - 更细的逐日记录见 `.workbuddy/memory/YYYY-MM-DD.md`；结构化 Release 见 `src/data/changelog.ts`。
 
 ---

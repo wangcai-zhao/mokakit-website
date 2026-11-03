@@ -1,5 +1,6 @@
 import { defineTool } from '@/tools/types';
-import { SNAPSHOT } from './data';
+import { SNAPSHOT, TASKS } from './data';
+import { TASK_PAGES } from './seo';
 
 export default defineTool({
   id: 'ai-model-selector',
@@ -15,9 +16,29 @@ export default defineTool({
   status: 'stable',
   hydrate: 'idle',
   createdAt: '2026-10-11',
-  updatedAt: '2026-11-02',
+  updatedAt: '2026-11-03',
   priority: 7,
   related: ['ai-price-compare', 'token-counter', 'context-window-calculator', 'prompt-template', 'rag-prompt-builder'],
+  /**
+   * 18 个场景各一条长尾子页：/tools/ai-model-selector/<slug>/
+   *
+   * 母页抢的是「AI 模型怎么选」这种大词，很难排上去；子页抢的是
+   * 「写代码用哪个 AI 模型」「客服机器人用哪个模型」这类具体问句，
+   * 竞争小、意图明确。文案按 TASKS 顺序输出，缺一条会在
+   * scripts/test-ai-model-select.mjs 里报错。
+   */
+  subpages: () =>
+    TASKS.map((t) => {
+      const page = TASK_PAGES[t.id];
+      return {
+        slug: page.slug,
+        title: page.title,
+        seoTitle: page.seoTitle,
+        description: page.description,
+        data: { taskId: t.id },
+        faq: page.faq,
+      };
+    }),
   faq: [
     {
       q: '推荐依据是什么？准吗？',

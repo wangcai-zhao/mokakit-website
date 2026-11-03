@@ -1,6 +1,7 @@
 ---
 import ToolLayout from '@/layouts/ToolLayout.astro';
 import WidgetHost from '@/components/WidgetHost.astro';
+import AiModelTaskContent from '@/components/AiModelTaskContent.astro';
 import { TOOLS, getTool } from '@/tools/registry';
 import type { SubPage } from '@/tools/types';
 import { goUrl } from '@/utils/outbound';
@@ -51,6 +52,11 @@ const widgetProps: Record<string, unknown> = {
   initialFrom: d.fromId,
   initialTo: d.toId,
 };
+// 场景选模型子页：打开即预选该场景（并带上场景默认约束），省掉两步点击
+if (d.taskId) {
+  widgetProps.initialTask = String(d.taskId);
+  if (d.constraintId) widgetProps.initialConstraint = String(d.constraintId);
+}
 if (d.equation) {
   widgetProps.initialEquation = d.equation;
   widgetProps.initialX0 = d.x0;
@@ -337,6 +343,9 @@ if (d.ageMilestone) {
   <WidgetHost tool={meta} widgetProps={widgetProps} />
 
   <Fragment slot="content">
+    {/* 场景选模型的 18 个长尾子页：构建期算好排名与权重表，正文见组件 */}
+    {d.taskId && <AiModelTaskContent taskId={String(d.taskId)} />}
+
     {
       d.oneEquals && (
         <>

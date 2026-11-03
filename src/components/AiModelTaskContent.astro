@@ -1,0 +1,216 @@
+---
+/**
+ * 场景子页的正文（构建期静态生成）。
+ *
+ * 为什么不用 MDX 写死：18 个子页的正文结构完全一致，唯一变化是场景与
+ * 权重；而「Top 5 排名」必须跟主工具的算法实时一致——写死在 mdx 里，
+ * 一旦调权重就会和工具区打架。这里直接调 logic.ts 的纯函数，构建时
+ * 算好写进 HTML，爬虫抓到的是真实表格而不是空壳。
+ */
+import {
+  CONSTRAINT_BY_ID,
+  DIMS,
+  MODELS,
+  SNAPSHOT,
+  TASKS,
+  TASK_BY_ID,
+  TASK_GROUPS,
+  type DimId,
+} from '@/tools/ai-model-selector/data';
+import { REF_RATE, defaultConstraints, recommend } from '@/tools/ai-model-selector/logic';
+import { TASK_PAGES } from '@/tools/ai-model-selector/seo';
+
+interface Props {
+  taskId: string;
+}
+
+const { taskId } = Astro.props as Props;
+const task = TASK_BY_ID.get(taskId);
+if (!task) throw new Error(`未知场景：${taskId}`);
+
+const constraintIds = defaultConstraints(taskId);
+const res = recommend(taskId, constraintIds);
+const rows = res.included.slice(0, 5);
+
+const dimLabel = new Map(DIMS.map((d) => [d.id, d]));
+const weights = Object.entries(task.weights)
+  .map(([id, w]) => ({ id: id as DimId, w: w ?? 0, def: dimLabel.get(id as DimId) }))
+  .sort((a, b) => b.w - a.w);
+
+const price = (v: number | null | undefined) => (v == null ? '—' : `$${v.toFixed(2)}`);
+const cny = (v: number | null | undefined) => (v == null ? '—' : `¥${(v * REF_RATE).toFixed(1)}`);
+const ctxText = (m: (typeof MODELS)[number]) =>
+  m.ctxTokens >= 1_000_000 ? `${m.ctxTokens / 1_000_000}M` : `${Math.round(m.ctxTokens / 1000)}K`;
+
+/** 模型名本身已含厂商（DeepSeek V4-Flash / OpenAI 的 GPT-5.4 不含）时不要重复拼接 */
+const fullName = (m: (typeof MODELS)[number]) => (m.name.startsWith(m.provider) ? m.name : `${m.provider} ${m.name}`);
+
+const groupLabel = new Map(TASK_GROUPS.map((g) => [g.id, g.label]));
+const siblings = TASKS.filter((t) => t.id !== taskId);
+const constraintLabels = constraintIds
+  .map((id) => CONSTRAINT_BY_ID.get(id)?.label)
+  .filter((v): v is string => Boolean(v));
+---
+
+<h2>{task.label}：这个场景难在哪</h2>
+<p>{task.pain}</p>
+<p>{task.advice}</p>
+
+<h2>按这个场景的权重，排名前 5 的模型</h2>
+<p>
+  下表是构建时用「场景权重 × 模型能力评分」算出来的匹配度排名（满分 100），
+  与你打开上方工具看到的榜单同源。价格为该模型每百万 token 的输入 / 输出单价，
+  人民币按 1 USD ≈ {REF_RATE} CNY 参考折算。
+</p>
+<table>
+  <thead>
+    <tr>
+      <th>排名</th>
+      <th>模型</th>
+      <th>厂商</th>
+      <th>匹配度</th>
+      <th>输入 / 1M</th>
+      <th>输出 / 1M</th>
+      <th>上下文</th>
+    </tr>
+  </thead>
+  <tbody>
+    {
+      rows.map((r, i) => (
+        <tr>
+          <td>{i + 1}</td>
+          <td>{r.model.name}</td>
+          <td>{r.model.provider}</td>
+          <td>{r.fit}</td>
+          <td>
+            {price(r.model.price?.in)}
+            <br />
+            <span style="opacity:.7;font-size:.85em">{cny(r.model.price?.in)}</span>
+          </td>
+          <td>
+            {price(r.model.price?.out)}
+            <br />
+            <span style="opacity:.7;font-size:.85em">{cny(r.model.price?.out)}</span>
+          </td>
+          <td>{ctxText(r.model)}</td>
+        </tr>
+      ))
+    }
+  </tbody>
+</table>
+<p>
+  {res.top && (
+    <>
+      <strong>首选 {fullName(res.top.model)}（匹配度 {res.top.fit}）</strong>
+      ：{res.top.reasons.join('；')}。
+      {res.top.tradeoffs.length > 0 && <>需要注意：{res.top.tradeoffs.join('；')}。</>}
+    </>
+  )}
+</p>
+
+<h2>权重是怎么定的</h2>
+<p>
+  这个场景没有「万能最优解」，只有「在这个任务上更划算的解」。下表是各项能力在
+  总评分里占的比重——比重越高的项，换模型时越值得较真：
+</p>
+<table>
+  <thead>
+    <tr>
+      <th>能力维度</th>
+      <th>权重</th>
+      <th>它在这个场景里管什么</th>
+    </tr>
+  </thead>
+  <tbody>
+    {
+      weights.map((w) => (
+        <tr>
+          <td>{w.def?.label ?? w.id}</td>
+          <td>{Math.round(w.w * 100)}%</td>
+          <td>{w.def?.weak ? `不足时：${w.def.weak}` : '—'}</td>
+        </tr>
+      ))
+    }
+  </tbody>
+</table>
+{
+  constraintLabels.length > 0 && (
+    <p>
+      本场景默认还勾选了「{constraintLabels.join('」「')}」两项约束：前者是加权（让你更在意成本），
+      后者是硬过滤（不满足直接出局）。当前条件下共 {res.included.length} 个模型进入排名，
+      另有 {res.excluded.length} 个被排除，原因会在上方工具里逐条列出。
+    </p>
+  )
+}
+
+<h2>不想用首选，还有两个方向</h2>
+<ul>
+  {
+    res.runnerUp && (
+      <li>
+        <strong>换一家供应商：{fullName(res.runnerUp.model)}</strong>
+        （匹配度 {res.runnerUp.fit}）——避免单一依赖，或在议价、合规、网络可达性上更合适时选它。
+      </li>
+    )
+  }
+  {
+    res.budgetPick && (
+      <li>
+        <strong>省钱替代：{fullName(res.budgetPick.model)}</strong>
+        （匹配度 {res.budgetPick.fit}）——分数掉得不多但单价明显更低，适合先跑通再升级。
+      </li>
+    )
+  }
+  <li>
+    <strong>分层组合</strong>——高频、简单的请求交给便宜模型，判断不了的再升级到首选；
+    多数业务里这样能把成本压掉一大半，体验几乎不变。
+  </li>
+</ul>
+
+<h2>怎么用好这份榜单</h2>
+<p>
+  这份排名是<strong>选型的起点，不是结论</strong>。三条实操建议：
+</p>
+<ol>
+  <li>
+    用你自己的 50-100 条真实样本压测，别用网上的跑分题——业务数据的分布和公开评测差很远。
+  </li>
+  <li>
+    匹配度差 5 分以内基本可以视为同一档，这时候按价格、网络可达性、合规要求来选；
+    差 10 分以上才是能力真有差距。
+  </li>
+  <li>
+    成本按「条数 ×（输入 token × 输入单价 + 输出 token × 输出单价）」估，
+    先跑 1000 条统计实际 token，再乘总量，比凭感觉估准得多。
+  </li>
+</ol>
+
+<h2>其他场景</h2>
+<p>换个任务，权重和排名会完全不同——同一个模型在 A 场景第一、在 B 场景可能掉出前五：</p>
+<ul>
+  {
+    TASK_GROUPS.map((g) => {
+      const list = siblings.filter((t) => t.group === g.id);
+      if (!list.length) return null;
+      return (
+        <li>
+          <strong>{groupLabel.get(g.id)}</strong>：
+          {list.map((t, i) => (
+            <>
+              {i > 0 && '、'}
+              <a href={`/tools/ai-model-selector/${TASK_PAGES[t.id].slug}/`}>{t.label}</a>
+            </>
+          ))}
+        </li>
+      );
+    })
+  }
+</ul>
+
+<h2>数据口径</h2>
+<p>
+  能力评分为人工维护的相对口径（0-10），价格与
+  <a href="/tools/ai-price-compare/">AI 价格比价</a>
+  共用同一份快照（{SNAPSHOT}）。大模型发版与调价都很频繁，正式采购前请以厂商官网公示价为准；
+  本页所有计算在浏览器本地完成，不上传任何内容。
+</p>

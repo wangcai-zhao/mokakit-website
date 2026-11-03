@@ -15,6 +15,7 @@
     "check:widgets": "node scripts/check-widgets.mjs",
     "check:search": "node --experimental-strip-types --no-warnings --import ./scripts/ts-resolve.mjs scripts/test-search.mjs",
     "test:model-select": "node --experimental-strip-types --no-warnings --import ./scripts/ts-resolve.mjs scripts/test-ai-model-select.mjs",
+    "verify:subpages": "node --experimental-strip-types --no-warnings --import ./scripts/ts-resolve.mjs scripts/check-model-subpages.mjs",
     "changelog:check": "node scripts/changelog-check.mjs",
     "check:all": "npm run check:widgets && npm run check:icons && npm run check:search && npm run changelog:check",
     "astro": "astro",

@@ -28,6 +28,7 @@ import {
   TASKS,
   TASK_BY_ID,
 } from '../src/tools/ai-model-selector/data.ts';
+import { TASK_PAGES } from '../src/tools/ai-model-selector/seo.ts';
 
 let pass = 0;
 const fails = [];
@@ -284,6 +285,31 @@ check('推荐结论文案包含首选、理由与免责声明', () => {
   assert.ok(txt.includes('匹配度'));
   assert.ok(txt.includes('月成本估算'));
   assert.ok(txt.includes('最终以自身数据压测为准'));
+});
+
+// ---------------------------------------------------------------- 长尾子页
+
+check('18 个场景都有对应的长尾子页文案', () => {
+  assert.equal(Object.keys(TASK_PAGES).length, TASKS.length);
+  for (const t of TASKS) assert.ok(TASK_PAGES[t.id], `场景 ${t.id} 缺子页文案`);
+});
+
+check('子页 slug 全小写连字符、无重复、长度可读', () => {
+  const slugs = Object.values(TASK_PAGES).map((p) => p.slug);
+  assert.equal(new Set(slugs).size, slugs.length, `slug 有重复：${slugs.join(',')}`);
+  for (const s of slugs) {
+    assert.match(s, /^[a-z0-9]+(-[a-z0-9]+)*$/, `slug 不合规：${s}`);
+    assert.ok(s.length <= 24, `slug 过长：${s}`);
+  }
+});
+
+check('子页标题与描述长度落在可展示区间', () => {
+  for (const [id, p] of Object.entries(TASK_PAGES)) {
+    assert.ok(p.title.length >= 6 && p.title.length <= 18, `${id} h1 长度异常（${p.title.length}）`);
+    assert.ok(p.seoTitle.length >= 18 && p.seoTitle.length <= 34, `${id} seoTitle 长度异常（${p.seoTitle.length}）`);
+    assert.ok(p.description.length >= 70 && p.description.length <= 130, `${id} description 长度异常（${p.description.length}）`);
+    assert.ok(p.faq.length >= 2, `${id} FAQ 少于 2 条`);
+  }
 });
 
 // ---------------------------------------------------------------- 输出

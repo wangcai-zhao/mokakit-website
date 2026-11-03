@@ -47,6 +47,36 @@ export interface Release {
 
 export const RELEASES: Release[] = [
   {
+    version: '2026.11.03',
+    date: '2026-11-03',
+    title: '场景选模型助手 · 18 个场景各开一张长尾页',
+    summary:
+      '母页抢「AI 模型怎么选」这种大词很难排上去，于是给 18 类场景各配一张独立页：/tools/ai-model-selector/<场景>/。每页打开就是该场景的推荐结果，正文静态写入 Top 5 排名、权重构成、备选与省钱替代、实操建议，并互链其余 17 个场景。',
+    groups: [
+      {
+        label: '长尾子页 ×18',
+        note: '子页正文不是手写死的：排名、价格、权重全部由 data.ts + logic.ts 在构建时算出，调算法后 18 页自动同步，不会和工具区打架。',
+        tools: [
+          {
+            id: 'ai-model-selector',
+            role: '18 类场景各一张选型长尾页',
+            features: [
+              '新增 coding / agent / code-review / data-analysis / copywriting / short-video-script / marketing / translation / deep-research / document-summary / contract-review / math-reasoning / tutoring / image-recognition / customer-service / roleplay / rag-chatbot / batch-processing 共 18 个子页',
+              '打开子页即预选该场景并带上场景默认约束，少点两步直接看结果',
+              '每页正文含 Top 5 排名表（匹配度 / 单价 / 上下文）、权重构成表、备选与省钱替代、三条实操建议、其余场景互链',
+              '每页配 2 条场景专属 FAQ，并入 FAQPage 结构化数据',
+            ],
+          },
+        ],
+      },
+    ],
+    notes: [
+      '子页命名规则：全小写英文 + 连字符，slug 就是用户会搜的那个词（coding / customer-service），不用拼音与中文，避免分享链接被转义成一串 %E4',
+      '新增 scripts/check-model-subpages.mjs：核验 18 个产物是否真的含标题、canonical、Top 5 表格与 astro-island（防「构建成功但页面是空壳」）',
+      '主工具 content.mdx 增加 18 个子页的导航段，形成母页 ↔ 子页的双向内链',
+    ],
+  },
+  {
     version: '2026.11.02',
     date: '2026-11-02',
     title: '场景选模型助手重做：18 类场景 × 9 项约束 × 可解释推荐',
