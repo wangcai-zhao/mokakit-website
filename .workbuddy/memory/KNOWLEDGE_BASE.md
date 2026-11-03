@@ -105,8 +105,12 @@ dist/              构建产物（610+ index.html，可重建，勿手改）
 - 索引格式 v2 是**列式单字母 key**（n/g/k/y/s/c/p/u/i + cats），`buildSearchData()` 生成；`buildSearchIndex()` 是兼容层。
 - 页面索引走 `<script type="application/json" id="mk-search-index">`，**不要塞进 astro-island props**（devalue 序列化会膨胀一倍多）。
 - 拼音只在 `name` 上生成（全拼 + 首字母），keywords 不生成（收益低、体积高）。
-- 回归测试 `scripts/test-search.mjs`（71 项，真实 meta 数据），已挂进 `check:all`。
+- 回归测试 `scripts/test-search.mjs`（77 项，真实 meta 数据），已挂进 `check:all`。
 - 方案全文 `docs/SEARCH-OPTIMIZATION-2026-10-23.md`。
+- **长尾子页进索引（2026-11-03）**：`search-build.ts` 的 `subpageSources(owner, categoryName)` 把 `ToolMeta.subpages()` 展开成检索源，**`registry.buildSearchData()` 与 `mcp/build.mjs` 必须同调它**，否则「网站搜得到、MCP 搜不到」口径分裂。两条硬规则：
+  - **只收浅层子页**（slug 不含 `/`）。全站 230 个子页里 213 个是单位换算深路径（`cm-to-km`），全收会把「厘米」冲成一片 cm-to-xxx；深路径由母页覆盖。
+  - 子页的 `keywords` **只放母页名**，不放场景词/分类词（子页 name 已是完整问句，塞无关单字会放大单字噪音，并破掉「单字只命中名字含该字工具」断言）；`priority` 降 2 级，同分母页优先。
+  - 现状：281 工具 + 78 浅层子页 = **359 条**，索引 56.3KB，单次检索 0.2ms。
 
 ---
 
@@ -146,6 +150,7 @@ dist/              构建产物（610+ index.html，可重建，勿手改）
 - **2026-10-23** 站内搜索重构：三套实现（SSR/客户端/MCP）收敛为 `src/lib/search.ts` 单源内核；补拼音（全拼+首字母）、英文 id 别名、词序/全角/标点归一、分层放宽与纠错、高亮与键盘导航；索引 52.6→39.8KB、搜索页 HTML 216→127KB；MCP `mokakit_search` 契约不变。详见 `docs/SEARCH-OPTIMIZATION-2026-10-23.md`。
 - **2026-11-02** 场景选模型助手重做：18 场景 × 11 维能力 × 9 约束 + 自然语言需求识别 + 可解释推荐（加分项/代价/排除原因）+ 3 模型对比（表 + SVG 雷达）。算法抽 `src/tools/ai-model-selector/{data,logic}.ts`，价格与 `ai-price-compare/data` 同源；配 `npm run test:model-select`（38 项断言）。新增工具若需同类"选型/打分"能力，照此「data + logic + 纯函数 + 断言脚本」四件套落地。
 - **2026-11-03** 场景选模型助手长出 18 个长尾子页并上线：`seo.ts`（每场景 slug/seoTitle/description/intro/faq）+ `meta.ts subpages()` 自动进 sitemap + `AiModelTaskContent.astro` 服务端渲染（Top5 排名表/权重表/首选理由/替代建议），`[...sub].astro` 透传 `initialTask` 让子页直达推荐结果。URL 规则 `/tools/ai-model-selector/<slug>/`。校验双保险：`npm run verify:subpages`（查 dist）、`scripts/verify-live-subpages.mjs`（查线上）。**`deploy.sh` 的 node/npm 路径已改为通配自动探测**（版本目录 `22.22.2` → `22.22.2-6` 曾导致失效）；🔴 **deploy.sh 必须前台 + dangerouslyDisableSandbox 跑，沙箱内 SSH 自检会因出站 22 被封而误报"无法连接"**。
+- **2026-11-03（续）子页接入检索单源**：`subpageSources()` 成为子页入索引的唯一实现，`registry` 与 `mcp/build.mjs` 共用；索引 281→359 条、39.8→56.3KB、`check:search` 77 项全绿；网页与 MCP 均实测「搜『客服机器人』首条即 `customer-service` 子页」。同时修复 `scripts/ts-resolve.mjs` **不认 `@/` 别名**的老问题（原来只能解析相对路径，导致 Node 侧无法 import 带 `@/tools/types` 的 meta），现 `mcp:build` 与各 test:* 都要带 `--import ./scripts/ts-resolve.mjs`。MCP 产物替换后须 `systemctl restart mokakit-mcp`；旧版备份 `*.bak-<date>`；公网 401 是应用层鉴权（token 在 `/opt/mokakit-mcp/.env`）不是故障。
 - 更细的逐日记录见 `.workbuddy/memory/YYYY-MM-DD.md`；结构化 Release 见 `src/data/changelog.ts`。
 
 ---

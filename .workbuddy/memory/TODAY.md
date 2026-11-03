@@ -54,3 +54,15 @@
 - 未执行选人升级（仅只读跑了一次 pick-stale-tools 取明日预报），未改任何源码，未跑 check:all / mcp:build / build。
 - 明日预报（仓库干净后下轮 20:00 将选中）：bill-split（life，89 天陈旧）/ bmi-calculator（calc，89 天）/ countdown-timer（life，89 天）——与 10-30 skipped 计划同批。
 - 下一步（人工）：用显式路径分批提交上述 WIP（**禁 git add -A**；未跟踪目录 _kms_src/、public/images/、_genui_* 按需决定去留，别误卷入），提交后下轮自动运行即恢复。
+
+---
+
+# 2026-11-03 每日工具升级（全自动单步）
+
+- 结果：**跳过**（安全前提不满足：git 已跟踪文件存在未提交改动，触发硬护栏，未执行任何升级）。
+- 未提交改动构成（8 个已跟踪 M，+870/-49，均出现于 11-03 09:59 人工提交 c9db672 之后，判定为手动工作新一波 WIP，与自动化无关）：
+  - deploy/mcp/catalog.json（+747，MCP 目录大改）、mcp/build.mjs（+53）、package.json（版本行）、scripts/test-search.mjs、scripts/ts-resolve.mjs、src/lib/search-build.ts（+47）、src/tools/registry.ts、src/components/WechatFollow.astro。
+  - 构成看是 MCP 目录 + 搜索构建 + registry 基础设施层改动，规模与昨日 ai-model-selector 大改同级，正是护栏要避开的冲突场景。
+- 未执行选人升级（仅只读跑了一次 pick-stale-tools.mjs 取预报，已验证不写文件、history.json 未变），未改任何源码，未跑 check:all / mcp:build / build。
+- 明日预报（仓库干净后下轮 20:00 将选中）：bill-split（life，90 天陈旧）/ bmi-calculator（calc，90 天）/ countdown-timer（life，90 天）——与 10-30 skipped 计划同批。
+- 下一步（人工）：用显式路径分批提交上述 8 个文件（**禁 git add -A**；提交前建议人工确认这波 MCP/搜索改动的验收状态），提交后下轮自动运行即恢复。

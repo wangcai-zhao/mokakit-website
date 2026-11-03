@@ -11,6 +11,7 @@
  */
 import { pinyin } from 'pinyin-pro';
 import type { SearchIndexData } from './search';
+import type { SubPage } from '../tools/types';
 
 /** 构建输入：只取检索要用到的字段，避免和 ToolMeta 强耦合 */
 export interface SearchSource {
@@ -23,6 +24,52 @@ export interface SearchSource {
   priority: number;
   icon: string;
   url: string;
+}
+
+/** 能展开出长尾子页的工具（结构化形状，避免和 ToolMeta 强绑定） */
+export interface SubpageOwner {
+  id: string;
+  name: string;
+  priority: number;
+  icon: string;
+  subpages?: () => SubPage[];
+}
+
+/**
+ * 把工具的长尾子页展开成可检索条目。
+ *
+ * 为什么放在这里而不是 registry 里：`scripts/test-search.mjs` 自己构造索引源，
+ * 若两边各写一份展开逻辑，迟早出现「线上能搜到、测试测不到」的漂移。
+ *
+ * 两个刻意的取舍：
+ *   1. keywords 只放母页名，不放场景词/分类词。子页 name 本身已是完整问句
+ *      （「客服机器人用哪个 AI 模型」），再塞无关单字会放大单字查询噪音，
+ *      也会破掉 test-search 的「单字只命中名字含该字的工具」断言。
+ *   2. priority 降 2 级：同样命中时母页优先，子页是补充而非抢位。
+ *
+ * 只收浅层子页（slug 不含斜杠）。深路径子页（如 unit-convert 的
+ * `length/cm-to-inch`）是「参数组合」而非独立意图，母页搜「单位换算」已经覆盖；
+ * 全站 230 个子页里这类占 213 个，全收进来会把索引从 40KB 撑到 98KB，
+ * 还会让搜「厘米」返回一串 cm-to-xxx，把真正有用的工具挤出首屏。
+ */
+export function subpageSources(owner: SubpageOwner, categoryName: string): SearchSource[] {
+  if (!owner.subpages) return [];
+  const out: SearchSource[] = [];
+  for (const p of owner.subpages()) {
+    if (p.noindex || p.slug.includes('/')) continue;
+    out.push({
+      id: `${owner.id}/${p.slug}`,
+      name: p.title,
+      tagline: p.description,
+      keywords: [owner.name],
+      tags: [],
+      category: categoryName,
+      priority: Math.max(1, owner.priority - 2),
+      icon: owner.icon,
+      url: `/tools/${owner.id}/${p.slug}/`,
+    });
+  }
+  return out;
 }
 
 /** 名称 → 拼音全拼连写（mimachengchengqi）与首字母连写（mmccq） */

@@ -31,7 +31,9 @@ registerHooks({
   },
 });
 
-const { buildSearchIndexData } = await import(pathToFileURL(join(ROOT, 'src/lib/search-build.ts')).href);
+const { buildSearchIndexData, subpageSources } = await import(
+  pathToFileURL(join(ROOT, 'src/lib/search-build.ts')).href
+);
 const { prepareIndex, searchTools, hotTools, splitHighlight, normalize, editDistance } = await import(
   pathToFileURL(join(ROOT, 'src/lib/search.ts')).href
 );
@@ -67,6 +69,10 @@ const sources = INDEXABLE.map((m) => ({
   icon: m.icon ?? '',
   url: `/tools/${m.id}/`,
 }));
+// 长尾子页与 registry 同口径展开（共用 subpageSources，防漂移）
+for (const m of INDEXABLE) {
+  sources.push(...subpageSources(m, catName.get(m.category) ?? m.category));
+}
 const data = buildSearchIndexData(sources, CATEGORIES.map((c) => c.name));
 const pi = prepareIndex(data);
 
@@ -87,7 +93,8 @@ ok('各列长度一致', [data.g, data.k, data.y, data.s, data.c, data.p, data.u
 const pyFilled = data.y.filter(Boolean).length;
 ok('拼音覆盖率 ≥ 98%', pyFilled / data.n.length >= 0.98, `${((pyFilled / data.n.length) * 100).toFixed(1)}%`);
 ok('无重复 id', new Set(data.u).size === data.u.length);
-ok('url 统一 /tools/<id>/ 形态', data.u.every((u) => /^\/tools\/[a-z0-9-]+\/$/.test(u)));
+// 母页 /tools/<id>/；浅层长尾子页 /tools/<id>/<slug>/（深路径子页不进索引）
+ok('url 形态合法', data.u.every((u) => /^\/tools\/[a-z0-9-]+(\/[a-z0-9-]+)?\/$/.test(u)));
 
 // 2. 名称精确 / 前缀（最核心的意图）
 ok('中文全名 top1', top1('密码生成器') === 'password-generator', top1('密码生成器'));
@@ -169,6 +176,20 @@ ok('编辑距离基本正确', editDistance('json', 'jsno', 2) === 2 && editDist
 // 11. 热门兜底
 const hot = hotTools(pi, 8);
 ok('热门非空且有序', hot.length === 8 && hot[0].priority >= hot[7].priority);
+
+// 11.5 长尾子页（2026-11-03 新增收录）
+// 子页抢的是具体问句，若搜不到等于白建；这里锁住三条底线：
+// 进索引、问句能命中、命中的是子页而不是只有母页。
+const subDocs = data.u.filter((u) => u.replace(/\/$/, '').split('/tools/')[1]?.includes('/'));
+ok('子页已进索引', subDocs.length > 0, `${subDocs.length} 条`);
+ok('子页 url 带二级路径', subDocs.every((u) => /^\/tools\/[^/]+\/[^/]+\/$/.test(u)));
+ok('搜「客服机器人」命中客服子页', ids('客服机器人').includes('ai-model-selector/customer-service'), ids('客服机器人').slice(0, 4).join(','));
+ok('搜「写代码 模型」命中 coding 子页', ids('写代码 模型').includes('ai-model-selector/coding'), ids('写代码 模型').slice(0, 4).join(','));
+ok('搜「合同审阅」命中子页', ids('合同审阅').includes('ai-model-selector/contract-review'));
+// 母页仍是主入口：搜工具名时母页排在子页前面
+const parentRank = ids('场景选模型助手').indexOf('ai-model-selector');
+const subRank = ids('场景选模型助手').findIndex((id) => id.startsWith('ai-model-selector/'));
+ok('母页优先于子页', parentRank >= 0 && (subRank < 0 || parentRank < subRank), `母页#${parentRank} 子页#${subRank}`);
 
 // 12. 性能（本地 Node，无 DOM，代表纯计算成本）
 const qs = ['密码', 'json', 'mima', '换算', '时间戳转换', 'a', '二维码生成', 'base64 编码', '图片', '个人所得税'];

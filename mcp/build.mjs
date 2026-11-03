@@ -20,10 +20,10 @@
 import { build } from 'esbuild';
 import { loadAllMeta } from './meta-loader.mjs';
 import { writeFileSync, mkdirSync } from 'node:fs';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
 // 与网页端同源：索引构建器 + 分类表都直接 import src/，不另写一份
-import { buildSearchIndexData } from '../src/lib/search-build.ts';
+import { buildSearchIndexData, subpageSources } from '../src/lib/search-build.ts';
 import { CATEGORIES } from '../src/config/categories.ts';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -48,22 +48,39 @@ const { tools, errors } = loadAllMeta();
 // 顺带把检索索引算好（含拼音），server 启动直接 prepareIndex，
 // 避免线上服务器装 pinyin-pro 或现场算拼音。
 const catName = new Map(CATEGORIES.map((c) => [c.id, c.name]));
-const search = buildSearchIndexData(
-  tools
-    .filter((t) => !t.noindex)
-    .map((t) => ({
-      id: t.id,
-      name: t.name,
-      tagline: t.tagline || '',
-      keywords: t.keywords || [],
-      tags: t.tags || [],
-      category: catName.get(t.category) || t.category,
-      priority: t.priority ?? 0,
-      icon: t.icon || '',
-      url: t.url,
-    })),
-  CATEGORIES.map((c) => c.name),
-);
+const indexable = tools.filter((t) => !t.noindex);
+const indexSources = indexable.map((t) => ({
+  id: t.id,
+  name: t.name,
+  tagline: t.tagline || '',
+  keywords: t.keywords || [],
+  tags: t.tags || [],
+  category: catName.get(t.category) || t.category,
+  priority: t.priority ?? 0,
+  icon: t.icon || '',
+  url: t.url,
+}));
+// 长尾子页与网页端同源展开（同一个 subpageSources），否则会出现
+// 「网站搜得到、MCP 搜不到」的口径分裂。
+//
+// 为什么要在这里动态 import：loadAllMeta() 是静态求值（生产服务器不能跑 TS），
+// 只能拿到字符串字段，`subpages()` 函数拿不到。这里跑在本地、有 ts-resolve
+// 别名钩子，所以能直接把 meta.ts 拉起来。任何 meta 导入失败都跳过，不阻断构建。
+const subpageOf = new Map();
+for (const t of indexable) {
+  try {
+    const mod = await import(pathToFileURL(join(__dirname, '..', 'src', 'tools', t.id, 'meta.ts')).href);
+    if (typeof mod.default?.subpages === 'function') subpageOf.set(t.id, mod.default.subpages);
+  } catch {
+    /* 依赖浏览器环境的 meta，跳过即可 */
+  }
+}
+for (const t of indexable) {
+  indexSources.push(
+    ...subpageSources({ ...t, subpages: subpageOf.get(t.id) }, catName.get(t.category) || t.category),
+  );
+}
+const search = buildSearchIndexData(indexSources, CATEGORIES.map((c) => c.name));
 
 writeFileSync(join(outDir, 'catalog.json'), JSON.stringify({ tools, errors, search }, null, 2));
 

@@ -1,7 +1,7 @@
 import type { ToolMeta } from './types';
 import { CATEGORIES, CATEGORY_MAP, type Category } from '@/config/categories';
 import type { SearchIndexData } from '@/lib/search';
-import { buildSearchIndexData, type SearchSource } from '@/lib/search-build';
+import { buildSearchIndexData, subpageSources, type SearchSource } from '@/lib/search-build';
 
 /**
  * ★ 自动注册表 ★
@@ -110,6 +110,20 @@ export function buildSearchData(): SearchIndexData {
     icon: t.icon,
     url: `/tools/${t.id}/`,
   }));
+
+  // 长尾子页同样进索引。
+  //
+  // 为什么必须收：子页抢的是具体问句（「客服机器人用哪个模型」），而站内搜索
+  // 原来只认工具名——用户搜这句只能命中母页，还要自己再点一次才到答案。
+  // 2026-11-03 实测：18 个场景子页上线后，搜「客服机器人」「写代码 模型」
+  // 都只返回母页，等于白建。
+  //
+  // 展开逻辑抽在 search-build.ts 的 subpageSources 里，test-search 共用同一份，
+  // 避免「线上收、测试不收」的漂移。
+  for (const t of INDEXABLE_TOOLS) {
+    sources.push(...subpageSources(t, CATEGORY_MAP.get(t.category)?.name ?? t.category));
+  }
+
   return buildSearchIndexData(
     sources,
     CATEGORIES.map((c) => c.name),
