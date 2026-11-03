@@ -47,6 +47,39 @@ export interface Release {
 
 export const RELEASES: Release[] = [
   {
+    version: '2026.11.02',
+    date: '2026-11-02',
+    title: '场景选模型助手重做：18 类场景 × 9 项约束 × 可解释推荐',
+    summary:
+      '把「按场景筛模型」从 6 个标签的加权求和，重做成一条完整的选型链路：先用一句话识别需求（本地关键词解析，不上传），再给 18 类场景与 9 项硬性约束，最后输出匹配度排名 + 三条加分项 + 代价提示 + 月成本估算，并支持 3 个模型的 11 维对照与雷达图。模型画像扩到 18 个，价格与「AI 价格比价」共用同一份快照，避免两个页面报两套价。',
+    groups: [
+      {
+        label: '工具升级 ×1',
+        note: '算法抽成 data.ts + logic.ts 纯函数层，配 38 项回归断言；前端只负责渲染，后续可直接给 MCP Server 复用。',
+        tools: [
+          {
+            id: 'ai-model-selector',
+            role: '说一句需求，算出该用哪个模型',
+            features: [
+              '场景从 6 个扩到 18 类：新增智能体、代码审查、数据分析、合同审阅、教学答疑、知识库 RAG、批量打标等',
+              '一句话识别需求：本地关键词/正则解析出场景与约束，显示命中词与置信度，不联网不上传',
+              '9 项约束分硬过滤与加权两类：预算、准确率、低延迟、海量调用、读图、JSON、超长材料、私有化、国内直连',
+              '可解释推荐：首选卡给三条加分项 + 代价提示，榜单逐行可拆解「能力分 × 权重 = 贡献占比」',
+              '对比与成本：最多 3 个模型的 11 维对照表 + 雷达图，按日调用量估算月成本',
+            ],
+          },
+        ],
+      },
+    ],
+    notes: [
+      '模型画像从 12 个扩到 18 个，补齐 GPT-4o mini、o3-mini、Claude Haiku、Gemini Flash-Lite、DeepSeek V4-Pro、Qwen-Plus 等价位档，覆盖从极低价到旗舰的完整区间',
+      '硬过滤会列出每个被排除模型的具体原因（如「图像理解 4/10，低于门槛 7」），约束按钮上提前显示会排除几个模型',
+      '推荐结论可一键复制为纯文本（含首选/备选/理由/月成本/免责声明），便于直接贴进选型文档',
+      '价格与能力快照统一取自 ai-price-compare/data，两个页面不再各维护一份单价',
+      '新增 scripts/test-ai-model-select.mjs：覆盖权重归一、约束过滤、典型场景排序、成本口径、9 条自然语言解析用例',
+    ],
+  },
+  {
     version: '2026.10.23',
     date: '2026-10-23',
     title: '阴阳历转换独立成页 · 日期工具全站互链',
@@ -78,6 +111,9 @@ export const RELEASES: Release[] = [
       '【升级】ai-price-compare：汇率可调 + localStorage 记忆、月成本估算（单次×30×次数）、模型级勾选；数据抽层 data.ts 并按 LiteLLM 字段结构刷新快照；新增 GPT-4o/Claude/DeepSeek/Gemini/Qwen/即梦/可灵 7 个价格子页',
       '【升级】base-converter：新增全进制一览（2/8/10/16/32/36 同屏+各自复制）、分组与 0x/0b 前缀开关、IEEE 754 浮点转十六进制折叠区（兑现 description 承诺）；纯函数抽层 radix.ts；新增二/八/十六进制互转与 IEEE754 专题 7 个子页',
       '【升级】base64：URL-safe 模式（编码 - _ 变体+去补位，解码自动识别+补全）、文件转 Base64（拖拽/选择，图片 dataURL 预览，>2MB 提示）、统计条（字符/字节/长度/膨胀率）——三项 description 承诺全部兑现；纯函数抽层 b64.ts；新增中文/ASCII/emoji 对照表 + URL-safe + 图片专题 5 个子页',
+      '【升级】markdown-preview：修复 description 超卖硬伤（承诺的流程图/数学公式/脚注均未实现，收敛为真实支持的 GFM 子集，并补齐表格/任务列表/删除线渲染样式）；新增语法工具栏（加粗/斜体/删除线/行内代码/代码块/链接/引用/三种列表/表格，光标处插入）、一键复制渲染 HTML、字符与行数统计；补 seoTitle/related，FAQ 扩到 3 条',
+      '【升级】mcp-config-generator：兑现 content.mdx 承诺的 HTTP/SSE 支持——新增「远程服务（SSE）」与「远程服务（Streamable HTTP）」预置（url + 可选请求头，生成带 type/url/headers 的标准配置）；修复自定义 args 按空格/逗号硬拆导致 Windows 路径被截断的 bug（改引号感知分词，"C:\Program Files\..." 整段保留）；description/FAQ/content.mdx 三处口径同步；补 seoTitle/related',
+      '【升级】password-generator：兑现 description 承诺的 4-128 位——长度滑块上限 64 改 128，刻度补 96/128，新增 12/16/20/32/64/128 快捷档位；修正 content.mdx 字符集口径（全字符集 87→88，与实现的 26+26+10+26 一致）；补 seoTitle/related 与长度上限 FAQ',
       '90天计算器升级为三合一（日期推算 / 天数间隔 / 阴阳历转换），修好农历数据表污染 bug',
       '日期类工具全站互链：每个日期工具页的「相关工具」区互相直达，content.mdx 补相关工具行',
       'today-info / 90-day 新增「前一天 / 后一天」快捷按钮，页面内即可翻日历',

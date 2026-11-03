@@ -8,23 +8,25 @@ import InviteCta from '@/components/InviteCta.astro';
 
 ## 这个工具能做什么
 
-- 生成 stdio 与 HTTP/SSE 类型的 MCP 配置
-- 填入命令、参数、环境变量
-- 复制或下载配置
+- 生成 stdio 与 HTTP/SSE（Streamable HTTP）类型的 MCP 配置
+- 内置文件系统、GitHub、Fetch、PostgreSQL 等常见服务预置，也支持完全自定义
+- 填入命令、参数、环境变量；远程服务填 URL 与请求头
+- 自定义参数支持引号包裹，Windows 含空格路径不会被截断
+- 多个服务自动组合，一键复制或下载配置
 
 ## 怎么使用（输入说明）
 
-1. **选类型**：stdio（本地进程）或 HTTP/SSE（远程）。
-2. **填参数**：命令、参数、env 或远端 URL。
+1. **选服务**：本地服务从预置里选（或自定义 stdio），远程服务选「SSE」或「Streamable HTTP」并填 URL。
+2. **填参数**：命令、参数、env 或远端 URL、请求头。
 3. **生成**：得到 mcp.json，粘贴进客户端配置。
 
 ## stdio 和 HTTP/SSE 区别
 
-stdio 由客户端本地拉起一个进程通信，适合本机工具；HTTP/SSE 连接远端 MCP 服务，适合团队共享。前者零网络、后者可集中部署。
+stdio 由客户端本地拉起一个进程通信，适合本机工具；HTTP/SSE 连接远端 MCP 服务，适合团队共享。前者零网络、后者可集中部署。远程服务的配置形如 \{"type": "streamable-http", "url": "https://example.com/mcp"\}，部分服务还需要 headers 请求头。
 
 ## 计算实例
 
-例：stdio 配置填 "npx -y some-mcp"，客户端启动即加载该工具。
+例：stdio 配置填 "npx -y some-mcp"，客户端启动即加载该工具；远程服务选 Streamable HTTP 并填 https://example.com/mcp，即生成 \{"type": "streamable-http", "url": "https://example.com/mcp"\}。
 
 ## 常见问题 FAQ
 
@@ -34,6 +36,10 @@ A：WorkBuddy 的 MCP 配置文件是用户主目录下的 ~/.workbuddy/mcp.json
 
 **Q：stdio 和 HTTP/SSE 类型有什么区别？**
 
-A：本工具生成的是最常见的 stdio 类型（本地用命令启动）。若你接入的是远程 HTTP/SSE 服务，需改用 url 字段，可参考官方文档手动调整。
+A：两种都支持。本地服务（文件系统、GitHub 等预置）生成 stdio 配置：客户端用 command + args 在本地拉起进程，零网络依赖；远程服务选「SSE」或「Streamable HTTP」类型，填服务地址 URL 即可生成带 type/url 字段的配置，部分服务还需要请求头（headers），适合团队共享的集中部署。
+
+**Q：自定义命令的参数带空格怎么办？**
+
+A：用双引号把含空格的路径或参数整段包起来，例如 npx -y some-server "D:\\My Docs\\data"，生成 JSON 时引号内的内容会作为一个完整参数保留，Windows 路径不会被空格截断。
 
 <InviteCta variant="compact" trackLabel="mcp-config-generator" />

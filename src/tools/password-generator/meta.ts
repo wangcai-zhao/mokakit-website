@@ -3,6 +3,7 @@ import { defineTool } from '../types';
 export default defineTool({
   id: 'password-generator',
   name: '密码生成器',
+  seoTitle: '随机密码生成器 - 在线生成高强度安全密码，4-128位可调',
   tagline: '一键生成高强度随机密码',
   description:
     '免费在线随机密码生成器，可自定义长度（4-128 位）、大小写字母、数字与符号，支持排除易混淆字符（0/O、1/l/I）。采用浏览器加密级 CSPRNG 随机源，全程本地运算不上传服务器，断网也能用，安全可靠。',
@@ -13,8 +14,9 @@ export default defineTool({
   status: 'stable',
   hydrate: 'idle',
   createdAt: '2026-08-04',
-  updatedAt: '2026-08-04',
+  updatedAt: '2026-11-01',
   priority: 9,
+  related: ['password-strength', 'api-key-gen', 'uuid-generator', 'totp-generator'],
   faq: [
     {
       q: '这个密码生成器安全吗？会记录我生成的密码吗？',
@@ -35,6 +37,10 @@ export default defineTool({
     {
       q: '密码强度里的"熵"是什么意思？',
       a: '熵以比特（bit）为单位衡量密码的不可预测程度，计算方式是 log₂(字符集大小的密码长度次方)。熵值每增加 1 比特，暴力破解所需时间就翻一倍。一般认为 60 比特以上较为安全，80 比特以上可视为强密码。',
+    },
+    {
+      q: '最长可以生成多少位的密码？',
+      a: '最长 128 位，滑块或快捷档位都能选到。日常使用 16-20 位已经非常安全（全字符集 20 位约 129 比特熵）；128 位适合密码管理器主密码、加密卷等极端场景，本工具同样支持，且全部在本地生成。',
     },
   ],
 });

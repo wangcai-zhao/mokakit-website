@@ -15,25 +15,56 @@ type PresetId =
   | 'gdrive'
   | 'memory'
   | 'time'
+  | 'remote-sse'
+  | 'remote-http'
   | 'custom';
+
+/** stdio：客户端本地拉起进程 */
+type StdioConfig = { command: string; args: string[]; env?: Record<string, string> };
+/** 远程：连接远端 MCP 服务（SSE / Streamable HTTP） */
+type RemoteConfig = {
+  type: 'sse' | 'streamable-http';
+  url: string;
+  headers?: Record<string, string>;
+};
 
 interface PresetDef {
   id: PresetId;
   label: string;
   fields: FieldDef[];
-  build: (f: Record<string, string>) => {
-    command: string;
-    args: string[];
-    env?: Record<string, string>;
-  };
+  build: (f: Record<string, string>) => StdioConfig | RemoteConfig;
 }
 
+/**
+ * 参数字符串 → 数组，支持空格 / 逗号分隔。
+ *
+ * 关键修复：双引号或单引号内的内容不参与拆分——Windows 路径
+ * （如 "C:\Program Files\...\server.js"）和含空格的参数必须整段保留，
+ * 否则生成出来的 mcp.json 一启动就报「找不到模块」。
+ */
 function parseArgs(s: string): string[] {
-  if (!s.trim()) return [];
-  return s
-    .split(/[\s,]+/)
-    .map((x) => x.trim())
-    .filter(Boolean);
+  const out: string[] = [];
+  let cur = '';
+  let quote: string | null = null;
+  for (const ch of s) {
+    if (quote) {
+      if (ch === quote) quote = null;
+      else cur += ch;
+      continue;
+    }
+    if (ch === '"' || ch === "'") {
+      quote = ch;
+    } else if (ch === ',' || /\s/.test(ch)) {
+      if (cur) {
+        out.push(cur);
+        cur = '';
+      }
+    } else {
+      cur += ch;
+    }
+  }
+  if (cur) out.push(cur);
+  return out;
 }
 
 function parseEnv(s: string): Record<string, string> {
@@ -47,6 +78,21 @@ function parseEnv(s: string): Record<string, string> {
     }
   });
   return out;
+}
+
+/** 远程预置共用的字段：服务地址 + 可选请求头 */
+const REMOTE_FIELDS: FieldDef[] = [
+  { key: 'url', label: '服务地址 URL', default: 'https://example.com/mcp' },
+  { key: 'headers', label: '请求头（每行 KEY=VALUE，可空）', default: '' },
+];
+
+function buildRemote(type: 'sse' | 'streamable-http') {
+  return (f: Record<string, string>): RemoteConfig => {
+    const cfg: RemoteConfig = { type, url: f.url || 'https://example.com/mcp' };
+    const headers = parseEnv(f.headers || '');
+    if (Object.keys(headers).length) cfg.headers = headers;
+    return cfg;
+  };
 }
 
 const PRESETS: PresetDef[] = [
@@ -158,16 +204,28 @@ const PRESETS: PresetDef[] = [
     build: () => ({ command: 'uvx', args: ['mcp-server-time'] }),
   },
   {
+    id: 'remote-sse',
+    label: '远程服务（SSE）',
+    fields: REMOTE_FIELDS,
+    build: buildRemote('sse'),
+  },
+  {
+    id: 'remote-http',
+    label: '远程服务（Streamable HTTP）',
+    fields: REMOTE_FIELDS,
+    build: buildRemote('streamable-http'),
+  },
+  {
     id: 'custom',
     label: '自定义 stdio',
     fields: [
       { key: 'name', label: '服务名（key）', default: 'my-server' },
       { key: 'command', label: '启动命令', default: 'npx' },
-      { key: 'args', label: '参数（空格或逗号分隔）', default: '' },
+      { key: 'args', label: '参数（空格或逗号分隔，含空格用引号）', default: '' },
       { key: 'env', label: '环境变量（每行 KEY=VALUE）', default: '' },
     ],
     build: (f) => {
-      const cfg: { command: string; args: string[]; env?: Record<string, string> } = {
+      const cfg: StdioConfig = {
         command: f.command || 'npx',
         args: parseArgs(f.args || ''),
       };
@@ -204,7 +262,7 @@ export default function McpConfigGenerator() {
   const timer = useRef<number | undefined>(undefined);
 
   const output = useMemo(() => {
-    const mcp: Record<string, any> = {};
+    const mcp: Record<string, unknown> = {};
     for (const s of servers) {
       const def = PRESETS.find((p) => p.id === s.preset)!;
       const cfg = def.build(s.fields);
@@ -261,7 +319,8 @@ export default function McpConfigGenerator() {
     <div class="grid gap-4 md:grid-cols-2">
       <div class="space-y-3">
         <p class="text-xs opacity-60">
-          可添加多个 MCP 服务，自动组合成一个完整的 <code>mcp.json</code>。
+          可添加多个 MCP 服务（本地 stdio 或远程 SSE / HTTP），自动组合成一个完整的{' '}
+          <code>mcp.json</code>。
         </p>
 
         {servers.map((s, idx) => {
@@ -298,22 +357,13 @@ export default function McpConfigGenerator() {
               {def.fields.map((fld) => (
                 <div key={fld.key}>
                   <label class="text-xs opacity-60">{fld.label}</label>
-                  {fld.key === 'env' ? (
+                  {fld.key === 'env' || fld.key === 'headers' ? (
                     <textarea
                       class="textarea textarea-bordered w-full h-16 font-mono text-xs"
                       value={s.fields[fld.key] || ''}
                       placeholder={fld.placeholder}
                       onInput={(e) =>
                         setField(s.id, fld.key, (e.target as HTMLTextAreaElement).value)
-                      }
-                    />
-                  ) : fld.key === 'args' ? (
-                    <input
-                      class="input input-bordered w-full font-mono text-sm"
-                      value={s.fields[fld.key] || ''}
-                      placeholder={fld.placeholder}
-                      onInput={(e) =>
-                        setField(s.id, fld.key, (e.target as HTMLInputElement).value)
                       }
                     />
                   ) : (
@@ -337,8 +387,10 @@ export default function McpConfigGenerator() {
         </button>
 
         <p class="text-xs opacity-55 leading-relaxed">
-          预置服务来自 Model Context Protocol 官方与社区仓库；远程 HTTP/SSE 类型可生成后手动加
-          <code> url </code> 字段。
+          预置服务来自 Model Context Protocol 官方与社区仓库，部分包可能已归档弃用，按客户端报错提示替换为社区维护版本即可；远程服务直接选 SSE /
+          Streamable HTTP 类型并填 URL，生成带 <code>type</code> / <code>url</code> /{' '}
+          <code>headers</code> 字段的标准配置。自定义参数含空格时用引号整段包裹，Windows
+          路径不会再被截断。
         </p>
       </div>
 

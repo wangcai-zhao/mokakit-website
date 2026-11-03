@@ -249,7 +249,7 @@ export default function PasswordGenerator() {
             id="pw-length"
             type="range"
             min={4}
-            max={64}
+            max={128}
             value={opts.length}
             class="range range-primary range-sm"
             onInput={(e) =>
@@ -258,9 +258,22 @@ export default function PasswordGenerator() {
           />
           <div class="flex justify-between text-[11px] opacity-45 mt-0.5 px-0.5">
             <span>4</span>
-            <span>16</span>
             <span>32</span>
             <span>64</span>
+            <span>96</span>
+            <span>128</span>
+          </div>
+          <div class="flex flex-wrap gap-1 mt-2">
+            {[12, 16, 20, 32, 64, 128].map((n) => (
+              <button
+                key={n}
+                type="button"
+                class={`btn btn-xs ${opts.length === n ? 'btn-primary' : 'btn-ghost'}`}
+                onClick={() => set({ length: n })}
+              >
+                {n}
+              </button>
+            ))}
           </div>
         </div>
 
