@@ -45,13 +45,15 @@
 
 ## Git push（Agent 侧唯一可用通路）
 ```bash
-export GIT_TERMINAL_PROMPT=0 HTTPS_PROXY= HTTP_PROXY= ALL_PROXY= https_proxy= http_proxy= all_proxy=
+export GIT_TERMINAL_PROMPT=0
 TOKEN=$(printf 'protocol=https\nhost=github.com\n' | git-credential-manager get | awk -F= '/^password=/{print $2}')
 AUTH=$(printf 'wangcai-zhao:%s' "$TOKEN" | base64 | tr -d '\n')
-timeout 150 git -c credential.helper= -c "http.extraheader=Authorization: Basic $AUTH" -c http.postBuffer=524288000 push origin master:master
+timeout 150 git -c credential.helper= -c "http.extraheader=Authorization: Basic $AUTH" -c http.postBuffer=524288000 -c http.proxy="$HTTPS_PROXY" push origin master:master
 ```
 必须**前台 + dangerouslyDisableSandbox**（后台会丢提权挂死）；`credential.helper=` 置空否则卡 GUI selector。验证：`git ls-remote --heads origin master` == HEAD。勿走 SSH；GitHub MCP 只读。
-- ⚠️ **本机到 GitHub 链路瞬时抖动**（2026-10-12 实测）：小请求（ls-remote）偶尔通、持续大包上传会 `Connection was reset` / 超时连不上。首次 push 失败别慌，**间隔几秒重试即成功**（同 token 通道）。别因此改用别的远端或镜像。
+- 🔴 **必须走本机代理，别清空 proxy 变量（2026-11-04 纠正旧说法）**：WorkBuddy 环境自带 `HTTPS_PROXY=http://127.0.0.1:59937`。把代理清空走直连时 `github.com:443` 直接 TCP 超时（`Could not connect ... after 21s`），会误判成"被墙"。正确姿势是**保留环境代理**并显式 `-c http.proxy="$HTTPS_PROXY"`。旧命令里 `HTTPS_PROXY= ...` 清空六连已废弃。
+- ⚠️ **链路抖动分两种**：① 直连超时 → 见上条，走代理；② 代理偶发 `CONNECT tunnel failed, response 502` → 纯抖动，**间隔 8-12 秒重试，通常第 3 次通**（2026-11-04 实测）。
+- ⚠️ **本地/远端 SHA 分叉是常态**：别的会话可能用 `push:api`（Git Data API）把多个本地提交**压成一条**推上去，远端 SHA 与本地不同但 tree 逐字节一致。判别方法：`git diff --quiet HEAD:<file> origin/master:<file>` 逐个比文件。一致就用 `git reset --soft origin/master` 把本地提交摊平（工作区不动），把剩下的差异（一般是记忆文档）重新提交再推。**别 `reset --hard`**，工作区可能有并行会话的活。
 - **personal-site 例外**：远端是 SSH（`ssh://git@github.com/wangcai-zhao/wangcai-personal-site.git`，分支 **main**，不是 master），**SSH 在本机通**，直接 `git push origin main` 即可，别套上面的 HTTPS token 方案。
 - 🔴 **提交前必有避雷：用显式路径 `git add`，绝不 `git add -A`**——personal-site 仓库里长期堆着十几个早期会话的未提交内容，website 里有 `_cprof`/`dist_partial_*`，一锅端会把别人的活卷进来。
 
