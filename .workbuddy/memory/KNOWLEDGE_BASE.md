@@ -179,6 +179,10 @@ dist/              构建产物（610+ index.html，可重建，勿手改）
 4. 构建后必查 `dist/sitemap-0.xml`（防 gen-sitemap 静默漏产）。
 5. 部署：网站走 `deploy/deploy.sh` / 原子切换；MCP 改后必 `mcp:build` + 远端重启 + 验证 `catalog` 工具数。
 6. 提交代码：`git add` 显式路径，绝不 `-A`；push 走 HTTPS token 通道（前台 + `dangerouslyDisableSandbox`）。**垃圾目录 `_cprof` / `dist_partial_*` / `_genui_apps` / `_genui_dl` / `outputs` 必须显式避开**（见 §11.4 与 §7 避雷）。
+   - 🔴 **push 失败先分清是哪一层断的（2026-11-03 实测踩了很久）**：`github.com:443` 被整段阻断（TCP 都连不上）时，**`api.github.com` 往往正常**。诊断顺序：`curl -o /dev/null -w '%{http_code} %{time_connect}' https://github.com/` → 若 `code=000 / connect=0` 是网络层断；再测 `https://api.github.com/` → 若 200 即 API 通道可用。
+   - 环境里注入了代理 `http(s)_proxy=http://127.0.0.1:60045`，该代理会返回 **`CONNECT tunnel failed, response 502`**，所以脚本里必须 `export HTTPS_PROXY= HTTP_PROXY= ...` 清空后走直连；但清空后若 github.com 本身被阻断，仍会 `Connection was reset`。**两种失败要分开判断，别把 502 当成"代理没问题"**。
+   - API 可用时用 `npm run push:api`（`scripts/push-via-api.mjs`）：blob → tree → commit → 快进分支引用，逐校验哈希、幂等。⚠️ GitHub 会重写 author/committer，**远端 commit 的 SHA 与本地必然不同**（内容逐字节一致），推完要 `git fetch origin && git reset --hard origin/master` 让历史收敛。
+   - 另注：`~/.gitconfig` 有 `url.https://github.com/.insteadOf=git@github.com:`，所以 `git push git@github.com:...` 会被改写成 HTTPS —— 想走 SSH 必须临时 `-c url.https://github.com/.insteadOf=` 覆盖。
 7. 任何破坏性 / 不可逆操作前，先备份、再二次确认。
 8. **动依赖 / 升级运行时前必读 `§10 运行环境与版本基线`**：本地 Node 22 vs 服务器 Node 18 的差异（MCP 必须 esbuild `target=node18`）、TS 勿升 7、astro/preact 锁版本。
 9. **未决事项见 `§11`**：财金算法去重、markdown-preview XSS、GenUI 提交路径等，等旺财决策前**勿擅自改**源码。
