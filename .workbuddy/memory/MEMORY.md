@@ -59,6 +59,7 @@ timeout 150 git -c credential.helper= -c "http.extraheader=Authorization: Basic 
 - 🔴 astro check/build 输出带 ANSI 码，`grep " - error "` 永远匹配不到 → 先 `.replace(/\x1b\[[0-9;]*m/g,'')`。日志 ~40MB，落盘再解析。
 - ⚠️ `.mjs` 不能写 TS 注解，用 JSDoc。⚠️ 同一文件多条 Edit 必须顺序执行（并行会互相覆盖）。
 - ⚠️ 后台长命令禁止 `| tail`/`| head`（管道提前关闭会永久挂起），改 `> _x.log 2>&1`。
+- 🔴 **后台任务拿不到沙箱提权（2026-11-04 实测）**：`run_in_background` 跑 `deploy/deploy.sh` 时 `~/.ssh/config`、`~/.ssh/known_hosts` 读取被沙箱拒（`[sandbox] file-read denied`），589ms 就 exit 1、日志几乎空，极易误判成 build 挂了。**凡涉及 SSH / git push / 凭证的操作必须前台 + `dangerouslyDisableSandbox`**。
 - Bash PATH 偶发损坏：开头加 `export PATH="/c/Users/zhao-/.workbuddy/binaries/PortableGit/versions/1.2.0/usr/bin:/c/Users/zhao-/.workbuddy/binaries/PortableGit/versions/1.2.0/bin:$PATH"`。
 - 工作区内 `rm -rf` 可用（safe-delete 只在个人目录生效），但 `git add -A` 会卷进 `_cprof`/`dist_partial_*` 等垃圾，批量提交前先扫。
 - MDX 里裸 `<` `{` `}` 会报语法错，批量生成后必查。tips 默认 draft:true，需显式 false。
@@ -75,5 +76,6 @@ timeout 150 git -c credential.helper= -c "http.extraheader=Authorization: Basic 
 - R-03 **仍开**：`npm run build` 与 `deploy/deploy.sh` 都不调用 `check:all`，无 CI 无 lint。部署前需人工先跑（最近两次都是我手动跑的）。
 - R-09 备份仅本地两份（最新 11-01 43M）无异地。
 - ~~版本号未 bump~~（2026-11-03 已升 **0.10.0** 并建立 `release:patch|minor|major` 工具链 + `check:version`；rules 见 `docs/VERSIONING.md`）。
-**线上状态（2026-11-04 00:59 部署后实测）**：`www.mokakit.com` = **v0.10.0**，676 page 构建 / 675 index.html / sitemap 673 条，教师普惠已下线、邀请卡保留、离线脱敏版可下载、HTTPS 证书 2027-01-20 到期。旧版留 `/var/www/mokakit.old` 可回滚。
+**线上状态（2026-11-04 02:10 部署后实测）**：`www.mokakit.com` = **v0.10.1**，677 page 构建 / 676 index.html / sitemap 674 条，时区转换器（第 282 个工具）已上线且 astro-island=1、`/blog/` 与 `/tips/` 盘点双页已上线、教师普惠已下线、邀请卡保留、离线脱敏版可下载、HTTPS 证书 2027-01-20 到期。旧版留 `/var/www/mokakit.old` 可回滚。
+🔴 **Git 两端 SHA 已分叉（2026-11-04 02:15 遗留）**：`github.com:443` 整段阻断，本次经 `scripts/push-via-api.mjs` 走 Git Data API 推的合成提交，远端 master = `27c4d196`，本地 master = `6d5ae9a`。**git 通道恢复后必须先 `git fetch origin && git reset --hard origin/master`**，否则下次 push 报非快进。本地 `origin/master` 引用仍停在 `b43c7a9`，「领先 3 个提交」是假象，别据此重推。
 其他：GSC 后台人工提交 sitemap-index.xml（agent 做不了）；MCP token 仍人工 mailto 审批；分类失衡（calc 92 / dev 57 / barcode 3，calc+dev 占 53%）。
