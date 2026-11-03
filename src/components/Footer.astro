@@ -1,6 +1,7 @@
 ---
 import { SITE } from '@/config/site';
 import SocialLinks from './SocialLinks.astro';
+import WechatFollow from './WechatFollow.astro';
 import { getToolsByCategory } from '@/tools/registry';
 
 const groups = getToolsByCategory();
@@ -12,7 +13,7 @@ const policeRecordCode = SITE.police ? SITE.police.replace(/\D/g, '') : '';
 
 <footer class="bg-base-100 border-t border-base-300 mt-12">
   <div class="mx-auto max-w-6xl px-4 py-8">
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
       <div class="lg:col-span-1">
         <div class="font-bold text-base mb-2">
           {SITE.name}
@@ -50,6 +51,7 @@ const policeRecordCode = SITE.police ? SITE.police.replace(/\D/g, '') : '';
           </div>
         ))
       }
+      <WechatFollow />
     </div>
 
     <div

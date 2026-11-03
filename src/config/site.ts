@@ -131,6 +131,24 @@ export const SITE = {
       rulesCheckedAt: '2026-09-01',
     },
   },
+
+  /**
+   * 公众号引流：全站页脚引导关注。
+   * 当前用「公众号直接关注二维码」（type: 'follow'，扫码直接进号可关注，转化比搜一搜联合码更顺）。
+   * 若想换回微信官方「扫码 + 搜一搜」联合物料，把 qr 换回对应图、hint 改回搜号文案、type 改 'search' 即可，组件不用动。
+   * enabled=false 时全站该卡片一键下线，不留空白。
+   */
+  wechatOfficial: {
+    enabled: true,
+    /** 二维码图片（public 下的相对路径） */
+    qr: '/images/wechat-qr.png',
+    /** 公众号名称 */
+    name: 'MokaKit 摩卡工具箱',
+    /** 卡片引导文案（直接关注码：扫码直接进号可关注，转化比搜一搜联合码更顺） */
+    hint: '微信扫一扫，关注「MokaKit 摩卡工具箱」，每天白嫖一个实用工具',
+    /** 物料类型：search=扫一扫搜号关注；follow=直接关注码 */
+    type: 'follow',
+  },
 } as const;
 
 /**
@@ -161,6 +179,15 @@ export const WORKBUDDY = {
   get inviteUrl() {
     return `${SITE.workbuddy.activityUrl}?inviteCode=${SITE.workbuddy.inviteCode}`;
   },
+} as const;
+
+/**
+ * 公众号引流配置派生：enabled 显式断言 boolean（避免 as const 把 true 推成字面量导致条件恒真告警）。
+ * 组件只读 WECHAT_OFFICIAL，不直接读 SITE.wechatOfficial。
+ */
+export const WECHAT_OFFICIAL = {
+  ...SITE.wechatOfficial,
+  enabled: SITE.wechatOfficial.enabled as boolean,
 } as const;
 
 /** 供 JSON-LD 与 og 使用的绝对 URL 拼接 */

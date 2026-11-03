@@ -1,0 +1,74 @@
+---
+/**
+ * 全站页脚「关注公众号」卡片。
+ *
+ * 配置唯一维护点在 site.ts 的 wechatOfficial；enabled=false 时整块不渲染、不留空白。
+ * 复用 InviteCta 已验证的百度统计埋点范式（data-track + window._hmt._trackEvent）。
+ *
+ * ⚠️ 物料说明：当前用的是微信官方「扫码 + 搜一搜」联合传播码（type: 'search'），
+ * 用户扫码后在微信内搜索「MokaKit 摩卡工具箱」并关注 —— 比直接关注码多一步但合规。
+ * 若日后换「直接关注二维码」，只改 site.ts 的 qr / hint / type 即可，组件不用动。
+ */
+import { WECHAT_OFFICIAL } from '@/config/site';
+
+interface Props {
+  /** 埋点位置标签，区分各页来源的扫码意图（如 footer / about / post） */
+  trackLabel?: string;
+}
+
+const { trackLabel = 'footer' } = Astro.props;
+const visible = WECHAT_OFFICIAL.enabled;
+const cfg = WECHAT_OFFICIAL;
+---
+{
+  visible && (
+    <aside
+      class="rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/5 to-base-100 p-5 flex flex-col items-center text-center"
+      aria-labelledby="wechat-follow-title"
+      data-track="wechat-follow"
+      data-track-label={trackLabel}
+    >
+      <div class="flex items-center gap-2 text-primary mb-2">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+          <path d="M9 3C4.9 3 1.5 5.8 1.5 9.2c0 1.9 1.1 3.6 2.8 4.7L3.4 16l2.3-1.2c.9.3 1.9.4 2.9.4h.6a5.3 5.3 0 0 1-.2-1.5C8.9 11.2 11.4 9.2 14.4 9.2h.6C14.2 5.9 11.8 3 9 3zm-2.3 3.5a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm4.6 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+          <path d="M22.5 14.8c0-3-3.1-5.4-6.9-5.4s-6.9 2.4-6.9 5.4 3.1 5.4 6.9 5.4c.8 0 1.6-.1 2.3-.3l2 1-.5-1.7c1.5-1 2.5-2.4 2.5-3.9zm-9.2-1a.8.8 0 1 1 0 1.6.8.8 0 0 1 0-1.6zm4.6 0a.8.8 0 1 1 0 1.6.8.8 0 0 1 0-1.6z" />
+        </svg>
+        <h3 id="wechat-follow-title" class="text-sm font-bold">关注公众号</h3>
+      </div>
+      <p class="text-xs opacity-75 leading-relaxed mb-3">
+        {cfg.hint}
+      </p>
+      <img
+        src={cfg.qr}
+        alt={`微信扫一扫，搜索并关注 ${cfg.name}`}
+        width="116"
+        height="116"
+        class="rounded-lg border border-base-300 bg-white"
+        loading="lazy"
+        decoding="async"
+      />
+      <p class="mt-2 text-[11px] opacity-55">{cfg.name}</p>
+    </aside>
+
+    <script is:inline>
+      // 关注卡片点击埋点：区分各位置的扫码/查看意图，用于量化网站带来的关注转化
+      document.addEventListener(
+        'click',
+        function (e) {
+          var a = e.target.closest && e.target.closest('[data-track="wechat-follow"]');
+          if (!a) return;
+          try {
+            window._hmt &&
+              window._hmt.push([
+                '_trackEvent',
+                'wechat',
+                'follow_click',
+                a.getAttribute('data-track-label') || '',
+              ]);
+          } catch (_) {}
+        },
+        true
+      );
+    </script>
+  )
+}
