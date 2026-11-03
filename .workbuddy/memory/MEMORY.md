@@ -5,8 +5,9 @@
 
 ## 线上状态（2026-11-04 部署后实测）
 - `www.mokakit.com` = **v0.10.1**；677 page 构建 / 676 index.html / sitemap 674 条；**282 个工具 / 11 分类**（calc 92 / dev 57 / barcode 3）。
+- 银行卡号校验已补法律风险边界说明（2026-11-04 部署，`f1c476b`）：页面底部边界区块 + mdx 长版 + 2 条 FAQ。
 - 时区转换器（第 282 个）已上线、astro-island=1；`/blog/`、`/tips/` 盘点双页已上线；教师普惠已下线、邀请卡保留；离线脱敏版可下载；HTTPS 证书 2027-01-20 到期；旧版留 `/var/www/mokakit.old` 可回滚。
-- 🔴 **Git 两端 SHA 分叉（2026-11-04 02:15）**：当时 `github.com:443` 整段阻断，经 `scripts/push-via-api.mjs` 走 Git Data API 推合成提交，远端 master=`27c4d196`、本地 master=`6d5ae9a`。**通道恢复后先 `git fetch origin && git reset --hard origin/master`**，否则报非快进；本地 `origin/master` 仍停 `b43c7a9`，「领先 3 个提交」是假象。
+- ✅ **Git 两端 SHA 已对齐**（2026-11-04 07:50 复核）：曾因 `github.com:443` 阻断走 `scripts/push-via-api.mjs` 产生分叉，现已摊平并对齐，HEAD=`f1c476b` 与远端一致。下次若再见「领先 N 个提交」先 `git ls-remote --heads origin master` 比 SHA，别盲目 push。
 
 ## 架构与真源
 - Astro 7 + Preact 10 + daisyUI 5 + Tailwind v4，纯静态。
@@ -50,7 +51,7 @@ AUTH=$(printf 'wangcai-zhao:%s' "$TOKEN" | base64 | tr -d '\n')
 timeout 150 git -c credential.helper= -c "http.extraheader=Authorization: Basic $AUTH" -c http.postBuffer=524288000 -c http.proxy="$HTTPS_PROXY" push origin master:master
 ```
 - 必须**前台 + dangerouslyDisableSandbox**（后台丢提权会挂死）；`credential.helper=` 置空否则卡 GUI selector。验证 `git ls-remote --heads origin master` == HEAD。勿走 SSH；GitHub MCP 只读。
-- 🔴 **保留环境代理 `HTTPS_PROXY=http://127.0.0.1:59937`**，显式 `-c http.proxy="$HTTPS_PROXY"`；清空代理走直连会 TCP 超时并误判「被墙」。
+- 🔴 **保留环境代理 `$HTTPS_PROXY`**（端口动态，2026-11-04 两次实测分别是 59937 / 63795，**别写死**），显式 `-c http.proxy="$HTTPS_PROXY"`；清空代理走直连会 TCP 超时并误判「被墙」。
 - ⚠️ 抖动两种：直连超时 → 走代理；代理偶发 `CONNECT tunnel failed 502` → 间隔 8-12 秒重试，通常第 3 次通。
 - ⚠️ 本地/远端 SHA 分叉是常态（别的会话用 push:api 把多提交压成一条）。逐个 `git diff --quiet HEAD:<f> origin/master:<f>` 比文件，一致就 `git reset --soft origin/master` 摊平后重提。**别 `reset --hard`**，工作区可能有并行会话的活。
 - **personal-site 例外**：远端 SSH、分支 **main**、本机直通，`git push origin main` 即可，别套上面的 token 方案。
