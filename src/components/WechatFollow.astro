@@ -5,9 +5,9 @@
  * 配置唯一维护点在 site.ts 的 wechatOfficial；enabled=false 时整块不渲染、不留空白。
  * 复用 InviteCta 已验证的百度统计埋点范式（data-track + window._hmt._trackEvent）。
  *
- * ⚠️ 物料说明：当前用的是微信官方「扫码 + 搜一搜」联合传播码（type: 'search'），
- * 用户扫码后在微信内搜索「MokaKit 摩卡工具箱」并关注 —— 比直接关注码多一步但合规。
- * 若日后换「直接关注二维码」，只改 site.ts 的 qr / hint / type 即可，组件不用动。
+ * ⚠️ 物料说明：当前用「公众号直接关注二维码」（type: 'follow'），
+ * 扫码直接进号可点关注，转化比搜一搜联合码更顺。
+ * 若日后换回「扫码 + 搜一搜」联合码，只改 site.ts 的 qr / hint / type 即可，组件不用动。
  */
 import { WECHAT_OFFICIAL } from '@/config/site';
 
