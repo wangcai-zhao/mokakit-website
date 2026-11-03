@@ -101,7 +101,7 @@ function parse(raw: string): Result | null {
 }
 
 export default function BankCardValidator() {
-  const [value, setValue] = useState('6222 0212 3456 7890 011');
+  const [value, setValue] = useState('6222 0000 0000 0000 004');
 
   const result = useMemo<Result | null>(() => parse(value), [value]);
 
@@ -123,11 +123,11 @@ export default function BankCardValidator() {
         </label>
 
         <div class="mt-3 flex flex-wrap items-center gap-2">
-          <span class="text-xs opacity-60">示例</span>
+          <span class="text-xs opacity-60">示例（虚构测试卡号，不对应任何真实账户）</span>
           <button
             type="button"
             class="btn btn-xs btn-outline"
-            onClick={() => setValue('6222 0212 3456 7890 011')}
+            onClick={() => setValue('6222 0000 0000 0000 004')}
           >
             银联 19 位
           </button>
@@ -218,6 +218,31 @@ export default function BankCardValidator() {
         整除即为通过。卡组织按开头号段判断：62 银联、4 开头 Visa、51 到 55 或 2221 到 2720 万事达、35
         JCB、34 与 37 美国运通、30 与 36 与 38 大莱。输入会自动去掉空格与横线，所有计算在浏览器本地完成。
       </p>
+
+      <section class="rounded-xl border border-base-300 bg-base-200/50 p-3 sm:p-4">
+        <h2 class="text-sm font-semibold">使用边界与法律风险提示</h2>
+        <p class="mt-2 text-xs leading-relaxed opacity-70">
+          本工具只做编号规则的格式自校验，本质是验算一串数字的加权和能否被 10
+          整除，全程不接触任何银行系统，也不发起任何网络请求。它能帮你发现录入手误，但不能证明这张卡真实存在、已经发行、可以支付，也查不到卡主、开户行或账户余额。
+        </p>
+        <ul class="mt-2.5 space-y-1.5 text-xs leading-relaxed opacity-70">
+          <li>
+            · 本工具不生成卡号、不反推补全校验位、不支持批量校验，也不提供接口、文件上传或任何形式的自动化调用。
+          </li>
+          <li>
+            · 银行卡号属于敏感个人信息，输入内容只在当前页面内存中参与计算：不上传服务器、不写入本地存储、不记录日志、不进入网址与页面标题。
+          </li>
+          <li>
+            · 禁止用于伪造变造银行卡、冒用他人卡号、批量枚举有效卡号（跑卡测卡）、规避支付机构风控，或为电信网络诈骗提供帮助。
+          </li>
+          <li>
+            · 需要真实验卡（商户收款、批量对账、开发联调）请通过发卡银行或持牌支付机构的正式接口办理，不要以本工具结果作为业务依据。
+          </li>
+        </ul>
+        <p class="mt-2.5 text-xs leading-relaxed opacity-60">
+          校验结果仅供参考，不构成对卡片有效性、持有人身份或资金状况的任何证明。因误用、滥用本工具产生的后果由使用者自行承担。
+        </p>
+      </section>
     </div>
   );
 }
