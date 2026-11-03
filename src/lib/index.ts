@@ -19,3 +19,4 @@ export * from './china-vat';
 export * from './china-calc-extra';
 export * from './mortgage';
 export * from './misc-calc';
+export * from './time-zone';

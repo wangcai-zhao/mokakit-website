@@ -87,7 +87,7 @@ export default function TextExtractTool() {
             class="btn btn-xs btn-ghost"
             onClick={() =>
               setInput(
-                '联系人张伟 13812345678，邮箱 zhangwei@example.com\n公司官网 https://www.mokakit.com/tools/\n服务器 192.168.1.20，身份证 11010119900307123X\n合同金额 ¥128,000.00，签订于 2026年3月15日',
+                '联系人张伟 13812345678，邮箱 zhangwei@example.com\n公司官网 https://www.mokakit.com/tools/\n服务器 192.168.1.20，身份证 110101199003071233\n合同金额 ¥128,000.00，签订于 2026年3月15日',
               )
             }
           >

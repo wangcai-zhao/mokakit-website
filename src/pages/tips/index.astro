@@ -5,6 +5,14 @@ import TipCard from '@/components/TipCard.astro';
 import InviteCta from '@/components/InviteCta.astro';
 import { getCollection } from 'astro:content';
 import { itemListLd } from '@/utils/jsonld';
+import { TOOL_MAP } from '@/tools/registry';
+import type { ToolMeta } from '@/tools/types';
+import {
+  TOOLKIT_ROUNDUP,
+  ROUNDUP_GROUPS,
+  ROUNDUP_WORKFLOWS,
+  roundupUrl,
+} from '@/data/toolkit-roundup';
 
 const tips = (await getCollection('tips'))
   .filter((t) => !t.data.draft)
@@ -15,36 +23,243 @@ const tips = (await getCollection('tips'))
     if (ao !== bo) return bo - ao;
     return b.data.publishDate.valueOf() - a.data.publishDate.valueOf();
   });
+
+/**
+ * 工具进阶用法：按场景分组。
+ * 只渲染 registry 里真存在的工具，查不到的直接丢，避免出现死链卡片。
+ */
+type RoundupItem = (typeof TOOLKIT_ROUNDUP)[number] & {
+  tool: ToolMeta;
+  url: string;
+};
+
+const roundupGroups = ROUNDUP_GROUPS.map((group) => {
+  const items = TOOLKIT_ROUNDUP.filter((e) => e.group === group.id)
+    .map((entry): RoundupItem | null => {
+      const tool = TOOL_MAP.get(entry.id);
+      if (!tool) return null;
+      return { ...entry, tool, url: roundupUrl(entry.id) };
+    })
+    .filter((x): x is RoundupItem => Boolean(x));
+  return { ...group, items };
+}).filter((g) => g.items.length > 0);
+
+/** 底部「组合拳」：把单点工具串成完整流程 */
+const workflows = ROUNDUP_WORKFLOWS.map((wf) => ({
+  ...wf,
+  steps: wf.steps
+    .map((s) => {
+      const tool = TOOL_MAP.get(s.toolId);
+      return tool ? { label: s.label, name: tool.name, url: roundupUrl(s.toolId) } : null;
+    })
+    .filter((x): x is NonNullable<typeof x> => Boolean(x)),
+})).filter((wf) => wf.steps.length > 0);
+
+const toolTipCount = roundupGroups.reduce((n, g) => n + g.items.length, 0);
 ---
 
 <BaseLayout
-  title="WorkBuddy 使用技巧"
-  description="用真实的踩坑经历讲 WorkBuddy 怎么用：MCP 配置、SKILL.md 编写、定时任务、让 AI 算个税和房贷。每篇都附上可以直接抄的操作流与在线小工具。"
+  title="使用技巧 - 在线工具进阶用法与 WorkBuddy 实操"
+  description="不讲概念只讲用法：10 个免费在线工具的进阶技巧（税后工资反推、卡号校验、时区换算、密码生成、Base64、时间戳、JSON、字数统计、单位换算、二维码），以及 WorkBuddy 的 MCP 配置、SKILL.md 编写、定时任务等踩坑实录。"
   path="/tips/"
-  keywords={['WorkBuddy 使用技巧', 'WorkBuddy 教程', 'MCP 配置', 'SKILL.md', 'AI 办公']}
-  jsonLd={itemListLd(
-    tips.map((t) => ({
-      name: t.data.title,
-      url: `/tips/${t.id}/`,
-      description: t.data.description,
-    })),
-  )}
+  keywords={[
+    '在线工具使用技巧',
+    '税后工资怎么算',
+    '银行卡号校验方法',
+    '时区换算技巧',
+    '密码怎么设才安全',
+    'WorkBuddy 使用技巧',
+    'WorkBuddy 教程',
+    'MCP 配置',
+    'SKILL.md',
+  ]}
+  jsonLd={[
+    itemListLd(
+      tips.map((t) => ({
+        name: t.data.title,
+        url: `/tips/${t.id}/`,
+        description: t.data.description,
+      })),
+    ),
+    itemListLd(
+      roundupGroups.flatMap((g) =>
+        g.items.map((item) => ({
+          name: item.tool.name,
+          url: item.url,
+          description: item.verdict,
+        })),
+      ),
+    ),
+  ]}
 >
   <div class="mx-auto max-w-3xl px-4 py-12">
     <h1 class="text-3xl font-bold tracking-tight flex items-center gap-2">
-      <Icon name="sparkles" size={28} /> WorkBuddy 使用技巧
+      <Icon name="sparkles" size={28} /> 使用技巧
     </h1>
     <p class="mt-3 text-base opacity-70 leading-relaxed">
-      不讲概念，只讲我实际跑通的用法：怎么配、卡在哪、怎么绕过去。
-      每篇都会顺手给出能直接用的在线小工具。
+      不讲概念，只讲实际跑通的用法：哪个参数容易填错、哪一步看着能用其实会翻车、几个工具怎么串起来省整段时间。
+    </p>
+
+    {/* ============ 工具进阶用法（按场景分组） ============ */}
+    <section class="mt-9" id="toolkit">
+      <div class="flex flex-wrap items-baseline justify-between gap-2">
+        <h2 class="text-xl font-bold flex items-center gap-2">
+          <span class="grid place-items-center w-7 h-7 rounded-lg bg-primary/10 text-primary">
+            <Icon name="lightbulb" size={16} />
+          </span>
+          {toolTipCount} 个工具的进阶用法
+        </h2>
+        <a
+          href="/blog/#roundup"
+          class="text-xs opacity-60 hover:text-primary hover:underline inline-flex items-center gap-0.5"
+        >
+          看这批工具的评测结论
+          <Icon name="arrowRight" size={12} />
+        </a>
+      </div>
+
+      <p class="mt-3 text-sm opacity-75 leading-relaxed">
+        这些工具谁都会点开，差别在于知不知道哪一步最容易填错。下面按使用场景分了
+        {roundupGroups.length} 组，每组 2–4 个工具，每个工具给 3 条能直接照抄的技巧。
+      </p>
+
+      {/* 场景跳转：长页面先给一张地图，省得来回滚 */}
+      <nav class="mt-4 flex flex-wrap gap-2">
+        {
+          roundupGroups.map((g) => (
+            <a
+              href={`#g-${g.id}`}
+              class="inline-flex items-center gap-1.5 rounded-full border border-base-300 bg-base-100 px-3 py-1 text-xs hover:border-primary/50 hover:text-primary transition-colors"
+            >
+              {g.name}
+              <span class="opacity-50 tabular-nums">{g.items.length}</span>
+            </a>
+          ))
+        }
+      </nav>
+
+      {
+        roundupGroups.map((group) => (
+          <div id={`g-${group.id}`} class="mt-9 scroll-mt-24">
+            <h3 class="text-base font-bold flex items-center gap-2">
+              <span class="w-1 h-4 rounded-full bg-primary" />
+              {group.name}
+              <span class="text-xs font-normal opacity-50">{group.items.length} 个工具</span>
+            </h3>
+            <p class="mt-1.5 text-xs opacity-60 leading-relaxed">{group.desc}</p>
+
+            <div class="mt-3 flex flex-col gap-3">
+              {group.items.map((item) => (
+                <article class="rounded-2xl border border-base-300 bg-base-100 p-4 sm:p-5">
+                  <div class="flex items-start gap-3">
+                    <span class="grid place-items-center w-9 h-9 shrink-0 rounded-xl bg-primary/10 text-primary">
+                      <Icon name={item.tool.icon} size={18} />
+                    </span>
+                    <div class="min-w-0 flex-1">
+                      <h4 class="font-bold leading-6">
+                        <a
+                          href={item.url}
+                          class="hover:text-primary hover:underline decoration-dotted underline-offset-4"
+                        >
+                          {item.tool.name}
+                        </a>
+                      </h4>
+                      <p class="text-xs opacity-60 mt-0.5">{item.tool.tagline}</p>
+                    </div>
+                  </div>
+
+                  <ol class="mt-3 space-y-2.5">
+                    {item.tips.map((tip, i) => (
+                      <li class="flex items-start gap-2.5">
+                        <span class="shrink-0 grid place-items-center w-5 h-5 mt-0.5 rounded-md bg-primary/10 text-[11px] font-bold text-primary tabular-nums">
+                          {i + 1}
+                        </span>
+                        <div class="min-w-0">
+                          <p class="text-sm font-medium leading-relaxed">{tip.title}</p>
+                          <p class="mt-0.5 text-xs opacity-70 leading-relaxed">{tip.body}</p>
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+
+                  <a
+                    href={item.url}
+                    class="mt-3 inline-flex items-center gap-0.5 text-xs text-primary hover:underline"
+                  >
+                    照着试一遍
+                    <Icon name="arrowRight" size={12} />
+                  </a>
+                </article>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </section>
+
+    {/* ============ 组合拳：单点工具串成流程 ============ */}
+    <section class="mt-12" id="workflows">
+      <h2 class="text-xl font-bold flex items-center gap-2">
+        <span class="grid place-items-center w-7 h-7 rounded-lg bg-primary/10 text-primary">
+          <Icon name="target" size={16} />
+        </span>
+        四套组合拳
+      </h2>
+      <p class="mt-3 text-sm opacity-75 leading-relaxed">
+        单个工具解决单点问题，串起来才省整段时间。下面是四个每天都可能撞上的流程，按顺序点过去就行。
+      </p>
+
+      <div class="mt-4 grid gap-3 sm:grid-cols-2">
+        {
+          workflows.map((wf) => (
+            <div class="rounded-2xl border border-base-300 bg-base-100 p-4 flex flex-col">
+              <h3 class="text-sm font-bold flex items-center gap-1.5">
+                <Icon name="check" size={14} class="text-primary" />
+                {wf.name}
+              </h3>
+              <p class="mt-1.5 text-xs opacity-65 leading-relaxed">{wf.scene}</p>
+              <ol class="mt-3 space-y-1.5">
+                {wf.steps.map((step, i) => (
+                  <li class="flex items-center gap-2 text-xs">
+                    <span class="shrink-0 w-4 text-[10px] opacity-40 tabular-nums">
+                      {i + 1}.
+                    </span>
+                    <a
+                      href={step.url}
+                      class="text-primary hover:underline inline-flex items-center gap-1 min-w-0"
+                    >
+                      <span class="truncate">{step.label}</span>
+                      <span class="opacity-50 shrink-0">· {step.name}</span>
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    {/* ============ WorkBuddy 实操文章 ============ */}
+    <div class="mt-12 flex items-center gap-2">
+      <h2 class="text-xl font-bold flex items-center gap-2">
+        <span class="grid place-items-center w-7 h-7 rounded-lg bg-primary/10 text-primary">
+          <Icon name="newspaper" size={16} />
+        </span>
+        WorkBuddy 实操技巧
+      </h2>
+      <span class="text-xs opacity-50 mt-1">{tips.length} 篇</span>
+    </div>
+    <p class="mt-2 text-sm opacity-70 leading-relaxed">
+      另一半是「怎么让 AI 干活」：MCP 配置、SKILL.md 编写、定时任务、企微远程，全是踩过坑之后的写法。
     </p>
 
     {/* 列表页用窄条，完整卡留给文章页，避免喧宾夺主 */}
-    <div class="mt-6">
+    <div class="mt-5">
       <InviteCta variant="compact" trackLabel="tips-index" />
     </div>
 
-    <div class="mt-8 flex flex-col gap-4">
+    <div class="mt-6 flex flex-col gap-4">
       {
         tips.length === 0 && (
           <div class="text-center py-16 opacity-60">

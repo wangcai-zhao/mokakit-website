@@ -4,7 +4,13 @@
 > 目录 `D:\WorkBuddy\website`；git master，远端 github.com/wangcai-zhao/mokakit-website.git。续干：KNOWLEDGE_BASE.md → 本文件 → 当日日志 → conversation_search。
 
 ## 架构
-- Astro 7 + Preact 10 + daisyUI 5 + Tailwind v4，纯静态。**280 个工具** / 11 分类（2026-10-20 新增 20 个：文本/换算/金融/安全/开发/生活）。
+- Astro 7 + Preact 10 + daisyUI 5 + Tailwind v4，纯静态。**282 个工具** / 11 分类（2026-11-04 实测；dist 677 页 / sitemap 674 条）。
+- 📌 **基准文档（2026-11-03，v1.1 为准）**：资料库现行 `node_id=7Qgcf0KPlutnGPlQFaGZ7N`（v1.1，含 §14 治理落地）；v1.0 条目 `node_id=xjHueaEZDz1RMQQwfxddK3` 已改名「【已归档·以 v1.1 为准】…」并在正文顶部写入归档声明（2026-11-03 落地），**勿在其上继续维护**。⚠️ 资料库**无节点删除 API**（Agent 删不掉条目），淘汰旧版只能靠改名 + 正文公告。本地目录另有 `README.md` 作版本索引。本地 `D:\WorkBuddy\mokakit-baseline\MokaKit-项目基准文档-v1.1-2026-11-03.md`。含模块地图/节点/执行标准/SOP-01~12/迭代周期/风险登记册 R-01~20/待决策 P-01~10/**旧文档 10 项更正**/治理落地记录。写任何 MokaKit 结论先对齐它，并按 A(源码实测)/B(脚本实测)/C(历史文档未复测)/D(记忆) 标证据级别。
+- 🔧 **治理机制（2026-11-03 落地，v0.10.0）**：
+  - **版本号**：唯一真源 `package.json`（当前 `0.10.0`），`changelog.Release.pkgVersion` 建立"日期批次 ↔ 工程版本"映射；升版用 `npm run release:patch|minor|major`；规则 `docs/VERSIONING.md`（1.0.0 留给 R-01/02/03 清完之后）。
+  - **活动时间管理**：起止与开关在 `src/config/campaigns.ts`（`startAt/endAt/active`），构建期 `resolveCampaign()` 判定，到期自动不渲染；组件读 `inviteLive`/`teacherLive`，**别读 `active`**；`check:campaigns` 报警；规范 `docs/CAMPAIGN-POLICY.md`（活动结束后 7 天内必须重建）。教师普惠已用此机制关闭。
+  - **广告位**：必须先在 `SITE.ads.slots` 登记才投放（**未登记 = 不投放**），单页上限 `maxPerPage: 2`，带中文「广告」标识；`check:ads` 校验；方案 `docs/PROMOTION-PLAN.md`。
+  - **闸门**：`check:all` 已由 4 项扩为 **7 项**（widgets / icons / search / changelog / campaigns / ads / version）。
 - 🔴 **`seoTitle` 与 `name` 要分开**：`ToolMeta.seoTitle` / `SubPage.seoTitle` 只作用于 `<title>`，`name` 管卡片、面包屑、h1。回退顺序 `seoTitle ?? title ?? tool.seoTitle ?? \`${name} - 在线免费工具\``。接入点有**两处**：`ToolLayout.astro` 和 **`ClockImmersiveLayout.astro`**（`category==='clock'` 的页走后者，改 SEO 标题时别漏）。依据：2026-10-09 Bing 数据实测，同一排名区间下标题首词命中查询词的点击率约为未命中的 2.5 倍。
 - **新工具四件套**：`src/tools/<id>/` 的 meta.ts + Tool.tsx + content.mdx + **WidgetHost.astro 注册**。
   registry.ts 用 import.meta.glob 自动发现 meta，但**水合必须静态 import**：WidgetHost 里要补①import ②`const isXxx = tool.id==='<id>'`③加进 `known` ④渲染区 load/idle/visible 三分支。漏④→ build 成功但 0 个 astro-island，工具是死壳。靠 `npm run check:widgets` 兜。
@@ -15,8 +21,9 @@
 - icons.ts 是 Lucide path 字典；`ICON_ALIASES` 刻意留空，缺图标就给 ICONS 补真实 path（源：`https://unpkg.com/lucide-static@1.47.0/icons/<name>.svg`）。
 
 ## 校验与构建
-- 上线前 `npm run check:all`（check:widgets + check:icons + changelog:check）。
+- 上线前 `npm run check:all`（**7 项**：widgets + icons + search + changelog + campaigns + ads + version）。
 - `npm run build` = astro build → optimize-sprite → gen-sitemap。
+- 🔧 **离线单文件版机制（2026-11-04 落地）**：`npm run offline:desensitize` → `scripts/build-offline-desensitize.mjs` 用 esbuild 把站内 `doc-desensitize/desensitize.ts` 打成 IIFE 注入自包含 HTML，产出 `public/download/mokakit-doc-desensitize.html`（26KB，零外链，双击可用），随 public 发布到站点 `/download/`。**引擎必须从站内那份 .ts 打包（同源），禁止复制重写**；站内改了识别规则要重跑本脚本，否则离线版会落后。
 - 版本基线（2026-10-06）：astro 7.3.5 / @astrojs/mdx 8.0.2 / @astrojs/preact 6.0.5 / daisyui 5.7.47 / ts 6.0.3 / @astrojs/check 0.9.10。**preact 锁 10.x、TS 别升 7**。
 - ⚠️ **存量 64 个类型错误（33 文件）**，与 TS6 无关是长期积累：vat-calc 17 / bonus-tax-cn 11 / ratio-calculator 5 / timestamp-converter 4，其余分散。新代码别再增加。
 - 测试脚本跑法：`node --experimental-strip-types --no-warnings --import ./scripts/ts-resolve.mjs scripts/<x>.mjs`（test-china-tax / test-deed-tax / test-new-libs / check:units）。
@@ -56,8 +63,17 @@ timeout 150 git -c credential.helper= -c "http.extraheader=Authorization: Basic 
 - 工作区内 `rm -rf` 可用（safe-delete 只在个人目录生效），但 `git add -A` 会卷进 `_cprof`/`dist_partial_*` 等垃圾，批量提交前先扫。
 - MDX 里裸 `<` `{` `}` 会报语法错，批量生成后必查。tips 默认 draft:true，需显式 false。
 - ⚠️ `gen-sitemap.mjs` 在 `npm run build` 中偶发静默不产出 sitemap（沙箱），上线前 `ls dist/sitemap-0.xml` 确认；缺失则手动 `node scripts/gen-sitemap.mjs` 重跑并补传远端 `/var/www/mokakit/`。2026-10-11 实测踩过，deploy 流程无该护栏。
+- 🔴 **交付文件升版禁止原地 `mv`（2026-11-03 事故）**：把 `...-v1.0-...md` 直接 `mv` 成 `v1.1` 会让旧路径消失，旺财打开旧卡片就是"无内容"。正确做法：**新建带新版本号的文件、旧版保留**（或先 `cp` 备份再改）。对外发过的路径＝承诺，不能单方面作废。
+- ⚠️ **资料库在线文档 ≠ 本地 `.md`（2026-11-03 实测）**：`LibraryUpload` 上传 md 得到的是真在线文档（正文 block 完整，v1.0 实测 365KB），方式没问题；但导出走「md → 在线文档 → md」往返，**表格单元格内含 `|` 的行会被拆列**（实测 E-03 / 发布方式 / G-01 三处），`**` 也会逃逸成 `\*\*`。属**不可逆导出损耗，不是内容缺失**。故：权威副本永远是本地 `.md`，资料库版只用于在线检索阅读、别回导当源。文档正文读取用 `python3 "$CODEBUDDY_SKILL_DIR/doc/get_doc_reviews.py" --page-id <nodeId>`（`CODEBUDDY_SKILL_DIR` = `.../plugins/workbuddy-builtin/skills/library`），新建文档用 `doc/create_doc.py --content-file`（不要用 LibraryUpload 上传 md 代替）。
 - ⚠️ **IMA 同步知识库方法（2026-10-12 实测，已跑通）**：「MokaKit 项目专属知识库」id = `7515215847499395`（旺财在 IMA 建）。**主路径 `create_media→COS→add_knowledge` 当前坏**：IMA 下发的 STS `secret_id` 格式异常（带连字符，非标准腾讯 AKID），腾讯云 COS 标准端点 `InvalidAccessKeyId`、custom_domain 403 Forbidden；官方 `cos-nodejs-sdk-v5` 同样报错，确认是 IMA 凭证发放侧问题，非签名 bug。**可用旁路 = `import_urls`**：传 `knowledge_base_id=7515215847499395`、空 `folder_id`、`urls=[https://raw.githubusercontent.com/wangcai-zhao/mokakit-website/master/.workbuddy/memory/KNOWLEDGE_BASE.md]`，把 GitHub raw 链接导入即可（ret_code 0、解析成功）。改完本地 KB 后 commit+push 到 GitHub，再 `import_urls` 同 URL 即更新（同 URL 可能产生新条目，必要时在 IMA 删旧条）。
 
 ## 待办（勿擅自改，等旺财决策）
-① 5 个工具算法去重（见上）；② markdown-preview 的 dangerouslySetInnerHTML 无消毒（A 引 dompurify / B 自研 / C 接受）；③ changelog 页 465KB、tools 索引 412KB 全量渲染；④ 286M 临时产物被 git 跟踪待清理；⑤ site.ts 教师普惠开关注释标 09-30 到期。
-其他：GSC 后台人工提交 sitemap-index.xml（agent 做不了）；MCP token 仍人工 mailto 审批；分类失衡（calc 80 / dev 53 / barcode 3）。
+> 2026-11-03 只读复核更新：② markdown-preview 已修（dompurify 3.4.17 已装，Tool.tsx:50 已 sanitize），该项关闭；分类数字已变（calc 92 / dev 57 / barcode 3）；新增最高优先 R-01~R-03 见基准文档 §8。
+① 5 个工具算法去重（见上）——**仍未做**：`src/lib` 无 after-tax-salary / overtime-pay / deposit-interest / retirement-age / pension-estimate，MCP 侧却已有对应 5 个工具；② ~~markdown-preview 无消毒~~（2026-11-03 复核：已修）；③ changelog 页 465KB、tools 索引 412KB 全量渲染（C 级，未复测）；④ 临时产物被 git 跟踪待清理；⑤ ~~教师普惠过期仍在展示~~（2026-11-03 已由 `campaigns.ts` 机制接管，构建期自动下线，线上实测 0 命中）。
+**剩余开项（2026-11-04 复核）**：
+- R-02（部分缓解）：`check:all` 已由 4 项扩到 **7 项**（+campaigns +ads +version）；但 check:units / test:model-select / test-china-tax / test-deed-tax / test-new-calc / verify:subpages **仍在闸门外**。
+- R-03 **仍开**：`npm run build` 与 `deploy/deploy.sh` 都不调用 `check:all`，无 CI 无 lint。部署前需人工先跑（最近两次都是我手动跑的）。
+- R-09 备份仅本地两份（最新 11-01 43M）无异地。
+- ~~版本号未 bump~~（2026-11-03 已升 **0.10.0** 并建立 `release:patch|minor|major` 工具链 + `check:version`；rules 见 `docs/VERSIONING.md`）。
+**线上状态（2026-11-04 00:59 部署后实测）**：`www.mokakit.com` = **v0.10.0**，676 page 构建 / 675 index.html / sitemap 673 条，教师普惠已下线、邀请卡保留、离线脱敏版可下载、HTTPS 证书 2027-01-20 到期。旧版留 `/var/www/mokakit.old` 可回滚。
+其他：GSC 后台人工提交 sitemap-index.xml（agent 做不了）；MCP token 仍人工 mailto 审批；分类失衡（calc 92 / dev 57 / barcode 3，calc+dev 占 53%）。

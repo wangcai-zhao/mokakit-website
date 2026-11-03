@@ -1,5 +1,5 @@
 ---
-import { SITE } from '@/config/site';
+import { SITE, adSlot } from '@/config/site';
 
 /**
  * 广告位占位容器。
@@ -8,18 +8,26 @@ import { SITE } from '@/config/site';
  * 广告异步插入导致的内容跳动（CLS）是广告站性能分数的头号杀手，
  * 也直接影响 Core Web Vitals 排名。
  *
- * SITE.ads.enabled 为 false 时只保留空间不请求广告，
- * 这样上线初期无广告，后期开启也不会导致布局变化。
+ * 三处开关，优先级从高到低：
+ *   ① SITE.ads.enabled       —— 全局总闸
+ *   ② SITE.ads.slots[slot]   —— 版位级开关（未登记 = 不投放）
+ *   ③ SITE.ads.adsenseClient —— 发布商 ID，空则不请求
+ * 三者都通过才会渲染 <ins>。
+ *
+ * 合规：「广告」标识默认由 SITE.ads.showLabel 控制，绝对定位不占流、不引起 CLS。
  */
 interface Props {
-  /** 广告位标识，用于后台区分位置 */
+  /** 广告位标识，必须已在 SITE.ads.slots 登记，否则不投放 */
   slot: string;
-  /** 尺寸预设 */
+  /** 尺寸预设；不传则用版位登记时的 format */
   format?: 'banner' | 'rectangle' | 'leaderboard';
   class?: string;
 }
 
-const { slot, format = 'banner', class: className = '' } = Astro.props;
+const { slot, format, class: className = '' } = Astro.props;
+
+const conf = adSlot(slot);
+const fmt = format ?? conf.format;
 
 const SIZES = {
   banner: 'min-h-[100px] md:min-h-[90px]',
@@ -27,7 +35,7 @@ const SIZES = {
   leaderboard: 'min-h-[90px] md:min-h-[90px]',
 } as const;
 
-const show = SITE.ads.enabled && SITE.ads.adsenseClient;
+const show = Boolean(SITE.ads.enabled && SITE.ads.adsenseClient && conf.enabled);
 
 /**
  * ⚠️ AdSense 只认写在 <ins> 上的 data-ad-client / data-ad-slot，
@@ -45,10 +53,18 @@ const insAttrs = {
 ---
 
 <div
-  class:list={['w-full', SIZES[format], className]}
+  class:list={['relative w-full', SIZES[fmt], className]}
   data-ad-slot={slot}
   aria-hidden={!show}
 >
+  {/* 合规标识：绝对定位，不占文档流，不引入 CLS */}
+  {
+    show && SITE.ads.showLabel && (
+      <span class="absolute right-0 -top-4 text-[10px] leading-none tracking-wider text-base-content/35 select-none">
+        广告
+      </span>
+    )
+  }
   {show ? <ins {...insAttrs} /> : null}
   {
     show && (

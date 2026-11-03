@@ -34,6 +34,15 @@ export interface ChangelogGroup {
 export interface Release {
   /** 批次标识，会显示在时间线圆点旁 */
   version: string;
+  /**
+   * 对应的工程版本（package.json 的 version），如 '0.10.0'。
+   *
+   * 两套坐标各有分工，不要互相替代：
+   *   - `version`（2026.11.03 日期式）记录「哪一批内容」，用于时间线展示；
+   *   - `pkgVersion`（0.10.0 语义化）记录「哪个软件版本」，用于发布追溯。
+   * 新批次必须填 pkgVersion，`npm run check:version` 会校验它与 package.json 一致。
+   */
+  pkgVersion?: string;
   /** YYYY-MM-DD */
   date: string;
   /** 批次标题 */
@@ -47,7 +56,40 @@ export interface Release {
 
 export const RELEASES: Release[] = [
   {
+    version: '2026.11.04',
+    pkgVersion: '0.10.1',
+    date: '2026-11-04',
+    title: '时区转换器上线 · 任意两地时间互转，夏令时算准',
+    summary:
+      '站内原有的时间工具各自只覆盖一角：世界时钟回答「此刻各地几点」，时间戳转换处理 Unix 数字与日期，utc-to-est/pst 系列是按固定偏移硬算的定点页（页面里也注明不考虑夏令时）。这次补上真正缺的那一格——给定具体日期时间与源时区，换算到任意目标时区，偏移按 IANA 规则随日期自动判定，跨日与时差同屏给出。',
+    groups: [
+      {
+        label: '时间类工具 ×1',
+        tools: [
+          {
+            id: 'timezone-converter',
+            role: '两地时间互转，夏令时自动算',
+            features: [
+              '38 个常用城市 / 时区，按基准、中国、亚洲、中东、欧洲、美洲、大洋洲、非洲分组',
+              '夏令时按日期自动判定：北京 10:00 换算纽约，7 月差 12 小时、11 月差 13 小时，无需手动切换',
+              '跨日与时差同屏：「前 1 天」「慢 13 小时」，并标注目标地是否正处于夏令时',
+              '多城对照：同一时刻并列最多 10 个城市的当地时间、日期与相对时差',
+              '一键交换两地、用当前时间起算、结果复制为可直接粘贴的纯文本',
+            ],
+          },
+        ],
+      },
+    ],
+    notes: [
+      '算法抽到 src/lib/time-zone.ts 纯函数层（零依赖，只用 Intl），组件只负责渲染；后续 MCP Server 曝时区能力时直接复用，不再抄第二份',
+      '夏令时两个边界写进算法并有断言钉住：春季拨快导致的不存在时刻自动顺延并在页面提示；秋季拨慢导致的重复时刻取先发生的那次（与 Java / Python zoneinfo 的 fold=0 一致）',
+      '新增 scripts/test-time-zone.mjs：44 项断言，覆盖跨年跨日、印度 +5:30、尼泊尔 +5:45、南半球夏令时、闰年与非法日期校验',
+      '与既有工具的分工写进 content.mdx：世界时钟看「此刻」、时间戳转换处理 Unix 数字、本工具解决「A 地某时刻对应 B 地几点」',
+    ],
+  },
+  {
     version: '2026.11.03',
+    pkgVersion: '0.10.0',
     date: '2026-11-03',
     title: '场景选模型助手 · 18 个场景各开一张长尾页',
     summary:
@@ -74,6 +116,9 @@ export const RELEASES: Release[] = [
       '子页命名规则：全小写英文 + 连字符，slug 就是用户会搜的那个词（coding / customer-service），不用拼音与中文，避免分享链接被转义成一串 %E4',
       '新增 scripts/check-model-subpages.mjs：核验 18 个产物是否真的含标题、canonical、Top 5 表格与 astro-island（防「构建成功但页面是空壳」）',
       '主工具 content.mdx 增加 18 个子页的导航段，形成母页 ↔ 子页的双向内链',
+      '【基建·活动】活动统一登记到 src/config/campaigns.ts（startAt / endAt / active），构建期判定是否展示；到期即自动下线，不必再手动改代码。新增 scripts/check-campaigns.mjs 进闸门，对过期未关、临期活动报警；教师普惠（09-30 结束）已按此机制自动下线',
+      '【基建·广告】广告位改为版位级开关（SITE.ads.slots），未登记的版位一律不投放；补「广告」中文标识（绝对定位，不引入 CLS），并新增 scripts/check-ads.mjs 校验版位登记与单页密度',
+      '【基建·版本】版本号建立语义化规范（docs/VERSIONING.md）：package.json 为唯一真源，changelog 新增 pkgVersion 字段建立双坐标映射；新增 bump-version / check-version 两个脚本，发布前校验版本一致性。本次由 0.9.12 升至 0.10.0',
     ],
   },
   {

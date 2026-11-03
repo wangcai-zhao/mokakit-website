@@ -23,7 +23,7 @@ const DEFAULT_ON: SensitiveType[] = [
 const SAMPLE = `客户信息登记表
 
 姓名：张伟，联系电话 13812345678，邮箱 zhangwei@example.com
-身份证号：11010119900307123X
+身份证号：110101199003071233
 收货地址：北京市朝阳区建国路88号SOHO现代城3栋1201室
 公司统一社会信用代码：91110000MA01ABCD2X
 办公座机 010-88886666，车牌 京A12345
@@ -410,6 +410,18 @@ export default function DocDesensitizeTool() {
           </div>
         </div>
       )}
+
+      <div class="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-base-300 bg-base-200 p-3">
+        <div class="min-w-0">
+          <span class="block text-sm font-medium">想在断网环境下用？</span>
+          <span class="block text-xs leading-snug opacity-55">
+            下载离线版：单个 HTML 文件，双击即用，不联网、不上传，识别规则与这一页完全一致。
+          </span>
+        </div>
+        <a class="btn btn-sm btn-outline" href="/download/mokakit-doc-desensitize.html" download>
+          下载离线版
+        </a>
+      </div>
 
       <p class="text-xs leading-relaxed opacity-55">
         全部处理在你的浏览器本地完成，文档内容不会上传到任何服务器，这也是它和在线

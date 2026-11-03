@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>文档脱敏 · MokaKit 离线版</title>
+<meta name="robots" content="noindex">
+<style>
+:root{
+  --bg:#f7f4ef; --card:#fff; --line:#e6ded2; --text:#2c2620; --muted:#7d7166;
+  --brand:#8b5e3c; --accent:#c98a4b; --ok:#3f8f5e; --warn:#b5722a; --err:#b4483c;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);line-height:1.55;
+  font-family:-apple-system,'PingFang SC','Microsoft YaHei',Segoe UI,system-ui,sans-serif;
+  padding:24px 16px 60px}
+.wrap{max-width:900px;margin:0 auto}
+header{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;
+  flex-wrap:wrap;border-bottom:2px solid var(--brand);padding-bottom:14px;margin-bottom:20px}
+h1{font-size:22px;margin:0;color:var(--brand);letter-spacing:.3px}
+.sub{color:var(--muted);font-size:13px;margin-top:4px}
+.offline{background:#eef6f0;color:var(--ok);border:1px solid #cfe4d6;
+  font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:99px;white-space:nowrap}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:16px 18px;margin-bottom:14px;box-shadow:0 1px 2px rgba(90,70,50,.04)}
+.lbl{font-size:13.5px;font-weight:600;display:block;margin-bottom:8px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+button{font:inherit;cursor:pointer;border-radius:9px;border:1px solid var(--line);
+  background:#fdfbf8;color:var(--text);padding:6px 13px;font-size:13px;transition:.15s}
+button:hover:not(:disabled){border-color:var(--accent);color:var(--brand)}
+button:disabled{opacity:.42;cursor:not-allowed}
+button.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+button.primary:hover:not(:disabled){background:#7a5234;color:#fff}
+textarea,input[type=text],input[type=number]{font:inherit;width:100%;color:var(--text);
+  background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 11px;font-size:13.5px}
+textarea{resize:vertical}
+textarea:focus,input:focus{outline:2px solid rgba(201,138,75,.28);border-color:var(--accent)}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.hint{color:var(--muted);font-size:12px;margin:6px 0 0}
+.grid{display:grid;gap:8px;grid-template-columns:repeat(2,1fr);margin-top:10px}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
+.pick{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--line);
+  border-radius:11px;padding:9px 11px;cursor:pointer;background:#fdfbf8}
+.pick:hover{border-color:var(--accent)}
+.pick input{margin-top:3px;accent-color:var(--brand)}
+.pick b{display:block;font-size:13px;font-weight:600}
+.pick i{display:block;font-style:normal;font-size:11.5px;color:var(--muted);line-height:1.4}
+.modes{display:grid;gap:8px;grid-template-columns:repeat(2,1fr);margin-top:10px}
+@media(max-width:640px){.modes{grid-template-columns:1fr}}
+.mode{text-align:left;padding:10px 12px;background:#fdfbf8}
+.mode b{display:block;font-size:13px}
+.mode i{display:block;font-style:normal;font-size:11.5px;color:var(--muted);margin-top:2px}
+.mode.on{border-color:var(--brand);background:#fbf3ea;box-shadow:0 0 0 1px var(--brand) inset}
+.three{display:grid;gap:10px;grid-template-columns:repeat(3,1fr);margin-top:10px}
+@media(max-width:640px){.three{grid-template-columns:1fr}}
+.three label{font-size:12.5px;color:var(--muted)}
+.badges{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 0}
+.badge{background:#f1ebe2;color:var(--muted);font-size:11.5px;padding:2px 9px;border-radius:99px}
+.badge.primary{background:var(--brand);color:#fff}
+.badge.warn{background:#fbf0dd;color:var(--warn)}
+.out{background:#fbf8f3;border:1px solid var(--line);border-radius:10px;padding:12px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;
+  white-space:pre-wrap;word-break:break-all;max-height:340px;overflow:auto;margin:0}
+.out.empty{color:var(--muted)}
+.hits{margin-top:14px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;color:var(--muted);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--line)}
+td{padding:6px 8px;border-bottom:1px dashed var(--line)}
+.dim{color:var(--muted)}
+.warnline{color:var(--err);font-size:12px;margin:6px 0}
+.note{color:var(--muted);font-size:12px;line-height:1.65;margin-top:4px}
+.foot{color:var(--muted);font-size:11.5px;text-align:center;margin-top:26px;line-height:1.7}
+.rule{display:flex;gap:8px;margin-bottom:8px;align-items:center}
+.rule .flags{width:78px;flex:none}
+.rule .del{flex:none;color:var(--err)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>文档脱敏 · 离线版</h1>
+      <div class="sub">识别并打码姓名、手机号、身份证、银行卡等 13 类敏感信息</div>
+    </div>
+    <span class="offline">离线运行 · 不联网 · 不上传</span>
+  </header>
+
+  <section class="card">
+    <div class="row" style="justify-content:space-between">
+      <span class="lbl" style="margin:0">待脱敏文档</span>
+      <div class="row">
+        <button type="button" id="pick">导入文件</button>
+        <button type="button" id="sample">填入示例</button>
+        <button type="button" id="clear">清空</button>
+      </div>
+    </div>
+    <textarea id="input" rows="9" class="mono" style="margin-top:10px"
+      placeholder="粘贴合同、名单、日志等含敏感信息的文本，或点「导入文件」选一个 txt / csv / json"></textarea>
+    <input type="file" id="file" accept=".txt,.md,.csv,.json,.log,.xml,.yml,.yaml,text/plain" hidden>
+  </section>
+
+  <section class="card">
+    <span class="lbl">识别哪些信息</span>
+    <div class="grid" id="types"></div>
+  </section>
+
+  <section class="card">
+    <span class="lbl">姓名识别增强（误报会变多）</span>
+    <div class="grid" id="extras"></div>
+  </section>
+
+  <section class="card">
+    <div class="row" style="justify-content:space-between">
+      <span class="lbl" style="margin:0">自定义正则（可选）</span>
+      <button type="button" id="addRule">+ 加一条</button>
+    </div>
+    <div id="customs" style="margin-top:10px"></div>
+    <p class="hint">内部工号、订单号这类自家格式，可以自己写一条规则。</p>
+  </section>
+
+  <section class="card">
+    <span class="lbl">白名单（命中含这些词就不处理，每行或用逗号分隔）</span>
+    <textarea id="whitelist" rows="2" placeholder="例如：4008200001、客服电话"></textarea>
+  </section>
+
+  <section class="card">
+    <span class="lbl">脱敏方式</span>
+    <div class="modes" id="modes"></div>
+    <div class="three">
+      <label>掩码字符<input type="text" id="maskChar" class="mono" maxlength="2" value="*"></label>
+      <label>保留前几位<input type="number" id="head" min="0" max="20" value="3"></label>
+      <label>保留后几位<input type="number" id="tail" min="0" max="20" value="4"></label>
+    </div>
+    <label class="pick" style="margin-top:10px">
+      <input type="checkbox" id="perType" checked>
+      <span><b>按类型自动决定保留位数</b><i>手机号 3/4、身份证 6/4、银行卡 4/4</i></span>
+    </label>
+  </section>
+
+  <section class="card">
+    <div class="row" style="justify-content:space-between">
+      <span class="lbl" style="margin:0">脱敏结果</span>
+      <div class="row">
+        <button type="button" id="copy" disabled>复制结果</button>
+        <button type="button" id="download" class="primary" disabled>下载 txt</button>
+      </div>
+    </div>
+    <div class="badges" id="stats"></div>
+    <pre id="result" class="out empty" style="margin-top:12px">脱敏后的内容会实时显示在这里</pre>
+
+    <div class="hits" id="hits" hidden>
+      <div class="row" style="justify-content:space-between">
+        <span class="lbl" id="hitTitle" style="margin:0">命中明细</span>
+        <label class="pick" style="padding:4px 9px;border:none;background:none">
+          <input type="checkbox" id="showRaw">
+          <span><b style="font-size:12px">显示原文对照</b></span>
+        </label>
+      </div>
+      <p class="warnline" id="rawWarn" hidden>原文含未脱敏信息，截图或投屏前记得关掉这个开关。</p>
+      <div style="max-height:260px;overflow:auto;margin-top:6px">
+        <table>
+          <thead><tr><th>类型</th><th>脱敏后</th><th id="rawTh" hidden>原文</th></tr></thead>
+          <tbody id="hitBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <p class="note">
+      识别靠正则与校验位（身份证校验位、银行卡 Luhn），漏报和误报都可能存在，
+      正式外发前请人工过一遍。本页不发起任何网络请求，断网可用。
+    </p>
+  </section>
+
+  <p class="foot">
+    MokaKit 摩卡工具箱 · 文档脱敏离线版 v0.10.0<br>
+    与站内 <span class="mono">mokakit.com/tools/doc-desensitize/</span> 使用同一套识别规则
+  </p>
+</div>
+<script>"use strict";var DES=(()=>{var g=Object.defineProperty;var A=Object.getOwnPropertyDescriptor;var w=Object.getOwnPropertyNames;var E=Object.prototype.hasOwnProperty;var N=(t,e)=>{for(var a in e)g(t,a,{get:e[a],enumerable:!0})},C=(t,e,a,i)=>{if(e&&typeof e=="object"||typeof e=="function")for(let r of w(e))!E.call(t,r)&&r!==a&&g(t,r,{get:()=>e[r],enumerable:!(i=A(e,r))||i.enumerable});return t};var H=t=>C(g({},"__esModule",{value:!0}),t);var Z={};N(Z,{EXTRA_NAME_RULES:()=>b,RULES:()=>m,collectHits:()=>y,desensitize:()=>$,isValidIdCard:()=>f,isValidLuhn:()=>x,maskValue:()=>M,stableCode:()=>k});var T="\u8D75\u94B1\u5B59\u674E\u5468\u5434\u90D1\u738B\u51AF\u9648\u891A\u536B\u848B\u6C88\u97E9\u6768\u6731\u79E6\u5C24\u8BB8\u4F55\u5415\u65BD\u5F20\u5B54\u66F9\u4E25\u534E\u91D1\u9B4F\u9676\u59DC\u621A\u8C22\u90B9\u55BB\u67CF\u6C34\u7AA6\u7AE0\u4E91\u82CF\u6F58\u845B\u595A\u8303\u5F6D\u90CE\u9C81\u97E6\u660C\u9A6C\u82D7\u51E4\u82B1\u65B9\u4FDE\u4EFB\u8881\u67F3\u5510\u7F57\u859B\u4F0D\u4F59\u7C73\u8D1D\u59DA\u5B5F\u987E\u5C39\u6C5F\u949F\u5F90\u90B1\u9A86\u9AD8\u590F\u8521\u7530\u6A0A\u80E1\u51CC\u970D\u865E\u4E07\u652F\u67EF\u7BA1\u5362\u83AB\u623F\u89E3\u5E94\u5B97\u4E01\u5BA3\u9093\u90C1\u5355\u676D\u6D2A\u5305\u8BF8\u5DE6\u77F3\u5D14\u5409\u94AE\u9F9A\u7A0B\u5D47\u90A2\u6ED1\u88F4\u9646\u8363\u7FC1\u8340\u7F8A\u7504\u5C01\u82AE\u50A8\u9773\u6C72\u90B4\u7CDC\u677E\u4E95\u6BB5\u5BCC\u5DEB\u4E4C\u7126\u5DF4\u5F13\u7267\u9697\u5C71\u8C37\u8F66\u4FAF\u5B93\u84EC\u5168\u90D7\u73ED\u4EF0\u79CB\u4EF2\u4F0A\u5BAB\u5B81\u4EC7\u683E\u66B4\u7518\u94AD\u5389\u620E\u7956\u6B66\u7B26\u5218\u666F\u8A79\u675F\u9F99\u53F6\u5E78\u53F8\u97F6\u9ECE\u84DF\u8584\u5370\u5BBF\u767D\u6000\u84B2\u90B0\u4ECE\u9102\u7D22\u54B8\u7C4D\u8D56\u5353\u853A\u5C60\u8499\u6C60\u4E54\u9634\u90C1\u80E5\u80FD\u82CD\u53CC\u95FB\u8398\u515A\u7FDF\u8C2D\u8D21\u52B3\u9004\u59EC\u7533\u6276\u5835\u5189\u5BB0\u90E6\u96CD\u5374\u74A9\u6851\u6842\u6FEE\u725B\u5BFF\u901A\u8FB9\u6248\u71D5\u5180\u90CF\u6D66\u5C1A\u519C\u6E29\u522B\u5E84\u664F\u67F4\u77BF\u960E\u5145\u6155\u8FDE\u8339\u4E60\u5BA6\u827E\u9C7C\u5BB9\u5411\u53E4\u6613\u614E\u6208\u5ED6\u5EBE\u7EC8\u66A8\u5C45\u8861\u6B65\u90FD\u803F\u6EE1\u5F18\u5321\u56FD\u6587\u5BC7\u5E7F\u7984\u9619\u4E1C\u6B27\u6BB3\u6C83\u5229\u851A\u8D8A\u5914\u9686\u5E08\u5DE9\u538D\u8042\u6641\u52FE\u6556\u878D\u51B7\u8A3E\u8F9B\u961A\u90A3\u7B80\u9976\u7A7A\u66FE\u6BCB\u6C99\u4E5C\u517B\u97A0\u987B\u4E30\u5DE2\u5173\u84AF\u76F8\u67E5\u540E\u8346\u7EA2\u6E38\u7AFA\u6743\u902F\u76D6\u76CA\u6853\u516C",z=/([姓名|名字|客户|联系人|申请人|收款人|付款人|法人|投保人|被保险人|员工|负责人|收件人|收货人|用户|病人|患者|考生|业主|股东|代理人|经办人])\s*[：:是]?\s*([\u4e00-\u9fa5]{2,4})/g,P=/([\u4e00-\u9fa5]{2,4})(先生|女士|小姐|同学|老师|医生|护士|工程师|经理|总监|主任|教授|律师|会计)/g,S=new RegExp(`[${T}][\\u4e00-\\u9fa5]{1,2}`,"g");function f(t){if(!/^\d{17}[\dXx]$/.test(t))return!1;let e=[7,9,10,5,8,4,2,1,6,3,7,9,10,5,8,4,2],a="10X98765432",i=0;for(let r=0;r<17;r+=1)i+=Number(t[r])*e[r];return a[i%11]===t[17].toUpperCase()}function x(t){if(!/^\d{12,19}$/.test(t))return!1;let e=0,a=!1;for(let i=t.length-1;i>=0;i-=1){let r=Number(t[i]);a&&(r*=2,r>9&&(r-=9)),e+=r,a=!a}return e%10===0}var m=[{type:"mobile",label:"\u624B\u673A\u53F7",regex:/(?<!\d)1[3-9]\d{9}(?!\d)/g,head:3,tail:4,hint:"1 \u5F00\u5934\u7684 11 \u4F4D\u53F7\u7801"},{type:"idcard",label:"\u8EAB\u4EFD\u8BC1\u53F7",regex:/(?<!\d)\d{6}(?:19|20)\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])\d{3}[\dXx](?!\d)/g,validate:f,head:6,tail:4,hint:"18 \u4F4D\uFF0C\u4E14\u6821\u9A8C\u4F4D\u6B63\u786E"},{type:"bankcard",label:"\u94F6\u884C\u5361\u53F7",regex:/(?<!\d)\d{16,19}(?!\d)/g,validate:x,head:4,tail:4,hint:"16-19 \u4F4D\uFF0C\u4E14\u901A\u8FC7 Luhn \u6821\u9A8C"},{type:"email",label:"\u90AE\u7BB1",regex:/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g,head:2,tail:0,hint:"\u5B8C\u6574\u90AE\u7BB1\u5730\u5740"},{type:"name",label:"\u59D3\u540D",regex:z,head:0,tail:0,hint:"\u300C\u59D3\u540D\uFF1A\u5F20\u4E09\u300D\u8FD9\u7C7B\u5E26\u4E0A\u4E0B\u6587\u7684\u4E24\u4E2A\u5B57\u4EE5\u4E0A\u4E2D\u6587\u540D"},{type:"address",label:"\u4F4F\u5740",regex:/[\u4e00-\u9fa5]{2,}(?:省|市|自治区)[\u4e00-\u9fa5]{0,20}(?:区|县|市)[\u4e00-\u9fa5]{0,30}(?:路|街|道|巷|弄|小区|花园|苑|大厦|广场|村)[\u4e00-\u9fa5\w]{0,20}(?:号|栋|幢|座|单元|层|室|楼)[\u4e00-\u9fa5\w]{0,10}/g,head:6,tail:0,hint:"\u7701\u5E02\u533A + \u8DEF\u540D + \u95E8\u724C\u53F7\u7684\u5B8C\u6574\u4F4F\u5740"},{type:"ip",label:"IP \u5730\u5740",regex:/(?<![\d.])(?:(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)(?![\d.])/g,head:0,tail:0,hint:"IPv4\uFF0C\u6BCF\u6BB5\u90FD\u505A 0-255 \u6821\u9A8C"},{type:"plate",label:"\u8F66\u724C\u53F7",regex:/[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼][A-HJ-NP-Z][A-HJ-NP-Z0-9]{4,5}[A-HJ-NP-Z0-9挂学警港澳领]?/g,head:2,tail:1,hint:"\u542B\u65B0\u80FD\u6E90\u8F66\u724C"},{type:"creditCode",label:"\u7EDF\u4E00\u793E\u4F1A\u4FE1\u7528\u4EE3\u7801",regex:/[0-9A-HJ-NPQRTUWXY]{2}\d{6}[0-9A-HJ-NPQRTUWXY]{10}/g,head:2,tail:4,hint:"18 \u4F4D\uFF0C\u8425\u4E1A\u6267\u7167\u4E0A\u7684\u90A3\u4E2A\u53F7"},{type:"passport",label:"\u62A4\u7167\u53F7",regex:/[A-Za-z][A-Za-z0-9]{8}(?!\w)/g,head:1,tail:2,hint:"1 \u4F4D\u5B57\u6BCD + 8 \u4F4D\u7F16\u7801"},{type:"qq",label:"QQ \u53F7",regex:/(?<!\d)[1-9]\d{4,10}(?!\d)/g,validate:t=>t.length>=5&&t.length<=11,head:2,tail:2,hint:"5-11 \u4F4D\u7EAF\u6570\u5B57\uFF0C\u8BEF\u62A5\u8F83\u591A\u5EFA\u8BAE\u6309\u9700\u5F00\u542F"},{type:"wechat",label:"\u5FAE\u4FE1\u53F7",regex:/(?:微信|wechat|WeChat|wx)\s*[:：]?\s*([A-Za-z][-_A-Za-z0-9]{5,19})/g,head:2,tail:2,hint:"\u5E26\u300C\u5FAE\u4FE1\u300D\u524D\u7F00\u7684\u5FAE\u4FE1\u53F7"},{type:"landline",label:"\u56FA\u5B9A\u7535\u8BDD",regex:/(?<!\d)0\d{2,3}-?\d{7,8}(?!\d)/g,head:4,tail:4,hint:"\u542B\u533A\u53F7\u7684\u5EA7\u673A\u53F7\u7801"}],b=[{key:"nameTitle",label:"\u79F0\u8C13\u5F0F\u59D3\u540D",regex:P,hint:"\u300C\u5F20\u4E09\u5148\u751F\u300D\u300C\u674E\u5DE5\u7A0B\u5E08\u300D\u8FD9\u7C7B\u5E26\u79F0\u8C13\u7684"},{key:"nameSurname",label:"\u59D3\u6C0F\u63A8\u65AD\u59D3\u540D",regex:S,hint:"\u6309\u767E\u5BB6\u59D3\u63A8\u65AD\uFF0C\u8BEF\u62A5\u660E\u663E\u589E\u591A\uFF0C\u8C28\u614E\u5F00\u542F"}];function y(t,e){let a=[];for(let l of e){let d=new RegExp(l.regex.source,l.regex.flags),s;for(;s=d.exec(t);){let o=s.length>1&&s[1]!==void 0,c=o?s[s.length-1]:s[0],h=o?s.index+s[0].lastIndexOf(c):s.index;c&&(l.validate&&!l.validate(c)||(a.push({type:l.type,label:l.label,start:h,end:h+c.length,raw:c}),s.index===d.lastIndex&&(d.lastIndex+=1)))}}a.sort((l,d)=>l.start-d.start||d.end-l.end-(d.start-l.start));let i=[],r=-1;for(let l of a)l.start<r||(i.push(l),r=l.end);return i}function k(t){let e=2166136261;for(let a=0;a<t.length;a+=1)e^=t.charCodeAt(a),e=Math.imul(e,16777619);return(e>>>0).toString(36).slice(0,4).padStart(4,"0")}function M(t,e,a){let i=t.raw;if(e.mode==="full")return e.maskChar.repeat(Math.min(i.length,8));if(e.mode==="label")return`\u3010${t.label}\u3011`;if(e.mode==="code")return`${t.label}#${k(i)}`;let r=e.head,l=e.tail;if(e.perType&&a&&(r=a.head,l=a.tail),t.type==="email"){let h=i.indexOf("@"),n=i.slice(0,h),u=Math.min(r,Math.max(1,n.length-1));return n.slice(0,u)+e.maskChar.repeat(Math.max(3,n.length-u))+i.slice(h)}if(t.type==="ip"){let h=i.split(".");return`${h[0]}.${e.maskChar}.${e.maskChar}.${h[3]}`}if(t.type==="name")return i[0]+e.maskChar.repeat(Math.max(1,i.length-1));let d=i.length,s=Math.min(r,d),o=Math.min(l,Math.max(0,d-s)),c=Math.max(1,d-s-o);return i.slice(0,s)+e.maskChar.repeat(c)+(o>0?i.slice(d-o):"")}function $(t,e){var h;let a=m.filter(n=>e.enabled.includes(n.type));for(let n of b)e.extraNames.includes(n.key)&&a.push({type:"name",label:"\u59D3\u540D",regex:n.regex,head:0,tail:0,hint:n.hint});for(let n of e.customPatterns)if(n.pattern.trim())try{a.push({type:"custom",label:"\u81EA\u5B9A\u4E49",regex:new RegExp(n.pattern,n.flags.includes("g")?n.flags:`${n.flags}g`),head:1,tail:1,hint:"\u81EA\u5B9A\u4E49\u6B63\u5219"})}catch(u){}let i=y(t,a),r=e.whitelist.map(n=>n.trim()).filter(Boolean),l=i.filter(n=>!r.some(u=>n.raw.includes(u))),d={},s=[],o="",c=0;for(let n of l){let u=a.find(R=>R.type===n.type),p=M(n,e,u);o+=t.slice(c,n.start),o+=p,c=n.end,d[n.label]=((h=d[n.label])!=null?h:0)+1,s.push({...n,masked:p})}return o+=t.slice(c),{text:o,hits:s,counts:d}}return H(Z);})();
+</script>
+<script>(function frontend() {
+  const D = window.DES;
+  const $ = (id) => document.getElementById(id);
+  const DEFAULT_ON = [
+    'mobile', 'idcard', 'bankcard', 'email', 'name', 'address',
+    'ip', 'plate', 'creditCode',
+  ];
+  const MODES = [
+    { key: 'partial', label: '保留首尾', desc: '138****5678，还能看出是什么类型' },
+    { key: 'full', label: '全部打码', desc: '整段变星号，信息量最少' },
+    { key: 'label', label: '换成类型标签', desc: '【手机号】，读的人知道这里有个号' },
+    { key: 'code', label: '换成稳定代号', desc: '手机号#a3f2，同一号码每次代号一致' },
+  ];
+  const SAMPLE = [
+    '客户信息登记表',
+    '',
+    '姓名：张伟，联系电话 13812345678，邮箱 zhangwei@example.com',
+    '身份证号：110101199003071233',
+    '收货地址：北京市朝阳区建国路88号SOHO现代城3栋1201室',
+    '公司统一社会信用代码：91110000MA01ABCD2X',
+    '办公座机 010-88886666，车牌 京A12345',
+    '联系QQ 12345678，微信号：zhangwei_2026',
+    '服务器地址 192.168.10.24',
+  ].join('\n');
+
+  const state = {
+    input: '',
+    enabled: DEFAULT_ON.slice(),
+    extraNames: [],
+    customs: [],
+    whitelist: '',
+    mode: 'partial',
+    maskChar: '*',
+    perType: true,
+    head: 3,
+    tail: 4,
+    showRaw: false,
+    srcName: '',
+  };
+
+  /* ---- 渲染类型勾选 ---- */
+  $('types').innerHTML = D.RULES.map(
+    (r) => `<label class="pick">
+      <input type="checkbox" data-type="${r.type}" ${state.enabled.includes(r.type) ? 'checked' : ''}>
+      <span><b>${r.label}</b><i>${r.hint}</i></span>
+    </label>`,
+  ).join('');
+
+  $('extras').innerHTML = D.EXTRA_NAME_RULES.map(
+    (r) => `<label class="pick">
+      <input type="checkbox" data-extra="${r.key}">
+      <span><b>${r.label}</b><i>${r.hint}</i></span>
+    </label>`,
+  ).join('');
+
+  $('modes').innerHTML = MODES.map(
+    (m) => `<button type="button" class="mode${state.mode === m.key ? ' on' : ''}" data-mode="${m.key}">
+      <b>${m.label}</b><i>${m.desc}</i>
+    </button>`,
+  ).join('');
+
+  /* ---- 事件 ---- */
+  $('types').addEventListener('change', (e) => {
+    const t = e.target.dataset.type;
+    if (!t) return;
+    state.enabled = e.target.checked
+      ? state.enabled.concat([t])
+      : state.enabled.filter((x) => x !== t);
+    run();
+  });
+
+  $('extras').addEventListener('change', (e) => {
+    const k = e.target.dataset.extra;
+    if (!k) return;
+    state.extraNames = e.target.checked
+      ? state.extraNames.concat([k])
+      : state.extraNames.filter((x) => x !== k);
+    run();
+  });
+
+  $('modes').addEventListener('click', (e) => {
+    const btn = e.target.closest('.mode');
+    if (!btn) return;
+    state.mode = btn.dataset.mode;
+    Array.from(document.querySelectorAll('.mode')).forEach((b) => {
+      b.classList.toggle('on', b.dataset.mode === state.mode);
+    });
+    syncInputs();
+    run();
+  });
+
+  $('input').addEventListener('input', (e) => {
+    state.input = e.target.value;
+    state.srcName = '';
+    run();
+  });
+
+  ['maskChar', 'head', 'tail'].forEach((k) => {
+    $(k).addEventListener('input', (e) => {
+      state[k] = k === 'maskChar' ? e.target.value : Math.max(0, Number(e.target.value) || 0);
+      run();
+    });
+  });
+  $('perType').addEventListener('change', (e) => {
+    state.perType = e.target.checked;
+    syncInputs();
+    run();
+  });
+  $('whitelist').addEventListener('input', (e) => {
+    state.whitelist = e.target.value;
+    run();
+  });
+  $('showRaw').addEventListener('change', (e) => {
+    state.showRaw = e.target.checked;
+    renderHits();
+  });
+
+  $('addRule').addEventListener('click', () => {
+    state.customs.push({ pattern: '', flags: 'g' });
+    renderCustoms();
+    run();
+  });
+
+  $('pick').addEventListener('click', () => $('file').click());
+  $('file').addEventListener('change', (e) => {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      state.input = String(reader.result || '');
+      state.srcName = f.name;
+      $('input').value = state.input;
+      run();
+    };
+    reader.readAsText(f, 'utf-8');
+    e.target.value = '';
+  });
+
+  $('sample').addEventListener('click', () => {
+    state.input = SAMPLE;
+    state.srcName = '';
+    $('input').value = SAMPLE;
+    run();
+  });
+
+  $('clear').addEventListener('click', () => {
+    state.input = '';
+    state.srcName = '';
+    $('input').value = '';
+    run();
+  });
+
+  $('copy').addEventListener('click', async () => {
+    if (!lastText) return;
+    try {
+      await navigator.clipboard.writeText(lastText);
+      flash($('copy'), '已复制');
+    } catch {
+      // file:// 下 clipboard 可能被拒，退回复选框方案
+      const ta = document.createElement('textarea');
+      ta.value = lastText;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      flash($('copy'), '已复制');
+    }
+  });
+
+  $('download').addEventListener('click', () => {
+    if (!lastText) return;
+    const base = state.srcName
+      ? state.srcName.replace(/\.[^.]+$/, '')
+      : 'desensitized';
+    const blob = new Blob([lastText], { type: 'text/plain;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = base + '.desensitized.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+    flash($('download'), '已下载');
+  });
+
+  function flash(btn, text) {
+    const old = btn.textContent;
+    btn.textContent = text;
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.textContent = old;
+      btn.disabled = false;
+    }, 1400);
+  }
+
+  function renderCustoms() {
+    const wrap = $('customs');
+    wrap.innerHTML = state.customs.map(
+      (c, i) => `<div class="rule">
+        <input type="text" class="mono" placeholder="正则，例如 EMP-\\d{6}" value="${escAttr(c.pattern)}" data-cp="${i}">
+        <input type="text" class="mono flags" placeholder="flags" value="${escAttr(c.flags)}" data-cf="${i}">
+        <button type="button" class="del" data-cd="${i}">删除</button>
+      </div>`,
+    ).join('');
+    wrap.querySelectorAll('[data-cp]').forEach((el) => {
+      el.addEventListener('input', () => {
+        state.customs[Number(el.dataset.cp)].pattern = el.value;
+        run();
+      });
+    });
+    wrap.querySelectorAll('[data-cf]').forEach((el) => {
+      el.addEventListener('input', () => {
+        state.customs[Number(el.dataset.cf)].flags = el.value;
+        run();
+      });
+    });
+    wrap.querySelectorAll('[data-cd]').forEach((el) => {
+      el.addEventListener('click', () => {
+        state.customs.splice(Number(el.dataset.cd), 1);
+        renderCustoms();
+        run();
+      });
+    });
+  }
+
+  function escAttr(s) {
+    return String(s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+  }
+
+  function syncInputs() {
+    $('head').disabled = state.perType || state.mode !== 'partial';
+    $('tail').disabled = state.perType || state.mode !== 'partial';
+    $('maskChar').disabled = state.mode !== 'partial';
+  }
+
+  let lastText = '';
+  let lastHits = [];
+
+  function run() {
+    const customOk = state.customs.filter((c) => c.pattern.trim());
+    const res = D.desensitize(state.input, {
+      enabled: state.enabled,
+      extraNames: state.extraNames,
+      whitelist: state.whitelist.split(/[\n,，]/),
+      customPatterns: customOk,
+      mode: state.mode,
+      maskChar: state.maskChar || '*',
+      perType: state.perType,
+      head: state.head,
+      tail: state.tail,
+    });
+    lastText = res.text;
+    lastHits = res.hits;
+
+    $('result').textContent = res.text || '';
+    $('result').className = res.text ? 'out' : 'out empty';
+
+    const total = Object.values(res.counts).reduce((a, b) => a + b, 0);
+    $('stats').innerHTML =
+      `<span class="badge primary">命中 ${total} 处</span>` +
+      Object.keys(res.counts)
+        .map((k) => `<span class="badge">${k} ${res.counts[k]}</span>`)
+        .join('') +
+      (total === 0 && state.input.trim() ? '<span class="badge warn">没识别到敏感信息，可多开几种类型</span>' : '');
+
+    $('copy').disabled = !res.text;
+    $('download').disabled = !res.text;
+    renderHits();
+  }
+
+  function renderHits() {
+    const box = $('hits');
+    if (!lastHits.length) {
+      box.hidden = true;
+      return;
+    }
+    box.hidden = false;
+    $('hitTitle').textContent = '命中明细（' + lastHits.length + ' 条）';
+    const raw = state.showRaw;
+    $('rawWarn').hidden = !raw;
+    $('rawTh').hidden = !raw;
+    $('hitBody').innerHTML = lastHits
+      .slice(0, 300)
+      .map(
+        (h) =>
+          `<tr><td>${h.label}</td><td class="mono">${escAttr(h.masked)}</td>${
+            raw ? `<td class="mono dim">${escAttr(h.raw)}</td>` : ''
+          }</tr>`,
+      )
+      .join('');
+  }
+
+  renderCustoms();
+  syncInputs();
+  run();
+})();</script>
+</body>
+</html>

@@ -28,7 +28,9 @@ interface Props {
 const { variant = 'full', trackLabel = 'unknown', show = true } = Astro.props;
 
 // 活动结束或单篇关闭 → 整块不渲染，不留空白占位
-const visible = WORKBUDDY.inviteActive && show;
+// 注意读的是 inviteLive（人工开关 + 起止时间窗），不是 inviteActive，
+// 否则活动到期后仍然会渲染。
+const visible = WORKBUDDY.inviteLive && show;
 
 const url = WORKBUDDY.inviteUrl;
 const full = variant === 'full';
@@ -38,7 +40,8 @@ const REL = 'nofollow noopener noreferrer sponsored';
 const targetHost = new URL(WORKBUDDY.activityUrl).hostname;
 
 // 教师普惠福利：独立机制（无邀请码、限教师、需实名认证），仅 full 变体展示，避免窄条喧宾夺主
-const teacherActive = WORKBUDDY.teacherBenefit.active;
+// 同样读 live（叠加时间窗），2026-09-30 到期后构建期自动不再渲染
+const teacherActive = WORKBUDDY.teacherLive;
 const teacherUrl = WORKBUDDY.teacherBenefit.activityUrl;
 const teacherHost = new URL(teacherUrl).hostname;
 ---

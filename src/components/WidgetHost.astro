@@ -299,6 +299,7 @@ import CsvToJson from '@/tools/csv-to-json/Tool.tsx';
 import RateLimitCalculator from '@/tools/rate-limit-calculator/Tool.tsx';
 import PetAgeCalculator from '@/tools/pet-age-calculator/Tool.tsx';
 import CoffeeRatio from '@/tools/coffee-ratio/Tool.tsx';
+import TimezoneConverter from '@/tools/timezone-converter/Tool.tsx';
 
 interface Props {
   tool: ToolMeta;
@@ -590,6 +591,7 @@ const isCsvJson = tool.id === 'csv-to-json';
 const isRateLimit = tool.id === 'rate-limit-calculator';
 const isPetAge = tool.id === 'pet-age-calculator';
 const isCoffeeRatio = tool.id === 'coffee-ratio';
+const isTzConv = tool.id === 'timezone-converter';
 const known =
   isPG || isUC || isTS || isJF || isCC || isBC || isHC ||
   isUE || isB64 || isUUID || isTC || isColor ||
@@ -630,7 +632,7 @@ const known =
   isVehPurchaseTax || isLaborTax || isSecondHandTax || isShipFee || isDownloadTime ||
   isWordFreq || isMorse || isRemoveAccents || isNato || isAngleConv || isDataRate || isSpeedConv || isFreqConv ||
   isCagr || isRule72 || isDeprec || isAnnuity || isCrc32 || isBase32 || isRot13 || isPbkdf2 ||
-  isCsvJson || isRateLimit || isPetAge || isCoffeeRatio;
+  isCsvJson || isRateLimit || isPetAge || isCoffeeRatio || isTzConv;
 ---
 
 <!-- 密码生成器 -->
@@ -1974,6 +1976,11 @@ const known =
 {isCoffeeRatio && mode === 'load' && <CoffeeRatio client:load {...widgetProps} />}
 {isCoffeeRatio && mode === 'idle' && <CoffeeRatio client:idle {...widgetProps} />}
 {isCoffeeRatio && mode === 'visible' && <CoffeeRatio client:visible {...widgetProps} />}
+
+<!-- 时区转换器 -->
+{isTzConv && mode === 'load' && <TimezoneConverter client:load {...widgetProps} />}
+{isTzConv && mode === 'idle' && <TimezoneConverter client:idle {...widgetProps} />}
+{isTzConv && mode === 'visible' && <TimezoneConverter client:visible {...widgetProps} />}
 
 <!-- 未接入水合岛屿的工具 -->
 {

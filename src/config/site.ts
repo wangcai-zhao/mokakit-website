@@ -1,9 +1,17 @@
 import pkg from '../../package.json';
+import { byId, resolveCampaign } from './campaigns';
 
 /**
  * 全站配置中心。
  * 站名 / 域名 / 备案号 / 统计 ID 都只在这里改一次，全站跟着变。
  */
+
+/**
+ * 活动窗口从 src/config/campaigns.ts 取（单一真源）。
+ * 起止日期、人工开关都在那边改，这里只做引用，避免两处各写一份日期。
+ */
+const INVITE_CAMPAIGN = byId('workbuddy-invite');
+const TEACHER_CAMPAIGN = byId('workbuddy-teacher');
 
 export const SITE = {
   /**
@@ -36,10 +44,10 @@ export const SITE = {
    * ⚠️ 里面的「工具总数」是硬编码的，每批新工具上线后要同步改这里 ——
    * site.ts 同时被客户端打包引用，没法直接 import registry 去动态数（会把一堆工具元数据拖进 bundle）。
    * 改动后请顺跑 `node scripts/changelog-check.mjs` 确认新工具都已登记。
-   * 当前工具数 281（截至 2026-10-23，本批 +1）。
+   * 当前工具数 282（截至 2026-11-04，本批 +1）。
    */
   description:
-    '摩卡工具箱（MokaKit）是 AI 时代的在线工具箱：281 个免费工具，涵盖个税社保、房贷契税、车辆购置税、二手房税费、单位换算、图片处理、文本处理、开发辅助与文档脱敏等，打开即用、本地计算不上传数据；同时通过 MCP 协议供 Claude、Cursor 等 AI 助手直接调用。',
+    '摩卡工具箱（MokaKit）是 AI 时代的在线工具箱：282 个免费工具，涵盖个税社保、房贷契税、车辆购置税、二手房税费、单位换算、时区换算、图片处理、文本处理、开发辅助与文档脱敏等，打开即用、本地计算不上传数据；同时通过 MCP 协议供 Claude、Cursor 等 AI 助手直接调用。',
 
   /** ICP 备案号，备案通过后填入，页脚会自动显示并链接工信部 */
   icp: '京ICP备2026051111号',
@@ -77,6 +85,34 @@ export const SITE = {
     enabled: true,
     /** AdSense 发布商 ID，形如 ca-pub-0000000000000000。留空时即使 enabled=true 也不会渲染广告 */
     adsenseClient: 'ca-pub-0218164655974877',
+
+    /**
+     * 版位级开关（2026-11-03 新增）。
+     * 全局 enabled 一开，所有 AdSlot 都会请求；有了这张表可以单独关掉某个位置，
+     * 不必整站下线。key = <AdSlot slot="..."> 的值。
+     * ⚠️ 未登记的版位一律**不投放**（adSlot() 返回 enabled:false），
+     * 防止在页面里随手加一个 <AdSlot> 就悄悄上线。
+     */
+    slots: {
+      'home-mid': { enabled: true, format: 'banner' },
+      'tool-below': { enabled: true, format: 'banner' },
+      // 以下为预留版位，默认关闭；要用时置 true 即可，不用改组件
+      'article-bottom': { enabled: false, format: 'rectangle' },
+      'list-inline': { enabled: false, format: 'banner' },
+    },
+
+    /**
+     * 单页广告位密度上限。由 scripts/check-ads.mjs 校验
+     * （同一布局/页面内 AdSlot 实例数不得超过此值），超了闸门报警。
+     */
+    maxPerPage: 2,
+
+    /**
+     * 是否在广告位上方显示中文「广告」标识。
+     * 《互联网广告管理办法》要求广告可识别；AdSense 自带标签在中文场景不显眼，
+     * 显式标注既合规也不违反 AdSense 政策（政策禁止诱导与伪装，不禁止标注）。
+     */
+    showLabel: true,
   },
 
   /** 匿名访问量统计：仅聚合计数，不写追踪 Cookie、不记录 IP/设备指纹 */
@@ -109,26 +145,39 @@ export const SITE = {
    */
   workbuddy: {
     /** 官方邀请活动页，规则以该页为准。域名已迁至 workbuddy.cn（原 codebuddy.cn；WorkBuddy 与 CodeBuddy 同属腾讯） */
-    activityUrl: 'https://www.workbuddy.cn/events/invite',
+    activityUrl: INVITE_CAMPAIGN.activityUrl as string,
     /** 专属邀请码 */
     inviteCode: '7a17nrwwpe',
     /** 规则文案最后核对日期。活动规则会变（如活动期延长、域名迁移），每月复核一次 */
-    rulesCheckedAt: '2026-09-01',
-    /** 活动总开关。活动结束或规则大改时置 false，全站邀请位一键下线，不用删代码 */
-    inviteActive: true,
+    rulesCheckedAt: INVITE_CAMPAIGN.rulesCheckedAt ?? '',
+    /**
+     * 活动总开关。活动结束或规则大改时置 false，全站邀请位一键下线，不用删代码。
+     * ⚠️ 起止时间也在 src/config/campaigns.ts 维护 —— 到期会由构建期自动下线，
+     * 这里的 active 只用于"提前下线/临时关闭"。
+     */
+    inviteActive: INVITE_CAMPAIGN.active,
+    /** 开始日（含），空串表示不限 */
+    inviteStartAt: INVITE_CAMPAIGN.startAt ?? '',
+    /** 结束日（含），null 表示长期有效 */
+    inviteEndAt: INVITE_CAMPAIGN.endAt ?? null,
 
     /**
      * 教师普惠福利（2026 教师节活动，限在职教师）。
      * 与邀请裂变是两套机制：本活动无邀请码、MokaKit 不因此得积分，纯用户福利；
      * 且需「中国教师」平台实名认证，受众仅限教师。故独立成块、文案通用化、标以官方为准。
+     * ⚠️ 日期同样在 src/config/campaigns.ts，到期自动下线。
      */
     teacherBenefit: {
       /** 官方活动页，规则以该页为准（域名 workbuddy.cn，同为腾讯官方） */
-      activityUrl: 'https://www.workbuddy.cn/events/teacher-benefit/',
-      /** 活动总开关。活动结束（2026-09-30）或规则大改时置 false，教师位一键下线 */
-      active: true,
+      activityUrl: TEACHER_CAMPAIGN.activityUrl as string,
+      /** 人工总开关（提前下线用）；到期由时间窗自动判定 */
+      active: TEACHER_CAMPAIGN.active,
+      /** 开始日（含） */
+      startAt: TEACHER_CAMPAIGN.startAt ?? '',
+      /** 结束日（含），null 表示长期有效 */
+      endAt: TEACHER_CAMPAIGN.endAt ?? null,
       /** 规则文案最后核对日期。教师节活动期短，每月复核一次 */
-      rulesCheckedAt: '2026-09-01',
+      rulesCheckedAt: TEACHER_CAMPAIGN.rulesCheckedAt ?? '',
     },
   },
 
@@ -179,6 +228,25 @@ export const WORKBUDDY = {
   get inviteUrl() {
     return `${SITE.workbuddy.activityUrl}?inviteCode=${SITE.workbuddy.inviteCode}`;
   },
+  /**
+   * 构建期判定：邀请活动是否"真的该展示"。
+   * 与 inviteActive 的区别：inviteActive 只是人工开关；本字段额外叠加起止时间窗。
+   * 组件一律读这个，别直接读 inviteActive，否则到期了还会渲染。
+   */
+  get inviteLive(): boolean {
+    return resolveCampaign(INVITE_CAMPAIGN).live;
+  },
+  /** 构建期判定：教师普惠是否在有效期内 */
+  get teacherLive(): boolean {
+    return resolveCampaign(TEACHER_CAMPAIGN).live;
+  },
+  /** 两个活动的判定详情（含原因），供构建日志与排障使用 */
+  get campaignStates() {
+    return {
+      invite: resolveCampaign(INVITE_CAMPAIGN),
+      teacher: resolveCampaign(TEACHER_CAMPAIGN),
+    };
+  },
 } as const;
 
 /**
@@ -195,4 +263,20 @@ export function absUrl(path: string): string {
   const base = SITE.url.replace(/\/$/, '');
   const p = path.startsWith('/') ? path : `/${path}`;
   return `${base}${p}`;
+}
+
+/** 广告版位配置形状 */
+export interface AdSlotSetting {
+  enabled: boolean;
+  format: 'banner' | 'rectangle' | 'leaderboard';
+}
+
+/**
+ * 取某个广告版位的配置。
+ * 未在 SITE.ads.slots 里登记的版位一律返回 enabled:false —— 这是刻意的：
+ * 版位必须显式登记才会投放，避免"页面上随手加一个 AdSlot 就悄悄上广告"。
+ */
+export function adSlot(name: string): AdSlotSetting {
+  const table = SITE.ads.slots as unknown as Record<string, AdSlotSetting>;
+  return table[name] ?? { enabled: false, format: 'banner' };
 }

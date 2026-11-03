@@ -1,13 +1,34 @@
 # MokaKit 摩卡工具箱 · 项目专属知识库
 
-> 维护：大美丽（AI 桌面搭子）。最后整理：2026-10-12（含版本基线 §10、未决事项 §11、IMA 镜像）。
+> 维护：大美丽（AI 桌面搭子）。**最后整理：2026-11-03**（合并基准文档 v1.0 的 10 项更正，淘汰过期表述）。
 > **续干顺序（必读）**：① 本文件（全局结构 + 技术规范 + 节点 + 避雷 + **版本基线 §10** + **未决事项 §11**）→ ② `MEMORY.md`（高频操作速查 + 避雷速记）→ ③ 当日日志 `.workbuddy/memory/YYYY-MM-DD.md` → ④ 必要时 `conversation_search` 跨会话检索。
-> 本文件是"项目大脑"，任何涉及 MokaKit 的新增 / 修改 / 部署操作前，先通读本文件与 `MEMORY.md`。**IMA 镜像知识库「MokaKit 项目专属知识库」与本文件保持同步，线上检索用 IMA，本地权威以本文件为准。**
+> **IMA 镜像知识库「MokaKit 项目专属知识库」与本文件保持同步，线上检索用 IMA，本地权威以本文件为准。**
+
+## 0.0 基准声明与证据分级（2026-11-03 起执行）
+
+**本文件是 MokaKit 的唯一定性基准（single source of baseline）。** 与之冲突的旧文档、旧记忆、口述一律以本文件为准；本文件与源码冲突时以源码为准，并立即回改本文件。
+
+配套对照物：《MokaKit 项目基准文档 v1.0（2026-11-03）》，资料库 `node_id=xjHueaEZDz1RMQQwfxddK3`，本地 `D:\WorkBuddy\mokakit-baseline\MokaKit-项目基准文档-v1.0-2026-11-03.md`。两者分工：**基准文档管"完整盘点 + SOP + 风险登记册"（低频、大而全），本文件管"日常续干所需的结构与铁律"（高频、精而准）**。
+
+证据分级（写任何结论都必须能标出级别）：
+
+| 级别 | 含义 | 标注 |
+|---|---|---|
+| **A** | 源码/配置直读或只读命令实测 | `（A：文件:行）` |
+| **B** | 项目自带只读校验脚本输出 | `（B：脚本名）` |
+| **C** | 历史文档记载、**本次未复测** | `（C：文档 §x）` |
+| **D** | 记忆/日志的过程记录 | `（D：日期）` |
+
+**取舍原则**（本次合并 10 项更正时执行）：
+1. **单一数值只留一处**：工具数、页面数、分类数统一写在 §1 元信息表，其余章节改为引用，避免"两处各写一个数、改一处漏一处"。
+2. **过期结论不保留"曾经如此"的叙述**：直接改成本文现状，历史沿革只留在 §6 里程碑与 changelog 里。
+3. **已修复的问题移出"未决"**：在 §11 标记关闭并写清关闭依据（哪一行代码），不再当作待办。
+4. **无法复测的（C 级）保留但降权**：显式标"未复测"，不与 A/B 级事实混排。
 
 ---
 
 ## 0. 一句话定位
-MokaKit = "AI 时代的工具箱"，**纯静态站点**，280 个免费在线工具 / 11 分类。战略核心是 **MCP Server**——让外部 LLM（Claude / GPT 等）能直接调用这 280 个工具的能力。
+MokaKit = "AI 时代的工具箱"，**纯静态站点**，**282 个**免费在线工具 / 11 分类。战略核心是 **MCP Server**——让外部 LLM（Claude / GPT 等）能直接调用这些工具的能力。（数量以 §1 元信息表为准，本节不重复维护。）
 
 ---
 
@@ -21,7 +42,14 @@ MokaKit = "AI 时代的工具箱"，**纯静态站点**，280 个免费在线工
 | AdSense | `ca-pub-0218164655974877`（`site.ts` 预留 `ads.enabled` 开关，默认 false） |
 | 服务器 | 腾讯云 `58.87.68.151`（root） |
 | 技术栈 | Astro 7 + Preact 10 + daisyUI 5 + Tailwind v4（纯静态；MCP 是唯一的 Node 运行时） |
-| 当前规模 | 280 工具 / 11 分类（2026-10-20 达成；动态，以 `src/tools` 为准） |
+| 当前规模 | **282 工具 / 11 分类**（A：2026-11-04 实测，`check:widgets` 报 282/282 已注册；动态值以 `src/tools/*/meta.ts` 为准） |
+| 构建产物 | **675** 个 `index.html`；sitemap **673** 条（A：`find dist -name index.html`、`grep -c '<loc>' dist/sitemap-0.xml`） |
+| 站内检索 | **360 条**（282 工具 + 78 浅层子页），索引 **56.5KB**，单次 **0.17ms**，77 项断言（B：`check:search`） |
+| 工程版本 | **0.10.0**（A：`package.json`；页脚自动派生 `v0.10.0`，规则见 `docs/VERSIONING.md`） |
+| MCP 工具面 | **20 个** = 19 个专用计算工具 + `mokakit_search`（A：`mcp/server.mjs`） |
+
+> ⚠️ 上表是**唯一数量真源**。其他章节提到"N 个工具 / N 页"时一律引用本节，不另写数字。
+> 分类分布（A 级实测）：calc 92 / dev 57 / convert 34 / text 22 / ai 20 / life 20 / security 13 / image 10 / fun 5 / clock 5 / barcode 3。
 
 ---
 
@@ -54,7 +82,7 @@ package.json        scripts 与依赖版本基线
 scripts/            optimize-sprite / gen-sitemap / check-widgets / check-icons / changelog-check / indexnow / test-*.mjs
 deploy/            deploy.sh（build+上传+reload+indexnow）、server-setup.sh、nginx conf、systemd service
 mcp/               build.mjs（esbuild → deploy/mcp/server.mjs + catalog.json）
-dist/              构建产物（610+ index.html，可重建，勿手改）
+dist/              构建产物（675 个 index.html，可重建，勿手改）
 ```
 
 ---
@@ -74,7 +102,7 @@ dist/              构建产物（610+ index.html，可重建，勿手改）
 3. 加进 `known` 大 OR 表达式；
 4. 渲染区补 `load` / `idle` / `visible` 三分支（如 `{isXxx && mode === 'visible' && <Xxx client:visible {...widgetProps} />}`）。
 
-判定真上线：`grep -c astro-island dist/tools/<id>/index.html` ≥ 1。靠 `npm run check:widgets` 兜底（扫 280 个工具是否都注册）。
+判定真上线：`grep -c astro-island dist/tools/<id>/index.html` ≥ 1。靠 `npm run check:widgets` 兜底（扫全部工具是否都注册，当前 282/282）。
 
 ### 3.3 命名规范
 - 工具 id：kebab-case（`system-prompt-generator`），与目录名一致。
@@ -110,7 +138,7 @@ dist/              构建产物（610+ index.html，可重建，勿手改）
 - **长尾子页进索引（2026-11-03）**：`search-build.ts` 的 `subpageSources(owner, categoryName)` 把 `ToolMeta.subpages()` 展开成检索源，**`registry.buildSearchData()` 与 `mcp/build.mjs` 必须同调它**，否则「网站搜得到、MCP 搜不到」口径分裂。两条硬规则：
   - **只收浅层子页**（slug 不含 `/`）。全站 230 个子页里 213 个是单位换算深路径（`cm-to-km`），全收会把「厘米」冲成一片 cm-to-xxx；深路径由母页覆盖。
   - 子页的 `keywords` **只放母页名**，不放场景词/分类词（子页 name 已是完整问句，塞无关单字会放大单字噪音，并破掉「单字只命中名字含该字工具」断言）；`priority` 降 2 级，同分母页优先。
-  - 现状：281 工具 + 78 浅层子页 = **359 条**，索引 56.3KB，单次检索 0.2ms。
+  - 现状：282 工具 + 78 浅层子页 = **360 条**，索引 56.5KB，单次检索 0.17ms。
 
 ---
 
@@ -119,7 +147,7 @@ dist/              构建产物（610+ index.html，可重建，勿手改）
 |---|---|---|
 | Web 静态 | 服务器 `/var/www/mokakit` | nginx 托管；发布是**原子切换**（新内容先传 `.new`，校验后整体 `mv`，旧版留 `/var/www/mokakit.old` 可秒回滚） |
 | MCP 服务 | 服务器 `/opt/mokakit-mcp` | systemd 服务 `mokakit-mcp`，监听 `127.0.0.1:18700`，由 nginx 反代对外；含 `server.mjs` + `catalog.json` + `.env` |
-| 构建产物 | 本地 `dist/`（610+ 页） | 可重建，勿手改；sitemap 独立生成 |
+| 构建产物 | 本地 `dist/`（675 页） | 可重建，勿手改；sitemap 独立生成 |
 | 部署脚本 | `deploy/deploy.sh` | `build → 上传 → nginx reload → IndexNow`；`--setup` 初始化、`--live` 切正式配置 |
 | MCP 构建 | `npm run mcp:build` | esbuild 打包 `mcp/build.mjs` → `deploy/mcp/{server.mjs,catalog.json}`，再 scp 到 `/opt/mokakit-mcp` 并 `systemctl restart mokakit-mcp` |
 | 域名 | `www.mokakit.com` | DNS → 58.87.68.151；HTTPS 由 nginx + Certbot 管理 |
@@ -129,7 +157,7 @@ dist/              构建产物（610+ index.html，可重建，勿手改）
 ---
 
 ## 5. 校验 / 构建 / 部署流程
-1. **上线前必跑** `npm run check:all`（= `check:widgets` + `check:icons` + `check:search` + `changelog:check`），四项全绿才敢 build。
+1. **上线前必跑** `npm run check:all`（2026-11-03 起为**七项**：`check:widgets` + `check:icons` + `check:search` + `changelog:check` + `check:campaigns` + `check:ads` + `check:version`），全绿才敢 build。
 2. **本地构建**（本机需 NODE_OPTIONS 垫片）：
    ```bash
    export NODE_OPTIONS="--require=D:/WorkBuddy/website/noop-shim.cjs"
@@ -151,6 +179,7 @@ dist/              构建产物（610+ index.html，可重建，勿手改）
 - **2026-11-02** 场景选模型助手重做：18 场景 × 11 维能力 × 9 约束 + 自然语言需求识别 + 可解释推荐（加分项/代价/排除原因）+ 3 模型对比（表 + SVG 雷达）。算法抽 `src/tools/ai-model-selector/{data,logic}.ts`，价格与 `ai-price-compare/data` 同源；配 `npm run test:model-select`（38 项断言）。新增工具若需同类"选型/打分"能力，照此「data + logic + 纯函数 + 断言脚本」四件套落地。
 - **2026-11-03** 场景选模型助手长出 18 个长尾子页并上线：`seo.ts`（每场景 slug/seoTitle/description/intro/faq）+ `meta.ts subpages()` 自动进 sitemap + `AiModelTaskContent.astro` 服务端渲染（Top5 排名表/权重表/首选理由/替代建议），`[...sub].astro` 透传 `initialTask` 让子页直达推荐结果。URL 规则 `/tools/ai-model-selector/<slug>/`。校验双保险：`npm run verify:subpages`（查 dist）、`scripts/verify-live-subpages.mjs`（查线上）。**`deploy.sh` 的 node/npm 路径已改为通配自动探测**（版本目录 `22.22.2` → `22.22.2-6` 曾导致失效）；🔴 **deploy.sh 必须前台 + dangerouslyDisableSandbox 跑，沙箱内 SSH 自检会因出站 22 被封而误报"无法连接"**。
 - **2026-11-03（续）子页接入检索单源**：`subpageSources()` 成为子页入索引的唯一实现，`registry` 与 `mcp/build.mjs` 共用；索引 281→359 条、39.8→56.3KB、`check:search` 77 项全绿；网页与 MCP 均实测「搜『客服机器人』首条即 `customer-service` 子页」。同时修复 `scripts/ts-resolve.mjs` **不认 `@/` 别名**的老问题（原来只能解析相对路径，导致 Node 侧无法 import 带 `@/tools/types` 的 meta），现 `mcp:build` 与各 test:* 都要带 `--import ./scripts/ts-resolve.mjs`。MCP 产物替换后须 `systemctl restart mokakit-mcp`；旧版备份 `*.bak-<date>`；公网 401 是应用层鉴权（token 在 `/opt/mokakit-mcp/.env`）不是故障。
+- **2026-11-03（三）治理三件套 → v0.10.0**：① 活动生命周期机制：新增 `src/config/campaigns.ts`（`startAt`/`endAt`/`active` + `resolveCampaign()`），构建期判定、到期自动下线，教师普惠（09-30 结束）按机制自动下线；`scripts/check-campaigns.mjs` 进闸门对过期/临期报警。② 广告版位治理：`SITE.ads.slots` 版位级开关（未登记=不投放）、`maxPerPage=2`、中文「广告」标识；`scripts/check-ads.mjs` 校验。③ 版本号规范：`docs/VERSIONING.md` + `bump-version.mjs` + `check-version.mjs`，changelog 新增 `pkgVersion` 字段建立"日期批次 ↔ 工程版本"映射。`check:all` 由 4 项扩为 7 项。
 - 更细的逐日记录见 `.workbuddy/memory/YYYY-MM-DD.md`；结构化 Release 见 `src/data/changelog.ts`。
 
 ---
@@ -185,7 +214,7 @@ dist/              构建产物（610+ index.html，可重建，勿手改）
    - 另注：`~/.gitconfig` 有 `url.https://github.com/.insteadOf=git@github.com:`，所以 `git push git@github.com:...` 会被改写成 HTTPS —— 想走 SSH 必须临时 `-c url.https://github.com/.insteadOf=` 覆盖。
 7. 任何破坏性 / 不可逆操作前，先备份、再二次确认。
 8. **动依赖 / 升级运行时前必读 `§10 运行环境与版本基线`**：本地 Node 22 vs 服务器 Node 18 的差异（MCP 必须 esbuild `target=node18`）、TS 勿升 7、astro/preact 锁版本。
-9. **未决事项见 `§11`**：财金算法去重、markdown-preview XSS、GenUI 提交路径等，等旺财决策前**勿擅自改**源码。
+9. **未决事项见 `§11`**：财金算法去重（P-01）、闸门强制化（P-02）、大页渲染、GenUI 提交路径等，等旺财决策前**勿擅自改**源码。已关闭项（markdown-preview XSS、教师普惠开关）见 §11.2，不要再当待办处理。
 10. 本机无绿盾，D 盘项目可直接读写落盘；但 `NODE_OPTIONS` 垫片仅 website 项目用，切项目前 `unset`。
 
 ---
@@ -193,7 +222,7 @@ dist/              构建产物（610+ index.html，可重建，勿手改）
 ## 9. 备份策略（2026-10-12 建立）
 - **线下**：`D:/WorkBuddy/backups/mokakit-source-YYYYMMDD.tar.gz` —— 本地工作区快照（含未提交改动），排除 `node_modules/dist/.astro/_cprof/dist_partial_*/_eprof/_genui_*/generated-images/.git/*.log`。
 - **线上**：服务器 `/var/backups/mokakit-www-YYYYMMDD.tar.gz`（站点）+ `mokakit-mcp-YYYYMMDD.tar.gz`（MCP）；每次大版本发布/重要变更前刷新。
-- 最新快照：2026-10-12（线下 16M/260 工具 meta；线上站点 30M/261 页 + MCP 95K）。
+- 最新快照（A：`ls -lh D:/WorkBuddy/backups/`，2026-11-03 实测）：`mokakit-source-20261012.tar.gz`（16M）、`mokakit-source-20261101.tar.gz`（43M）。**只有本地两份，无异地副本、无自动定时**——本机与服务器同毁即全失（基准文档 R-09）。
 
 ---
 
@@ -211,7 +240,7 @@ dist/              构建产物（610+ index.html，可重建，勿手改）
 | 隔离 npm workspace | `C:\Users\zhao-\.workbuddy\binaries\node\workspace` | 装 `@cosui/genui-toolkit` 1.0.4、`@resvg/resvg-js` 等，不污染系统 |
 | NODE_OPTIONS 垫片 | `--require=D:/WorkBuddy/website/noop-shim.cjs` | **仅 website 项目** build 用；切项目前 `unset` |
 
-### 10.2 项目依赖基线（package.json，2026-10-12）
+### 10.2 项目依赖基线（2026-11-03 实测复核：与 10-06 基线**零漂移**）
 | 包 | 版本 | 约束 |
 |---|---|---|
 | astro | ^7.3.5 | 锁 7.x，勿动 |
@@ -222,7 +251,9 @@ dist/              构建产物（610+ index.html，可重建，勿手改）
 | tailwindcss | ^4.3.3 | v4（非 v3 写法） |
 | @tailwindcss/vite | ^4.3.3 | — |
 | typescript | ^6.0.3 | **勿升 7** |
-| esbuild | 0.28.1 | MCP 构建（`mcp/build.mjs` 直接 import） |
+| esbuild | 0.28.1 | MCP 构建（`mcp/build.mjs` 直接 import）｜⚠️ **未在 package.json 显式声明**，靠传递依赖存在，重装依赖后若 build.mjs 报找不到 esbuild，需补为 devDependency |
+| dompurify | ^3.4.17（实装 3.4.17） | markdown-preview 消毒，勿删 |
+| pinyin-pro | ^3.29.5（devDep） | 仅构建期生成拼音索引，不进客户端包 |
 
 ### 10.3 服务器环境（58.87.68.151，root）
 | 项 | 值 |
@@ -244,12 +275,32 @@ MCP 服务跑在服务器 Node **v18**，没有 `--experimental-strip-types`，�
 ## 11. 未决事项 / 待办（等旺财决策，勿擅自改）
 
 > 这些项是"下次更新"前需要旺财拍板的，agent 看到不要自作主张动源码。
+> **2026-11-03 重构**：原 §11 的第 2 项（XSS）与第 5 项（教师普惠）已关闭，移入 §11.2 留档；其余保留并重新编号。取舍依据见 §0.0 取舍原则第 3 条。
 
-1. **财金算法去重（5 个工具）**：`after-tax-salary` / `overtime-pay` / `deposit-interest` / `retirement-age` / `pension-estimate` 仍可能双写；唯一真源是 `src/lib/*.ts`（deed-tax 已治理，配 `scripts/test-deed-tax.mjs`）。改前先对齐。
-2. **markdown-preview 的 `dangerouslySetInnerHTML` 无消毒**：A 引 dompurify / B 自研 / C 接受。安全相关，等决策。
-3. **changelog 页 465KB、tools 索引 412KB 全量渲染**：性能待优化（按需加载 / 分页）。
-4. **垃圾目录别提交**：`_cprof` / `dist_partial_*` / `_genui_apps` / `_genui_dl` / `outputs` 是被 git 跟踪或工作区遗留的临时产物；提交务必显式路径避开（§7 避雷 + §8.6）。
-5. **`site.ts` 教师普惠开关注释标 09-30 到期**：需确认是否续期或移除。
-6. **百度 GenUI 小工具提交路径未决**：`.workbuddy/skills/genui-app-builder/` 已就位（含 3 个试验产物在 `_genui_apps/`，**未提交**），但 MokaKit 工具大量用 localStorage / CDN / clipboard，与 GenUI「纯本地不联网、状态不持久」硬约束冲突，移植需逐个改造。发布还需旺财 `genui login` 百度账号。动这条线前必问旺财。
-7. **分类失衡**：calc 80 / dev 53 / barcode 3，后续加工具可往稀疏类目补。
-8. **GSC / MCP token 仍人工**：GSC 后台人工提交 sitemap-index.xml；MCP token 仍人工 mailto 审批。
+### 11.1 仍未决（按优先级）
+
+1. **P-01 财金算法去重（5 个工具）— 最高优先**：`after-tax-salary` / `overtime-pay` / `deposit-interest` / `retirement-age` / `pension-estimate` 的算法仍写在各自 `Tool.tsx` 里，`src/lib` 中没有对应模块（A：`ls src/lib` 实测为空），而 MCP 侧已有 `after_tax_salary_cn` 等 5 个工具 → 双写风险实存。唯一真源应是 `src/lib/*.ts`（deed-tax 已治理，配 `scripts/test-deed-tax.mjs`）。改前先对齐税率/基数口径。
+2. **P-02 闸门强制化**：`check:all` 已扩到 7 项，但 `check:units` / `test:model-select` / `test-china-tax` / `test-deed-tax` / `test-new-calc` / `verify:subpages` 仍未纳入；且 `npm run build` 与 `deploy.sh` 都不调用 `check:all`，无 CI 无 lint（A：`package.json`、`deploy.sh`）。→ 是否扩闸门、是否在 build 前强制、是否上 CI，等旺财定。
+3. **P-03 大页渲染**：changelog 页约 465KB、tools 索引约 412KB 全量渲染（C 级，2026-11-03 **未复测**）。方案：分页 / 虚拟列表 / 分片 JSON。
+4. **P-04 垃圾目录别提交**：`_cprof` / `dist_partial_*` / `_genui_apps` / `_genui_dl` / `outputs` / `_kms_src` 是被 git 跟踪或工作区遗留的临时产物；提交务必显式路径避开（§7 避雷 + §8.6）。
+5. **P-05 百度 GenUI 小工具提交路径**：`.workbuddy/skills/genui-app-builder/` 已就位（含 3 个试验产物在 `_genui_apps/`，**未提交**），但 MokaKit 工具大量用 localStorage / CDN / clipboard，与 GenUI「纯本地不联网、状态不持久」硬约束冲突，移植需逐个改造。发布还需旺财 `genui login` 百度账号。动这条线前必问旺财。
+6. **P-06 分类失衡**：calc 92 / dev 57（合计 53%），barcode 仅 3（A：§1 分类分布）。后续加工具优先补 barcode / image / fun / clock。
+7. **P-07 GSC / MCP token 仍人工**：GSC 后台人工提交 sitemap-index.xml；MCP token 仍人工 mailto 审批（`/developers/mcp-token-apply/` 已有申请页，但是否自动化未定）。
+8. **P-08 备份异地化**：只有本地两份 + 服务器本地目录，无异地、无定时（见 §9）。用哪家存储、频率、是否加密待定。
+9. **P-09 推广投放执行**：方案见 `docs/PROMOTION-PLAN.md`；腾讯云推广联盟开户、百度联盟申请、付费预算均需旺财本人操作与决策。
+
+### 11.2 已关闭（留档，含关闭依据）
+
+| 原项 | 关闭结论 | 依据 |
+|---|---|---|
+| markdown-preview 的 `dangerouslySetInnerHTML` 无消毒 | **已修复**：已引入 `dompurify ^3.4.17`，渲染前 `DOMPurify.sanitize(raw)` | A：`src/tools/markdown-preview/Tool.tsx:3,50`；`package.json` dependencies |
+| `site.ts` 教师普惠开关注释标 09-30 到期 | **已由机制接管**：活动统一登记到 `src/config/campaigns.ts`，`endAt: '2026-09-30'`，构建期判定为 `expired`，**自动不再渲染**；`active` 保留但不再是唯一开关。若官方续期，只需改 `endAt`，不必改代码 | A：`src/config/campaigns.ts`、`src/config/site.ts`（`teacherLive`）、`scripts/check-campaigns.mjs`；规范见 `docs/CAMPAIGN-POLICY.md` |
+
+### 11.3 本轮已决策（2026-11-03，不再反复讨论）
+
+| 决策 | 结论 | 落点 |
+|---|---|---|
+| 版本落点 | 0.9.12 → **0.10.0**（继续 0.x，1.0.0 留给 P0 债清完之后） | `package.json`、`docs/VERSIONING.md` §5 |
+| 活动时间管理 | 采用「构建期判定 + 闸门报警 + 7 天内重建」三重机制，不引入运行时脚本 | `src/config/campaigns.ts`、`docs/CAMPAIGN-POLICY.md` |
+| 广告位治理 | 版位必须显式登记才投放；单页上限 2；全部带中文「广告」标识 | `SITE.ads.slots`、`AdSlot.astro`、`scripts/check-ads.mjs` |
+| 推广范围 | 先出方案 + 站内版位改造；开户与花钱由旺财执行 | `docs/PROMOTION-PLAN.md` |
